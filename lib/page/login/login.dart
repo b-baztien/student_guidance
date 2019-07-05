@@ -1,107 +1,80 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:student_guidance/page/home/home.dart';
 
-class Login extends StatelessWidget {
-  static String tag = 'login-page';
+class LoginPage extends StatefulWidget {
+   static String tag = 'login-page';
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Student Guidance',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Kanit'),
-        home: Scaffold(
-          backgroundColor: Colors.white,
-          body: Center(
-            child: loginBody(),
-          ),
-        ));
-  }
+    
 
-  loginBody() => SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[loginHeader(), loginFields()],
+    final email = TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      autofocus: false,
+      initialValue: 'alucard@gmail.com',
+      decoration: InputDecoration(
+        hintText: 'Email',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final password = TextFormField(
+      autofocus: false,
+      initialValue: 'some password',
+      obscureText: true,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
         ),
-      );
+        onPressed: () {
+         Navigator.of(context).pushNamed(Home.tag);
+        },
+        padding: EdgeInsets.all(12),
+        color: Colors.lightBlueAccent,
+        child: Text('Log In', style: TextStyle(color: Colors.white)),
+      ),
+    );
 
-  loginHeader() => Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          FlutterLogo(
-            colors: Colors.blue,
-            size: 80.0,
-          ),
-          SizedBox(
-            height: 30.0,
-          ),
-          Text(
-            'ระบบจัดการแนะแนวสำหรับนักเรียนมัธยมปลาย',
-            style: TextStyle(fontWeight: FontWeight.w700, color: Colors.blue),
-          ),
-          SizedBox(
-            height: 5.0,
-          ),
-          Text(
-            'ลงชื่อเข้าใช้งาน',
-            style: TextStyle(color: Colors.grey),
-          ),
-        ],
-      );
+    final forgotLabel = FlatButton(
+      child: Text(
+        'Forgot password?',
+        style: TextStyle(color: Colors.black54),
+      ),
+      onPressed: () {},
+    );
 
-  loginFields() => Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-              child: TextField(
-                maxLines: 1,
-                decoration: InputDecoration(
-                  hintText: 'กรุณากรอกชื่อผู้ใช้',
-                  labelText: 'ชื่อผู้ใช้',
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
-              child: TextField(
-                maxLines: 1,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'กรุณากรอกรหัสผ่าน',
-                  labelText: 'รหัสผ่าน',
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
-              width: double.infinity,
-              child: RaisedButton(
-                padding: EdgeInsets.all(15.0),
-                shape: StadiumBorder(),
-                child: Text(
-                  'ลงชื่อเข้าใช้',
-                  style: TextStyle(color: Colors.white),
-                ),
-                color: Colors.blue,
-                onPressed: () {},
-              ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Column(children: [
-                Text('มีปัญหาในการเข้าสู่ระบบ ?',
-                    style: TextStyle(color: Colors.grey)),
-              ]),
-            ),
+            SizedBox(height: 48.0),
+            email,
+            SizedBox(height: 8.0),
+            password,
+            SizedBox(height: 24.0),
+            loginButton,
+            forgotLabel
           ],
         ),
-      );
+      ),
+    );
+  }
 }
