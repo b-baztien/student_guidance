@@ -3,7 +3,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class Home extends StatefulWidget {
-
   static String tag = "home-page";
   @override
   _HomeState createState() => _HomeState();
@@ -51,16 +50,20 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(5),
               crossAxisCount: 4,
               itemCount: UIdata.routesName.length,
-              itemBuilder: (BuildContext context, int index) => new Container(
-                  color: Colors.green,
-                  child: new Center(
-                    child: new CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: new Text(UIdata.routesName[index]),
+              itemBuilder: (BuildContext context, int index) => Container(
+                    color: Colors.blue,
+                    child: RaisedButton(
+                      child: Text(
+                        UIdata.routesName[index],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, UIdata.routesName[index]);
+                      },
                     ),
-                  )),
+                  ),
               staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(2, index.isEven ? 3 : 1),
+                  new StaggeredTile.count(index % 3 == 0 ? 4 : 2 , 1.5),
               mainAxisSpacing: 1.0,
               crossAxisSpacing: 1.0,
             ))));
