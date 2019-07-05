@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class Home extends StatefulWidget {
+
   static String tag = "home-page";
   @override
   _HomeState createState() => _HomeState();
@@ -20,13 +22,23 @@ class _HomeState extends State<Home> {
                   expandedHeight: 200.0,
                   floating: false,
                   pinned: true,
+                  snap: false,
                   flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: Text("Collapsing Toolbar",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          )),
+                      centerTitle: false,
+                      title: Row(children: <Widget>[
+                        FlutterLogo(
+                          colors: Colors.yellow,
+                          textColor: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text("Student Guidance",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ))
+                      ]),
                       background: Image.network(
                         "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
                         fit: BoxFit.cover,
@@ -34,22 +46,23 @@ class _HomeState extends State<Home> {
                 ),
               ];
             },
-            body: Center(
+            body: Container(
                 child: StaggeredGridView.countBuilder(
+              padding: EdgeInsets.all(5),
               crossAxisCount: 4,
-              itemCount: 8,
+              itemCount: UIdata.routesName.length,
               itemBuilder: (BuildContext context, int index) => new Container(
                   color: Colors.green,
                   child: new Center(
                     child: new CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: new Text('$index'),
+                      child: new Text(UIdata.routesName[index]),
                     ),
                   )),
               staggeredTileBuilder: (int index) =>
-                  new StaggeredTile.count(2, index.isEven ? 2 : 1),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
+                  new StaggeredTile.count(2, index.isEven ? 3 : 1),
+              mainAxisSpacing: 1.0,
+              crossAxisSpacing: 1.0,
             ))));
   }
 }
