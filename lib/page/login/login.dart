@@ -97,7 +97,7 @@ class Login extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child: Column(children: [
-                Text('มีปัญหาในการเข้าสู่ระบบ ?',
+                Text('มีปัญหา',
                     style: TextStyle(color: Colors.grey)),
               ]),
             ),
