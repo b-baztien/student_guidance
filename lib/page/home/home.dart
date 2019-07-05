@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:student_guidance/page/dashboard/dashboard.dart';
+import 'package:student_guidance/page/login/login.dart';
 
 class Home extends StatefulWidget {
   static String tag = "home-page";
@@ -9,15 +11,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   
-  Material MyListItem(IconData icon,String heading,int color){
-    
+  Material MyListItem(IconData icon,String heading,int color,String contexts){
     return Material(
+          
           color: Colors.white,
           elevation: 14.0,
           shadowColor: Color(0x802196F3),
           borderRadius: BorderRadius.circular(24.0),
-          child: Center(
-              child: Padding( padding: EdgeInsets.all(8.0),
+          child: Container(
+              child: FlatButton( color: Colors.white,
+                child: Padding( padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -51,7 +54,11 @@ class _HomeState extends State<Home> {
                 ],
               ),
               
+              ), onPressed: () {
+                Navigator.pushNamed(context,contexts);
+              },
               ),
+            
       
               
 
@@ -91,23 +98,17 @@ class _HomeState extends State<Home> {
               mainAxisSpacing: 12.0,
               padding: EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
               children: <Widget>[
-                Container(
-                  child: FlatButton(
-                 color: Colors.white,
-                  
-                  child: MyListItem(Icons.bookmark,"Bookmark",0xff26cb3c),
-                  onPressed:(){
-                   Navigator.pushNamed(context, Home.tag);
-                }),),
-                MyListItem(Icons.library_add,"add",0xff232223),
-                 MyListItem(Icons.library_music,"music",0xff232223),
+                MyListItem(Icons.bookmark,"Bookmark",0xff26cb3c,Home.tag),
+                MyListItem(Icons.library_add,"add",0xff232223,Dashboard.tag),
+                 MyListItem(Icons.library_music,"music",0xff232223,LoginPage.tag),
               ],
               staggeredTiles: [
                 StaggeredTile.extent(2, 130),
                 StaggeredTile.extent(1, 150),
                 StaggeredTile.extent(4, 250),
+
               ],
-            )
+            ),
             
             ));
   }
