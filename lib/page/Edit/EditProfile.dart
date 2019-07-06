@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/page/home/home.dart';
 
-class Dashboard extends StatefulWidget {
-  static String tag = "dashboard-page";
+class EditProfileStudent extends StatefulWidget {
+  static String tag = 'EditProfileStudent';
   @override
-  _DashboardState createState() => _DashboardState();
+  _EditProfileStudentState createState() => _EditProfileStudentState();
 }
 
-class _DashboardState extends State<Dashboard> {
-Icon actionIcon = new Icon(Icons.arrow_back);
-
-
+class _EditProfileStudentState extends State<EditProfileStudent> {
+  Icon actionIcon = new Icon(Icons.arrow_back);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+   return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: new AppBar(
           centerTitle: true,
-          title: Text('ข้อมูลเชิงสถิติ'),
+          title: Text('แก้ไขข้อมูลส่วนตัว'),
           leading:
             new IconButton(icon: actionIcon,onPressed: (){
                Navigator.pushNamed(context,Home.tag);
