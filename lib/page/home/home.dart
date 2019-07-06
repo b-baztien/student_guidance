@@ -100,9 +100,9 @@ class _HomeState extends State<Home> {
         ]),
         body: StaggeredGridView.count(
           crossAxisCount: 2,
-          crossAxisSpacing: 12.0,
-          mainAxisSpacing: 12.0,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 15.0),
           children: <Widget>[
             MyListItem(Icons.account_balance, "มหาลัยที่แนะนำ", 0xffff9100,
                 UIdata.homeTag),
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
             StaggeredTile.extent(4, 220),
           ],
         ),
-        drawer: HomeDrawer().drawer(context)
+        drawer: HomeDrawer(context).drawer()
       ),
     );
   }

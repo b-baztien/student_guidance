@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 
 class HomeDrawer {
-  drawer(BuildContext context) => Drawer(
+  BuildContext context;
+
+  HomeDrawer(BuildContext context) {
+    this.context = context;
+  }
+
+  drawer() => Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
