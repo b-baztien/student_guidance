@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
-import 'package:student_guidance/page/News/view_news.dart';
-import 'package:student_guidance/page/Views/view-profile-teacher.dart';
-import 'package:student_guidance/page/dashboard/dashboard.dart';
-import 'package:student_guidance/page/login/login.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class Home extends StatefulWidget {
   static String tag = "home-page";
@@ -90,6 +87,8 @@ class _HomeState extends State<Home> {
                         prefixIcon: new Icon(Icons.search, color: Colors.white),
                         hintText: "ค้นหา มหาวิทยาลัย/คณะ/สาขา",
                         hintStyle: new TextStyle(color: Colors.white)),
+                    autofocus: true,
+                    onChanged: (String text) => {print(text)},
                   );
                 } else {
                   this.actionIcon = new Icon(Icons.search);
@@ -105,16 +104,18 @@ class _HomeState extends State<Home> {
           mainAxisSpacing: 12.0,
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           children: <Widget>[
-            MyListItem(
-                Icons.account_balance, "มหาลัยที่แนะนำ", 0xffff9100, Home.tag),
+            MyListItem(Icons.account_balance, "มหาลัยที่แนะนำ", 0xffff9100,
+                UIdata.homeTag),
             MyListItem(Icons.supervisor_account, "ข้อมูลครู\nแนะแนว",
-                0xff81d4fa, ViewTeacher.tag),
+                0xff81d4fa, UIdata.viewTeacherTag),
+            MyListItem(Icons.library_add, "เพิ่มที่สอบติด", 0xff232223,
+                UIdata.dashboardTag),
             MyListItem(
-                Icons.library_add, "เพิ่มที่สอบติด", 0xff232223, Dashboard.tag),
-            MyListItem(Icons.assignment, "รายการข่าวสาร", 0xff651fff, News.tag),
-            MyListItem(Icons.edit, "แก้ไขข้อมูล", 0xff66bb6a, News.tag),
-            MyListItem(
-                Icons.library_music, "Dashboard", 0xff232223, Dashboard.tag),
+                Icons.assignment, "รายการข่าวสาร", 0xff651fff, UIdata.newsTag),
+            MyListItem(Icons.edit, "แก้ไขข้อมูล", 0xff66bb6a,
+                UIdata.editProfileStudentTag),
+            MyListItem(Icons.library_music, "Dashboard", 0xff232223,
+                UIdata.dashboardTag),
           ],
           staggeredTiles: [
             StaggeredTile.extent(2, 130),
@@ -130,19 +131,23 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            'https://www.how-to-study.com/images/study-skills-assessments.jpg'))),
                 accountName: Text("องอาจ ใจทมิฬ"),
                 accountEmail: Text("ashishrawat2911@gmail.com"),
-                currentAccountPicture: new  GestureDetector(
-                  onTap: (){
-                         Navigator.pushNamed(context,EditProfileStudent.tag);
+                currentAccountPicture: new GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, EditProfileStudent.tag);
                   },
                   child: CircleAvatar(
                     backgroundColor:
-                      Theme.of(context).platform == TargetPlatform.iOS
-                          ? Colors.blue
-                          : Colors.white,
-                  backgroundImage: NetworkImage(
-                      'https://avatarfiles.alphacoders.com/894/89415.jpg'),
+                        Theme.of(context).platform == TargetPlatform.iOS
+                            ? Colors.blue
+                            : Colors.white,
+                    backgroundImage: NetworkImage(
+                        'https://avatarfiles.alphacoders.com/894/89415.jpg'),
                   ),
                 ),
               ),

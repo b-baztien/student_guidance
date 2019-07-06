@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class ViewTeacher extends StatelessWidget {
   static String tag = 'view-teacher';
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'View Teacher',
-      debugShowCheckedModeBanner: false,
-      home: TeacherProfilePage(),
+    return Material(
+      child: TeacherProfilePage(),
     );
   }
 }
@@ -35,7 +34,8 @@ class TeacherProfilePage extends StatelessWidget {
         height: 140.0,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage('https://gazettereview.com/wp-content/uploads/2017/03/teacher1.jpg'),
+            image: NetworkImage(
+                'https://gazettereview.com/wp-content/uploads/2017/03/teacher1.jpg'),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(80.0),
@@ -50,10 +50,10 @@ class TeacherProfilePage extends StatelessWidget {
 
   Widget _buildFullName() {
     TextStyle _nameTextStyle = TextStyle(
-      fontFamily: 'Roboto',
+      fontFamily: 'Kanit',
       color: Colors.black,
       fontSize: 28.0,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w200,
     );
 
     return Text(
@@ -71,6 +71,43 @@ class TeacherProfilePage extends StatelessWidget {
     );
   }
 
+  Widget _buildDetailInfo() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: Text(
+        'ข้อมูลการติดต่อคุณครู',
+        style: TextStyle(
+          fontFamily: 'Kanit',
+          color: Colors.black,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w300,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailItem(String title, String value) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          title,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+        ),
+        SizedBox(
+          height: 5.0,
+        ),
+        Text(
+          value,
+          style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.normal),
+        ),
+      ],
+    );
+  }
+
   Widget _buildButtons() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -78,7 +115,7 @@ class TeacherProfilePage extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => print('followed'),
+              onTap: () => print('โทร'),
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -87,8 +124,9 @@ class TeacherProfilePage extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'FOLLOW',
+                    'โทร',
                     style: TextStyle(
+                      fontFamily: ('Kanit'),
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
@@ -110,8 +148,9 @@ class TeacherProfilePage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      'MESSAGE',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      'ส่งอีเมล์',
+                      style: TextStyle(
+                          fontFamily: 'Kanit', fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -127,6 +166,16 @@ class TeacherProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          title: Text('ข้อมูลครูแนะแนว'),
+          leading: IconButton(
+            icon: UIdata.actionIcon,
+            onPressed: () {
+              Navigator.pushNamed(context, UIdata.homeTag);
+            },
+          ),
+        ),
       body: Stack(
         children: <Widget>[
           _buildCoverImage(screenSize),
@@ -138,6 +187,14 @@ class TeacherProfilePage extends StatelessWidget {
                   _buildProfileImage(),
                   _buildFullName(),
                   _buildSeparator(screenSize),
+                  _buildDetailInfo(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      _buildDetailItem('เบอร์โทรศัพท์', '081-2345678'),
+                      _buildDetailItem('อีเมล์', 'ggg@ggg.com'),
+                    ],
+                  ),
                   _buildButtons(),
                 ],
               ),

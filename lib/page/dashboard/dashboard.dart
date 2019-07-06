@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/page/home/home.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class Dashboard extends StatefulWidget {
   static String tag = "dashboard-page";
@@ -8,22 +9,20 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-Icon actionIcon = new Icon(Icons.arrow_back);
-
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: new AppBar(
+    return Material(
+      child: Scaffold(
+        appBar: AppBar(
           centerTitle: true,
           title: Text('ข้อมูลเชิงสถิติ'),
-          leading:
-            new IconButton(icon: actionIcon,onPressed: (){
-               Navigator.pushNamed(context,Home.tag);
-            },),
-      ),
+          leading: IconButton(
+            icon: UIdata.actionIcon,
+            onPressed: () {
+              Navigator.pushNamed(context, UIdata.homeTag);
+            },
+          ),
+        ),
       ),
     );
   }

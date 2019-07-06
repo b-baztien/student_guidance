@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/page/home/home.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 color: Colors.blue,
                 onPressed: () {
-                  Navigator.pushNamed(context, Home.tag);
+                  Navigator.pushNamed(context, UIdata.homeTag);
                 },
               ),
             ),

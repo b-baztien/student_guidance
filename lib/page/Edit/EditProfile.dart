@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/page/home/home.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class EditProfileStudent extends StatefulWidget {
   static String tag = 'EditProfileStudent';
@@ -8,20 +8,20 @@ class EditProfileStudent extends StatefulWidget {
 }
 
 class _EditProfileStudentState extends State<EditProfileStudent> {
-  Icon actionIcon = new Icon(Icons.arrow_back);
   @override
   Widget build(BuildContext context) {
-   return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Material(
+      child: Scaffold(
         appBar: new AppBar(
           centerTitle: true,
           title: Text('แก้ไขข้อมูลส่วนตัว'),
-          leading:
-            new IconButton(icon: actionIcon,onPressed: (){
-               Navigator.pushNamed(context,Home.tag);
-            },),
-      ),
+          leading: new IconButton(
+            icon: UIdata.actionIcon,
+            onPressed: () {
+              Navigator.pushNamed(context, UIdata.homeTag);
+            },
+          ),
+        ),
       ),
     );
   }
