@@ -75,8 +75,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: Scaffold(
         appBar: AppBar(
+          
           centerTitle: true,
         title:appBarTitle,
         actions: <Widget>[
@@ -91,7 +93,7 @@ class _HomeState extends State<Home> {
                         ),
                         decoration: new InputDecoration(
                           prefixIcon: new Icon(Icons.search,color: Colors.white),
-                          hintText: "Search...",
+                          hintText: "ค้นหา มหาวิทยาลัย/คณะ/สาขา",
                           hintStyle: new TextStyle(color: Colors.white)
                         ),
                       );}
@@ -115,7 +117,7 @@ class _HomeState extends State<Home> {
                 MyListItem(Icons.library_add,"เพิ่มที่สอบติด",0xff232223,Dashboard.tag),
                 MyListItem(Icons.assignment,"รายการข่าวสาร",0xff651fff,News.tag),
                 MyListItem(Icons.edit,"แก้ไขข้อมูล",0xff66bb6a,News.tag),
-                MyListItem(Icons.library_music,"Dashboard",0xff232223,LoginPage.tag),
+                MyListItem(Icons.library_music,"Dashboard",0xff232223,Dashboard.tag),
 
               ],
               staggeredTiles: [
