@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/News/view_news.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
@@ -14,5 +15,6 @@ class UIdata {
     Dashboard.tag: (context) => Dashboard(),
     News.tag : (context) => News(),
     ViewTeacher.tag :(context) => ViewTeacher(),
+    EditProfileStudent.tag : (context) => EditProfileStudent(),
   };
 }
