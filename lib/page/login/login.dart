@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 20.0,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () => {},
               child: Column(children: [
                 Text('มีปัญหาในการเข้าสู่ระบบ ?',
                     style: TextStyle(color: Colors.grey)),

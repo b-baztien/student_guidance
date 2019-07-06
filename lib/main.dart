@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:student_guidance/page/dashboard/dashboard.dart';
-import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/page/login/login.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -18,5 +16,4 @@ class MyApp extends StatelessWidget{
         routes: UIdata.routes,
         );
   }
-
 }
