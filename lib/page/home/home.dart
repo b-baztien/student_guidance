@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding:const EdgeInsets.all(8.0),
                       child:Text(heading,style: TextStyle(color:new Color(color),
-                      fontSize: 20.0
+                      fontSize: 15.0
                       ),
                       ),
                       ),
@@ -70,16 +70,39 @@ class _HomeState extends State<Home> {
           ),
     );
   }
-
+  Widget appBarTitle = new Text("What your name ?");
+  Icon actionIcon = new Icon(Icons.search);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
         appBar: AppBar(
-          centerTitle: true ,
-           title: Icon(Icons.search,size: 50,),
-         backgroundColor: Colors.orangeAccent,
-          
+          centerTitle: true,
+        title:appBarTitle,
+        actions: <Widget>[
+          new IconButton(icon: actionIcon,onPressed:(){
+          setState(() {
+                     if ( this.actionIcon.icon == Icons.search){
+                      this.actionIcon = new Icon(Icons.close);
+                      this.appBarTitle = new TextField(
+                        style: new TextStyle(
+                          color: Colors.white,
+
+                        ),
+                        decoration: new InputDecoration(
+                          prefixIcon: new Icon(Icons.search,color: Colors.white),
+                          hintText: "Search...",
+                          hintStyle: new TextStyle(color: Colors.white)
+                        ),
+                      );}
+                      else {
+                        this.actionIcon = new Icon(Icons.search);
+                        this.appBarTitle = new Text("What your name ?");
+                      }
+
+
+                    });
+        } ,),]
           ),
             body: StaggeredGridView.count(
               crossAxisCount: 2,
@@ -91,15 +114,17 @@ class _HomeState extends State<Home> {
                 MyListItem(Icons.supervisor_account,"ข้อมูลครูแนะแนว",0xff81d4fa,ViewTeacher.tag),
                 MyListItem(Icons.library_add,"เพิ่มที่สอบติด",0xff232223,Dashboard.tag),
                 MyListItem(Icons.assignment,"รายการข่าวสาร",0xff651fff,News.tag),
-                MyListItem(Icons.library_music,"music",0xff232223,LoginPage.tag),
+                MyListItem(Icons.edit,"แก้ไขข้อมูล",0xff66bb6a,News.tag),
+                MyListItem(Icons.library_music,"Dashboard",0xff232223,LoginPage.tag),
 
               ],
               staggeredTiles: [
                 StaggeredTile.extent(2, 130),
-                StaggeredTile.extent(2, 130),
-                StaggeredTile.extent(2, 130),
-                StaggeredTile.extent(2, 130),
-                StaggeredTile.extent(2, 130),
+                StaggeredTile.extent(1, 150),
+                StaggeredTile.extent(1, 150),
+                StaggeredTile.extent(1, 150),
+                StaggeredTile.extent(1, 150),
+                StaggeredTile.extent(4, 220),
 
               ],
             ),
