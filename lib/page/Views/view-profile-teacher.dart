@@ -6,7 +6,7 @@ class ViewTeacher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "View Teacher",
+      title: 'View Teacher',
       debugShowCheckedModeBanner: false,
       home: TeacherProfilePage(),
     );
@@ -14,7 +14,7 @@ class ViewTeacher extends StatelessWidget {
 }
 
 class TeacherProfilePage extends StatelessWidget {
-  final String _fullName = "Nick Frost";
+  final String _fullName = 'ครูสมหญิง ใจดี';
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
@@ -62,25 +62,6 @@ class TeacherProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatus(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      child: Text(
-        _status,
-        style: TextStyle(
-          fontFamily: 'Spectral',
-          color: Colors.black,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w300,
-        ),
-      ),
-    );
-  }
-
   Widget _buildSeparator(Size screenSize) {
     return Container(
       width: screenSize.width / 1.6,
@@ -97,7 +78,7 @@ class TeacherProfilePage extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => print("followed"),
+              onTap: () => print('followed'),
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -106,7 +87,7 @@ class TeacherProfilePage extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "FOLLOW",
+                    'FOLLOW',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -119,7 +100,7 @@ class TeacherProfilePage extends StatelessWidget {
           SizedBox(width: 10.0),
           Expanded(
             child: InkWell(
-              onTap: () => print("Message"),
+              onTap: () => print('Message'),
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -129,7 +110,7 @@ class TeacherProfilePage extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      "MESSAGE",
+                      'MESSAGE',
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -156,7 +137,6 @@ class TeacherProfilePage extends StatelessWidget {
                   SizedBox(height: screenSize.height / 6.4),
                   _buildProfileImage(),
                   _buildFullName(),
-                  _buildStatus(context),
                   _buildSeparator(screenSize),
                   _buildButtons(),
                 ],
