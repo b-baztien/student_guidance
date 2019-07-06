@@ -10,7 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Material MyListItem(
+  MyListItem(
       IconData icon, String heading, int color, String contexts) {
     return Material(
       color: Colors.white,
@@ -69,9 +69,8 @@ class _HomeState extends State<Home> {
   Icon menuIcon = new Icon(Icons.menu);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Material(
+      child: Scaffold(
         appBar: AppBar(centerTitle: true, title: appBarTitle, actions: <Widget>[
           new IconButton(
             icon: actionIcon,
