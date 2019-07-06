@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/home/home-drawer.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
