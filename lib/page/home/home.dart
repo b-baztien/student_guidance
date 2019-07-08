@@ -129,7 +129,7 @@ class _HomeState extends State<Home> {
               MyListItem(Icons.assignment, "รายการข่าวสาร", 0xff651fff,
                   UIdata.newsTag, 1),
               MyListItem(Icons.edit, "แก้ไขข้อมูล", 0xff66bb6a,
-                  UIdata.editProfileStudentTag, 1),
+                  UIdata.editProfileTag, 1),
               MyListItem(Icons.library_music, "Dashboard", 0xff232223,
                   UIdata.dashboardTag, 1),
             ],

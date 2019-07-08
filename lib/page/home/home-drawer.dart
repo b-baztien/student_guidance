@@ -21,7 +21,7 @@ class HomeDrawer {
               accountEmail: Text("ashishrawat2911@gmail.com"),
               currentAccountPicture: new GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, EditProfileStudent.tag);
+                  Navigator.pushNamed(context, EditProfile.tag);
                 },
                 child: CircleAvatar(
                   backgroundColor:
