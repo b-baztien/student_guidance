@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class Dashboard extends StatefulWidget {

@@ -33,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   loginFields() => Container(
+        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
