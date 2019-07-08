@@ -17,7 +17,7 @@ class UIdata {
     Dashboard.tag: (context) => Dashboard(),
     News.tag: (context) => News(),
     ViewTeacher.tag: (context) => ViewTeacher(),
-    EditProfileStudent.tag: (context) => EditProfileStudent(),
+    EditProfile.tag: (context) => EditProfile(),
   };
 
   static String loginPageTag = LoginPage.tag;
@@ -25,5 +25,5 @@ class UIdata {
   static String dashboardTag = Dashboard.tag;
   static String newsTag = News.tag;
   static String viewTeacherTag = ViewTeacher.tag;
-  static String editProfileStudentTag = EditProfileStudent.tag;
+  static String editProfileTag = EditProfile.tag;
 }
