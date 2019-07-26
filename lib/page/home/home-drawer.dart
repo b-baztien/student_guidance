@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
+import 'package:student_guidance/utils/UIdata.dart';
+
+import 'add-education.dart';
 
 class HomeDrawer {
   BuildContext context;
@@ -34,9 +37,31 @@ class HomeDrawer {
               ),
             ),
             ListTile(
-              title: Text('Setting'),
+              title: Text('ข้อมูลครูแนะแนว'),
               onTap: () {
-                Navigator.pop(context);
+                 Navigator.pushNamed(context, UIdata.viewTeacherTag);
+              },
+            ),
+            ListTile(
+              title: Text('เพิ่มที่สอบติด'),
+              onTap: () {
+                showDialog(context: context,
+                builder : (context){
+                    return MyDialog();
+                },
+                );
+              },
+            ),
+             ListTile(
+              title: Text('Dashboard'),
+              onTap: () {
+                 Navigator.pushNamed(context, UIdata.viewTeacherTag);
+              },
+            ),
+            ListTile(
+              title: Text('_ViewEducation'),
+              onTap: () {
+                Navigator.pushNamed(context, UIdata.viewEducation);
               },
             ),
             ListTile(

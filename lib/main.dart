@@ -11,7 +11,15 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
         title: 'Student Guidance',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: 'Kanit'),
+        theme: ThemeData(fontFamily: 'Kanit',
+        primaryColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          color: Colors.white
+        )
+        
+        ),
+        
         home: LoginPage(),
         routes: UIdata.routes,
         );
