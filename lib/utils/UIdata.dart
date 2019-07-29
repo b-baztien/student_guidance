@@ -29,4 +29,6 @@ class UIdata {
   static String viewTeacherTag = ViewTeacher.tag;
   static String editProfileTag = EditProfile.tag;
   static String viewEducation = ViewEducation.tag;
+
+  static String fontFamily = 'Kanit';
 }
