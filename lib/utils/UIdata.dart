@@ -8,7 +8,7 @@ import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/page/login/login.dart';
 
 class UIdata {
-  static Icon actionIcon = new Icon(Icons.arrow_back_ios);
+  static Icon backIcon = new Icon(Icons.arrow_back_ios);
   static Icon menuIcon = new Icon(Icons.menu);
   static Icon searchIcon = new Icon(Icons.search);
 

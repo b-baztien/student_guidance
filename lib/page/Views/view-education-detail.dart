@@ -14,7 +14,7 @@ class _ViewEducationState extends State<ViewEducation> {
   Widget build(BuildContext context) {
      return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: UIdata.actionIcon,
+        leading: IconButton(icon: UIdata.backIcon,
         onPressed: () {Navigator.pop(context);}
         ),
      

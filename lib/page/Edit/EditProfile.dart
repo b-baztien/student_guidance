@@ -35,7 +35,7 @@ class EditStudentProfile extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://gazettereview.com/wp-content/uploads/2017/03/teacher1.jpg'),
+                'https://avatarfiles.alphacoders.com/894/89415.jpg'),
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.circular(80.0),
@@ -183,9 +183,9 @@ class EditStudentProfile extends StatelessWidget {
           centerTitle: true,
           title: Text('แก้ไขข้อมูลส่วนตัว'),
           leading: IconButton(
-            icon: UIdata.actionIcon,
+            icon: UIdata.backIcon,
             onPressed: () {
-              Navigator.pushNamed(context, UIdata.homeTag);
+              Navigator.pop(context);
             },
           ),
         ),

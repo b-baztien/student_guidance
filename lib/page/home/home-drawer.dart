@@ -67,7 +67,7 @@ class HomeDrawer {
             ListTile(
               title: Text('Logout'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, UIdata.loginPageTag);
               },
             ),
           ],

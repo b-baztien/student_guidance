@@ -20,7 +20,7 @@ class TeacherProfilePage extends StatelessWidget {
       height: screenSize.height / 2.6,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/cover.jpeg'),
+          image: AssetImage('assets/images/cover.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -170,9 +170,9 @@ class TeacherProfilePage extends StatelessWidget {
           centerTitle: true,
           title: Text('ข้อมูลครูแนะแนว'),
           leading: IconButton(
-            icon: UIdata.actionIcon,
+            icon: UIdata.backIcon,
             onPressed: () {
-              Navigator.pushNamed(context, UIdata.homeTag);
+              Navigator.pop(context);
             },
           ),
         ),
@@ -183,7 +183,7 @@ class TeacherProfilePage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: screenSize.height / 6.4),
+                  SizedBox(height: screenSize.height / 5.5),
                   _buildProfileImage(),
                   _buildFullName(),
                   _buildSeparator(screenSize),

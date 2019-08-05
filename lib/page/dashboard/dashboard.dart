@@ -16,9 +16,9 @@ class _DashboardState extends State<Dashboard> {
           centerTitle: true,
           title: Text('ข้อมูลเชิงสถิติ'),
           leading: IconButton(
-            icon: UIdata.actionIcon,
+            icon: UIdata.backIcon,
             onPressed: () {
-              Navigator.pushNamed(context, UIdata.homeTag);
+              Navigator.pop(context);
             },
           ),
         ),

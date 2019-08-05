@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 color: Colors.blue,
                 onPressed: () {
-                  Navigator.pushNamed(context, UIdata.homeTag);
+                  Navigator.pushReplacementNamed(context, UIdata.homeTag);
                 },
               ),
             ),
