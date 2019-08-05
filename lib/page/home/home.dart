@@ -48,13 +48,10 @@ class _HomeState extends State<Home> {
                 if (this.actionIcon.icon == Icons.search) {
                   this.actionIcon = new Icon(Icons.close);
                   this.appBarTitle = new TextField(
-                    style: new TextStyle(
-                      color: Colors.white,
-                    ),
                     decoration: new InputDecoration(
-                        prefixIcon: new Icon(Icons.search, color: Colors.black),
-                        hintText: "ค้นหา มหาวิทยาลัย/คณะ/สาขา",
-                        hintStyle: new TextStyle(color: Colors.black)),
+                      prefixIcon: new Icon(Icons.search, color: Colors.black),
+                      hintText: "ค้นหา มหาวิทยาลัย/คณะ/สาขา",
+                    ),
                     autofocus: true,
                     onChanged: (String text) => {print(text)},
                   );
