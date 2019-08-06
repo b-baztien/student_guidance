@@ -259,7 +259,7 @@ class _HomeState extends State<Home> {
                     Text("ข่าวสารเกี่ยวกับมหาวิทยาลัยที่ติดตาม",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: screenSize.width / 18.5,
+                          fontSize: screenSize.width / 21,
                           letterSpacing: 1.0,
                         )),
                   ],
