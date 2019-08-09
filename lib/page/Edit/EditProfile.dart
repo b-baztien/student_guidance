@@ -13,8 +13,6 @@ class EditProfile extends StatelessWidget {
 }
 
 class EditStudentProfile extends StatelessWidget {
-  final String _fullName = 'องอาจ ใจทมิฬ';
-
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 3.1,
@@ -45,19 +43,6 @@ class EditStudentProfile extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildFullName() {
-    TextStyle _nameTextStyle = TextStyle(
-      fontFamily: 'Kanit',
-      color: Colors.black,
-      fontSize: 28.0,
-      fontWeight: FontWeight.w200,
-    );
-    return Text(
-      _fullName,
-      style: _nameTextStyle,
     );
   }
 
