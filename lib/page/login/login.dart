@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController usernameController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
   loginHeader() => Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -33,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   loginFields() => Container(
-        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
@@ -42,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
               child: TextField(
                 maxLines: 1,
+                controller: usernameController,
                 decoration: InputDecoration(
                   hintText: 'กรุณากรอกชื่อผู้ใช้',
                   labelText: 'ชื่อผู้ใช้',
@@ -53,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               child: TextField(
                 maxLines: 1,
                 obscureText: true,
+                controller: passwordController,
                 decoration: InputDecoration(
                   hintText: 'กรุณากรอกรหัสผ่าน',
                   labelText: 'รหัสผ่าน',
@@ -73,8 +80,26 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 color: Colors.blue,
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, UIdata.homeTag);
+                onPressed: () async {
+                  Login login = new Login();
+                  login.username = usernameController.text;
+                  login.password = passwordController.text;
+
+                  print(login.username);
+
+                  login = await LoginService()
+                      .login(body: login.toMap())
+                      .then(
+                        (context) => Navigator.pushReplacementNamed(
+                            this.context, UIdata.homeTag),
+                      )
+                      .catchError(
+                        (context) => Scaffold.of(this.context).showSnackBar(
+                          new SnackBar(
+                            content: new Text('error'),
+                          ),
+                        ),
+                      );
                 },
               ),
             ),
@@ -103,9 +128,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: loginBody()
-      ),
+      body: Center(child: loginBody()),
     );
   }
 }
