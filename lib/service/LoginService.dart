@@ -1,19 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/utils/ServiceData.dart';
 
 class LoginService {
-  // Future<String> login({Map body}) async {
-  //   final response = await http.get(DataService.url + '/test/');
-
-  //   print(response.body);
-
-  //   return response.body;
-  // }
-
   Future<Login> login({Map body}) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
     String url = ServiceData.url + '/login/';
     final response = await http.post(
       url,
@@ -23,11 +17,18 @@ class LoginService {
     );
 
     if (response.statusCode == 200) {
-      Login login = Login.fromJson(json.decode(response.body));
+      Login login = Login.fromJson(
+        json.decode(response.body),
+      );
+      sharedPreferences.setString(
+        'user',
+        json.encode(body),
+      );
       return login;
     } else {
-      throw Exception(
-          'ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง');
+      throw new Exception(
+        json.decode(response.body),
+      );
     }
   }
 }

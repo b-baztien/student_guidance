@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController usernameController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -81,25 +82,21 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 color: Colors.blue,
                 onPressed: () async {
-                  Login login = new Login();
-                  login.username = usernameController.text;
-                  login.password = passwordController.text;
+                  try {
+                    Login login = new Login();
+                    login.username = usernameController.text;
+                    login.password = passwordController.text;
 
-                  print(login.username);
+                    login = await LoginService().login(body: login.toMap());
 
-                  login = await LoginService()
-                      .login(body: login.toMap())
-                      .then(
-                        (context) => Navigator.pushReplacementNamed(
-                            this.context, UIdata.homeTag),
-                      )
-                      .catchError(
-                        (context) => Scaffold.of(this.context).showSnackBar(
-                          new SnackBar(
-                            content: new Text('error'),
-                          ),
-                        ),
-                      );
+                    Navigator.pushReplacementNamed(context, UIdata.homeTag);
+                  } catch (exception) {
+                    _scaffoldKey.currentState.showSnackBar(
+                      new SnackBar(
+                        content: new Text(exception.toString()),
+                      ),
+                    );
+                  }
                 },
               ),
             ),
@@ -127,6 +124,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: Center(child: loginBody()),
     );
