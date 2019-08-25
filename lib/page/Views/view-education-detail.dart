@@ -4,7 +4,12 @@ import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/widgets/education_widget.dart';
 
 class ViewEducation extends StatefulWidget {
+  final String value ;
+  
   static String tag = 'view-education';
+
+  ViewEducation({Key key, this.value}) : super(key: key);
+
   @override
   _ViewEducationState createState() => _ViewEducationState();
 }
@@ -19,7 +24,7 @@ class _ViewEducationState extends State<ViewEducation> {
         ),
      
       ),
-      body: SafeArea(
+       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 16.0),
           child: Column(
@@ -30,15 +35,13 @@ class _ViewEducationState extends State<ViewEducation> {
                 child: RichText(
                   text: TextSpan(
                     children: [
-                      TextSpan(text: "Education", style: AppTheme.display1),
-                      TextSpan(text: "\n"),
-                      TextSpan(text: "Detail", style: AppTheme.display2),
+                      TextSpan(text: widget.value,style: AppTheme.display2),
                     ],
                   ),
                 ),
               ),
               Expanded(
-                child: EdicationWidget(),
+                child: EdicationWidget(educationName: widget.value),
               ),
             ],
           ),

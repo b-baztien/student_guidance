@@ -1,15 +1,29 @@
 import 'package:student_guidance/model/University.dart';
 import 'package:flutter/material.dart';
+import 'package:student_guidance/page/Views/view-education-detail2.dart';
 import 'package:student_guidance/styleguide.dart';
 
 class EdicationWidget extends StatelessWidget {
+  final String educationName;
+
+  const EdicationWidget({Key key, this.educationName}) : super(key: key);
+
+  
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return InkWell(
-    
+      onTap: (){
+        Navigator.push(context, PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 400),
+          pageBuilder: (context,_,__) => ViewEducationDetailScreen()
+        )
+        );
+      },
+     
       child: Stack(
         children: [
           Align(
@@ -51,14 +65,14 @@ class EdicationWidget extends StatelessWidget {
                     color: Colors.transparent,
                     child: Container(
                       child: Text(
-                          'EducationName',
+                          educationName,
                         style: AppTheme.heading,
                       ),
                     ),
                   ),
                 ),
                 Text(
-                  "รายละเอียดเพิ่มเติม",
+                  "แตะดูรายละเอียดเพิ่มเติม",
                   style: AppTheme.subHeading,
                 ),
               ],

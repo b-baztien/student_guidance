@@ -58,12 +58,7 @@ class HomeDrawer {
                  Navigator.pushNamed(context, UIdata.viewTeacherTag);
               },
             ),
-            ListTile(
-              title: Text('_ViewEducation'),
-              onTap: () {
-                Navigator.pushNamed(context, UIdata.viewEducation);
-              },
-            ),
+           
             ListTile(
               title: Text('Logout'),
               onTap: () {

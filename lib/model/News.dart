@@ -5,7 +5,7 @@ class News {
   final String photo;
   News({this.newsID,this.detail,this.photo,this.topic});
 }
-List news = [
+List getListNews = [
   News(
     topic: "News1",
     detail:"test_detail_news1",

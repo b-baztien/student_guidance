@@ -82,21 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 color: Colors.blue,
                 onPressed: () async {
-                  try {
-                    Login login = new Login();
-                    login.username = usernameController.text;
-                    login.password = passwordController.text;
-
-                    login = await LoginService().login(body: login.toMap());
-
-                    Navigator.pushReplacementNamed(context, UIdata.homeTag);
-                  } catch (exception) {
-                    _scaffoldKey.currentState.showSnackBar(
-                      new SnackBar(
-                        content: new Text(exception.toString()),
-                      ),
-                    );
-                  }
+                   Navigator.pushReplacementNamed(context, UIdata.homeTag);
                 },
               ),
             ),
