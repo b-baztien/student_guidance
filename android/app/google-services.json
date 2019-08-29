@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "260967530020",
+    "firebase_url": "https://studentguidance-1565684067738.firebaseio.com",
+    "project_id": "studentguidance-1565684067738",
+    "storage_bucket": "studentguidance-1565684067738.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260967530020:android:afe502078fc10238",
+        "android_client_info": {
+          "package_name": "com.example.student_guidance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260967530020-c6u89gm956vcrg0alurbmniocmd034r3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC7kCoujUHHXQQkGM577S59aUr9lOOE58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260967530020-c6u89gm956vcrg0alurbmniocmd034r3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

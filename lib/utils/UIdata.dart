@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/News/view_news.dart';
+import 'package:student_guidance/page/Views/mapTest.dart';
 import 'package:student_guidance/page/Views/view-education-detail.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
@@ -14,6 +15,7 @@ class UIdata {
 
   static Map<String, WidgetBuilder> routes = {
     LoginPage.tag: (context) => LoginPage(),
+    GoogleMapTest.tag :(context) => GoogleMapTest(),
     Home.tag: (context) => Home(),
     Dashboard.tag: (context) => Dashboard(),
     News.tag: (context) => News(),
@@ -29,6 +31,7 @@ class UIdata {
   static String viewTeacherTag = ViewTeacher.tag;
   static String editProfileTag = EditProfile.tag;
   static String viewEducation = ViewEducation.tag;
+  static String googleMap = GoogleMapTest.tag;
 
   static String fontFamily = 'Kanit';
 }

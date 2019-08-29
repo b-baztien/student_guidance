@@ -55,7 +55,7 @@ class HomeDrawer {
              ListTile(
               title: Text('Dashboard'),
               onTap: () {
-                 Navigator.pushNamed(context, UIdata.viewTeacherTag);
+                 Navigator.pushNamed(context, UIdata.googleMap);
               },
             ),
            

@@ -19,7 +19,7 @@ class EdicationWidget extends StatelessWidget {
       onTap: (){
         Navigator.push(context, PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 400),
-          pageBuilder: (context,_,__) => ViewEducationDetailScreen()
+          pageBuilder: (context,_,__) => ViewEducationDetailScreen(name : educationName)
         )
         );
       },
@@ -30,9 +30,10 @@ class EdicationWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: ClipPath(
               clipper: CharacterCardBackgroundClipper(),
-              child: Container(
-              
-                  height: 0.6 * screenHeight,
+              child: Hero(
+                  tag: "background-${educationName}",
+                  child: Container(
+                      height: 0.6 * screenHeight,
                   width: 0.9 * screenWidth,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -40,6 +41,7 @@ class EdicationWidget extends StatelessWidget {
                       begin: Alignment.topRight,
                       end: Alignment.bottomLeft,
                     ),
+                  ),
                   ),
                 ),
               ),

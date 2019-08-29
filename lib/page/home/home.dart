@@ -132,31 +132,7 @@ close(context, null);
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 32.0, top: 8.0),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(text: query,style: AppTheme.display2),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: EdicationWidget(educationName: query),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    return null;
   }
 
   @override
@@ -172,8 +148,6 @@ close(context, null);
             builder: (BuildContext context) => new ViewEducation(value : query),
           );
           Navigator.of(context).push(route);
-           
-          
           },
           leading: new Tab(icon: new Image.asset("assets/images/icon1.png")),
           title: Text(suggestionList[index]
