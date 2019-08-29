@@ -132,7 +132,15 @@ close(context, null);
   @override
   Widget buildResults(BuildContext context) {
     // TODO: implement buildResults
-    return null;
+    
+   return Center(
+        child: Text(
+          '"$query"\n ไม่พบข้อมูลที่ค้นหา.\nลองค้นหาด้วยคำอื่น',
+          textAlign: TextAlign.center,
+        ),
+      );
+    
+
   }
 
   @override
@@ -148,6 +156,8 @@ close(context, null);
             builder: (BuildContext context) => new ViewEducation(value : query),
           );
           Navigator.of(context).push(route);
+           
+          
           },
           leading: new Tab(icon: new Image.asset("assets/images/icon1.png")),
           title: Text(suggestionList[index]
