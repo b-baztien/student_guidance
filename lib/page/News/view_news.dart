@@ -16,12 +16,9 @@ class ViewNewsPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                Image.asset('assets/images/studying.png'),
                 Text(news.detail),
-                RaisedButton(
-                    child: Text('กลับ'),
-                    color: Colors.black,
-                    textColor: Colors.white,
-                    onPressed: () => Navigator.pop(context)),
+               
               ]),
         ));
   }
