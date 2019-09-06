@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -11,9 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController usernameController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  String _username,_password; 
+ 
 
   loginHeader() => Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,16 +39,22 @@ class _LoginPageState extends State<LoginPage> {
         ],
       );
 
-  loginFields() => Container(
+  loginFields() => Form(
+      key: _globalKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-              child: TextField(
+              child: TextFormField(
                 maxLines: 1,
-                controller: usernameController,
+               validator: (input){
+                 if(input.isEmpty){
+                   return 'Please try an Username';
+                 }
+               },
+               onSaved: (input) => _username = input,
                 decoration: InputDecoration(
                   hintText: 'กรุณากรอกชื่อผู้ใช้',
                   labelText: 'ชื่อผู้ใช้',
@@ -57,10 +63,15 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
-              child: TextField(
+              child: TextFormField(
                 maxLines: 1,
                 obscureText: true,
-                controller: passwordController,
+                validator: (input){
+                 if(input.length < 4 ){
+                   return 'Your password needs to be atleast 6 characters ';
+                 }
+               },
+               onSaved: (input) => _password = input,
                 decoration: InputDecoration(
                   hintText: 'กรุณากรอกรหัสผ่าน',
                   labelText: 'รหัสผ่าน',
@@ -82,7 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 color: Colors.blue,
                 onPressed: () async {
+                  
                    Navigator.pushReplacementNamed(context, UIdata.homeTag);
+
                 },
               ),
             ),
@@ -110,9 +123,20 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: Colors.white,
       body: Center(child: loginBody()),
     );
+
+    
   }
+Future<void> signIn() async {
+  final formState = _globalKey.currentState;
+  final Login login = new Login();
+  login.username = _username;
+  login.password = _password;
+  
+} 
+  
 }
+
+

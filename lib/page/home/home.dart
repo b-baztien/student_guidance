@@ -1,6 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' as prefix0;
+import 'package:student_guidance/page/Edit/EditProfile.dart';
+import 'package:student_guidance/page/Views/mapTest.dart';
 import 'package:student_guidance/page/Views/view-education-detail.dart';
+import 'package:student_guidance/page/Views/view-profile-teacher.dart';
+import 'package:student_guidance/page/dashboard/dashboard.dart';
+import 'package:student_guidance/widgets/customCard.dart';
 import 'package:student_guidance/widgets/education_widget.dart';
 import 'package:student_guidance/page/home/home-drawer.dart';
 import 'package:student_guidance/model/News.dart';
@@ -23,11 +31,20 @@ class _HomeState extends State<Home> {
   final _formKey = GlobalKey<FormState>();
   List<String> _locations = ['แม่โจ้', 'เชียงใหม่', 'พะเยา', 'กรุงเทพ'];
   String _selectedLocation = 'เลือก มหาวิทยาลัย';
+  int _selectedPage = 0;
+  Home home;
+  GoogleMapTest map;
+  ViewTeacher techer;
+  Dashboard dash;
+  EditProfile profile;
 
+   
+
+  GlobalKey _bottomNavigationKey = GlobalKey();
   
   Icon actionIcon = new Icon(Icons.search);
   Icon menuIcon = new Icon(Icons.menu);
-  var currentPage = images.length - 1.0;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -47,45 +64,137 @@ class _HomeState extends State<Home> {
       );
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [
-              Color(0xFF1b1e44),
-              Color(0xFF2d3447),
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            tileMode: TileMode.clamp),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        drawer: HomeDrawer(context).drawer(),
-        appBar: homeAppbar(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
+    Widget  header(){
+    return new Container(
+        height: 140.0,       
+         width: MediaQuery.of(context).size.width,        
+        color: Colors.green,        
+        child:Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 60.0),        
+               Text('Student Guidance',     
+                        style: TextStyle(
+            color: Colors.white,          
+                    fontSize: 25.0,          
+                        fontWeight: FontWeight.bold              ),),          ],        )
+    );  
+    }
 
+    return Scaffold(
+      backgroundColor: Colors.blueAccent,
+      body: new Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              header(),
+              Column(children: <Widget>[
+                 SizedBox(height: 110.0,), 
+                 Padding(padding: EdgeInsets.only(left: 12.0, right: 12.0),
+                 child: Material(
+                   elevation: 5.0,
+                   borderRadius: BorderRadius.circular(10.0),
+                   child: TextField(
+                   
+                    onTap: (){
+                      showSearch(context: context,delegate: Datasearch());
+                    },
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search,color: Colors.green,size: 25.0,),
+                      contentPadding: EdgeInsets.only(left: 10.0,top: 12.0),
+                      hintText: 'มหาวิทยาลัย, คณะ, สาขา',hintStyle: TextStyle(color: Colors.grey)
+                      
+                    ),
+                   ),
+                   
+                   
+                 ),
+                 
+                 )
+              ],)
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.cake),
-              title: Text("HOME")
-              
+         
+          new Expanded(
+            
+            child: StreamBuilder<QuerySnapshot>(
+            stream: Firestore.instance.collection('News')
+              .snapshots(),
+            builder: (BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError)
+                  return new Text('Error: ${snapshot.error}');
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return new Text('Loading...');
+                  default:
+                    return new ListView(
+                      children: snapshot.data.documents
+                        .map((DocumentSnapshot document) {
+                          News newsFirebase = new  News();
+                          newsFirebase.topic = document['topic'];
+                          newsFirebase.detail = document['detail'];
+                          return new CustomCard(
+                            news:newsFirebase,
+                          );
+                      }).toList(),
+                    );
+                }
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.cake),
-              title: Text("CAKE")
-            )
-          ],
-        ),
+          )
+        ],
       ),
+      bottomNavigationBar: new Theme(
+    data: Theme.of(context).copyWith(
+        // sets the background color of the `BottomNavigationBar`
+        canvasColor: Colors.white,
+        // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+        primaryColor: Colors.green,
+        textTheme: Theme
+            .of(context)
+            .textTheme
+            .copyWith(caption: new TextStyle(color: Colors.grey))), // sets the inactive color of the `BottomNavigationBar`
+    child: new BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      currentIndex: _selectedPage,
+     
+        items: [
+     BottomNavigationBarItem(
+       icon: new Icon(Icons.home,size:30),
+       title: new Text('Home')
+       ),
+         BottomNavigationBarItem(
+       icon: new Icon(Icons.assignment_ind , size: 30),
+       title: new Text('Techer')
+       ),
+        BottomNavigationBarItem(
+       icon: new Icon(Icons.map, size: 30),
+       title: new Text('Map')
+       ),
+        BottomNavigationBarItem(
+       icon: new    Icon(Icons.dashboard, size: 30),
+       title: new Text('Dashboard')
+       ),
+        BottomNavigationBarItem(
+       icon: new  Icon(Icons.person, size: 30),
+       title: new Text('Profile')
+       )
+    ],
+    onTap: (int index){
+     setState(() {
+       _selectedPage = index;
+     });
+    },
+      ),
+    
+    ),
     );
     
   }
+
+       
 
 }
 

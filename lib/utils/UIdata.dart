@@ -18,7 +18,6 @@ class UIdata {
     GoogleMapTest.tag :(context) => GoogleMapTest(),
     Home.tag: (context) => Home(),
     Dashboard.tag: (context) => Dashboard(),
-    News.tag: (context) => News(),
     ViewTeacher.tag: (context) => ViewTeacher(),
     EditProfile.tag: (context) => EditProfile(),
    ViewEducation.tag : (context) => ViewEducation(),
@@ -27,7 +26,6 @@ class UIdata {
   static String loginPageTag = LoginPage.tag;
   static String homeTag = Home.tag;
   static String dashboardTag = Dashboard.tag;
-  static String newsTag = News.tag;
   static String viewTeacherTag = ViewTeacher.tag;
   static String editProfileTag = EditProfile.tag;
   static String viewEducation = ViewEducation.tag;

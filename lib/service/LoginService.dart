@@ -1,34 +1,25 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/model/Login.dart';
-import 'package:student_guidance/utils/ServiceData.dart';
 
+final CollectionReference loginCollection = Firestore.instance.collection('Login');
 class LoginService {
-  Future<Login> login({Map body}) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    String url = ServiceData.url + '/login/';
-    final response = await http.post(
-      url,
-      headers: ServiceData.headers,
-      body: json.encode(body),
-      encoding: ServiceData.encoding,
-    );
+ final databaseReference = Firestore.instance;
+  static final LoginService _instance = new LoginService.internal();
+  factory LoginService() => _instance;
+  LoginService.internal();
 
-    if (response.statusCode == 200) {
-      Login login = Login.fromJson(
-        json.decode(response.body),
-      );
-      sharedPreferences.setString(
-        'user',
-        json.encode(body),
-      );
-      return login;
-    } else {
-      throw new Exception(
-        json.decode(response.body),
-      );
+ Future<Login> getLogin(Login login) async {
+   Login logins = new Login();
+  loginCollection.document(login.username).get().then((DocumentSnapshot ds){
+    if(ds.data.isNotEmpty){
+      logins.username = ds['username'];
+      logins.password = ds['password'];
+      logins.type = ds['type'];
+      
     }
-  }
+      
+  });
+   
+   return logins;
+ }
 }

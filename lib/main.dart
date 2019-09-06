@@ -13,8 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Kanit',
-        primaryColor: Colors.white,
-        appBarTheme: AppBarTheme(elevation: 0, color: Colors.white),
+        primarySwatch: Colors.blue,
       ),
       home: SplashPage(),
       routes: UIdata.routes,

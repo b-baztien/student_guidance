@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/News.dart';
 
-class News extends StatefulWidget {
-  static String tag = 'News'; 
-  @override
-  _NewsState createState() => _NewsState();
-}
+class ViewNewsPage extends StatelessWidget {
+  ViewNewsPage({@required this.news});
+  final News news;
 
-class _NewsState extends State<News> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(news.topic),
+        ),
+        body: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(news.detail),
+                RaisedButton(
+                    child: Text('กลับ'),
+                    color: Colors.black,
+                    textColor: Colors.white,
+                    onPressed: () => Navigator.pop(context)),
+              ]),
+        ));
   }
 }

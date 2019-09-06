@@ -17,7 +17,7 @@ class ViewEducationDetailScreen extends StatefulWidget {
 class _ViewEducationDetailScreenState extends State<ViewEducationDetailScreen>with AfterLayoutMixin<ViewEducationDetailScreen> {
   double _bottomSheetBottomPosition = -330;
   bool isCollapsed = false ;
-  static const LatLng centerMap =  const LatLng (13.667708,100.621809);
+  
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
