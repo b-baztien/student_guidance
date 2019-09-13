@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/News.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class ViewNewsPage extends StatelessWidget {
   ViewNewsPage({@required this.news});
@@ -8,6 +9,16 @@ class ViewNewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: UIdata.backIcon,
+            onPressed: () {
+             Navigator.of(context).pop();
+            },
+          ),
+        ),
        body: ListView(
          children: <Widget>[
            Stack(children: <Widget>[
@@ -21,29 +32,11 @@ class ViewNewsPage extends StatelessWidget {
                                         fit: BoxFit.cover)
                ),
              ),
-                   Positioned(
-            top: 15.0,
-            left: 10.0,
-            right: 10.0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
+               
        
            ],
            ),
-           SizedBox(height: 10.0),
+           
            Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
@@ -57,34 +50,40 @@ class ViewNewsPage extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
+                                    Text('วันที่ : 13/09/2019',
+                                  style: TextStyle(
+                                    fontFamily: 'AbrilFatFace',
+                                    fontSize: 15.0,
+                                    color: Colors.grey
+                                  )
+                                  ),
                                   Text(news.topic,
                                   style: TextStyle(
                                     fontFamily: 'AbrilFatFace',
-                                    fontSize: 20.0,
+                                    fontSize: 30.0,
                                   )
                                   ),
-                                  Text('วันที่ : 13/09/2019',
-                                  style: TextStyle(
-                                    fontFamily: 'AbrilFatFace',
-                                    fontSize: 11.0,
-                                    color: Colors.grey
-                                  )
-                                  )
+                                
                                 ],
                               ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.green[300],
-                                size: 30.0,
-                              )
+                             
                             ],
                           ),
                           SizedBox(height: 10.0),
                           Container(
-                            child: Text('บลา ๆ DETAIL NEWS',
+                            child: Text('โดย .....',
                             style: TextStyle(
-                                      fontSize: 12.0,
+                                      fontSize: 20.0,
                                       color: Colors.grey
+                                    )
+                            ),
+                          ),
+                           SizedBox(height: 10.0),
+                          Container(
+                            child: Text(news.detail,
+                            style: TextStyle(
+                                      fontSize: 15.0,
+                                      color: Colors.black.withOpacity(0.7)
                                     )
                             ),
                           ),
