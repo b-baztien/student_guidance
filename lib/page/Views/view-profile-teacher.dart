@@ -166,16 +166,6 @@ class TeacherProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: Text('ข้อมูลครูแนะแนว'),
-          leading: IconButton(
-            icon: UIdata.backIcon,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
       body: Stack(
         children: <Widget>[
           _buildCoverImage(screenSize),
