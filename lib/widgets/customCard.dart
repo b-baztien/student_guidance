@@ -51,7 +51,7 @@ class CustomCard extends StatelessWidget {
                      Padding(
                         padding: EdgeInsets.only(),
                         child: Hero(
-                            tag: 'images',
+                            tag: 'images-${news.topic}',
                             child: Container(
                                 height: 160.0,
                                 width: 200.0,

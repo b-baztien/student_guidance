@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
         // sets the background color of the `BottomNavigationBar`
         canvasColor: Colors.white,
         // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-        primaryColor: Colors.green,
+        primaryColor: Colors.blue[800],
         textTheme: Theme
             .of(context)
             .textTheme

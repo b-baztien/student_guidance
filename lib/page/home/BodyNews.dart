@@ -2,23 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/page/Views/view-education-detail.dart';
+import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/widgets/customCard.dart';
 
 class BodyNews extends StatelessWidget {
+
+   NewsService newsService;
+  Future getNews() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection('News').getDocuments();
+    return qn.documents;
+  }
+
+
   @override
   Widget build(BuildContext context) {
  Widget  header(){
     return new Container(
         height: 140.0,       
          width: MediaQuery.of(context).size.width,        
-        color: Colors.deepOrange[300],        
+        color: Colors.indigo,        
         child:Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: 60.0),        
                Text('Student Guidance',     
                         style: TextStyle(
-            color: Colors.white,          
+            color: Colors.orange[200],
+            fontFamily: 'Kanit',          
                     fontSize: 25.0,          
                         fontWeight: FontWeight.bold              ),),          ],        )
     );  
@@ -44,7 +55,7 @@ class BodyNews extends StatelessWidget {
                     },
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search,color: Colors.green,size: 25.0,),
+                      prefixIcon: Icon(Icons.search,color: Colors.pinkAccent,size: 25.0,),
                       contentPadding: EdgeInsets.only(left: 10.0,top: 12.0),
                       hintText: 'มหาวิทยาลัย, คณะ, สาขา',hintStyle: TextStyle(color: Colors.grey)
                       
@@ -65,7 +76,7 @@ class BodyNews extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.deepOrange[300],
+                        color: Colors.indigo[600],
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Center(
@@ -73,47 +84,44 @@ class BodyNews extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: 22.0, vertical: 6.0),
                           child: Text("ข่าวสาร",
-                              style: TextStyle(color: Colors.white,fontFamily: 'AbrilFatFace', fontSize: 25.0)),
+                              style: TextStyle(color: Colors.amber[600],fontFamily: 'Kanit', fontSize: 20.0)),
                               
                         ),
                       ),
                       
                     ),
                   
-                   Text('เพิ่มเติม', style: TextStyle(color: Colors.grey, fontSize: 12.0))
+                   Text('เพิ่มเติม', style: TextStyle(color: Colors.pinkAccent, fontSize: 12.0,fontFamily: 'Kanit'))
                   ],
                 ),
               ),
              
           Padding(
-              padding: const EdgeInsets.all(15.0),
-              
+              padding: const EdgeInsets.all(15.0),  
               child: Container(
                 height: 275.0,
                 width: MediaQuery.of(context).size.width,
-                child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('News')
-              .snapshots(),
-            builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
+                child: FutureBuilder(
+                  future: getNews(),
+            builder: (_,snapshot) {
                 if (snapshot.hasError)
                   return new Text('Error: ${snapshot.error}');
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return new Text('Loading...');
                   default:
-                    return new ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: snapshot.data.documents
-                        .map((DocumentSnapshot document) {
-                          News newsFirebase = new  News();
-                          newsFirebase.topic = document['topic'];
-                          newsFirebase.detail = document['detail'];
-                         
-                          return new CustomCard(
+                    return new ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (_, index){
+                       News newsFirebase = new  News();
+                          newsFirebase.topic = snapshot.data[index].data["topic"];
+                          newsFirebase.detail = snapshot.data[index].data["detail"];
+                         return new CustomCard(
                             news:newsFirebase,
                           );
-                      }).toList(),
+                      },
+                      scrollDirection: Axis.horizontal,
+                      
                     
                     );
                 }
@@ -129,7 +137,7 @@ class BodyNews extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.deepOrange[300],
+                        color: Colors.indigo[600],
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Center(
@@ -137,13 +145,13 @@ class BodyNews extends StatelessWidget {
                           padding: EdgeInsets.symmetric(
                               horizontal: 22.0, vertical: 6.0),
                           child: Text("มหาลัยแนะนำ",
-                              style: TextStyle(color: Colors.white,fontFamily: 'AbrilFatFace', fontSize: 25.0)),
+                              style: TextStyle(color: Colors.yellow,fontFamily: 'Kanit', fontSize: 20.0)),
                               
                         ),
                       ),
                       
                     ),
-                   Text('เพิ่มเติม', style: TextStyle(color: Colors.grey, fontSize: 12.0))
+                   Text('เพิ่มเติม', style: TextStyle(color: Colors.pinkAccent, fontSize: 12.0,fontFamily: 'Kanit'))
                   ],
                 ),
               ),

@@ -13,8 +13,3 @@ class University{
   );
 }
 
-List universitys = [
-    University(
-      universiyname: "Test"
-    )
-];

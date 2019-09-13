@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/utils/UIdata.dart';
+class ViewNewsPage extends StatefulWidget {
+  final news;
+ ViewNewsPage({this.news});
+  
 
-class ViewNewsPage extends StatelessWidget {
-  ViewNewsPage({@required this.news});
-  final News news;
+  @override
+  _ViewNewsPage createState() => _ViewNewsPage();
+}
+class _ViewNewsPage extends State<ViewNewsPage> {
+ 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +63,7 @@ class ViewNewsPage extends StatelessWidget {
                                     color: Colors.grey
                                   )
                                   ),
-                                  Text(news.topic,
+                                  Text(widget.news.topic,
                                   style: TextStyle(
                                     fontFamily: 'AbrilFatFace',
                                     fontSize: 30.0,
@@ -80,7 +86,7 @@ class ViewNewsPage extends StatelessWidget {
                           ),
                            SizedBox(height: 10.0),
                           Container(
-                            child: Text(news.detail,
+                            child: Text(widget.news.detail,
                             style: TextStyle(
                                       fontSize: 15.0,
                                       color: Colors.black.withOpacity(0.7)
