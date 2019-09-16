@@ -8,6 +8,7 @@ import 'package:student_guidance/page/Views/mapTest.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/BodyNews.dart';
+import 'package:student_guidance/page/search/Search_widget.dart';
 class Home extends StatefulWidget {
   static String tag = "home-page";
 
@@ -25,7 +26,8 @@ class _HomeState extends State<Home> {
   int _selectedPage = 0;
   final _pageOptions = [
    BodyNews(),
-    ViewTeacher(),
+   SearchWidget(),
+    
     GoogleMapTest(),
     Dashboard(),
     EditProfile(),
@@ -59,11 +61,11 @@ class _HomeState extends State<Home> {
         items: [
      BottomNavigationBarItem(
        icon: new Icon(Icons.home,size:30),
-       title: new Text('Home')
+       title: new Text('หน้าแรก')
        ),
          BottomNavigationBarItem(
-       icon: new Icon(Icons.assignment_ind , size: 30),
-       title: new Text('Techer')
+       icon: new Icon(Icons.search , size: 30),
+       title: new Text('ค้นหา')
        ),
         BottomNavigationBarItem(
        icon: new Icon(Icons.map, size: 30),

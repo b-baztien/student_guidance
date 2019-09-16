@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/model/Login.dart';
 
-final CollectionReference loginCollection = Firestore.instance.collection('Login');
-class LoginService {
- final databaseReference = Firestore.instance;
-  static final LoginService _instance = new LoginService.internal();
-  factory LoginService() => _instance;
-  LoginService.internal();
 
- Future<Login> getLogin(Login login) async {
-   Login logins = new Login();
-  loginCollection.document(login.username).get().then((DocumentSnapshot ds){
-    if(ds.data.isNotEmpty){
-      logins.username = ds['username'];
-      logins.password = ds['password'];
-      logins.type = ds['type'];
-      
+CollectionReference ref = Firestore.instance.collection("Login");
+
+class LoginService {
+     Future<Login> login(Login user_login) async {
+    try {
+      DocumentReference refQuery = await ref.document(user_login.username);
+
+      Login login = await refQuery.get().then((doc) async {
+        return Login.fromJson(doc.data);
+      });
+
+      if (user_login.password == login.password) {
+        return await login;
+      } else {
+        throw ("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้งภายหลัง");
+      }
+    } catch (e) {
+      rethrow;
     }
-      
-  });
-   
-   return logins;
- }
+  }
 }

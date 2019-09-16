@@ -3,6 +3,7 @@ import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:student_guidance/widgets/Dialogs.dart';
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -13,7 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   String _username,_password; 
- 
+  Dialogs dialogs = new Dialogs();
 
   loginHeader() => Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,11 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 color: Colors.blue,
-                onPressed: () async {
-                  
-                   Navigator.pushReplacementNamed(context, UIdata.homeTag);
-
-                },
+                onPressed: signIn,
               ),
             ),
             SizedBox(
@@ -124,16 +121,31 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+    
       body: Center(child: loginBody()),
     );
 
     
   }
 Future<void> signIn() async {
+  
   final formState = _globalKey.currentState;
-  final Login login = new Login();
-  login.username = _username;
-  login.password = _password;
+  if(formState.validate()){
+    formState.save();
+    try{
+        Login login = Login();
+      login.username = _username;
+      login.password = _password;
+      login = await LoginService().login(login);
+       dialogs.waiting(context, 'Login.....','login success');
+      await Future.delayed(Duration(seconds: 2));
+      await Navigator.pushReplacementNamed(context, UIdata.homeTag);
+    }catch(e){
+      dialogs.waiting(context, 'Login.....', e.toString());
+      await Future.delayed(Duration(seconds: 2));
+       Navigator.pop(context);
+    }
+  }
   
 } 
   
