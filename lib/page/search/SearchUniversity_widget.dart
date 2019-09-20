@@ -4,21 +4,24 @@ import 'package:student_guidance/service/UniversityService.dart';
 
 import 'ItemsUniversity.dart';
 class SearchUniversityWidget extends StatefulWidget {
+  
   @override
   _SearchUniversityWidgetState createState() => _SearchUniversityWidgetState();
 }
- List<String> university = UniversityService().getListUniversity();
+ 
 
-class _SearchUniversityWidgetState extends State<SearchUniversityWidget> {
+class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with SingleTickerProviderStateMixin {
  var items = List<String>();
+ List<String> university =  UniversityService().getListUniversity() ;
+ 
  final TextEditingController _controller = new TextEditingController();
+ 
   @override
   void initState(){
-    items.addAll(university);
+  items.addAll(university);
     super.initState();
-
   }
-
+ 
   @override
   Widget build(BuildContext context) {
   
@@ -51,10 +54,8 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> {
                       suffixIcon: IconButton(
                         icon: Icon(Icons.clear),
                         onPressed: (){
-                          this.setState((){
                              _controller.clear();
-                            items.addAll(university);
-                          });
+                             SearchResult('');
                         },
                       )
                       
@@ -80,24 +81,40 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> {
                   color: Colors.grey[300]
                 ),
                 
-                  child: Text('พบทั้งหมด '+ items.length.toString()+' มหาวิทยาลัย',style: TextStyle(color: Colors.indigo,fontFamily: 'kanit'),),
+                  child: items.length == 0 ?
+                  Text('พบทั้งหมด '+ university.length.toString()+' มหาวิทยาลัย',style: TextStyle(color: Colors.indigo,fontFamily: 'kanit'),)
+                  :
+                  Text('พบทั้งหมด '+ items.length.toString()+' มหาวิทยาลัย',style: TextStyle(color: Colors.indigo,fontFamily: 'kanit'),),
                 
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context,index){
-                  return ItemsUniversity(universitys : items[index]);
-                },
-              ),
-            )
+            
+            _buildExpended()
+          
           
            
       ],
       ),
 
     );
+  }
+  Widget _buildExpended(){
+    
+      return Expanded(
+              child: items.length ==0 ? ListView.builder(
+                itemCount: university.length,
+                itemBuilder: (context,index){
+                  return ItemsUniversity(universitys : university[index]);
+                },
+              ):
+              ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context,index){
+                  return ItemsUniversity(universitys : items[index]);
+                },
+              ),
+            );
+  
   }
 
 void SearchResult(String query){

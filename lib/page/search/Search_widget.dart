@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'SearchFaculty_widget.dart';
+import 'SearchMajor_widget.dart';
 import 'SearchUniversity_widget.dart';
 
-class SearchWidget extends StatefulWidget {
-  @override
-  _SearchWidgetState createState() => _SearchWidgetState();
-}
-
-class _SearchWidgetState extends State<SearchWidget> {
+class SearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -73,8 +70,8 @@ class _SearchWidgetState extends State<SearchWidget> {
         body: TabBarView(
           children: <Widget>[
             SearchUniversityWidget(),
-            SearchUniversityWidget(),
-            SearchUniversityWidget(),
+            SearchFaculty(),
+            SearchMajor(),
            
           ],
         ),
