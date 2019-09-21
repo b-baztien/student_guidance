@@ -34,8 +34,8 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                decoration: BoxDecoration(
                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50)),
                  image: DecorationImage(
-                                        image:new NetworkImage('https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/373659.jpg?alt=media&token=fa1b7cdd-57f0-4eb8-ad1c-1fdb25809255'),
-                                        fit: BoxFit.cover)
+                   image:new NetworkImage('https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/373659.jpg?alt=media&token=fa1b7cdd-57f0-4eb8-ad1c-1fdb25809255'),
+                    fit: BoxFit.cover)
                ),
              ),
                

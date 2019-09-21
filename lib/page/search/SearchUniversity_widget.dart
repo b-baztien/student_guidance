@@ -1,25 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 
 import 'ItemsUniversity.dart';
 class SearchUniversityWidget extends StatefulWidget {
-  
+  SearchUniversityWidget() : super();
   @override
   _SearchUniversityWidgetState createState() => _SearchUniversityWidgetState();
 }
  
 
 class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with SingleTickerProviderStateMixin {
- var items = List<String>();
- List<String> university =  UniversityService().getListUniversity() ;
- 
+ List<University> items = List<University>();
+   
+ List<University> university;
  final TextEditingController _controller = new TextEditingController();
- 
   @override
   void initState(){
-  items.addAll(university);
-    super.initState();
+     super.initState();
+   UniversityService().getUniversity().then((universityFomService){
+    setState(() {
+      university = universityFomService;
+      items = university;
+       
+    });
+  });
+   
   }
  
   @override
@@ -42,7 +49,12 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                    borderRadius: BorderRadius.circular(10.0),
                    child: TextField(
                     onChanged: (value){
-                      SearchResult(value);
+                     setState(() {
+                      items = university.where((u)=>
+                      (u.universityname.toLowerCase().contains(value.toLowerCase()) 
+                      
+                      )).toList() ;
+                     });
                       
                     },
                     controller: _controller,
@@ -54,8 +66,10 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                       suffixIcon: IconButton(
                         icon: Icon(Icons.clear),
                         onPressed: (){
-                             _controller.clear();
-                             SearchResult('');
+                          setState(() {
+                              _controller.clear();
+                           items = university; 
+                          });
                         },
                       )
                       
@@ -81,9 +95,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                   color: Colors.grey[300]
                 ),
                 
-                  child: items.length == 0 ?
-                  Text('พบทั้งหมด '+ university.length.toString()+' มหาวิทยาลัย',style: TextStyle(color: Colors.indigo,fontFamily: 'kanit'),)
-                  :
+                  child: 
                   Text('พบทั้งหมด '+ items.length.toString()+' มหาวิทยาลัย',style: TextStyle(color: Colors.indigo,fontFamily: 'kanit'),),
                 
               ),
@@ -99,47 +111,66 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
     );
   }
   Widget _buildExpended(){
-    
       return Expanded(
-              child: items.length ==0 ? ListView.builder(
-                itemCount: university.length,
-                itemBuilder: (context,index){
-                  return ItemsUniversity(universitys : university[index]);
-                },
-              ):
-              ListView.builder(
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
                 itemCount: items.length,
                 itemBuilder: (context,index){
-                  return ItemsUniversity(universitys : items[index]);
+                  return Padding(
+                    padding: EdgeInsets.all(5),
+                   child: Stack(children: <Widget>[
+                     Container(
+                       alignment: Alignment.center,
+                     margin: const EdgeInsets.only(left: 46),
+                      height: 124,
+                      width: 350,
+                    decoration: BoxDecoration(
+                       gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                  stops: [0.1, 0.5, 0.7, 0.9],
+          colors: [
+            Colors.indigo[800],
+            Colors.indigo[700],
+            Colors.indigo[600],
+            Colors.indigo[400],
+          ],
+        ),
+                      shape: BoxShape.rectangle,
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: <BoxShadow>[
+                        new BoxShadow(
+                          color: Colors.black12,
+                          offset: new Offset(0.0, 10.0),
+                          blurRadius: 10
+                        )
+                      ]
+                    ),
+                    child: Column(children: <Widget>[
+                      Text(items[index].universityname,style: TextStyle(fontFamily: 'kanit',fontSize: 20,color: Colors.white),),
+                     
+                     
+                    ],),
+                    
+                   ),
+                   Container(
+                     margin: EdgeInsets.symmetric(vertical: 16),
+                     alignment: FractionalOffset.centerLeft,
+                     child: Image(
+                       image: NetworkImage(items[index].image),
+                       height: 92,
+                     ),
+                   )
+                   ],
+                   )
+                  );
                 },
-              ),
-            );
-  
+  )
+      );
   }
 
-void SearchResult(String query){
-  List<String> _SearchList = List<String>();
-  _SearchList.addAll(university);
-  if(query.isNotEmpty){
-    List<String> _SearchData = List<String>();
-    _SearchList.forEach((item){
-      if(item.contains(query)){
-        _SearchData.add(item);
-      }
-    });
-    setState(() {
-     items.clear();
-     items.addAll(_SearchData);
-    });
-    return;
 
-  }else{
-    setState(() {
-      items.clear();
-     items.addAll(university);
-    });
-  }
-}
 
 }
 

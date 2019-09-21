@@ -16,25 +16,18 @@ class University{
   );
   factory University.fromJson(Map<String, dynamic> json) {
     return University(
-      universityname: json['university_name'],
-      address: json['address'],
-      url: json['url'],
-      phoneNO: json['phone_no'],
-      universitydetail: json['university_detail'],
-      zone: json['zone'],
-        view: json['view'],
-         image: json['image'],
+      universityname: json['university_name'] as String,
+      address: json['address'] as String,
+      url: json['url'] as String,
+      phoneNO: json['phone_no'] as String,
+      universitydetail: json['university_detail'] as String,
+      zone: json['zone'] as String,
+      view: json['view'] as int,
+      image: json['image'] as String,
      
     );
   }
 
-  Map toMap() {
-    var map = Map<String, dynamic>();
-    map['university_name'] = universityname;
-    map['password'] = address;
-    map['type'] = url;
- 
-    return map;
-  }
+  
 }
 
