@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 class University{
   String universityname;
@@ -8,10 +9,11 @@ class University{
   String zone;
   int view;
   String image;
-  
+  dynamic faculty;
   University(
     {
       this.universityname,this.address,this.phoneNO,this.universitydetail,this.url,this.view,this.zone,this.image
+      ,this.faculty
     }
   );
   factory University.fromJson(Map<String, dynamic> json) {
@@ -24,7 +26,7 @@ class University{
       zone: json['zone'] as String,
       view: json['view'] as int,
       image: json['image'] as String,
-     
+      faculty: json['faculty'] as  dynamic,
     );
   }
 

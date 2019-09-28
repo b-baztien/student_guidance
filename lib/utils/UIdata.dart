@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/News/view_news.dart';
 import 'package:student_guidance/page/Views/mapTest.dart';
-import 'package:student_guidance/page/Views/view-education-detail.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/home.dart';
@@ -20,7 +19,6 @@ class UIdata {
     Dashboard.tag: (context) => Dashboard(),
     ViewTeacher.tag: (context) => ViewTeacher(),
     EditProfile.tag: (context) => EditProfile(),
-   ViewEducation.tag : (context) => ViewEducation(),
   };
 
   static String loginPageTag = LoginPage.tag;
@@ -28,7 +26,6 @@ class UIdata {
   static String dashboardTag = Dashboard.tag;
   static String viewTeacherTag = ViewTeacher.tag;
   static String editProfileTag = EditProfile.tag;
-  static String viewEducation = ViewEducation.tag;
   static String googleMap = GoogleMapTest.tag;
 
   static String fontFamily = 'Kanit';

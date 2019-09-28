@@ -23,7 +23,6 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
     setState(() {
       university = universityFomService;
       items = university;
-       
     });
   });
    
@@ -97,7 +96,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                 
                   child: 
                   Text('พบทั้งหมด '+ items.length.toString()+' มหาวิทยาลัย',style: TextStyle(color: Colors.indigo,fontFamily: 'kanit'),),
-                
+                  
               ),
             ),
             
@@ -111,31 +110,36 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
     );
   }
   Widget _buildExpended(){
-      return Expanded(
+      return  Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.all(10),
                 itemCount: items.length,
                 itemBuilder: (context,index){
                   return Padding(
                     padding: EdgeInsets.all(5),
-                   child: Stack(children: <Widget>[
+                    
+                   child: InkWell(
+                     onTap: (){
+                       Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ItemUniversity(universitys:items[index])));
+                       print(items[index].universityname);
+                     },
+                     child: Stack(
+                     children: <Widget>[
                      Container(
                        alignment: Alignment.center,
                      margin: const EdgeInsets.only(left: 46),
                       height: 124,
                       width: 350,
                     decoration: BoxDecoration(
-                       gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                  stops: [0.1, 0.5, 0.7, 0.9],
-          colors: [
-            Colors.indigo[800],
-            Colors.indigo[700],
-            Colors.indigo[600],
-            Colors.indigo[400],
-          ],
-        ),
+                    border: Border.all(
+                      
+                      color: Colors.blue[500], //                   <--- border color
+                       width: 3.0,
+                    ),
+
                       shape: BoxShape.rectangle,
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -148,21 +152,34 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                       ]
                     ),
                     child: Column(children: <Widget>[
-                      Text(items[index].universityname,style: TextStyle(fontFamily: 'kanit',fontSize: 20,color: Colors.white),),
-                     
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(left: 50),
+                            child:  Text(items[index].universityname,style: TextStyle(fontFamily: 'kanit',fontSize: 20,color: Colors.blue[500]),),
+                          ),
+                          
+                        ],
+                      )
+                      
                      
                     ],),
                     
                    ),
-                   Container(
+                   Hero(
+                    tag: items[index].image,
+                    child: Container(
                      margin: EdgeInsets.symmetric(vertical: 16),
                      alignment: FractionalOffset.centerLeft,
                      child: Image(
                        image: NetworkImage(items[index].image),
                        height: 92,
                      ),
+                   ),
                    )
+                   
                    ],
+                   ),
                    )
                   );
                 },

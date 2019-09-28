@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart' as prefix0;
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Views/mapTest.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
+import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/BodyNews.dart';
 import 'package:student_guidance/page/search/Search_widget.dart';
@@ -27,8 +28,7 @@ class _HomeState extends State<Home> {
   final _pageOptions = [
    BodyNews(),
    SearchWidget(),
-    
-    GoogleMapTest(),
+    AddEducation(),
     Dashboard(),
     EditProfile(),
   ];
@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
        ),
         BottomNavigationBarItem(
        icon: new Icon(Icons.map, size: 30),
-       title: new Text('Map')
+       title: new Text('Education')
        ),
         BottomNavigationBarItem(
        icon: new    Icon(Icons.dashboard, size: 30),

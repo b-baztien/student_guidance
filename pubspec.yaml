@@ -24,6 +24,7 @@ dependencies:
   cloud_firestore: ^0.11.0+2
   shared_preferences: ^0.5.3+4
   google_maps_flutter: any
+  material_design_icons_flutter: any
   curved_navigation_bar: ^0.3.1
   location: any
   url_launcher: any

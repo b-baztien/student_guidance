@@ -1,14 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Login {
   String username;
   String password;
   String type;
-
-  Login({this.username, this.password, this.type});
+  DocumentReference student;
+  Login({this.username, this.password, this.type,this.student});
  factory Login.fromJson(Map<String, dynamic> json) {
     return Login(
       username: json['username'],
       password: json['password'],
       type: json['type'],
+      student: json['student']
     );
   }
 
@@ -17,6 +20,7 @@ class Login {
     map['username'] = username;
     map['password'] = password;
     map['type'] = type;
+     map['student'] = student;
  
     return map;
   }

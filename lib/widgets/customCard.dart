@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/News.dart';
+import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/page/News/view_news.dart';
 
 
 class CustomCard extends StatelessWidget {
-  CustomCard({@required this.news});
-
+ 
+  final Teacher teachers;
   final News news;
+  const CustomCard({Key key, this.teachers, this.news}) : super(key: key);
   
 
   @override
@@ -19,7 +21,7 @@ class CustomCard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ViewNewsPage(
-                                  news: news)));
+                                  news: news,teacher:teachers)));
          },
          child: Container(
            width: 200,
@@ -57,7 +59,7 @@ class CustomCard extends StatelessWidget {
                                 width: 200.0,
                                 decoration: BoxDecoration(
                                     image: DecorationImage(
-                                        image:new NetworkImage('https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/373659.jpg?alt=media&token=fa1b7cdd-57f0-4eb8-ad1c-1fdb25809255'),
+                                        image:new NetworkImage(news.image),
                                         fit: BoxFit.cover),
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(10.0),

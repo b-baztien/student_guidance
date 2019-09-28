@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/News.dart';
+import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/model/University.dart';
-import 'package:student_guidance/page/Views/view-education-detail.dart';
 import 'package:student_guidance/service/NewsService.dart';
+import 'package:student_guidance/service/TeacherService.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/widgets/customCard.dart';
 
@@ -70,7 +71,7 @@ class BodyNews extends StatelessWidget {
                 height: 275.0,
                 width: MediaQuery.of(context).size.width,
                 child: FutureBuilder(
-                future: newsService.getNews(),
+                future: newsService.getNewsList(),
             builder: (_,snapshot) {
                 if (snapshot.hasError)
                   return new Text('Error: ${snapshot.error}');
@@ -81,12 +82,22 @@ class BodyNews extends StatelessWidget {
                     return new ListView.builder(
                       itemCount: snapshot.data.length,
                       
-                      itemBuilder: (_, index){
+                      itemBuilder: (_, index) {
                        News newsFirebase = new  News();
-                          newsFirebase.topic = snapshot.data[index].data["topic"];
-                          newsFirebase.detail = snapshot.data[index].data["detail"];
+                          newsFirebase.topic = snapshot.data[index].topic;
+                          newsFirebase.detail = snapshot.data[index].detail;
+                          newsFirebase.image = snapshot.data[index].image;
+                          newsFirebase.teacher = snapshot.data[index].teacher;
+                          DocumentReference test = snapshot.data[index].teacher;
+                          Future<Teacher> teacher =  TeacherService().getTeacher(test);
+                          Teacher teacherPostnews = new Teacher();
+                          teacher.then((data){
+                            teacherPostnews.firstname = data.firstname;
+                            teacherPostnews.lastname = data.lastname;
+
+                          });
                          return new CustomCard(
-                            news:newsFirebase,
+                            news:newsFirebase,teachers:teacherPostnews
                           );
                       },
                       scrollDirection: Axis.horizontal,

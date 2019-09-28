@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 class ViewNewsPage extends StatefulWidget {
   final news;
- ViewNewsPage({this.news});
+  final teacher;
+ ViewNewsPage({this.news, this.teacher});
   
 
   @override
   _ViewNewsPage createState() => _ViewNewsPage();
 }
 class _ViewNewsPage extends State<ViewNewsPage> {
- 
+
   
 
   @override
@@ -34,7 +35,7 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                decoration: BoxDecoration(
                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50)),
                  image: DecorationImage(
-                   image:new NetworkImage('https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/373659.jpg?alt=media&token=fa1b7cdd-57f0-4eb8-ad1c-1fdb25809255'),
+                   image:new NetworkImage(widget.news.image),
                     fit: BoxFit.cover)
                ),
              ),
@@ -77,9 +78,9 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                           ),
                           SizedBox(height: 10.0),
                           Container(
-                            child: Text('โดย .....',
+                            child: Text("โพสโดย ครู"+widget.teacher.firstname+"  "+widget.teacher.lastname,
                             style: TextStyle(
-                                      fontSize: 20.0,
+                                      fontSize: 15.0,
                                       color: Colors.grey
                                     )
                             ),
