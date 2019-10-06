@@ -6,12 +6,15 @@ class Login {
   String type;
   DocumentReference student;
   Login({this.username, this.password, this.type,this.student});
+
+  
+
  factory Login.fromJson(Map<String, dynamic> json) {
     return Login(
       username: json['username'],
       password: json['password'],
       type: json['type'],
-      student: json['student']
+
     );
   }
 
@@ -20,11 +23,13 @@ class Login {
     map['username'] = username;
     map['password'] = password;
     map['type'] = type;
-     map['student'] = student;
- 
+  
     return map;
   }
-  
-
-  
+   Map<String, dynamic> toJson() => {
+        'username': username,
+        'password': password,
+        'type': type,
+      };
+ 
 }

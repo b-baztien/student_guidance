@@ -7,26 +7,20 @@ class FacultyService{
       Faculty faculty = await refQuery.get().then((doc) async {
         return Faculty.fromJson(doc.data);
       });
-      return faculty;
+      return await faculty;
     } catch (e) {
       rethrow;
     }
   }
 
-  
-   Future<List<Faculty>> getFacultyList(List<DocumentReference> templist ) async {
+   Future<List<Faculty>> getUniversity( List<DocumentSnapshot> templist) async {
     List<Faculty> list = new List();
-    for(var i =0;i<templist.length;i++){
-      try{
-         DocumentReference refQuery = templist[i];
-          Faculty faculty = await refQuery.get().then((doc) async {
-        return Faculty.fromJson(doc.data);
-      });
-      list.add(faculty);
-      }catch(e){
-        rethrow;
-      }
-    }
+    CollectionReference collectionReference = Firestore.instance.collection('University');
+    QuerySnapshot collecttionSnapshot = await collectionReference.getDocuments();
+    templist = collecttionSnapshot.documents;
+    list = templist.map((DocumentSnapshot doc){
+      return Faculty.fromJson(doc.data);
+    }).toList();
     return list;
    }
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/UniversityService.dart';
+import 'package:student_guidance/service/getImageService.dart';
 
 import 'ItemsUniversity.dart';
 class SearchUniversityWidget extends StatefulWidget {
@@ -13,7 +14,7 @@ class SearchUniversityWidget extends StatefulWidget {
 
 class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with SingleTickerProviderStateMixin {
  List<University> items = List<University>();
-   
+   List<University> ulist = List<University>();
  List<University> university;
  final TextEditingController _controller = new TextEditingController();
   @override
@@ -24,10 +25,13 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
       university = universityFomService;
       items = university;
     });
-  });
-   
+  }); 
+
   }
  
+ 
+
+
   @override
   Widget build(BuildContext context) {
   
@@ -120,6 +124,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                     
                    child: InkWell(
                      onTap: (){
+                       UniversityService().updateView(items[index].universityname,items[index].view);
                        Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -172,6 +177,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                      margin: EdgeInsets.symmetric(vertical: 16),
                      alignment: FractionalOffset.centerLeft,
                      child: Image(
+                       
                        image: NetworkImage(items[index].image),
                        height: 92,
                      ),

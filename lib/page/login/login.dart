@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -137,9 +138,11 @@ Future<void> signIn() async {
       login.username = _username;
       login.password = _password;
       login = await LoginService().login(login);
+       
        dialogs.waiting(context, 'Login.....','login success');
       await Future.delayed(Duration(seconds: 2));
-      await Navigator.pushReplacementNamed(context, UIdata.homeTag);
+      await  Navigator.pushNamedAndRemoveUntil(
+          context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
     }catch(e){
       dialogs.waiting(context, 'Login.....', e.toString());
       await Future.delayed(Duration(seconds: 2));

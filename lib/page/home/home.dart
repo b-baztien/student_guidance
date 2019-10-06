@@ -3,9 +3,9 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/widgets.dart' as prefix0;
-import 'package:student_guidance/page/Edit/EditProfile.dart';
-import 'package:student_guidance/page/Views/mapTest.dart';
-import 'package:student_guidance/page/Views/view-profile-teacher.dart';
+import 'package:student_guidance/SharedPreferences/SharedPref.dart';
+import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/page/Views/view-profile-student.dart';
 import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/BodyNews.dart';
@@ -22,21 +22,19 @@ var widgetAspectRatio = cardAspectRatio * 1.2;
 
 class _HomeState extends State<Home> {
   final _formKey = GlobalKey<FormState>();
-  List<String> _locations = ['แม่โจ้', 'เชียงใหม่', 'พะเยา', 'กรุงเทพ'];
-  String _selectedLocation = 'เลือก มหาวิทยาลัย';
   int _selectedPage = 0;
   final _pageOptions = [
    BodyNews(),
    SearchWidget(),
     AddEducation(),
     Dashboard(),
-    EditProfile(),
+    ViewProfile(),
   ];
   
   
   Icon actionIcon = new Icon(Icons.search);
   Icon menuIcon = new Icon(Icons.menu);
- 
+  
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +75,7 @@ class _HomeState extends State<Home> {
        ),
         BottomNavigationBarItem(
        icon: new  Icon(Icons.person, size: 30),
-       title: new Text('Profile')
+       title: new Text('Profiles')
        )
     ],
     onTap: (int index){

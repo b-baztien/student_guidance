@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/service/GetImageService.dart';
 CollectionReference ref = Firestore.instance.collection("University");
 class UniversityService{
 
@@ -15,7 +15,22 @@ class UniversityService{
     list = templist.map((DocumentSnapshot doc){
       return University.fromJson(doc.data);
     }).toList();
+    for(int i=0;i<list.length;i++){
+      String img = '';
+    String sss = await GetImageService().getImage(list[i].image).then((url) async{
+         return url;
+      });
+      list[i].image = sss;
+       print(sss);
+      print(list.length);
+     
+    }
     return list;
+   }
+
+   updateView(String name,int view) async{
+      await Firestore.instance.collection('University').document(name).updateData({'view':view+1});
+     
    }
   
 

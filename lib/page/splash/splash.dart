@@ -3,6 +3,7 @@ import 'package:splashscreen/splashscreen.dart';
 import 'package:student_guidance/page/login/login.dart';
 
 class SplashPage extends StatefulWidget {
+   static String tag = 'splash-page';
   @override
   _SplashPageState createState() => _SplashPageState();
 }

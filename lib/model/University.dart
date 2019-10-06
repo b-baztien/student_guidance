@@ -9,7 +9,7 @@ class University{
   String zone;
   int view;
   String image;
-  dynamic faculty;
+  List<dynamic> faculty;
   University(
     {
       this.universityname,this.address,this.phoneNO,this.universitydetail,this.url,this.view,this.zone,this.image
@@ -17,6 +17,7 @@ class University{
     }
   );
   factory University.fromJson(Map<String, dynamic> json) {
+    
     return University(
       universityname: json['university_name'] as String,
       address: json['address'] as String,
@@ -26,7 +27,7 @@ class University{
       zone: json['zone'] as String,
       view: json['view'] as int,
       image: json['image'] as String,
-      faculty: json['faculty'] as  dynamic,
+      faculty: json['faculty'] as List<dynamic>,
     );
   }
 

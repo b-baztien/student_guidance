@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/News/view_news.dart';
-import 'package:student_guidance/page/Views/mapTest.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/page/login/login.dart';
+import 'package:student_guidance/page/splash/splash.dart';
 
 class UIdata {
   static Icon backIcon = new Icon(Icons.arrow_back_ios);
@@ -14,7 +14,7 @@ class UIdata {
 
   static Map<String, WidgetBuilder> routes = {
     LoginPage.tag: (context) => LoginPage(),
-    GoogleMapTest.tag :(context) => GoogleMapTest(),
+    SplashPage.tag:(context) => SplashPage(),
     Home.tag: (context) => Home(),
     Dashboard.tag: (context) => Dashboard(),
     ViewTeacher.tag: (context) => ViewTeacher(),
@@ -23,10 +23,10 @@ class UIdata {
 
   static String loginPageTag = LoginPage.tag;
   static String homeTag = Home.tag;
+  static String splashPage = SplashPage.tag;
   static String dashboardTag = Dashboard.tag;
   static String viewTeacherTag = ViewTeacher.tag;
   static String editProfileTag = EditProfile.tag;
-  static String googleMap = GoogleMapTest.tag;
 
   static String fontFamily = 'Kanit';
 }

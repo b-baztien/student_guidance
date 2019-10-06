@@ -10,7 +10,7 @@ class AddEducation extends StatefulWidget {
 }
 class Round {
   int id;
-  String name;
+  String name = '';
   Round(this.id,this.name);
   static List<Round> getRound(){
     return <Round>[
@@ -140,6 +140,7 @@ onChangeDropdownItem(Round selectRound){
                    List<DropdownMenuItem> currencyItem = [];
                    for(int i=0;i<snapshot.data.documents.length;i++){
                      DocumentSnapshot doc = snapshot.data.documents[i];
+
                      currencyItem.add(
                        DropdownMenuItem(
                          child: Text(doc.documentID),

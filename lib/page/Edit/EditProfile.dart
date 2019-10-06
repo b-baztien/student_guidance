@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class EditProfile extends StatelessWidget {
+  
   static String tag = 'edit-profile';
 
   @override

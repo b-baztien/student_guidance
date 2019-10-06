@@ -16,9 +16,10 @@ class Student {
   String phone;
   String status;
   String plan;
+  DocumentReference login;
   Student({this.studentID,this.firstname,this.lastname,this.email
   ,this.entryyear,this.gender,this.image,this.school,
-  this.juniorSchool,this.phone,this.plan,this.status,this.entranceExamResult,this.favoriteCarrer,this.favoriteUniversity});
+  this.juniorSchool,this.phone,this.plan,this.status,this.entranceExamResult,this.favoriteCarrer,this.favoriteUniversity,this.login});
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
@@ -37,8 +38,12 @@ class Student {
       entranceExamResult: json['entrance_exam_result'] as List<DocumentReference>,
       favoriteCarrer: json['favorite_carrer'] as List<DocumentReference>,
       favoriteUniversity: json['favorite_university'] as List<DocumentReference>,
+      login: json['login'] as DocumentReference,
+
     );
   }
+
+  
 
 
 
