@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/SharedPreferences/SharedPref.dart';
@@ -10,7 +12,7 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-  String _username = "";
+  
    @override
   void initState() {
     super.initState();
@@ -19,9 +21,7 @@ class _LandingState extends State<Landing> {
 
    _loadUserInfo() async {
      SharedPreferences prefs = await SharedPreferences.getInstance();
-    _username = (prefs.getString('username') ?? "");
-  
-    if (_username == "") {
+    if (prefs.get('login') == null) {
       Navigator.pushNamedAndRemoveUntil(
           context, UIdata.splashPage, ModalRoute.withName(UIdata.splashPage));
     } else {
