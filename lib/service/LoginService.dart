@@ -15,9 +15,10 @@ class LoginService {
       Login login = await refQuery.get().then((doc) async {
         return Login.fromJson(doc.data);
       });
+      
       if (login.type == 'student') {
         if (user_login.password == login.password) {
-          prefs.setString('login', jsonEncode(user_login.toMap()));
+          prefs.setString('login', jsonEncode(login.toMap()));
           return await login;
         } else {}
       } else {
@@ -27,4 +28,9 @@ class LoginService {
       rethrow;
     }
   }
+   remove(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove(key);
+  }
+
 }

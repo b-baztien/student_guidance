@@ -28,7 +28,7 @@ class Student {
       email: json['email'] as String,
       gender: json['gender'] as String,
       entryyear: json['entry_year'] as String,
-      school: json['email'] as DocumentReference,
+      school: json['school'] as DocumentReference,
       image: json['image'] as String,
       juniorSchool: json['junior_school'] as String,
       phone: json['phone_no'] as String,

@@ -136,9 +136,6 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
     try {
       if (prefs.get('login') != null) {
-        Map<String, dynamic> jsonLogin = jsonDecode(prefs.get('login'));
-        Login login = Login.fromJson(jsonLogin);
-        await LoginService().login(login);
         await Navigator.pushNamedAndRemoveUntil(
             context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
       }

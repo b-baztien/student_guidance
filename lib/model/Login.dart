@@ -4,8 +4,8 @@ class Login {
   String username;
   String password;
   String type;
-  DocumentReference student;
-  Login({this.username, this.password, this.type,this.student});
+ 
+  Login({this.username, this.password, this.type});
 
   
 
@@ -14,6 +14,7 @@ class Login {
       username: json['username'],
       password: json['password'],
       type: json['type'],
+    
 
     );
   }
@@ -23,6 +24,7 @@ class Login {
     map['username'] = username;
     map['password'] = password;
     map['type'] = type;
+ 
   
     return map;
   }

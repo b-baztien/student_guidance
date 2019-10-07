@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
-import 'package:student_guidance/service/UniversityService.dart';
-import 'package:student_guidance/utils/UIdata.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ItemUniversity extends StatefulWidget {
   final University universitys;

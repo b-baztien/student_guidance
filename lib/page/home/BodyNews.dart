@@ -1,17 +1,48 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
+import 'package:student_guidance/model/School.dart';
+import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
-import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/service/LoginService.dart';
+
 import 'package:student_guidance/service/NewsService.dart';
+import 'package:student_guidance/service/SchoolService.dart';
+import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/service/TeacherService.dart';
-import 'package:student_guidance/service/UniversityService.dart';
+
 import 'package:student_guidance/widgets/customCard.dart';
 
-class BodyNews extends StatelessWidget {
+class BodyNews extends StatefulWidget {
+  @override
+  _BodyNewsState createState() => _BodyNewsState();
+}
+
+class _BodyNewsState extends State<BodyNews> {
   NewsService newsService = new NewsService();
- 
+  Student student = new Student();
+  Login login;
+  School school = new School();
+  @override
+  void initState() {
+    super.initState();
+    StudentService().getStudent().then((studentFromService) {
+      SchoolService()
+          .getSchool(studentFromService.school)
+          .then((schoolFromService) {
+        setState(() {
+          school = schoolFromService;
+          
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget header() {
@@ -22,13 +53,21 @@ class BodyNews extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              SizedBox(height: 60.0),
+              SizedBox(height: 40.0),
               Text(
                 'Student Guidance',
                 style: TextStyle(
                     color: Colors.orange[200],
                     fontFamily: 'Kanit',
                     fontSize: 25.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                school.schoolName,
+                style: TextStyle(
+                    color: Colors.orange[200],
+                    fontFamily: 'Kanit',
+                    fontSize: 18.0,
                     fontWeight: FontWeight.bold),
               ),
             ],
@@ -90,11 +129,10 @@ class BodyNews extends StatelessWidget {
                             News newsFirebase = new News();
                             newsFirebase.topic = snapshot.data[index].topic;
                             newsFirebase.detail = snapshot.data[index].detail;
-                             newsFirebase.image = snapshot.data[index].image;
-                           
-                           
+                            newsFirebase.image = snapshot.data[index].image;
+
                             newsFirebase.teacher = snapshot.data[index].teacher;
-                           
+
                             DocumentReference test =
                                 snapshot.data[index].teacher;
                             Future<Teacher> teacher =
