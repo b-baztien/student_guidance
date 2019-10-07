@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
-import 'package:student_guidance/service/LoginService.dart';
 
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/service/SchoolService.dart';
@@ -28,6 +25,7 @@ class _BodyNewsState extends State<BodyNews> {
   Student student = new Student();
   Login login;
   School school = new School();
+  String shcool_name = '';
   @override
   void initState() {
     super.initState();
@@ -36,8 +34,7 @@ class _BodyNewsState extends State<BodyNews> {
           .getSchool(studentFromService.school)
           .then((schoolFromService) {
         setState(() {
-          school = schoolFromService;
-          
+          shcool_name = schoolFromService.schoolName;
         });
       });
     });
@@ -63,7 +60,7 @@ class _BodyNewsState extends State<BodyNews> {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                school.schoolName,
+               shcool_name,
                 style: TextStyle(
                     color: Colors.orange[200],
                     fontFamily: 'Kanit',
