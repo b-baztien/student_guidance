@@ -132,13 +132,13 @@ onChangeDropdownItem(Round selectRound){
            ),
              SizedBox(height: 10,),
                StreamBuilder<QuerySnapshot>(stream: Firestore.instance.collection('University').snapshots(),
-               builder: (context,snapshot){
+               builder: (context,snapshot) {
                  if(!snapshot.hasData){
-                  const Text("Loading.....");
+                  return Text("Loading.....");
                  }
                  else{
                    List<DropdownMenuItem> currencyItem = [];
-                   for(int i=0;i<snapshot.data.documents.length;i++){
+                   for(int i=0;i< snapshot.data.documents.length;i++){
                      DocumentSnapshot doc = snapshot.data.documents[i];
 
                      currencyItem.add(
