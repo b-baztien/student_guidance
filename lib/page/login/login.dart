@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/widgets/Dialogs.dart';
+
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
 
@@ -14,7 +19,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  String _username,_password; 
+  String _username, _password;
   Dialogs dialogs = new Dialogs();
 
   loginHeader() => Column(
@@ -42,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       );
 
   loginFields() => Form(
-      key: _globalKey,
+        key: _globalKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.min,
@@ -51,12 +56,12 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
               child: TextFormField(
                 maxLines: 1,
-               validator: (input){
-                 if(input.isEmpty){
-                   return 'Please try an Username';
-                 }
-               },
-               onSaved: (input) => _username = input,
+                validator: (input) {
+                  if (input.isEmpty) {
+                    return 'Please try an Username';
+                  }
+                },
+                onSaved: (input) => _username = input,
                 decoration: InputDecoration(
                   hintText: 'กรุณากรอกชื่อผู้ใช้',
                   labelText: 'ชื่อผู้ใช้',
@@ -68,12 +73,12 @@ class _LoginPageState extends State<LoginPage> {
               child: TextFormField(
                 maxLines: 1,
                 obscureText: true,
-                validator: (input){
-                 if(input.length < 4 ){
-                   return 'Your password needs to be atleast 6 characters ';
-                 }
-               },
-               onSaved: (input) => _password = input,
+                validator: (input) {
+                  if (input.length < 4) {
+                    return 'Your password needs to be atleast 6 characters ';
+                  }
+                },
+                onSaved: (input) => _password = input,
                 decoration: InputDecoration(
                   hintText: 'กรุณากรอกรหัสผ่าน',
                   labelText: 'รหัสผ่าน',
@@ -120,38 +125,47 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    login();
     return Scaffold(
       backgroundColor: Colors.white,
-    
       body: Center(child: loginBody()),
     );
-
-    
   }
-Future<void> signIn() async {
-  
-  final formState = _globalKey.currentState;
-  if(formState.validate()){
-    formState.save();
-    try{
-        Login login = Login();
-      login.username = _username;
-      login.password = _password;
-      login = await LoginService().login(login);
-       
-       dialogs.waiting(context, 'Login.....','login success');
-      await Future.delayed(Duration(seconds: 2));
-      await  Navigator.pushNamedAndRemoveUntil(
-          context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
-    }catch(e){
-      dialogs.waiting(context, 'Login.....', e.toString());
-      await Future.delayed(Duration(seconds: 2));
-       Navigator.pop(context);
+
+  login() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      if (prefs.get('login') != null) {
+        Map<String, dynamic> jsonLogin = jsonDecode(prefs.get('login'));
+        Login login = Login.fromJson(jsonLogin);
+        await LoginService().login(login);
+        await Navigator.pushNamedAndRemoveUntil(
+            context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+      }
+    } catch (error) {
+      throw (error);
     }
   }
-  
-} 
-  
+
+  Future<void> signIn() async {
+    final formState = _globalKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      try {
+        Login login = Login();
+        login.username = _username;
+        login.password = _password;
+        login = await LoginService().login(login);
+
+        dialogs.waiting(context, 'Login.....', 'login success');
+        await Future.delayed(Duration(seconds: 2));
+        await Navigator.pushNamedAndRemoveUntil(
+            context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+      } catch (e) {
+        dialogs.waiting(context, 'Login.....', e.toString());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.pop(context);
+      }
+    }
+  }
 }
-
-
