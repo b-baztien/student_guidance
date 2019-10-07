@@ -124,6 +124,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget> with Si
                     
                    child: InkWell(
                      onTap: (){
+                      
                        UniversityService().updateView(items[index].universityname,items[index].view);
                        Navigator.push(
                           context,

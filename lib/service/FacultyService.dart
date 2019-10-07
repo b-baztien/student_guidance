@@ -23,4 +23,22 @@ class FacultyService{
     }).toList();
     return list;
    }
+
+
+   Future<List<Faculty>> getAllFaculty() async {
+    List<DocumentSnapshot> templist;
+    List<Faculty> list = new List();
+    CollectionReference collectionReference =
+        Firestore.instance.collection('Faculty');
+       
+    QuerySnapshot collecttionSnapshot =
+        await collectionReference.getDocuments();
+         print(collecttionSnapshot);
+    templist = collecttionSnapshot.documents;
+    list = templist.map((DocumentSnapshot doc) {
+      
+      return Faculty.fromJson(doc.data);
+    }).toList();
+    return list;
+  }
 }

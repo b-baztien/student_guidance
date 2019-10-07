@@ -27,13 +27,13 @@ class _BodyNewsState extends State<BodyNews> {
   School school = new School();
   String shcool_name = '';
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-    StudentService().getStudent().then((studentFromService) {
+     StudentService().getStudent().then((studentFromService)  {
       SchoolService()
           .getSchool(studentFromService.school)
-          .then((schoolFromService) {
-        setState(() {
+          .then((schoolFromService)  {
+         setState(() {
           shcool_name = schoolFromService.schoolName;
         });
       });
@@ -124,6 +124,7 @@ class _BodyNewsState extends State<BodyNews> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (_, index) {
                             News newsFirebase = new News();
+                           
                             newsFirebase.topic = snapshot.data[index].topic;
                             newsFirebase.detail = snapshot.data[index].detail;
                             newsFirebase.image = snapshot.data[index].image;
