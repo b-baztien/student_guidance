@@ -41,24 +41,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    EntranService()
-        .getEntranceExamResultAnalyte()
-        .then((entranceExamResultFromService) async {
-      await setState(() async {
-        entranceData = await entranceExamResultFromService;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return test();
-  }
-
-  test() {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
