@@ -23,7 +23,7 @@ class EntranService {
     Map<String, List<EntranceExamResult>> data =
         new Map<String, List<EntranceExamResult>>();
     Set<String> listYear = new Set<String>();
-    await Firestore.instance
+    return await Firestore.instance
         .collection('EntranceExamResult')
         .getDocuments()
         .then((result) async {
@@ -45,7 +45,7 @@ class EntranService {
           data[year] = listExam;
         });
       }
+      return data;
     });
-    return data;
   }
 }

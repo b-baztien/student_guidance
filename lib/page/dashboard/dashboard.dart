@@ -9,26 +9,33 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
-  List<charts.Series<EntranceExamResult, String>> seriesBarData;
-  List<EntranceExamResult> entran;
+class Test {
+  String year;
+  int value;
+}
 
-  _generateData() async {
-    Map<String, List<EntranceExamResult>> entranceData =
-        await EntranService().getEntranceExamResultAnalyte().then((result) {
-      return result;
-    });
-    entran = entranceData['2562'];
-    seriesBarData = List<charts.Series<EntranceExamResult, String>>();
+class _DashboardState extends State<Dashboard> {
+  List<charts.Series<Test, String>> seriesBarData;
+  List<Test> entran;
+  Map<String, List<EntranceExamResult>> entranceData;
+
+  _generateData(myData) {
+    List<Test> listTest = new List<Test>();
+    for (String year in myData.keys.toList()) {
+      Test t = new Test();
+      t.year = year;
+      t.value = myData[year].length;
+      listTest.add(t);
+    }
+    entran = listTest;
+    seriesBarData = List<charts.Series<Test, String>>();
     seriesBarData.add(
       charts.Series(
-        domainFn: (EntranceExamResult examResult, _) =>
-            examResult.entrance_exam_name.toString(),
-        measureFn: (EntranceExamResult examResult, _) =>
-            int.parse(examResult.year),
+        domainFn: (Test test, _) => test.year,
+        measureFn: (Test test, _) => test.value,
         id: 'Sales',
         data: entran,
-        labelAccessorFn: (EntranceExamResult row, _) => row.year,
+        labelAccessorFn: (Test row, _) => "${row.value}",
       ),
     );
   }
@@ -38,36 +45,53 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
 
     EntranService()
-        .getAllEntranceExamResult()
-        .then((entranceExamResultFromService) {
-      setState(() {
-        entran = entranceExamResultFromService;
+        .getEntranceExamResultAnalyte()
+        .then((entranceExamResultFromService) async {
+      await setState(() async {
+        entranceData = await entranceExamResultFromService;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _generateData();
+    return test();
+  }
+
+  test() {
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: Container(
         child: Center(
           child: Column(
             children: <Widget>[
-              Expanded(
-                child: charts.BarChart(
-                  seriesBarData,
-                  behaviors: [
-                    charts.DatumLegend(
-                      entryTextStyle: charts.TextStyleSpec(
-                          color: charts.MaterialPalette.purple.shadeDefault,
-                          fontFamily: 'kanit',
-                          fontSize: 18),
-                    )
-                  ],
-                ),
-              )
+              FutureBuilder(
+                future: EntranService().getEntranceExamResultAnalyte(),
+                builder: (_, snapshot) {
+                  if (snapshot.hasError)
+                    return new Text('Error: ${snapshot.error}');
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return new Text('Loading...');
+                    default:
+                      _generateData(snapshot.data);
+                      return Expanded(
+                        child: charts.BarChart(
+                          seriesBarData,
+                          behaviors: [
+                            charts.DatumLegend(
+                              entryTextStyle: charts.TextStyleSpec(
+                                  color: charts
+                                      .MaterialPalette.purple.shadeDefault,
+                                  fontFamily: 'kanit',
+                                  fontSize: 18),
+                            )
+                          ],
+                        ),
+                      );
+                  }
+                },
+              ),
             ],
           ),
         ),
