@@ -10,54 +10,68 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-   
-  
-   List<charts.Series<EntranceExamResult,String>> seriesBarData;
- List<EntranceExamResult> entran;
+  List<charts.Series<EntranceExamResult, String>> seriesBarData;
+  List<EntranceExamResult> entran;
 
- 
-
-  @override
-  void initState(){
-     super.initState();
-        
-   EntranService().getAllEntranceExamResult().then((entranceExamResultFromService){
-    setState(() {
-      print(entranceExamResultFromService.length.toString());
-
-      entran = entranceExamResultFromService;
+  _generateData() async {
+    Map<String, List<EntranceExamResult>> entranceData =
+        await EntranService().getEntranceExamResultAnalyte().then((result) {
+      return result;
     });
-  }); 
+    entran = entranceData['2562'];
+    seriesBarData = List<charts.Series<EntranceExamResult, String>>();
+    seriesBarData.add(
+      charts.Series(
+        domainFn: (EntranceExamResult examResult, _) =>
+            examResult.entrance_exam_name.toString(),
+        measureFn: (EntranceExamResult examResult, _) =>
+            int.parse(examResult.year),
+        id: 'Sales',
+        data: entran,
+        labelAccessorFn: (EntranceExamResult row, _) => row.year,
+      ),
+    );
   }
 
+  @override
+  void initState() {
+    super.initState();
 
-
+    EntranService()
+        .getAllEntranceExamResult()
+        .then((entranceExamResultFromService) {
+      setState(() {
+        entran = entranceExamResultFromService;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    _generateData();
     return Padding(
-       padding: EdgeInsets.all(8.0),
-       child: Container(
-         child: Center(
-           child: Column(
-             children: <Widget>[
-               Expanded(
-                 child: charts.BarChart(seriesBarData,
-                 behaviors: [
-                   charts.DatumLegend(
-                     entryTextStyle: charts.TextStyleSpec(
-                            color: charts.MaterialPalette.purple.shadeDefault,
-                            fontFamily: 'kanit',
-                            fontSize: 18),
-                   )
-                 ],
-                 
-                 ),
-               )
-             ],
-           ),
-         ),
-       ),
+      padding: EdgeInsets.all(8.0),
+      child: Container(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: charts.BarChart(
+                  seriesBarData,
+                  behaviors: [
+                    charts.DatumLegend(
+                      entryTextStyle: charts.TextStyleSpec(
+                          color: charts.MaterialPalette.purple.shadeDefault,
+                          fontFamily: 'kanit',
+                          fontSize: 18),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

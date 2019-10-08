@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/page/home/home.dart';
+import 'package:student_guidance/service/EntranService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
