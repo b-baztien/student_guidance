@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/service/EntranService.dart';
+import 'dart:math' as math;
 
 class Dashboard extends StatefulWidget {
   static String tag = "dashboard-page";
@@ -12,6 +13,7 @@ class Dashboard extends StatefulWidget {
 class Test {
   String year;
   int value;
+  Color colorVal = Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0);
 }
 
 class _DashboardState extends State<Dashboard> {
@@ -33,6 +35,8 @@ class _DashboardState extends State<Dashboard> {
       charts.Series(
         domainFn: (Test test, _) => test.year,
         measureFn: (Test test, _) => test.value,
+        colorFn: (Test test, _) =>
+            charts.ColorUtil.fromDartColor(test.colorVal),
         id: 'Sales',
         data: entran,
         labelAccessorFn: (Test row, _) => "${row.value}",
