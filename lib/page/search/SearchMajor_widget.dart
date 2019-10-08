@@ -9,7 +9,6 @@ class SearchMajor extends StatefulWidget {
 
 class _SearchMajorState extends State<SearchMajor> {
     final TextEditingController _controller = new TextEditingController();
-
     List<Major> items = List<Major>();
  List<Major> major;
   @override

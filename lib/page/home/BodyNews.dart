@@ -98,11 +98,7 @@ class _BodyNewsState extends State<BodyNews> {
                     ),
                   ),
                 ),
-                Text('เพิ่มเติม',
-                    style: TextStyle(
-                        color: Colors.pinkAccent,
-                        fontSize: 12.0,
-                        fontFamily: 'Kanit'))
+             
               ],
             ),
           ),
@@ -171,11 +167,7 @@ class _BodyNewsState extends State<BodyNews> {
                     ),
                   ),
                 ),
-                Text('เพิ่มเติม',
-                    style: TextStyle(
-                        color: Colors.pinkAccent,
-                        fontSize: 12.0,
-                        fontFamily: 'Kanit'))
+              
               ],
             ),
           ),
