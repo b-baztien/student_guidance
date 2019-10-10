@@ -24,7 +24,7 @@ class EntranService {
         new Map<String, List<EntranceExamResult>>();
     Set<String> listYear = new Set<String>();
     return await Firestore.instance
-        .collection('EntranceExamResult')
+        .collection('EntranceExamResult').orderBy('year')
         .getDocuments()
         .then((result) async {
       for (DocumentSnapshot doc in result.documents) {
@@ -34,7 +34,7 @@ class EntranService {
       for (String year in listYear) {
         List<EntranceExamResult> listExam = new List<EntranceExamResult>();
         await Firestore.instance
-            .collection('EntranceExamResult')
+            .collection('EntranceExamResult').orderBy('year')
             .reference()
             .where('year', isEqualTo: year)
             .getDocuments()

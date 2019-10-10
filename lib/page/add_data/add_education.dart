@@ -33,7 +33,7 @@ class _AddEducationState extends State<AddEducation> {
   @override
   void initState() {
     _dropdownMenuItem = buildDropDownMenuItem(_round);
-
+ 
     super.initState();
   }
 
@@ -141,6 +141,7 @@ class _AddEducationState extends State<AddEducation> {
                           ),
                           DropdownButton(
                             value: _selectedRound,
+
                             items: _dropdownMenuItem,
                             onChanged: onChangeDropdownItem,
                             hint: Text('เลือกรอบการสอบ'),
