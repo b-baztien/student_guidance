@@ -8,8 +8,8 @@ CollectionReference ref = Firestore.instance.collection("Login");
 
 class LoginService {
   Future<Login> login(Login userLogin) async {
-    try {
       final prefs = await SharedPreferences.getInstance();
+    try {
       DocumentReference refQuery = ref.document(userLogin.username);
 
       Login login = await refQuery.get().then((doc) async {
@@ -31,6 +31,7 @@ class LoginService {
         throw ("ไม่ใช่นักเรียน");
       }
     } catch (e) {
+      prefs.clear();
       rethrow;
     }
   }

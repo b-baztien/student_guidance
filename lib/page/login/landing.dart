@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class Landing extends StatefulWidget {
@@ -12,19 +13,23 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
-  
-   @override
+  @override
   void initState() {
     super.initState();
     _loadUserInfo();
   }
 
-   _loadUserInfo() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.get('login') == null) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, UIdata.splashPage, ModalRoute.withName(UIdata.splashPage));
-    } else {
+  _loadUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      if (prefs.get('login') == null) {
+        LoginService().login(Login.fromJson(jsonDecode(prefs.get('login'))));
+        Navigator.pushNamedAndRemoveUntil(
+            context, UIdata.splashPage, ModalRoute.withName(UIdata.splashPage));
+      } else {
+        throw Exception;
+      }
+    } catch (error) {
       Navigator.pushNamedAndRemoveUntil(
           context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
     }

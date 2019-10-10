@@ -1,5 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/EntranceExamResult.dart';
+import 'package:student_guidance/model/Faculty.dart';
+import 'package:student_guidance/model/Major.dart';
+import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/service/EntranService.dart';
+import 'package:student_guidance/service/StudentService.dart';
 
 class AddEducation extends StatefulWidget {
   @override
@@ -7,16 +13,16 @@ class AddEducation extends StatefulWidget {
 }
 
 class Round {
-  int id;
+  String id;
   String name = '';
   Round(this.id, this.name);
   static List<Round> getRound() {
     return <Round>[
-      Round(1, 'Portfolio'),
-      Round(2, 'การรับแบบโควตา'),
-      Round(3, 'รับตรงร่วมกัน (+กสพท)'),
-      Round(4, 'การรับแบบแอดมิชชัน'),
-      Round(5, 'การรับตรงอิสระ'),
+      Round('1', 'Portfolio'),
+      Round('2', 'การรับแบบโควตา'),
+      Round('3', 'รับตรงร่วมกัน (+กสพท)'),
+      Round('4', 'การรับแบบแอดมิชชัน'),
+      Round('5', 'การรับตรงอิสระ'),
     ];
   }
 }
@@ -33,7 +39,7 @@ class _AddEducationState extends State<AddEducation> {
   @override
   void initState() {
     _dropdownMenuItem = buildDropDownMenuItem(_round);
- 
+
     super.initState();
   }
 
@@ -80,7 +86,7 @@ class _AddEducationState extends State<AddEducation> {
             ),
           ),
           SizedBox(
-            height: 25,
+            height: MediaQuery.of(context).size.height / 100,
           ),
           Padding(
             padding: EdgeInsets.only(left: 40),
@@ -141,7 +147,6 @@ class _AddEducationState extends State<AddEducation> {
                           ),
                           DropdownButton(
                             value: _selectedRound,
-
                             items: _dropdownMenuItem,
                             onChanged: onChangeDropdownItem,
                             hint: Text('เลือกรอบการสอบ'),
@@ -189,9 +194,10 @@ class _AddEducationState extends State<AddEducation> {
                                 DropdownButton(
                                   items: currencyItem,
                                   onChanged: (values) {
-                                    print(values.documentID);
                                     setState(() {
                                       _selectedUniversity = values;
+                                      _selectedFaculty = null;
+                                      _selectedMajor = null;
                                     });
                                   },
                                   value: _selectedUniversity,
@@ -219,10 +225,10 @@ class _AddEducationState extends State<AddEducation> {
                                 i++) {
                               DocumentSnapshot doc = snapshot.data.documents[i];
                               if (doc['university'] == _selectedUniversity) {
-                                print(doc.documentID);
+                                Faculty fct = Faculty.fromJson(doc.data);
                                 currencyItem.add(DropdownMenuItem(
-                                  child: Text(doc.documentID),
-                                  value: "${doc.documentID}",
+                                  child: Text(fct.facultyName),
+                                  value: doc.reference,
                                 ));
                               }
                             }
@@ -244,6 +250,7 @@ class _AddEducationState extends State<AddEducation> {
                                   onChanged: (values) {
                                     setState(() {
                                       _selectedFaculty = values;
+                                      _selectedMajor = null;
                                     });
                                   },
                                   value: _selectedFaculty,
@@ -254,29 +261,53 @@ class _AddEducationState extends State<AddEducation> {
                           }
                         },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'สาขา',
-                            style: TextStyle(
-                                fontFamily: 'kanit',
-                                fontSize: 18,
-                                color: Colors.black45),
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          DropdownButton(
-                            value: _selectedRound,
-                            items: _dropdownMenuItem,
-                            onChanged: onChangeDropdownItem,
-                            hint: Text('เลือกสาขา'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
+                      StreamBuilder<QuerySnapshot>(
+                        stream:
+                            Firestore.instance.collection('Major').snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Text("Loading.....");
+                          } else {
+                            List<DropdownMenuItem> currencyItem = [];
+                            for (int i = 0;
+                                i < snapshot.data.documents.length;
+                                i++) {
+                              DocumentSnapshot doc = snapshot.data.documents[i];
+                              if (doc['faculty'] == _selectedFaculty) {
+                                Major major = Major.fromJson(doc.data);
+                                currencyItem.add(DropdownMenuItem(
+                                  child: Text(major.majorName),
+                                  value: doc.reference,
+                                ));
+                              }
+                            }
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'สาขา',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontSize: 18,
+                                      color: Colors.black45),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                DropdownButton(
+                                  items: currencyItem,
+                                  onChanged: (values) {
+                                    setState(() {
+                                      _selectedMajor = values;
+                                    });
+                                  },
+                                  value: _selectedMajor,
+                                  hint: Text('เลือกสาขา'),
+                                )
+                              ],
+                            );
+                          }
+                        },
                       ),
                       SizedBox(
                         height: 30.0,
@@ -293,7 +324,31 @@ class _AddEducationState extends State<AddEducation> {
                             style: TextStyle(color: Colors.white),
                           ),
                           color: Colors.blue,
-                          onPressed: () {},
+                          onPressed: () async {
+                            Student std = new Student();
+                            await StudentService().getStudent().then((result) {
+                              std = result;
+                            }).catchError((error) {
+                              throw error;
+                            });
+
+                            EntranceExamResult enExam =
+                                new EntranceExamResult();
+                            enExam.entrance_exam_name = _selectedRound.name;
+                            enExam.round = _selectedRound.id;
+                            enExam.major = _selectedMajor;
+                            enExam.student = await StudentService()
+                                .getStudentReference()
+                                .then((result) {
+                              return result;
+                            }).catchError((error) {
+                              throw error;
+                            });
+                            enExam.school = std.school;
+                            enExam.year = (new DateTime.now().year + 543).toString();
+
+                            EntranService().addEntranceExamResult(enExam);
+                          },
                         ),
                       ),
                       SizedBox(

@@ -52,7 +52,7 @@ class listFacultys extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        print(ff.majornName);
+        print(ff.majorName);
       },
       child: Card(
         child: Container(
@@ -61,14 +61,14 @@ class listFacultys extends StatelessWidget {
           child: Row(
             children: <Widget>[
               CircleAvatar(
-                child: Text(ff.majornName[0]),
+                child: Text(ff.majorName[0]),
                 backgroundColor: Colors.deepOrange[300],
                 foregroundColor: Colors.white,
               ),
               Padding(
                 padding: EdgeInsets.all(8),
               ),
-              Text(ff.majornName),
+              Text(ff.majorName),
             ],
           ),
         ),
