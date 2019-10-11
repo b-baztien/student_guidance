@@ -7,6 +7,7 @@ import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
+import 'package:student_guidance/service/GetImageService.dart';
 
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/service/SchoolService.dart';
@@ -27,13 +28,13 @@ class _BodyNewsState extends State<BodyNews> {
   School school = new School();
   String shcool_name = '';
   @override
-  void initState()  {
+  void initState() {
     super.initState();
-     StudentService().getStudent().then((studentFromService)  {
+    StudentService().getStudent().then((studentFromService) {
       SchoolService()
           .getSchool(studentFromService.school)
-          .then((schoolFromService)  {
-         setState(() {
+          .then((schoolFromService) {
+        setState(() {
           shcool_name = schoolFromService.schoolName;
         });
       });
@@ -60,7 +61,7 @@ class _BodyNewsState extends State<BodyNews> {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-               shcool_name,
+                shcool_name,
                 style: TextStyle(
                     color: Colors.orange[200],
                     fontFamily: 'Kanit',
@@ -98,7 +99,6 @@ class _BodyNewsState extends State<BodyNews> {
                     ),
                   ),
                 ),
-             
               ],
             ),
           ),
@@ -120,7 +120,7 @@ class _BodyNewsState extends State<BodyNews> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (_, index) {
                             News newsFirebase = new News();
-                           
+
                             newsFirebase.topic = snapshot.data[index].topic;
                             newsFirebase.detail = snapshot.data[index].detail;
                             newsFirebase.image = snapshot.data[index].image;
@@ -167,7 +167,6 @@ class _BodyNewsState extends State<BodyNews> {
                     ),
                   ),
                 ),
-              
               ],
             ),
           ),

@@ -336,6 +336,8 @@ class _AddEducationState extends State<AddEducation> {
                                 new EntranceExamResult();
                             enExam.entrance_exam_name = _selectedRound.name;
                             enExam.round = _selectedRound.id;
+                            enExam.university = _selectedUniversity;
+                            enExam.faculty = _selectedFaculty;
                             enExam.major = _selectedMajor;
                             enExam.student = await StudentService()
                                 .getStudentReference()

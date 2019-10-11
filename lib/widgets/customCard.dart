@@ -15,12 +15,11 @@ import 'package:student_guidance/service/GetImageService.dart';
   }
   
   class _CustomCardState extends State<CustomCard> {
-    String image = '';
      @override
   void initState() {
     GetImageService().getImage(widget.news.image).then((url){
       setState(() {
-        image = url;
+        widget.news.image = url;
       });
     });
      super.initState();
@@ -73,7 +72,7 @@ import 'package:student_guidance/service/GetImageService.dart';
                           width: 200.0,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: NetworkImage(image),
+                                  image: NetworkImage(widget.news.image),
                                   fit: BoxFit.fill),
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10.0),
