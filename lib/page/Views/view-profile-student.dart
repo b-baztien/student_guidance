@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/SharedPreferences/SharedPref.dart';
+import 'package:student_guidance/model/FilterItems.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/add_data/add_education.dart';
+import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -21,7 +23,7 @@ class _ViewProfileState extends State<ViewProfile> {
     StudentService().getStudent().then((studentFromService) {
       setState(() {
         student = studentFromService;
-        print(student.firstname);
+        
       });
     });
   }
@@ -107,7 +109,6 @@ class CardHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(student.firstname);
     return Container(
       margin: EdgeInsets.only(top: 100, right: 20, left: 20),
       height: 600,
@@ -138,18 +139,24 @@ class _CardState extends State<Card> {
   String year = '';
   String plan = '';
   String oldschool = '';
+  String img = '';
   @override
   void initState() {
     super.initState();
     StudentService().getStudent().then((studentFromService) {
-      setState(() {
+      GetImageService().getImage(studentFromService.image).then((imgFromService){
+         setState(() {
         name = studentFromService.firstname + ' ' + studentFromService.lastname;
         email = studentFromService.email;
         status = studentFromService.status;
         year = studentFromService.entryyear;
         plan = studentFromService.plan;
         oldschool = studentFromService.juniorSchool;
+        img = imgFromService;
+        print(img);
       });
+      });
+    
     });
   }
 
@@ -164,7 +171,7 @@ class _CardState extends State<Card> {
           height: 130,
           width: 130,
           decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(''), fit: BoxFit.fill),
+              image: DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
                   color: Colors.blueAccent.withOpacity(.2), width: 1)),

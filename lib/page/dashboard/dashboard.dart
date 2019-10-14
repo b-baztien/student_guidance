@@ -229,15 +229,6 @@ class _DashboardState extends State<Dashboard> {
                           }
                         },
                       ),
-                      // Center(
-                      //   child: Text(
-                      //     "Test text%",
-                      //     style: TextStyle(
-                      //         fontSize: 15.0,
-                      //         color: Colors.blue,
-                      //         fontWeight: FontWeight.bold),
-                      //   ),
-                      // ),
                     ),
                   ),
                 ),
