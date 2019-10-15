@@ -118,185 +118,189 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Stack(
+      body: ListView(
         children: <Widget>[
-          Container(
-            height: 180,
-            decoration: BoxDecoration(
-                gradient:
-                    LinearGradient(colors: [Colors.green, Colors.blue[300]])),
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            left: 0,
-            child: Container(
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: Text(
-                      'แผนภูมิ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ],
+          Stack(
+            children: <Widget>[
+              Container(
+                height: 180,
+                decoration: BoxDecoration(
+                    gradient:
+                        LinearGradient(colors: [Colors.green, Colors.blue[300]])),
               ),
-            ),
-          ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 100, right: 10, left: 10),
-                  width: 350,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0xff444444).withOpacity(.1),
-                            blurRadius: 20,
-                            spreadRadius: 10),
-                      ]),
-                  child: Column(
+              Positioned(
+                top: 0,
+                right: 0,
+                left: 0,
+                child: Container(
+                  height: 80,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      DropdownButton(
-                        value: _selectedRound,
-                        items: _dropdownMenuItem,
-                        onChanged: onChangeDropdownItem,
-                      ),
-                      DropdownButton(
-                        value: _selectedYear,
-                        items: _dropdownYear,
-                        onChanged: onChangeDropdownYearItem,
-                        hint: Text('เลือกปีการศึกษา'),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: Text(
+                          'แผนภูมิ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 10, right: 10, left: 10),
-                    height: MediaQuery.of(context).size.height / 2.5,
-                    width: 350,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Color(0xff444444).withOpacity(.1),
-                              blurRadius: 20,
-                              spreadRadius: 10),
-                        ]),
-                    child: Center(
-                      child: FutureBuilder(
-                        future: EntranService().getDashboard(_selectedRound.id),
-                        builder: (_, snapshot) {
-                          if (snapshot.hasError)
-                            return new Text('Error: ${snapshot.error}');
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return new Text('Loading...');
-                            default:
-                              _generateData(snapshot.data);
-
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: charts.PieChart(
-                                  seriesBarData,
-                                  defaultRenderer: charts.ArcRendererConfig(
-                                      arcWidth: 70,
-                                      arcRendererDecorators: [
-                                        charts.ArcLabelDecorator(
-                                          labelPosition:
-                                              charts.ArcLabelPosition.inside,
-                                          insideLabelStyleSpec:
-                                              new charts.TextStyleSpec(
-                                                  fontSize: 10,
-                                                  color: charts.Color.fromHex(
-                                                      code: "#ffffff")),
-                                        ),
-                                      ]),
-                                ),
-                              );
-                          }
-                        },
+              ),
+              Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(top: 100, right: 10, left: 10),
+                      width: 350,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xff444444).withOpacity(.1),
+                                blurRadius: 20,
+                                spreadRadius: 10),
+                          ]),
+                      child: Column(
+                        children: <Widget>[
+                          DropdownButton(
+                            value: _selectedRound,
+                            items: _dropdownMenuItem,
+                            onChanged: onChangeDropdownItem,
+                          ),
+                          DropdownButton(
+                            value: _selectedYear,
+                            items: _dropdownYear,
+                            onChanged: onChangeDropdownYearItem,
+                            hint: Text('เลือกปีการศึกษา'),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
+                    Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10, right: 10, left: 10),
+                        height: MediaQuery.of(context).size.height / 2.5,
+                        width: 350,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Color(0xff444444).withOpacity(.1),
+                                  blurRadius: 20,
+                                  spreadRadius: 10),
+                            ]),
+                        child: Center(
+                          child: FutureBuilder(
+                            future: EntranService().getDashboard(_selectedRound.id),
+                            builder: (_, snapshot) {
+                              if (snapshot.hasError)
+                                return new Text('Error: ${snapshot.error}');
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.waiting:
+                                  return new Text('Loading...');
+                                default:
+                                  _generateData(snapshot.data);
+
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: charts.PieChart(
+                                      seriesBarData,
+                                      defaultRenderer: charts.ArcRendererConfig(
+                                          arcWidth: 70,
+                                          arcRendererDecorators: [
+                                            charts.ArcLabelDecorator(
+                                              labelPosition:
+                                                  charts.ArcLabelPosition.inside,
+                                              insideLabelStyleSpec:
+                                                  new charts.TextStyleSpec(
+                                                      fontSize: 10,
+                                                      color: charts.Color.fromHex(
+                                                          code: "#ffffff")),
+                                            ),
+                                          ]),
+                                    ),
+                                  );
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 20, right: 10, left: 10),
+                      width: 350,
+                      height: 150,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xff444444).withOpacity(.1),
+                                blurRadius: 20,
+                                spreadRadius: 10),
+                          ]),
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Test 1",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Test 2",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Test 3",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Test 4",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Center(
+                            child: Text(
+                              "Test 5",
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 20, right: 10, left: 10),
-                  width: 350,
-                  height: 150,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Color(0xff444444).withOpacity(.1),
-                            blurRadius: 20,
-                            spreadRadius: 10),
-                      ]),
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                        child: Text(
-                          "Test 1",
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          "Test 2",
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          "Test 3",
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          "Test 4",
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          "Test 5",
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

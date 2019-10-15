@@ -74,7 +74,7 @@ class _BodyNewsState extends State<BodyNews> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: new Column(
+      body: ListView(
         children: <Widget>[
           header(),
           Padding(
