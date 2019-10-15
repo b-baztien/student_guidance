@@ -29,15 +29,10 @@ class UniversityService {
     return list;
   }
 
-  updateView(String name, int view) async {
-    
-    await Firestore.instance.collection('University').document(name).updateData({'view': view + 1});
+  updateView(DocumentSnapshot doc) async {
+    doc.reference.updateData({
+      'view':doc['view']+1
+    });
+  }
 
-  }
-  Future<Stream> test() async {
-    Stream s1 =  Firestore.instance.collection('University').snapshots();
-     Stream s2 =  Firestore.instance.collection('Faculty').snapshots();
-    StreamZip bothStreams = StreamZip([s1, s2]).asBroadcastStream();
-    return bothStreams;
-  }
 }

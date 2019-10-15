@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/FilterItems.dart';
 import 'package:student_guidance/page/search/FilterWidget.dart';
+import 'package:student_guidance/page/search/ItemsUniversity.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 
 class SearchWidget extends StatefulWidget {
@@ -111,12 +112,11 @@ class _SearchWidgetState extends State<SearchWidget> {
   }
 
   Widget streamBuild() {
-    
     return StreamBuilder(
       stream: Firestore.instance.collection('University').snapshots(),
-      builder: (context,snapshot){
-        if(!snapshot.hasData) return const Text('Load...');
-        return _buildExpended(context,snapshot);
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Text('Load...');
+        return _buildExpended(context, snapshot);
       },
     );
   }
@@ -142,7 +142,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 
-  Widget _buildExpended(BuildContext context,AsyncSnapshot<dynamic> snapshot) {
+  Widget _buildExpended(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
     return Expanded(
         child: ListView.builder(
       padding: EdgeInsets.all(10),
@@ -150,11 +150,13 @@ class _SearchWidgetState extends State<SearchWidget> {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) =>
-            //             ItemUniversity(universitys: items[index])));
+           UniversityService().updateView(snapshot.data.documents[index]);
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ItemUniversity(
+                        universitys: snapshot.data.documents[index])));
           },
           child: Card(
             child: Container(
@@ -163,7 +165,8 @@ class _SearchWidgetState extends State<SearchWidget> {
               child: Row(
                 children: <Widget>[
                   CircleAvatar(
-                    child: Text(snapshot.data.documents[index]['university_name'][0]),
+                    child: Text(
+                        snapshot.data.documents[index]['university_name'][0]),
                     backgroundColor: Color(0xFF20D3D2),
                     foregroundColor: Colors.black87,
                   ),
@@ -177,7 +180,6 @@ class _SearchWidgetState extends State<SearchWidget> {
           ),
         );
       },
-    )
-    );
+    ));
   }
 }

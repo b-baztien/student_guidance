@@ -115,14 +115,14 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
             padding: EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                UniversityService()
-                    .updateView(items[index].universityname, items[index].view);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ItemUniversity(universitys: items[index])));
-                print(items[index].universityname);
+                
+               
+                // Navigator.push(
+                //     context,
+                    // MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         ItemUniversity(universitys: items[index])));
+                // print(items[index].universityname);
               },
               child: Stack(
                 children: <Widget>[
