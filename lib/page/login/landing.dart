@@ -25,7 +25,7 @@ class _LandingState extends State<Landing> {
       if (prefs.get('login') == null) {
         LoginService().login(Login.fromJson(jsonDecode(prefs.get('login'))));
         Navigator.pushNamedAndRemoveUntil(
-            context, UIdata.splashPage, ModalRoute.withName(UIdata.splashPage));
+            context, UIdata.loginPageTag, ModalRoute.withName(UIdata.loginPageTag));
       } else {
         throw Exception;
       }

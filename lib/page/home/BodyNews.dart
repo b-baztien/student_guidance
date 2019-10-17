@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Login.dart';
@@ -7,7 +5,6 @@ import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
-import 'package:student_guidance/service/GetImageService.dart';
 
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/service/SchoolService.dart';

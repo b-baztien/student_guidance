@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:student_guidance/page/login/landing.dart';
 import 'package:student_guidance/page/login/login.dart';
 
 class SplashPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return SplashScreen(
         seconds: 5,
-        navigateAfterSeconds: LoginPage(),
+        navigateAfterSeconds: Landing(),
         imageBackground: NetworkImage('https://viveconstyle.com/wp-content/uploads/2019/03/Brighter-days-quote-mobile-wallpaper.jpg'),
         backgroundColor: Colors.white,
         styleTextUnderTheLoader: TextStyle(color: Colors.deepPurple),

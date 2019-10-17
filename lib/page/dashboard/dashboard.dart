@@ -35,6 +35,7 @@ class _DashboardState extends State<Dashboard> {
   String _selectedYear;
   List<DropdownMenuItem<Dash>> _dropdownMenuItem;
   List<Dash> _round = Dash.getRound();
+
   _generateData(Map<String, Map<int, List<ChartData>>> myData) {
     List<ChartData> listChartData = new List<ChartData>();
     Map<int, List<ChartData>> chartMap = new Map<int, List<ChartData>>();
@@ -62,6 +63,9 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  Map<String, Map<int, List<ChartData>>> mapDashboardItem =
+      new Map<String, Map<int, List<ChartData>>>();
+  List<ChartData> listDashboardItem = new List<ChartData>();
   @override
   void initState() {
     _dropdownMenuItem = buildDropDownMenuItem(_round);
@@ -70,8 +74,10 @@ class _DashboardState extends State<Dashboard> {
       setState(() {
         _dropdownYear = buildDropDownYearItem(result.keys.toList());
         _selectedYear = result.keys.toList()[0];
+        mapDashboardItem = result;
+        print(_selectedYear);
+        listDashboardItem = mapDashboardItem[_selectedYear][_selectedRound.id];
       });
-
     });
     super.initState();
   }
@@ -111,6 +117,8 @@ class _DashboardState extends State<Dashboard> {
   onChangeDropdownYearItem(String selectYear) {
     setState(() {
       _selectedYear = selectYear;
+      listDashboardItem = mapDashboardItem[_selectedYear][_selectedRound.id];
+      print(listDashboardItem);
     });
   }
 
@@ -125,8 +133,8 @@ class _DashboardState extends State<Dashboard> {
               Container(
                 height: 180,
                 decoration: BoxDecoration(
-                    gradient:
-                        LinearGradient(colors: [Colors.green, Colors.blue[300]])),
+                    gradient: LinearGradient(
+                        colors: [Colors.green, Colors.blue[300]])),
               ),
               Positioned(
                 top: 0,
@@ -199,7 +207,8 @@ class _DashboardState extends State<Dashboard> {
                             ]),
                         child: Center(
                           child: FutureBuilder(
-                            future: EntranService().getDashboard(_selectedRound.id),
+                            future:
+                                EntranService().getDashboard(_selectedRound.id),
                             builder: (_, snapshot) {
                               if (snapshot.hasError)
                                 return new Text('Error: ${snapshot.error}');
@@ -208,6 +217,7 @@ class _DashboardState extends State<Dashboard> {
                                   return new Text('Loading...');
                                 default:
                                   _generateData(snapshot.data);
+                                  print(snapshot.data);
 
                                   return Container(
                                     width: MediaQuery.of(context).size.width,
@@ -217,13 +227,14 @@ class _DashboardState extends State<Dashboard> {
                                           arcWidth: 70,
                                           arcRendererDecorators: [
                                             charts.ArcLabelDecorator(
-                                              labelPosition:
-                                                  charts.ArcLabelPosition.inside,
+                                              labelPosition: charts
+                                                  .ArcLabelPosition.inside,
                                               insideLabelStyleSpec:
                                                   new charts.TextStyleSpec(
                                                       fontSize: 10,
-                                                      color: charts.Color.fromHex(
-                                                          code: "#ffffff")),
+                                                      color:
+                                                          charts.Color.fromHex(
+                                                              code: "#ffffff")),
                                             ),
                                           ]),
                                     ),
@@ -247,54 +258,19 @@ class _DashboardState extends State<Dashboard> {
                                 blurRadius: 20,
                                 spreadRadius: 10),
                           ]),
-                      child: Column(
-                        children: <Widget>[
-                          Center(
+                      child: ListView.builder(
+                        itemCount: listDashboardItem.length,
+                        itemBuilder: (_, i) {
+                          return Center(
                             child: Text(
-                              "Test 1",
+                              listDashboardItem[i].name,
                               style: TextStyle(
                                   fontSize: 15.0,
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          Center(
-                            child: Text(
-                              "Test 2",
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              "Test 3",
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              "Test 4",
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Center(
-                            child: Text(
-                              "Test 5",
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     )
                   ],
