@@ -16,8 +16,7 @@ class _SplashPageState extends State<SplashPage> {
         navigateAfterSeconds: Landing(),
         imageBackground: AssetImage('assets/images/background.png'),
         backgroundColor: Colors.white,
-        styleTextUnderTheLoader: TextStyle(color: Colors.deepPurple),
         photoSize: 100.0,
-        loaderColor: Colors.amberAccent);
+        loaderColor: Colors.redAccent);
   }
 }
