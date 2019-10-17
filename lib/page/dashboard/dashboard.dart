@@ -75,7 +75,6 @@ class _DashboardState extends State<Dashboard> {
         _dropdownYear = buildDropDownYearItem(result.keys.toList());
         _selectedYear = result.keys.toList()[0];
         mapDashboardItem = result;
-        print(_selectedYear);
         listDashboardItem = mapDashboardItem[_selectedYear][_selectedRound.id];
       });
     });
@@ -118,7 +117,6 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       _selectedYear = selectYear;
       listDashboardItem = mapDashboardItem[_selectedYear][_selectedRound.id];
-      print(listDashboardItem);
     });
   }
 
@@ -217,8 +215,6 @@ class _DashboardState extends State<Dashboard> {
                                   return new Text('Loading...');
                                 default:
                                   _generateData(snapshot.data);
-                                  print(snapshot.data);
-
                                   return Container(
                                     width: MediaQuery.of(context).size.width,
                                     child: charts.PieChart(

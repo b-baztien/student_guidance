@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/model/ChartData.dart';
 import 'package:student_guidance/model/EntranceExamResult.dart';
-import 'package:student_guidance/model/Faculty.dart';
-import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
-import 'package:student_guidance/service/SchoolService.dart';
 import 'package:student_guidance/service/StudentService.dart';
 
 class EntranService {
@@ -65,16 +62,20 @@ class EntranService {
                   .getDocuments()
                   .then((listResult) async {
                 ChartData chData = new ChartData();
-                University uniData = await uni.get().then((result) {
-                  return University.fromJson(result.data);
-                });
-                chData.name = uniData.universityname;
-                chData.value = listResult.documents.length.toDouble();
-                chData.year = year;
-                listChartData.add(chData);
+                if (listResult.documents.length != 0) {
+                  University uniData = await uni.get().then((result) {
+                    print(result.data['university_name']);
+                    return University.fromJson(result.data);
+                  });
+                  chData.name = uniData.universityname;
+                  chData.value = listResult.documents.length.toDouble();
+                  chData.year = year;
+                  listChartData.add(chData);
+                }
               });
             }
             chartUniData[1] = listChartData;
+            print(chartUniData[1].length);
             chartData[year] = chartUniData;
             break;
           // case 2:
