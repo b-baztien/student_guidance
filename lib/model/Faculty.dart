@@ -6,7 +6,7 @@ class Faculty{
   DocumentReference university;
   List<dynamic> major;
   Faculty({
-    this.facultyName,this.url,this.university,this.major
+  this.facultyName,this.url,this.university,this.major
   });
   factory Faculty.fromJson(Map<String, dynamic> json) {
     return Faculty(

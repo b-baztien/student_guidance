@@ -8,7 +8,7 @@ class Major{
   DocumentReference faculty;
   Major(
     {
-      this.majorName,this.url,this.faculty,this.carrer,this.entrancedetail
+     this.majorName,this.url,this.faculty,this.carrer,this.entrancedetail
     }
   );
 

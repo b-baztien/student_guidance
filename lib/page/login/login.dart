@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   String _username, _password;
   Dialogs dialogs = new Dialogs();
-
   loginHeader() => Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -154,13 +153,10 @@ class _LoginPageState extends State<LoginPage> {
         login.username = _username;
         login.password = _password;
         login = await LoginService().login(login);
-
-        dialogs.waiting(context, 'Login.....', 'login success');
         await Future.delayed(Duration(seconds: 2));
         await Navigator.pushNamedAndRemoveUntil(
             context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
       } catch (e) {
-        dialogs.waiting(context, 'Login.....', e.toString());
         await Future.delayed(Duration(seconds: 2));
         Navigator.pop(context);
       }
