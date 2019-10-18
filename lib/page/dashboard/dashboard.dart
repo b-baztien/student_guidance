@@ -212,7 +212,7 @@ class _DashboardState extends State<Dashboard> {
                                 return new Text('Error: ${snapshot.error}');
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:
-                                  return new Text('Loading...');
+                                  return new Text('กำลังโหลด...');
                                 default:
                                   _generateData(snapshot.data);
                                   return Container(
