@@ -22,16 +22,17 @@ class _LandingState extends State<Landing> {
   _loadUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      if (prefs.get('login') == null) {
+      print(prefs.get('login'));
+      if (prefs.get('login') != null) {
         LoginService().login(Login.fromJson(jsonDecode(prefs.get('login'))));
         Navigator.pushNamedAndRemoveUntil(
-            context, UIdata.loginPageTag, ModalRoute.withName(UIdata.loginPageTag));
+            context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
       } else {
         throw Exception;
       }
     } catch (error) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+      Navigator.pushNamedAndRemoveUntil(context, UIdata.loginPageTag,
+          ModalRoute.withName(UIdata.loginPageTag));
     }
   }
 

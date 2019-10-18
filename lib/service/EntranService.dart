@@ -78,25 +78,33 @@ class EntranService {
             print(chartUniData[1].length);
             chartData[year] = chartUniData;
             break;
-          // case 2:
-          //   for (DocumentReference fac in setFac) {
-          //     await fireExam
-          //         .where('faculty', isEqualTo: fac)
-          //         .getDocuments()
-          //         .then((listResult) async {
-          //       ChartData chData = new ChartData();
-          //       Faculty facData = await fac.get().then((result) {
-          //         return Faculty.fromJson(result.data);
-          //       });
-          //       chData.name = facData.facultyName;
-          //       chData.value = listResult.documents.length;
-          //       chData.year = year;
-          //       Map<int, ChartData> chartFacData = new Map<int, ChartData>();
-          //       chartFacData[2] = chData;
-          //       chartData[year] = chartFacData;
-          //     });
-          //   }
-          //   break;
+          case 2:
+            List<ChartData> listChartData = new List<ChartData>();
+            Map<int, List<ChartData>> chartUniData =
+                new Map<int, List<ChartData>>();
+
+            for (DocumentReference uni in setUni) {
+              await fireExam
+                  .where('university', isEqualTo: uni)
+                  .getDocuments()
+                  .then((listResult) async {
+                ChartData chData = new ChartData();
+                if (listResult.documents.length != 0) {
+                  University uniData = await uni.get().then((result) {
+                    print(result.data['university_name']);
+                    return University.fromJson(result.data);
+                  });
+                  chData.name = uniData.universityname;
+                  chData.value = listResult.documents.length.toDouble();
+                  chData.year = year;
+                  listChartData.add(chData);
+                }
+              });
+            }
+            chartUniData[1] = listChartData;
+            print(chartUniData[1].length);
+            chartData[year] = chartUniData;
+            break;
         }
       }
       return chartData;
