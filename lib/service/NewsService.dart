@@ -29,7 +29,7 @@ class NewsService {
    try{
      StorageReference ref = FirebaseStorage.instance.ref().child(path);
     url = await ref.getDownloadURL().then((image) async{
-        return await image.toString();
+        return image.toString();
     });
    
     return url;

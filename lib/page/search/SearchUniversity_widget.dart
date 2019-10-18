@@ -1,10 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/UniversityService.dart';
-import 'package:student_guidance/service/getImageService.dart';
 
-import 'ItemsUniversity.dart';
 
 class SearchUniversityWidget extends StatefulWidget {
   SearchUniversityWidget() : super();

@@ -1,10 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/widgets.dart' as prefix0;
-import 'package:student_guidance/SharedPreferences/SharedPref.dart';
-import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/page/Views/view-profile-student.dart';
 import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';

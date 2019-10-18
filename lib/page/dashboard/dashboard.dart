@@ -1,9 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:student_guidance/model/ChartData.dart';
-import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/service/EntranService.dart';
 
 class Dashboard extends StatefulWidget {
@@ -97,6 +94,16 @@ class _DashboardState extends State<Dashboard> {
   onChangeDropdownItem(Dash selectRound) {
     setState(() {
       _selectedRound = selectRound;
+      _selectedYear = null;
+      _dropdownYear = null;
+    });
+    EntranService().getDashboard(selectRound.id).then((result) {
+      setState(() {
+        _dropdownYear = buildDropDownYearItem(result.keys.toList());
+        _selectedYear = result.keys.toList()[0];
+        mapDashboardItem = result;
+        listDashboardItem = mapDashboardItem[_selectedYear][_selectedRound.id];
+      });
     });
   }
 
@@ -122,7 +129,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: ListView(
         children: <Widget>[

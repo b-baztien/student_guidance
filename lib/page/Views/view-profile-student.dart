@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_guidance/SharedPreferences/SharedPref.dart';
-import 'package:student_guidance/model/FilterItems.dart';
-import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/service/GetImageService.dart';

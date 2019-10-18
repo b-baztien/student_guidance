@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/utils/UIdata.dart';
 
 class ViewTeacher extends StatelessWidget {
   static String tag = 'view-teacher';

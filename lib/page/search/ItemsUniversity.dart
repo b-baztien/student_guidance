@@ -288,7 +288,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                         ? Text(text)
                         : ListView.builder(
                             itemCount: listFaculty.length,
-                            itemBuilder: (_, i) => listFacultys(
+                            itemBuilder: (_, i) => ListFacultys(
                                   ff: listFaculty[i],
                                 )),
                   ),
@@ -302,9 +302,9 @@ class _ItemUniversityState extends State<ItemUniversity> {
   }
 }
 
-class listFacultys extends StatelessWidget {
+class ListFacultys extends StatelessWidget {
   final Faculty ff;
-  const listFacultys({Key key, this.ff}) : super(key: key);
+  const ListFacultys({Key key, this.ff}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

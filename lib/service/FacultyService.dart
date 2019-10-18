@@ -7,7 +7,7 @@ class FacultyService{
       Faculty faculty = await refQuery.get().then((doc) async {
         return Faculty.fromJson(doc.data);
       });
-      return await faculty;
+      return faculty;
     } catch (e) {
       rethrow;
     }

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/model/ChartData.dart';
 import 'package:student_guidance/model/EntranceExamResult.dart';
+import 'package:student_guidance/model/Faculty.dart';
+import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/StudentService.dart';
@@ -52,59 +54,113 @@ class EntranService {
 
         switch (id) {
           case 1:
-            List<ChartData> listChartData = new List<ChartData>();
-            Map<int, List<ChartData>> chartUniData =
-                new Map<int, List<ChartData>>();
+            {
+              List<ChartData> listChartData = new List<ChartData>();
+              Map<int, List<ChartData>> chartUniData =
+                  new Map<int, List<ChartData>>();
 
-            for (DocumentReference uni in setUni) {
-              await fireExam
-                  .where('university', isEqualTo: uni)
-                  .getDocuments()
-                  .then((listResult) async {
-                ChartData chData = new ChartData();
-                if (listResult.documents.length != 0) {
-                  University uniData = await uni.get().then((result) {
-                    print(result.data['university_name']);
-                    return University.fromJson(result.data);
-                  });
-                  chData.name = uniData.universityname;
-                  chData.value = listResult.documents.length.toDouble();
-                  chData.year = year;
-                  listChartData.add(chData);
-                }
-              });
+              for (DocumentReference uni in setUni) {
+                await fireExam
+                    .where('university', isEqualTo: uni)
+                    .getDocuments()
+                    .then((listResult) async {
+                  ChartData chData = new ChartData();
+                  if (listResult.documents.length != 0) {
+                    University uniData = await uni.get().then((result) {
+                      return University.fromJson(result.data);
+                    });
+                    chData.name = uniData.universityname;
+                    chData.value = listResult.documents.length.toDouble();
+                    chData.year = year;
+                    listChartData.add(chData);
+                  }
+                });
+              }
+              chartUniData[1] = listChartData;
+              chartData[year] = chartUniData;
             }
-            chartUniData[1] = listChartData;
-            print(chartUniData[1].length);
-            chartData[year] = chartUniData;
             break;
           case 2:
-            List<ChartData> listChartData = new List<ChartData>();
-            Map<int, List<ChartData>> chartUniData =
-                new Map<int, List<ChartData>>();
+            {
+              List<ChartData> listChartData = new List<ChartData>();
+              Map<int, List<ChartData>> chartFacData =
+                  new Map<int, List<ChartData>>();
 
-            for (DocumentReference uni in setUni) {
-              await fireExam
-                  .where('university', isEqualTo: uni)
-                  .getDocuments()
-                  .then((listResult) async {
-                ChartData chData = new ChartData();
-                if (listResult.documents.length != 0) {
-                  University uniData = await uni.get().then((result) {
-                    print(result.data['university_name']);
-                    return University.fromJson(result.data);
-                  });
-                  chData.name = uniData.universityname;
-                  chData.value = listResult.documents.length.toDouble();
-                  chData.year = year;
-                  listChartData.add(chData);
-                }
-              });
+              for (DocumentReference fac in setFac) {
+                await fireExam
+                    .where('faculty', isEqualTo: fac)
+                    .getDocuments()
+                    .then((listResult) async {
+                  ChartData chData = new ChartData();
+                  if (listResult.documents.length != 0) {
+                    Faculty facData = await fac.get().then((result) {
+                      return Faculty.fromJson(result.data);
+                    });
+                    chData.name = facData.facultyName;
+                    chData.value = listResult.documents.length.toDouble();
+                    chData.year = year;
+                    listChartData.add(chData);
+                  }
+                });
+              }
+              chartFacData[2] = listChartData;
+              chartData[year] = chartFacData;
             }
-            chartUniData[1] = listChartData;
-            print(chartUniData[1].length);
-            chartData[year] = chartUniData;
             break;
+          case 3:
+            {
+              List<ChartData> listChartData = new List<ChartData>();
+              Map<int, List<ChartData>> chartMjData =
+                  new Map<int, List<ChartData>>();
+
+              for (DocumentReference mj in setMj) {
+                await fireExam
+                    .where('major', isEqualTo: mj)
+                    .getDocuments()
+                    .then((listResult) async {
+                  ChartData chData = new ChartData();
+                  if (listResult.documents.length != 0) {
+                    Major mjData = await mj.get().then((result) {
+                      return Major.fromJson(result.data);
+                    });
+                    chData.name = mjData.majorName;
+                    chData.value = listResult.documents.length.toDouble();
+                    chData.year = year;
+                    listChartData.add(chData);
+                  }
+                });
+              }
+              chartMjData[3] = listChartData;
+              chartData[year] = chartMjData;
+            }
+            break;
+          // case 4:
+          //   {
+          //     List<ChartData> listChartData = new List<ChartData>();
+          //     Map<int, List<ChartData>> chartUniData =
+          //         new Map<int, List<ChartData>>();
+
+          //     for (DocumentReference fac in setFac) {
+          //       await fireExam
+          //           .where('faculty', isEqualTo: fac)
+          //           .getDocuments()
+          //           .then((listResult) async {
+          //         ChartData chData = new ChartData();
+          //         if (listResult.documents.length != 0) {
+          //           Faculty facData = await fac.get().then((result) {
+          //             return Faculty.fromJson(result.data);
+          //           });
+          //           chData.name = facData.facultyName;
+          //           chData.value = listResult.documents.length.toDouble();
+          //           chData.year = year;
+          //           listChartData.add(chData);
+          //         }
+          //       });
+          //     }
+          //     chartUniData[2] = listChartData;
+          //     chartData[year] = chartUniData;
+          //   }
+          //   break;
         }
       }
       return chartData;

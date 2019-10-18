@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/GetImageService.dart';
-import 'package:async/async.dart';
 CollectionReference ref = Firestore.instance.collection("University");
 
 class UniversityService {

@@ -1,4 +1,3 @@
-import 'package:student_guidance/model/Teacher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 class News {
    String topic;

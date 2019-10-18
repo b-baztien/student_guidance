@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
-import 'package:student_guidance/page/News/view_news.dart';
 import 'package:student_guidance/page/Views/view-profile-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/home.dart';
