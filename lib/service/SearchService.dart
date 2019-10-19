@@ -13,6 +13,7 @@ class SearchService {
         List<Faculty> listFaculty;
         List<Major> listMajor;
         Set<Faculty> setFaculty;
+        Set<Major> setMajor;
       listUniversity = await UniversityService().getUniversity().then((universityFromService){
           return universityFromService;
         });
@@ -25,8 +26,9 @@ class SearchService {
       listFaculty = await FacultyService().getAllFaculty().then((facultyFromService){
         return facultyFromService;
       });
-         for(Faculty f in listFaculty){
-          FilterSeachItems ff = new FilterSeachItems();
+      setFaculty.addAll(listFaculty);
+        for(Faculty f in listFaculty){
+             FilterSeachItems ff = new FilterSeachItems();
           ff.name =f.facultyName;
           ff.type = 'Faculty';
           list.add(ff);
@@ -34,7 +36,8 @@ class SearchService {
        listMajor = await MajorService().getAllMajor().then((majorFromService){
          return majorFromService;
        });
-        for(Major m in listMajor){
+       setMajor.addAll(listMajor);
+        for(Major m in setMajor){
           FilterSeachItems ff = new FilterSeachItems();
           ff.name =m.majorName;
           ff.type = 'Faculty';
