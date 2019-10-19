@@ -151,6 +151,7 @@ class _SearchWidgetState extends State<SearchWidget> {
       ),
       itemCount: items.length,
       itemBuilder: (context, index) {
+        
         return InkWell(
           onTap: () {
             print(items[index].documentSnapshot);

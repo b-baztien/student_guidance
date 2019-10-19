@@ -37,7 +37,7 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                           BorderRadius.only(bottomLeft: Radius.circular(50)),
                       image: DecorationImage(
                           image: new NetworkImage(widget.news.image),
-                          fit: BoxFit.fill)),
+                          fit: BoxFit.cover)),
                 ),
               )
             ],
