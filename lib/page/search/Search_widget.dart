@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/FilterItems.dart';
+import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/page/search/ItemsUniversity.dart';
+import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 
 class SearchWidget extends StatefulWidget {
@@ -13,14 +15,23 @@ class _SearchWidgetState extends State<SearchWidget> {
   final TextEditingController _controller = new TextEditingController();
   Fliteritems ff = new Fliteritems();
   List<Fliteritems> _listFilter = filterItemsList;
-  List<String> listItem = ['test1', 'test2'];
+  List<FilterSeachItems> items = List<FilterSeachItems>();
+  List<FilterSeachItems> listSearch;
+
   @override
   void initState() {
     super.initState();
+    SearchService().getItemSearch().then((itemFromService) {
+      setState(() {
+        listSearch = itemFromService;
+        items = listSearch;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('สนใจอะไรอยู่ลองค้นหาดูสิ',
@@ -65,6 +76,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                               onPressed: () {
                                 setState(() {
                                   _controller.clear();
+                                  items = listSearch;
                                 });
                               },
                             )),
@@ -99,24 +111,14 @@ class _SearchWidgetState extends State<SearchWidget> {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
-                'พบทั้งหมด รายการ',
+                'พบทั้งหมด ' + items.length.toString() + ' รายการ',
                 style: TextStyle(color: Colors.indigo, fontFamily: 'kanit'),
               ),
             ),
           ),
-          streamBuild()
+          _buildExpended()
         ],
       ),
-    );
-  }
-
-  Widget streamBuild() {
-    return StreamBuilder(
-      stream: Firestore.instance.collection('University').snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return const Text('Load...');
-        return _buildExpended(context, snapshot);
-      },
     );
   }
 
@@ -141,44 +143,77 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 
-  Widget _buildExpended(BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+  Widget _buildExpended() {
     return Expanded(
-        child: ListView.builder(
-      padding: EdgeInsets.all(10),
-      itemCount: snapshot.data.documents.length,
+        child: ListView.separated(
+          separatorBuilder: (context, index) => Divider(
+        color: Colors.black,
+      ),
+      itemCount: items.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-           UniversityService().updateView(snapshot.data.documents[index]);
-
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ItemUniversity(
-                        universitys: snapshot.data.documents[index])));
+            print(items[index].documentSnapshot);
+            UniversityService().updateView(items[index].documentSnapshot);
+            if (items[index].type == 'University') {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ItemUniversity(
+                          universitys: items[index].documentSnapshot)));
+            }
           },
-          child: Card(
+         
             child: Container(
-              margin: EdgeInsets.all(6),
-              padding: EdgeInsets.all(6),
-              child: Row(
-                children: <Widget>[
-                  CircleAvatar(
-                    child: Text(
-                        snapshot.data.documents[index]['university_name'][0]),
-                    backgroundColor: Color(0xFF20D3D2),
-                    foregroundColor: Colors.black87,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8),
-                  ),
-                  Text(snapshot.data.documents[index]['university_name']),
-                ],
-              ),
-            ),
-          ),
+                child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    leading: Container(
+                        padding: EdgeInsets.only(right: 5.0),
+                        decoration: new BoxDecoration(
+                            border: new Border(
+                                right: new BorderSide(
+                                    width: 1.0, color: Colors.black))),
+                        child: test(items[index].type),
+                        ),
+                    
+                    title: Text(
+                      items[index].name,
+                      style: TextStyle(
+                          color: Colors.indigo,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right,
+                        color: Colors.black, size: 30.0))),
+        
         );
       },
     ));
+  }
+
+  test(String type) {
+    if (type == 'University') {
+      return Text(
+        'มหาวิทยาลัย',
+        style: TextStyle(color: Colors.indigo),
+      );
+    }
+    if (type == 'Faculty') {
+      return Text(
+        'คณะ',
+        style: TextStyle(color: Colors.indigo),
+      );
+    }
+    if (type == 'Major') {
+      return Text(
+        'สาขา',
+        style: TextStyle(color: Colors.indigo),
+      );
+    }
+    if (type == 'Carrer') {
+      return Text(
+        'อาชีพ',
+        style: TextStyle(color: Colors.indigo),
+      );
+    }
   }
 }

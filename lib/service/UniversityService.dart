@@ -12,7 +12,7 @@ class UniversityService {
        
     QuerySnapshot collecttionSnapshot =
         await collectionReference.getDocuments();
-         print(collecttionSnapshot);
+        
     templist = collecttionSnapshot.documents;
     list = templist.map((DocumentSnapshot doc) {
       
