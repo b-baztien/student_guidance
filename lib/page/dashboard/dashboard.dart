@@ -220,10 +220,10 @@ class _DashboardState extends State<Dashboard> {
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:
                                   return Container(
-                                    width: 100.0,
+                                    width: 200.0,
                                       child: FlareActor(
-                                    "assets/animates/Loader.flr",
-                                    animation: '{"keyframes":{"nodes":{"995":{"framePosY',
+                                    "assets/animates/blessing.flr",
+                                    animation: 'Preview2',
                                     alignment: Alignment.center,
                                     fit: BoxFit.contain,
                                   ));

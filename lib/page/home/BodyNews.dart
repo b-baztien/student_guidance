@@ -115,9 +115,9 @@ class _BodyNewsState extends State<BodyNews> {
                         return Container(
                             width: 100.0,
                             child: FlareActor(
-                              "assets/animates/Loader.flr",
+                              "assets/animates/voters_load.flr",
                               animation:
-                                  '{"keyframes":{"nodes":{"995":{"framePosY',
+                                  'Blobs',
                               alignment: Alignment.center,
                               fit: BoxFit.contain,
                             ));

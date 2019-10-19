@@ -60,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
                   if (input.isEmpty) {
                     return 'กรุณากรอกชื่อผู้ใช้งาน';
                   }
-                  return '';
                 },
                 onSaved: (input) => _username = input,
                 decoration: InputDecoration(
@@ -76,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 obscureText: true,
                 validator: (input) {
                   if (input.length < 4) {
-                    return 'Your password needs to be atleast 6 characters ';
+                    return 'รหัสผ่านต้องประกอบไปด้วย 4 ตัวอักษร';
                   }
                 },
                 onSaved: (input) => _password = input,
