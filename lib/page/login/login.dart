@@ -56,10 +56,11 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
               child: TextFormField(
                 maxLines: 1,
-                validator: (input) {
+                validator: (String input) {
                   if (input.isEmpty) {
-                    return 'Please try an Username';
+                    return 'กรุณากรอกชื่อผู้ใช้งาน';
                   }
+                  return '';
                 },
                 onSaved: (input) => _username = input,
                 decoration: InputDecoration(

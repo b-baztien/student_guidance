@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
@@ -111,7 +112,15 @@ class _BodyNewsState extends State<BodyNews> {
                       return new Text('Error: ${snapshot.error}');
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return new Text('Loading...');
+                        return Container(
+                            width: 100.0,
+                            child: FlareActor(
+                              "assets/animates/Loader.flr",
+                              animation:
+                                  '{"keyframes":{"nodes":{"995":{"framePosY',
+                              alignment: Alignment.center,
+                              fit: BoxFit.contain,
+                            ));
                       default:
                         return new ListView.builder(
                           itemCount: snapshot.data.length,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/Faculty.dart';
@@ -165,7 +166,15 @@ class _AddEducationState extends State<AddEducation> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Text("Loading.....");
+                            return Container(
+                                width: 100.0,
+                                child: FlareActor(
+                                  "assets/animates/Loader.flr",
+                                  animation:
+                                      '{"keyframes":{"nodes":{"995":{"framePosY',
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                ));
                           } else {
                             List<DropdownMenuItem> currencyItem = [];
                             for (int i = 0;
@@ -217,7 +226,15 @@ class _AddEducationState extends State<AddEducation> {
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Text("Loading.....");
+                            return Container(
+                                width: 100.0,
+                                child: FlareActor(
+                                  "assets/animates/Loader.flr",
+                                  animation:
+                                      '{"keyframes":{"nodes":{"995":{"framePosY',
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                ));
                           } else {
                             List<DropdownMenuItem> currencyItem = [];
                             for (int i = 0;
@@ -266,7 +283,15 @@ class _AddEducationState extends State<AddEducation> {
                             Firestore.instance.collection('Major').snapshots(),
                         builder: (context, snapshot) {
                           if (!snapshot.hasData) {
-                            return Text("Loading.....");
+                            return Container(
+                                width: 100.0,
+                                child: FlareActor(
+                                  "assets/animates/Loader.flr",
+                                  animation:
+                                      '{"keyframes":{"nodes":{"995":{"framePosY',
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                ));
                           } else {
                             List<DropdownMenuItem> currencyItem = [];
                             for (int i = 0;
@@ -347,7 +372,8 @@ class _AddEducationState extends State<AddEducation> {
                               throw error;
                             });
                             enExam.school = std.school;
-                            enExam.year = (new DateTime.now().year + 543).toString();
+                            enExam.year =
+                                (new DateTime.now().year + 543).toString();
 
                             EntranService().addEntranceExamResult(enExam);
                           },

@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:student_guidance/model/ChartData.dart';
@@ -218,7 +219,14 @@ class _DashboardState extends State<Dashboard> {
                                 return new Text('Error: ${snapshot.error}');
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:
-                                  return new Text('กำลังโหลด...');
+                                  return Container(
+                                    width: 100.0,
+                                      child: FlareActor(
+                                    "assets/animates/Loader.flr",
+                                    animation: '{"keyframes":{"nodes":{"995":{"framePosY',
+                                    alignment: Alignment.center,
+                                    fit: BoxFit.contain,
+                                  ));
                                 default:
                                   _generateData(snapshot.data);
                                   return Container(
