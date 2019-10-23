@@ -7,11 +7,13 @@ import 'package:student_guidance/model/University.dart';
 
 class SearchService {
   Future<List<FilterSeachItems>> getItemSearch() async {
+
     List<DocumentSnapshot> templistUni;
      List<DocumentSnapshot> templistFac;
       List<DocumentSnapshot> templistMajor;
       List<DocumentSnapshot> templistCarrer;
       List<FilterSeachItems> listItem = new List<FilterSeachItems> ();
+    
     CollectionReference collectionReferenceUniver = Firestore.instance.collection('University');
     QuerySnapshot qsUniver = await collectionReferenceUniver.getDocuments();
      CollectionReference collectionReferenceFac = Firestore.instance.collection('Faculty');
@@ -27,43 +29,52 @@ class SearchService {
     for(DocumentSnapshot ds in templistUni){
       University u = University.fromJson(ds.data);
         FilterSeachItems ff = new FilterSeachItems();
-        ff.id = ds.documentID;
         ff.name = u.universityname;
         ff.type = 'University';
-        ff.documentSnapshot = ds;
         listItem.add(ff);
       }
+      Set<String> nameFac = new Set<String>();
       for(DocumentSnapshot ds in templistFac){
-      Faculty f = Faculty.fromJson(ds.data);
-        FilterSeachItems ff = new FilterSeachItems();
-        ff.id = ds.documentID;
-        ff.name = f.facultyName;
+      Faculty f = Faculty.fromJson(ds.data); 
+        nameFac.add(f.facultyName);
+      }
+      for(String ck in nameFac){
+         FilterSeachItems ff = new FilterSeachItems();
+        ff.name = ck;
         ff.type = 'Faculty';
-        ff.documentSnapshot = ds;
         listItem.add(ff);
       }
+      Set<String> nameMajor = new Set<String>();
       for(DocumentSnapshot ds in templistMajor){
       Major m = Major.fromJson(ds.data);
-        FilterSeachItems ff = new FilterSeachItems();
-        ff.id = ds.documentID;
-        ff.name = m.majorName;
+      nameMajor.add(m.majorName);
+     
+      }
+      for(String ck in nameMajor){
+           FilterSeachItems ff = new FilterSeachItems();
+        ff.name = ck;
         ff.type = 'Major';
-        ff.documentSnapshot = ds;
         listItem.add(ff);
       }
+
       for(DocumentSnapshot ds in templistCarrer){
       Carrer c = Carrer.fromJson(ds.data);
         FilterSeachItems ff = new FilterSeachItems();
-        ff.id = ds.documentID;
         ff.name = c.carrer_name;
         ff.type = 'Carrer';
-        ff.documentSnapshot = ds;
         listItem.add(ff);
       }
-      for(FilterSeachItems f in listItem){
-        print(f.name);
-      }
+      List<FilterSeachItems> listShow = new List<FilterSeachItems>();
+      Set<FilterSeachItems> name = new Set<FilterSeachItems>();
+     for(FilterSeachItems fs in listItem){
+       name.add(fs);
+     }
+
+      listShow = name.toList();
+ 
   
-    return listItem;
+    return listShow;
   }
+
+
 }

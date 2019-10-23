@@ -58,7 +58,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                       elevation: 5.0,
                       borderRadius: BorderRadius.circular(10.0),
                       child: TextField(
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            items = listSearch.where((w) => (w.name.toLowerCase().contains(value.toLowerCase()))).toList();
+                          });
+                        },
                         controller: _controller,
                         decoration: InputDecoration(
                             border: InputBorder.none,
@@ -93,8 +97,9 @@ class _SearchWidgetState extends State<SearchWidget> {
               alignment: Alignment.centerLeft,
               child: Container(
                 child: Wrap(
-                  spacing: 5,
-                  runSpacing: 3,
+                  direction: Axis.horizontal,
+                  spacing: 1,
+                  runSpacing:1,
                   children: <Widget>[
                     for (var i = 0; i < _listFilter.length; i++)
                       filterChipWidget(_listFilter[i])
