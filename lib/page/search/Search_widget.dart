@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/FilterItems.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
+import 'package:student_guidance/page/search/ItemFaculty.dart';
 import 'package:student_guidance/page/search/ItemsUniversity.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/service/UniversityService.dart';
@@ -167,6 +168,13 @@ class _SearchWidgetState extends State<SearchWidget> {
                   MaterialPageRoute(
                       builder: (context) => ItemUniversity(
                           universitys: items[index].documentSnapshot)));
+            }
+            if(items[index].type == 'Faculty'){
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ItemFaculty(
+                          facultyName: items[index].name)));
             }
           },
          

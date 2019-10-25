@@ -31,6 +31,7 @@ class SearchService {
         FilterSeachItems ff = new FilterSeachItems();
         ff.name = u.universityname;
         ff.type = 'University';
+        ff.documentSnapshot = ds;
         listItem.add(ff);
       }
       Set<String> nameFac = new Set<String>();
@@ -74,6 +75,28 @@ class SearchService {
  
   
     return listShow;
+  }
+  Future<List<University>> getListUniversity(String doc) async {
+     List<University> list = new List<University>();
+    try {
+      print(doc);
+      CollectionReference collectionReferenceUniver = Firestore.instance.collection('Faculty');
+      QuerySnapshot qs = await collectionReferenceUniver.where('faculty_name', isEqualTo: doc).getDocuments();
+      print(qs.documents);
+     for(DocumentSnapshot ds in qs.documents){
+       Faculty f = Faculty.fromJson(ds.data); 
+       DocumentReference refQuery = f.university;
+       print(refQuery);
+         University university = new University();
+     university = await refQuery.get().then((docs) async {
+        return University.fromJson(docs.data);
+     });
+    print(university.universityname);
+     }
+      return list;
+    } catch (e) {
+      rethrow;
+    }
   }
 
 
