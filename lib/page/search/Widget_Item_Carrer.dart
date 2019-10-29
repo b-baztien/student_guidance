@@ -59,7 +59,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
       body: Stack(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height - 82,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             color: Colors.transparent,
           ),
@@ -90,71 +90,71 @@ class _ItemCarrerState extends State<ItemCarrer> {
             ),
           ),
           Positioned(
-              top: 165,
-              left: 25,
-              right: 25,
-              child: Container(
-                height: (MediaQuery.of(context).size.height / 2),
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: 22,
-                        ),
+            top: 165,
+            left: 25,
+            right: 25,
+            child: Container(
+              height: (MediaQuery.of(context).size.height / 2),
+              child: ListView(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 22,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 8, right: 8),
-                      child: Text(
-                        des,
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 8, right: 8),
+                    child: Text(
+                      des,
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 22.0, vertical: 6.0),
-                            child: Text(
-                              "สาขาอาชีพที่เกี่ยวข้อง",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Kanit',
-                                  fontSize: 15.0),
-                            ),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 22.0, vertical: 6.0),
+                          child: Text(
+                            "สาขาอาชีพที่เกี่ยวข้อง",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Kanit',
+                                fontSize: 15.0),
                           ),
                         ),
                       ),
                     ),
-                    Container(
-                        height: 100,
-                        child: ListView.builder(
-                          itemCount: listMajor.length,
-                          itemBuilder: (_, index) {
-                            return Container(
-                              alignment: Alignment.center,
-                              child: Text(listMajor[index].majorName,
-                                  style: TextStyle(
-                                      fontFamily: 'Kanit',
-                                      fontSize: 16.0)),
-                            );
-                          },
-                        )),
-                  ],
-                ),
-              ))
+                  ),
+                  Container(
+                      height: 100,
+                      child: ListView.builder(
+                        itemCount: listMajor.length,
+                        itemBuilder: (_, index) {
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text(listMajor[index].majorName,
+                                style: TextStyle(
+                                    fontFamily: 'Kanit', fontSize: 16.0)),
+                          );
+                        },
+                      )),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
