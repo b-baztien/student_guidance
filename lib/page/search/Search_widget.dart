@@ -4,6 +4,7 @@ import 'package:student_guidance/model/FilterItems.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/page/search/ItemFaculty.dart';
 import 'package:student_guidance/page/search/ItemsUniversity.dart';
+import 'package:student_guidance/page/search/Widget_Item_Carrer.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 
@@ -258,6 +259,14 @@ if(chipname.name == "มหาวิทยาลัย"){
                       builder: (context) => ItemFaculty(
                           facultyName: items[index].name)));
             }
+              if(items[index].type == 'Carrer'){
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ItemCarrer(
+                          carrer: items[index].name)));
+            }
+
           },
          
             child: Container(
