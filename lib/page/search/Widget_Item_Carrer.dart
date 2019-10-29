@@ -24,21 +24,22 @@ class _ItemCarrerState extends State<ItemCarrer> {
   void initState() {
     super.initState();
     CarrerService().getCarrer(widget.carrer).then((carrerFromService) {
-      MajorService().getListMajor(carrerFromService.major).then((listMajorFromService){
-          GetImageService()
-          .getImage(carrerFromService.image)
-          .then((imageFromService) {
-        setState(() {
-          carrerItem = carrerFromService;
-          listMajor = listMajorFromService;
-        
-          des = carrerFromService.description;
-          name = carrerFromService.carrer_name;
-          img = imageFromService;
+      MajorService()
+          .getListMajor(carrerFromService.major)
+          .then((listMajorFromService) {
+        GetImageService()
+            .getImage(carrerFromService.image)
+            .then((imageFromService) {
+          setState(() {
+            carrerItem = carrerFromService;
+            listMajor = listMajorFromService;
+
+            des = carrerFromService.description;
+            name = carrerFromService.carrer_name;
+            img = imageFromService;
+          });
         });
       });
-      });
-    
     });
   }
 
@@ -78,22 +79,22 @@ class _ItemCarrerState extends State<ItemCarrer> {
           ),
           Positioned(
             top: 0,
-            left: (MediaQuery.of(context).size.width / 2) - 100,
+            left: (MediaQuery.of(context).size.width / 2) - 75,
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(img), fit: BoxFit.fill)),
-              height: 200,
-              width: 200,
+              height: 150,
+              width: 150,
             ),
           ),
           Positioned(
-              top: 220,
+              top: 165,
               left: 25,
               right: 25,
               child: Container(
-                height:  (MediaQuery.of(context).size.height/2)+100,
+                height: (MediaQuery.of(context).size.height / 2),
                 child: ListView(
                   children: <Widget>[
                     Container(
@@ -101,50 +102,56 @@ class _ItemCarrerState extends State<ItemCarrer> {
                       child: Text(
                         name,
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                          fontSize: 22,
+                        ),
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 8,right: 8),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1
-                        )
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Text(
+                        des,
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
-                      height: 200,
-                      child: ListView(
-                        children: <Widget>[
-                          Text(
-                      des,
-                      style: TextStyle(fontSize: 15),
                     ),
-                        ],
-                      )
+                    SizedBox(
+                      height: 20,
                     ),
-                    
-                    SizedBox(height: 20,),
                     Container(
                       alignment: Alignment.center,
-                      child: Text(
-                      "สาขาอาชีพที่เกี่ยวข้อง",
-                      style: TextStyle(fontSize: 20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 22.0, vertical: 6.0),
+                            child: Text(
+                              "สาขาอาชีพที่เกี่ยวข้อง",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Kanit',
+                                  fontSize: 15.0),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    ),
-                     
                     Container(
-                      height: 100,
-                      child: ListView.builder(
-                        itemCount: listMajor.length,
-                        itemBuilder: (_,index){
-                          return Container(
-                            alignment: Alignment.center,
-                            child: Text(listMajor[index].majorName),
-                          );
-                        },
-                      )
-                    ),
-                   
-                   
+                        height: 100,
+                        child: ListView.builder(
+                          itemCount: listMajor.length,
+                          itemBuilder: (_, index) {
+                            return Container(
+                              alignment: Alignment.center,
+                              child: Text(listMajor[index].majorName,
+                                  style: TextStyle(
+                                      fontFamily: 'Kanit',
+                                      fontSize: 16.0)),
+                            );
+                          },
+                        )),
                   ],
                 ),
               ))
