@@ -17,6 +17,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   Fliteritems ff = new Fliteritems();
   List<Fliteritems> _listFilter = filterItemsList;
   List<FilterSeachItems> items = List<FilterSeachItems>();
+  List<FilterSeachItems> itemsAfterChooseFilter = List<FilterSeachItems>();
   List<FilterSeachItems> listSearch;
 
   @override
@@ -24,8 +25,12 @@ class _SearchWidgetState extends State<SearchWidget> {
     super.initState();
     SearchService().getItemSearch().then((itemFromService) {
       setState(() {
+         for(Fliteritems f in _listFilter){
+            f.b = false;
+          }
         listSearch = itemFromService;
         items = listSearch;
+        
       });
     });
   }
@@ -61,7 +66,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                       child: TextField(
                         onChanged: (value) {
                           setState(() {
-                            items = listSearch.where((w) => (w.name.toLowerCase().contains(value.toLowerCase()))).toList();
+                          
+                            items = itemsAfterChooseFilter.where((w) => (w.name.toLowerCase().contains(value.toLowerCase()))).toList();
                           });
                         },
                         controller: _controller,
@@ -81,7 +87,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                               onPressed: () {
                                 setState(() {
                                   _controller.clear();
-                                  items = listSearch;
+                                  items = itemsAfterChooseFilter;
                                 });
                               },
                             )),
@@ -140,10 +146,86 @@ class _SearchWidgetState extends State<SearchWidget> {
       backgroundColor: Color(0xffededed),
       onSelected: (isSelected) {
         setState(() {
-          if (isSelected)
+          if (isSelected){
+       
+        if(chipname.name == "มหาวิทยาลัย"){
+          for(Fliteritems f in _listFilter){
+            f.b = false;
+          }
+           chipname.b = true;
+           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+          for(FilterSeachItems f in listSearch){
+            if(f.type=="University"){
+              itemsNew.add(f);
+            }
+          }
+          itemsAfterChooseFilter = itemsNew;
+          items = itemsNew;
+        }
+         if(chipname.name == "คณะ"){
+            for(Fliteritems f in _listFilter){
+            f.b = false;
+          }
             chipname.b = true;
-          else
-            chipname.b = false;
+           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+          for(FilterSeachItems f in listSearch){
+            if(f.type=="Faculty"){
+              itemsNew.add(f);
+            }
+          }
+           itemsAfterChooseFilter = itemsNew;
+          items = itemsNew;
+        }
+         if(chipname.name == "สาขา"){
+            for(Fliteritems f in _listFilter){
+            f.b = false;
+          }
+            chipname.b = true;
+           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+          for(FilterSeachItems f in listSearch){
+            if(f.type=="Major"){
+              itemsNew.add(f);
+            }
+          }
+           itemsAfterChooseFilter = itemsNew;
+          items = itemsNew;
+        }
+           if(chipname.name == "อาชีพ"){
+              for(Fliteritems f in _listFilter){
+            f.b = false;
+          }
+              chipname.b = true;
+           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+          for(FilterSeachItems f in listSearch){
+            if(f.type=="Carrer"){
+              itemsNew.add(f);
+            }
+          }
+           itemsAfterChooseFilter = itemsNew;
+          items = itemsNew;
+        }
+          }
+          else{
+chipname.b = false;
+if(chipname.name == "มหาวิทยาลัย"){
+          items = listSearch;
+         itemsAfterChooseFilter = listSearch;
+        }
+        if(chipname.name == "คณะ"){
+          items = listSearch;
+         itemsAfterChooseFilter = listSearch;
+        }
+        if(chipname.name == "สาขา"){
+          items = listSearch;
+           itemsAfterChooseFilter = listSearch;
+        
+        }
+        if(chipname.name == "อาชีพ"){
+          items = listSearch;
+           itemsAfterChooseFilter = listSearch;
+        }
+          }
+            
         });
       },
     );

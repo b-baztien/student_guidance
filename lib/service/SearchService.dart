@@ -79,22 +79,50 @@ class SearchService {
   Future<List<University>> getListUniversity(String doc) async {
      List<University> list = new List<University>();
     try {
-      print(doc);
+     
       CollectionReference collectionReferenceUniver = Firestore.instance.collection('Faculty');
       QuerySnapshot qs = await collectionReferenceUniver.where('faculty_name', isEqualTo: doc).getDocuments();
-      print(qs.documents);
+    
      for(DocumentSnapshot ds in qs.documents){
        Faculty f = Faculty.fromJson(ds.data); 
        DocumentReference refQuery = f.university;
-       print(refQuery);
+      
          University university = new University();
      university = await refQuery.get().then((docs) async {
         return University.fromJson(docs.data);
      });
-    print(university.universityname);
+     
+     list.add(university);
+    
      }
       return list;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Major>> getListMajor(String facName,String uname) async{
+  
+    List<Major> list = new List<Major>();
+  List<DocumentReference> listTemp = new List<DocumentReference>();
+    try{
+        DocumentReference dof ;
+          CollectionReference collectionReferenceUniver = Firestore.instance.collection('University');
+         QuerySnapshot qs = await collectionReferenceUniver.where('university_name', isEqualTo: uname).getDocuments();
+           dof = qs.documents[0].reference;
+              CollectionReference collectionReferenceFac = Firestore.instance.collection('Faculty');
+         QuerySnapshot qsfac = await collectionReferenceFac.where('university', isEqualTo: dof).where('faculty_name', isEqualTo: facName).getDocuments();
+       
+      Faculty fac = Faculty.fromJson(qsfac.documents[0].data);
+     for(DocumentReference f in fac.major){
+Major m = await Firestore.instance.collection('Major').document(f.documentID).get().then((major){
+  return Major.fromJson(major.data);
+});
+list.add(m);
+     }
+      
+        return list;
+    }catch(e){
       rethrow;
     }
   }

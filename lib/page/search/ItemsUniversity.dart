@@ -4,6 +4,7 @@ import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ItemUniversity extends StatefulWidget {
   final DocumentSnapshot universitys;
@@ -15,7 +16,7 @@ class ItemUniversity extends StatefulWidget {
 
 class _ItemUniversityState extends State<ItemUniversity> {
   University _university = new University();
-  List<dynamic> listFacultyDynamic;
+  List<dynamic> listFacultyDynamic = new List<dynamic>();
   List<DocumentReference> listFacultyDocumentReference =
       new List<DocumentReference>();
   List<Faculty> listFaculty = new List<Faculty>();
@@ -30,9 +31,17 @@ class _ItemUniversityState extends State<ItemUniversity> {
       for (DocumentReference docRef in listFacultyDynamic) {
         FacultyService().getFaculty(docRef).then((facultyFromService) {
           GetImageService().getImage(_university.image).then((url) {
-            setState(() {
-              _university.image = url;
-              listFaculty.add(facultyFromService);
+            GetImageService()
+                .getListImage(_university.albumImage)
+                .then((listUrl) {
+              setState(() {
+                print("1"+listUrl.length.toString());
+                _university.albumImage = listUrl;
+              
+                _university.image = url;
+                listFaculty.add(facultyFromService);
+              }
+              );
             });
           });
         });
@@ -40,9 +49,18 @@ class _ItemUniversityState extends State<ItemUniversity> {
       text = '';
     } else {
       GetImageService().getImage(_university.image).then((url) {
-        setState(() {
-          _university.image = url;
-        });
+          GetImageService()
+                .getListImage(_university.albumImage)
+                .then((listUrl) {
+              setState(() {
+                _university.albumImage = listUrl;
+               print("2"+listUrl.length.toString());
+                _university.image = url;
+               
+              }
+              );
+            });
+     
       });
       text = 'ไม่พบคณะในมหาวิทยาลัย';
     }
@@ -112,6 +130,19 @@ class _ItemUniversityState extends State<ItemUniversity> {
                               fontFamily: 'kanit',
                               fontWeight: FontWeight.w900,
                               fontSize: 22.0),
+                        ),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 10.0),
+                      child: Container(
+                        width: screenWidth - 40.0,
+                        child: Text(
+                          "ภาค " + _university.zone,
+                          style: TextStyle(
+                              fontFamily: 'kanit',
+                              color: Colors.grey,
+                              fontSize: 15.0),
                         ),
                       )),
                   Container(
@@ -225,9 +256,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                     return Container(
                                       height: 180,
                                       child: _buildBottomNavigationMenu(
-                                          _university.phoneNO,
-                                          _university.url,
-                                          _university.address),
+                                          _university),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                           topLeft: const Radius.circular(30),
@@ -335,20 +364,28 @@ class ListFacultys extends StatelessWidget {
   }
 }
 
-Column _buildBottomNavigationMenu(String phone, String email, String address) {
+Column _buildBottomNavigationMenu(University university) {
   return Column(
     children: <Widget>[
       ListTile(
         leading: Icon(Icons.phone),
-        title: Text(phone),
+        title: Text(university.phoneNO),
       ),
       ListTile(
         leading: Icon(Icons.http),
-        title: Text(email),
+        title: Text(university.url),
       ),
       ListTile(
         leading: Icon(Icons.home),
-        title: Text(address),
+        title: Text(university.address +
+            " " +
+            university.tambon +
+            " " +
+            university.amphur +
+            " " +
+            university.province +
+            " " +
+            university.zipcode),
       )
     ],
   );

@@ -8,5 +8,6 @@ class  Fliteritems {
     Fliteritems(name: 'มหาวิทยาลัย',b: false),
     Fliteritems(name: 'คณะ',b: false),
     Fliteritems(name: 'สาขา',b: false),
-     Fliteritems(name: '10 มหาวิทยาลัยยอดนิยม',b: false),
+     Fliteritems(name: 'อาชีพ',b: false),
+    
   ];

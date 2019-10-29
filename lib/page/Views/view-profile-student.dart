@@ -42,18 +42,9 @@ class _ViewProfileState extends State<ViewProfile> {
             child: Container(
               height: 80,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40, left: 20),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.dehaze,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
+               
                   Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: Text(
@@ -64,16 +55,7 @@ class _ViewProfileState extends State<ViewProfile> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40, right: 20),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
+                
                 ],
               ),
             ),
