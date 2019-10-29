@@ -16,7 +16,7 @@ class ItemCarrer extends StatefulWidget {
 class _ItemCarrerState extends State<ItemCarrer> {
   Carrer carrerItem = new Carrer();
   List<Major> listMajor = new List<Major>();
-  String img = '';
+  String img = 'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
   String des = '';
   String name = '';
 
