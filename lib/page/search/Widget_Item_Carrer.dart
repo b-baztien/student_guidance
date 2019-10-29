@@ -83,6 +83,20 @@ class _ItemCarrerState extends State<ItemCarrer> {
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius:
+                          5.0, // has the effect of softening the shadow
+                      spreadRadius:
+                          1.0,
+                      offset: Offset(
+                        2.0,
+                        2.0,
+                      ),
+                    )
+                  ],
+                  shape: BoxShape.circle,
                   image: DecorationImage(
                       image: NetworkImage(img), fit: BoxFit.fill)),
               height: 150,
@@ -139,18 +153,19 @@ class _ItemCarrerState extends State<ItemCarrer> {
                     ),
                   ),
                   Container(
-                      height: 100,
-                      child: ListView.builder(
-                        itemCount: listMajor.length,
-                        itemBuilder: (_, index) {
-                          return Container(
-                            alignment: Alignment.center,
-                            child: Text(listMajor[index].majorName,
-                                style: TextStyle(
-                                    fontFamily: 'Kanit', fontSize: 16.0)),
-                          );
-                        },
-                      )),
+                    height: 100,
+                    child: ListView.builder(
+                      itemCount: listMajor.length,
+                      itemBuilder: (_, index) {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Text(listMajor[index].majorName,
+                              style: TextStyle(
+                                  fontFamily: 'Kanit', fontSize: 16.0)),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
