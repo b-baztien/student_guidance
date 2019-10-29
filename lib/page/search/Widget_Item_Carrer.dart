@@ -94,7 +94,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
               right: 25,
               child: Container(
                 height:  (MediaQuery.of(context).size.height/2)+100,
-                child: Column(
+                child: ListView(
                   children: <Widget>[
                     Container(
                       alignment: Alignment.center,
@@ -121,8 +121,10 @@ class _ItemCarrerState extends State<ItemCarrer> {
                         ],
                       )
                     ),
+                    
                     SizedBox(height: 20,),
                     Container(
+                      alignment: Alignment.center,
                       child: Text(
                       "สาขาอาชีพที่เกี่ยวข้อง",
                       style: TextStyle(fontSize: 20),
