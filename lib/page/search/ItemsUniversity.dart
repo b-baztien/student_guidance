@@ -5,6 +5,7 @@ import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemUniversity extends StatefulWidget {
   final DocumentSnapshot universitys;
@@ -159,7 +160,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                     fontFamily: 'kanit',
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.0,
-                                    color: Colors.blueAccent),
+                                    color: UIdata.themeColor),
                               ),
                               Text(
                                 'เรียนต่อ',
@@ -234,7 +235,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                               width: 100,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: Colors.blueAccent),
+                                  color: UIdata.themeColor),
                               child: Text(
                                 'ติดตาม',
                                 style: TextStyle(

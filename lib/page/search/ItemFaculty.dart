@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/search/Widget_Item_MajorInFaculty.dart';
 import 'package:student_guidance/service/SearchService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemFaculty extends StatefulWidget {
   final String facultyName;
@@ -34,7 +35,7 @@ class _ItemFacultyState extends State<ItemFaculty> {
               fontFamily: 'Kanit',
               fontSize: 20,
             )),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: UIdata.themeColor,
         elevation: 0,
       ),
       body: Column(
@@ -60,7 +61,7 @@ class _ItemFacultyState extends State<ItemFaculty> {
                             border: InputBorder.none,
                             prefixIcon: Icon(
                               Icons.search,
-                              color: Colors.redAccent,
+                              color: UIdata.themeColor,
                               size: 25.0,
                             ),
                             contentPadding:

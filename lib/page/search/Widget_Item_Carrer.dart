@@ -4,6 +4,7 @@ import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/service/CarrerService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/MajorService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemCarrer extends StatefulWidget {
   final String carrer;
@@ -46,7 +47,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: UIdata.themeColor,
       appBar: AppBar(
         title: Text('ข้อมูลอาชีพ',
             style: TextStyle(
@@ -134,7 +135,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
                     alignment: Alignment.center,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.redAccent,
+                        color: UIdata.themeColor,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Center(

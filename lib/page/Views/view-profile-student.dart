@@ -33,7 +33,7 @@ class _ViewProfileState extends State<ViewProfile> {
             height: 180,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [Colors.deepOrange, Colors.blue])),
+                    colors: [Colors.deepOrange, UIdata.themeColor])),
           ),
           Positioned(
             top: 0,
@@ -152,7 +152,7 @@ class _CardState extends State<Card> {
               image: DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
-                  color: Colors.blueAccent.withOpacity(.2), width: 1)),
+                  color: UIdata.themeColor.withOpacity(.2), width: 1)),
         ),
         SizedBox(
           height: 10,
@@ -172,7 +172,7 @@ class _CardState extends State<Card> {
           children: <Widget>[
             Text(
               email,
-              style: TextStyle(color: Colors.blueAccent, fontSize: 15),
+              style: TextStyle(color: UIdata.themeColor, fontSize: 15),
             ),
             SizedBox(
               width: 10,
@@ -229,7 +229,7 @@ class _CardState extends State<Card> {
                       Text(
                         'แผนการเรียน ' + plan,
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: UIdata.themeColor,
                         ),
                       )
                     ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:student_guidance/model/ChartData.dart';
 import 'package:student_guidance/service/EntranService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class Dashboard extends StatefulWidget {
   static String tag = "dashboard-page";
@@ -139,7 +140,7 @@ class _DashboardState extends State<Dashboard> {
                 height: 180,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
-                        colors: [Colors.green, Colors.blue[300]])),
+                        colors: [Colors.green, UIdata.themeColor])),
               ),
               Positioned(
                 top: 0,
@@ -276,7 +277,7 @@ class _DashboardState extends State<Dashboard> {
                               listDashboardItem[i].name,
                               style: TextStyle(
                                   fontSize: 15.0,
-                                  color: Colors.blue,
+                                  color: UIdata.themeColor,
                                   fontWeight: FontWeight.bold),
                             ),
                           );

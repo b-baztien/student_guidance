@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:student_guidance/page/login/landing.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class SplashPage extends StatefulWidget {
    static String tag = 'splash-page';
@@ -17,6 +18,6 @@ class _SplashPageState extends State<SplashPage> {
         imageBackground: AssetImage('assets/images/background.png'),
         backgroundColor: Colors.white,
         photoSize: 100.0,
-        loaderColor: Colors.redAccent);
+        loaderColor: UIdata.themeColor);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class FilterWidget extends StatefulWidget {
   @override
@@ -12,11 +13,11 @@ class _FilterWidgetState extends State<FilterWidget> {
       appBar: AppBar(
            title: Text('ตัวกรอง',
             style: TextStyle(
-              color: Colors.orange[200],
+              color: UIdata.fontColor,
               fontFamily: 'Kanit',
               fontSize: 20,
             )),
-        backgroundColor: Colors.indigo,
+        backgroundColor: UIdata.themeColor,
         elevation: 0,
        
 

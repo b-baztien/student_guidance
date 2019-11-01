@@ -7,6 +7,7 @@ import 'package:student_guidance/page/search/ItemsUniversity.dart';
 import 'package:student_guidance/page/search/Widget_Item_Carrer.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/service/UniversityService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchWidget extends StatefulWidget {
   @override
@@ -43,11 +44,11 @@ class _SearchWidgetState extends State<SearchWidget> {
       appBar: AppBar(
         title: Text('สนใจอะไรอยู่ลองค้นหาดูสิ',
             style: TextStyle(
-              color: Colors.orange[200],
+              color: UIdata.fontColor,
               fontFamily: 'Kanit',
               fontSize: 20,
             )),
-        backgroundColor: Colors.indigo,
+        backgroundColor: UIdata.themeColor,
         elevation: 0,
       ),
       body: Column(
@@ -76,7 +77,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                             border: InputBorder.none,
                             prefixIcon: Icon(
                               Icons.search,
-                              color: Colors.indigo,
+                              color: UIdata.themeColor,
                               size: 25.0,
                             ),
                             contentPadding:
@@ -125,7 +126,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด ' + items.length.toString() + ' รายการ',
-                style: TextStyle(color: Colors.indigo, fontFamily: 'kanit'),
+                style: TextStyle(color: UIdata.themeColor, fontFamily: 'kanit'),
               ),
             ),
           ),
@@ -139,7 +140,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     return FilterChip(
       label: Text(chipname.name),
       labelStyle: TextStyle(
-          color: Colors.indigo,
+          color: UIdata.themeColor,
           fontFamily: 'kanit',
           fontSize: 13,
           fontWeight: FontWeight.bold),
@@ -284,7 +285,7 @@ if(chipname.name == "มหาวิทยาลัย"){
                     title: Text(
                       items[index].name,
                       style: TextStyle(
-                          color: Colors.indigo,
+                          color: UIdata.themeColor,
                           fontWeight: FontWeight.bold),
                     ),
                     trailing: Icon(Icons.keyboard_arrow_right,
@@ -299,25 +300,25 @@ if(chipname.name == "มหาวิทยาลัย"){
     if (type == 'University') {
       return Text(
         'มหาวิทยาลัย',
-        style: TextStyle(color: Colors.indigo),
+        style: TextStyle(color: UIdata.themeColor),
       );
     }
     if (type == 'Faculty') {
       return Text(
         'คณะ',
-        style: TextStyle(color: Colors.indigo),
+        style: TextStyle(color: UIdata.themeColor),
       );
     }
     if (type == 'Major') {
       return Text(
         'สาขา',
-        style: TextStyle(color: Colors.indigo),
+        style: TextStyle(color: UIdata.themeColor),
       );
     }
     if (type == 'Carrer') {
       return Text(
         'อาชีพ',
-        style: TextStyle(color: Colors.indigo),
+        style: TextStyle(color: UIdata.themeColor),
       );
     }
   }

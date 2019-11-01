@@ -7,6 +7,7 @@ import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/service/EntranService.dart';
 import 'package:student_guidance/service/StudentService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class AddEducation extends StatefulWidget {
   @override
@@ -348,7 +349,7 @@ class _AddEducationState extends State<AddEducation> {
                             'เพิ่มข้อมูล',
                             style: TextStyle(color: Colors.white),
                           ),
-                          color: Colors.blue,
+                          color: UIdata.themeColor,
                           onPressed: () async {
                             Student std = new Student();
                             await StudentService().getStudent().then((result) {

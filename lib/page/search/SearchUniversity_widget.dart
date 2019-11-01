@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/UniversityService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 
 class SearchUniversityWidget extends StatefulWidget {
@@ -92,7 +93,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด ' + items.length.toString() + ' มหาวิทยาลัย',
-                style: TextStyle(color: Colors.indigo, fontFamily: 'kanit'),
+                style: TextStyle(color: UIdata.themeColor, fontFamily: 'kanit'),
               ),
             ),
           ),
@@ -130,8 +131,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
                     width: 350,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colors
-                              .blue[500], //                   <--- border color
+                          color: UIdata.themeColor, //                   <--- border color
                           width: 3.0,
                         ),
                         shape: BoxShape.rectangle,
@@ -154,7 +154,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
                                 style: TextStyle(
                                     fontFamily: 'kanit',
                                     fontSize: 20,
-                                    color: Colors.blue[500]),
+                                    color: UIdata.themeColor),
                               ),
                             ),
                           ],

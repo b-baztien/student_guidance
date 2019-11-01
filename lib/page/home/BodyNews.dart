@@ -11,6 +11,7 @@ import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/service/SchoolService.dart';
 import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/service/TeacherService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 import 'package:student_guidance/widgets/customCard.dart';
 
@@ -45,7 +46,7 @@ class _BodyNewsState extends State<BodyNews> {
       return new Container(
           height: 140.0,
           width: MediaQuery.of(context).size.width,
-          color: Colors.indigo,
+          color: UIdata.themeColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -53,7 +54,7 @@ class _BodyNewsState extends State<BodyNews> {
               Text(
                 'Student Guidance',
                 style: TextStyle(
-                    color: Colors.orange[200],
+                    color: UIdata.fontColor,
                     fontFamily: 'Kanit',
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold),
@@ -61,7 +62,7 @@ class _BodyNewsState extends State<BodyNews> {
               Text(
                 shcool_name,
                 style: TextStyle(
-                    color: Colors.orange[200],
+                    color: UIdata.fontColor,
                     fontFamily: 'Kanit',
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold),
@@ -82,7 +83,7 @@ class _BodyNewsState extends State<BodyNews> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.indigo[600],
+                    color: UIdata.themeColor,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: Center(
@@ -91,7 +92,7 @@ class _BodyNewsState extends State<BodyNews> {
                           EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
                       child: Text("ข่าวสาร",
                           style: TextStyle(
-                              color: Colors.amber[600],
+                              color: UIdata.fontColor,
                               fontFamily: 'Kanit',
                               fontSize: 20.0)),
                     ),
@@ -158,7 +159,7 @@ class _BodyNewsState extends State<BodyNews> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.indigo[600],
+                    color: UIdata.themeColor,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: Center(
@@ -167,7 +168,7 @@ class _BodyNewsState extends State<BodyNews> {
                           EdgeInsets.symmetric(horizontal: 22.0, vertical: 6.0),
                       child: Text("สาขาที่เหมาะกับอาชีพในฝันของคุณ",
                           style: TextStyle(
-                              color: Colors.yellow,
+                              color: UIdata.fontColor,
                               fontFamily: 'Kanit',
                               fontSize: 15.0)),
                     ),

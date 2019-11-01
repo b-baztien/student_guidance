@@ -5,6 +5,7 @@ import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/BodyNews.dart';
 import 'package:student_guidance/page/search/Search_widget.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class Home extends StatefulWidget {
   static String tag = "home-page";
@@ -33,14 +34,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: UIdata.themeColor,
       body: _pageOptions[_selectedPage],
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
             // sets the background color of the `BottomNavigationBar`
             canvasColor: Colors.white,
             // sets the active color of the `BottomNavigationBar` if `Brightness` is light
-            primaryColor: Colors.blue[800],
+            primaryColor: UIdata.themeColor,
             textTheme: Theme.of(context).textTheme.copyWith(
                 caption: new TextStyle(
                     color: Colors

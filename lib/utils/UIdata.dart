@@ -28,4 +28,7 @@ class UIdata {
   static String editProfileTag = EditProfile.tag;
 
   static String fontFamily = 'Kanit';
+
+  static Color themeColor = Colors.cyan[800];
+  static Color fontColor = Colors.white;
 }

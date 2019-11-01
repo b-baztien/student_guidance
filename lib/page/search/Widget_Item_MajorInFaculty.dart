@@ -3,6 +3,7 @@ import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/SearchService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class MajorInFaculty extends StatefulWidget {
   final University university;
@@ -36,7 +37,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
               fontFamily: 'Kanit',
               fontSize: 20,
             )),
-        backgroundColor: Colors.redAccent,
+        backgroundColor: UIdata.themeColor,
         elevation: 0,
       ),
       body: ListView.builder(

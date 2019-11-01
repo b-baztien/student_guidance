@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           FlutterLogo(
-            colors: Colors.blue,
+            colors: UIdata.themeColor,
             size: 80.0,
           ),
           SizedBox(
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Text(
             'ระบบจัดการแนะแนวสำหรับนักเรียนมัธยมปลาย',
-            style: TextStyle(fontWeight: FontWeight.w700, color: Colors.blue),
+            style: TextStyle(fontWeight: FontWeight.w700, color: UIdata.themeColor),
           ),
           SizedBox(
             height: 5.0,
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                   'ลงชื่อเข้าใช้',
                   style: TextStyle(color: Colors.white),
                 ),
-                color: Colors.blue,
+                color: UIdata.themeColor,
                 onPressed: signIn,
               ),
             ),

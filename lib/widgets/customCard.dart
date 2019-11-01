@@ -3,6 +3,7 @@ import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/page/News/view_news.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
   class CustomCard extends StatefulWidget {
     final Teacher teachers;
@@ -60,7 +61,7 @@ import 'package:student_guidance/service/GetImageService.dart';
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0)),
-                    color: Colors.blue),
+                    color: UIdata.themeColor),
               ),
               Padding(
                   padding: EdgeInsets.only(),
