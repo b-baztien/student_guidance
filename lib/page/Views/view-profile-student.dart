@@ -19,7 +19,6 @@ class _ViewProfileState extends State<ViewProfile> {
     StudentService().getStudent().then((studentFromService) {
       setState(() {
         student = studentFromService;
-        
       });
     });
   }
@@ -31,9 +30,7 @@ class _ViewProfileState extends State<ViewProfile> {
         children: <Widget>[
           Container(
             height: 180,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors.deepOrange, UIdata.themeColor])),
+            decoration: BoxDecoration(color: UIdata.themeColor),
           ),
           Positioned(
             top: 0,
@@ -44,7 +41,6 @@ class _ViewProfileState extends State<ViewProfile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-               
                   Padding(
                     padding: const EdgeInsets.only(top: 40),
                     child: Text(
@@ -55,7 +51,6 @@ class _ViewProfileState extends State<ViewProfile> {
                       ),
                     ),
                   ),
-                
                 ],
               ),
             ),
@@ -122,19 +117,21 @@ class _CardState extends State<Card> {
   void initState() {
     super.initState();
     StudentService().getStudent().then((studentFromService) {
-      GetImageService().getImage(studentFromService.image).then((imgFromService){
-         setState(() {
-        name = studentFromService.firstname + ' ' + studentFromService.lastname;
-        email = studentFromService.email;
-        status = studentFromService.status;
-        year = studentFromService.entryyear;
-        plan = studentFromService.plan;
-        oldschool = studentFromService.juniorSchool;
-        img = imgFromService;
-        print(img);
+      GetImageService()
+          .getImage(studentFromService.image)
+          .then((imgFromService) {
+        setState(() {
+          name =
+              studentFromService.firstname + ' ' + studentFromService.lastname;
+          email = studentFromService.email;
+          status = studentFromService.status;
+          year = studentFromService.entryyear;
+          plan = studentFromService.plan;
+          oldschool = studentFromService.juniorSchool;
+          img = imgFromService;
+          print(img);
+        });
       });
-      });
-    
     });
   }
 
@@ -149,7 +146,8 @@ class _CardState extends State<Card> {
           height: 130,
           width: 130,
           decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
+              image:
+                  DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
               borderRadius: BorderRadius.circular(100),
               border: Border.all(
                   color: UIdata.themeColor.withOpacity(.2), width: 1)),

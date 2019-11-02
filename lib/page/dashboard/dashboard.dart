@@ -139,8 +139,8 @@ class _DashboardState extends State<Dashboard> {
               Container(
                 height: 180,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Colors.green, UIdata.themeColor])),
+                  color: UIdata.themeColor,
+                ),
               ),
               Positioned(
                 top: 0,
@@ -221,13 +221,13 @@ class _DashboardState extends State<Dashboard> {
                               switch (snapshot.connectionState) {
                                 case ConnectionState.waiting:
                                   return Container(
-                                    width: 200.0,
+                                      width: 200.0,
                                       child: FlareActor(
-                                    "assets/animates/blessing.flr",
-                                    animation: 'Preview2',
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                  ));
+                                        "assets/animates/blessing.flr",
+                                        animation: 'Preview2',
+                                        alignment: Alignment.center,
+                                        fit: BoxFit.contain,
+                                      ));
                                 default:
                                   _generateData(snapshot.data);
                                   return Container(

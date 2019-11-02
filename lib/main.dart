@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Kanit',
-        primarySwatch: Colors.red,
+        primarySwatch: UIdata.themeMaterialColor,
       ),
       home: SplashPage(),
       routes: UIdata.routes,

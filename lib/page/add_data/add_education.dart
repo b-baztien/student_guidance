@@ -69,7 +69,7 @@ class _AddEducationState extends State<AddEducation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF21BFBD),
+      backgroundColor: UIdata.themeColor,
       body: ListView(
         children: <Widget>[
           Padding(
