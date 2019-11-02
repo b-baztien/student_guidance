@@ -1,14 +1,9 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Login.dart';
-import 'package:student_guidance/page/home/home.dart';
-import 'package:student_guidance/service/EntranService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/widgets/Dialogs.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           FlutterLogo(
-            colors: UIdata.themeColor,
+            colors: Colors.blue,
             size: 80.0,
           ),
           SizedBox(
@@ -34,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Text(
             'ระบบจัดการแนะแนวสำหรับนักเรียนมัธยมปลาย',
-            style: TextStyle(fontWeight: FontWeight.w700, color: UIdata.themeColor),
+            style: TextStyle(fontWeight: FontWeight.w700, color: Colors.blue),
           ),
           SizedBox(
             height: 5.0,
@@ -98,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   'ลงชื่อเข้าใช้',
                   style: TextStyle(color: Colors.white),
                 ),
-                color: UIdata.themeColor,
+                color: Colors.blue,
                 onPressed: signIn,
               ),
             ),
