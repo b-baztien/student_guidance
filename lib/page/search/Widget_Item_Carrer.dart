@@ -17,7 +17,8 @@ class ItemCarrer extends StatefulWidget {
 class _ItemCarrerState extends State<ItemCarrer> {
   Carrer carrerItem = new Carrer();
   List<Major> listMajor = new List<Major>();
-  String img = 'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
+  String img =
+      'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
   String des = '';
   String name = '';
 
@@ -87,10 +88,8 @@ class _ItemCarrerState extends State<ItemCarrer> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
-                      blurRadius:
-                          5.0, // has the effect of softening the shadow
-                      spreadRadius:
-                          1.0,
+                      blurRadius: 5.0,
+                      spreadRadius: 1.0,
                       offset: Offset(
                         2.0,
                         2.0,

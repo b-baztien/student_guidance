@@ -36,13 +36,12 @@ class _ItemUniversityState extends State<ItemUniversity> {
                 .getListImage(_university.albumImage)
                 .then((listUrl) {
               setState(() {
-                print("1"+listUrl.length.toString());
+                print("1" + listUrl.length.toString());
                 _university.albumImage = listUrl;
-              
+
                 _university.image = url;
                 listFaculty.add(facultyFromService);
-              }
-              );
+              });
             });
           });
         });
@@ -50,18 +49,13 @@ class _ItemUniversityState extends State<ItemUniversity> {
       text = '';
     } else {
       GetImageService().getImage(_university.image).then((url) {
-          GetImageService()
-                .getListImage(_university.albumImage)
-                .then((listUrl) {
-              setState(() {
-                _university.albumImage = listUrl;
-               print("2"+listUrl.length.toString());
-                _university.image = url;
-               
-              }
-              );
-            });
-     
+        GetImageService().getListImage(_university.albumImage).then((listUrl) {
+          setState(() {
+            _university.albumImage = listUrl;
+            print("2" + listUrl.length.toString());
+            _university.image = url;
+          });
+        });
       });
       text = 'ไม่พบคณะในมหาวิทยาลัย';
     }
@@ -79,7 +73,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
         children: <Widget>[
           Container(
             height: 420.0,
-            color: Color(0xFF20D3D2),
+            color: UIdata.themeColor,
           ),
           Positioned(
             left: screenWidth / 2 + 25.0,
@@ -139,7 +133,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                       child: Container(
                         width: screenWidth - 40.0,
                         child: Text(
-                          "ภาค " + _university.zone,
+                          "ภาค" + _university.zone,
                           style: TextStyle(
                               fontFamily: 'kanit',
                               color: Colors.grey,
