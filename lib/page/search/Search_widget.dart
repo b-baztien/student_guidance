@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/model/FilterItems.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/page/search/ItemFaculty.dart';
+import 'package:student_guidance/page/search/ItemMajor.dart';
 import 'package:student_guidance/page/search/ItemsUniversity.dart';
 import 'package:student_guidance/page/search/Widget_Item_Carrer.dart';
 import 'package:student_guidance/service/SearchService.dart';
@@ -260,6 +261,13 @@ if(chipname.name == "มหาวิทยาลัย"){
                       builder: (context) => ItemFaculty(
                           facultyName: items[index].name)));
             }
+              if(items[index].type == 'Major'){
+               Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ItemMajor(
+                          majorName: items[index].name)));
+            }
               if(items[index].type == 'Carrer'){
                Navigator.push(
                   context,
@@ -289,7 +297,9 @@ if(chipname.name == "มหาวิทยาลัย"){
                           fontWeight: FontWeight.bold),
                     ),
                     trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Colors.black, size: 30.0))),
+                        color: Colors.black, size: 30.0)
+                        )
+                        ),
         
         );
       },
