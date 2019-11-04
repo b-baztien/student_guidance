@@ -151,7 +151,8 @@ class _BodyNewsState extends State<BodyNews> {
                     }
                   },
                 ),
-              )),
+              )
+              ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
