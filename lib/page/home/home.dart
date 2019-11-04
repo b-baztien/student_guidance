@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:student_guidance/page/Views/list-teacher.dart';
 import 'package:student_guidance/page/Views/view-profile-student.dart';
-import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/BodyNews.dart';
 import 'package:student_guidance/page/search/Search_widget.dart';
@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   final _pageOptions = [
     BodyNews(),
     SearchWidget(),
-    AddEducation(),
+    ListTeacher(),
     Dashboard(),
     ViewProfile(),
   ];
@@ -58,13 +58,13 @@ class _HomeState extends State<Home> {
                 title: new Text('ค้นหา')),
             BottomNavigationBarItem(
                 icon: new Icon(Icons.map, size: 30),
-                title: new Text('Education')),
+                title: new Text('คุณครู')),
             BottomNavigationBarItem(
                 icon: new Icon(Icons.dashboard, size: 30),
-                title: new Text('Dashboard')),
+                title: new Text('แผนภูมิ')),
             BottomNavigationBarItem(
                 icon: new Icon(Icons.person, size: 30),
-                title: new Text('Profiles'))
+                title: new Text('โปรไฟล์'))
           ],
           onTap: (int index) {
             setState(() {

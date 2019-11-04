@@ -7,12 +7,12 @@ class Teacher extends Login {
   String lastname;
   String phoneNO;
   String email;
-  String photo;
+  String image;
   DocumentReference login;
   DocumentReference school;
 
 
-  Teacher({this.firstname,this.lastname,this.phoneNO,this.email,this.photo,this.login,this.school});
+  Teacher({this.firstname,this.lastname,this.phoneNO,this.email,this.image,this.login,this.school});
 
   factory Teacher.fromJson(Map<String, dynamic> json) {
     return Teacher(
@@ -20,7 +20,7 @@ class Teacher extends Login {
      lastname: json['lastname'] as String,
      phoneNO: json['phone_no'] as String,
      email: json['email'] as String,
-      photo: json['photo'] as String,
+      image: json['image'] as String,
       login: json['Login'] as DocumentReference,
       school: json['School'] as DocumentReference,
       

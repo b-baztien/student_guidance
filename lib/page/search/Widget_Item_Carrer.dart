@@ -17,8 +17,7 @@ class ItemCarrer extends StatefulWidget {
 class _ItemCarrerState extends State<ItemCarrer> {
   Carrer carrerItem = new Carrer();
   List<Major> listMajor = new List<Major>();
-  String img =
-      'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
+  String img = 'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
   String des = '';
   String name = '';
 
@@ -61,6 +60,11 @@ class _ItemCarrerState extends State<ItemCarrer> {
       ),
       body: Stack(
         children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.transparent,
+          ),
           Positioned(
             top: 75,
             child: Container(
@@ -84,8 +88,10 @@ class _ItemCarrerState extends State<ItemCarrer> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
-                      blurRadius: 5.0,
-                      spreadRadius: 1.0,
+                      blurRadius:
+                          5.0, // has the effect of softening the shadow
+                      spreadRadius:
+                          1.0,
                       offset: Offset(
                         2.0,
                         2.0,
@@ -103,7 +109,6 @@ class _ItemCarrerState extends State<ItemCarrer> {
             top: 165,
             left: 25,
             right: 25,
-            height: MediaQuery.of(context).size.height - 200,
             child: Container(
               height: (MediaQuery.of(context).size.height / 2),
               child: ListView(
