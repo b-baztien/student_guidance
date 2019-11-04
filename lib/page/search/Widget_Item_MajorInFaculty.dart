@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/page/search/Widget_item_Major.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -177,18 +178,31 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                       ),
                       Container(
                         height: (MediaQuery.of(context).size.height /3),
-                        child: ListView.builder(
-                          itemCount: listMajor.length,
-                          itemBuilder: (_, index) {
-                            return ListTile(
-                             trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Colors.black, size: 30.0),
-                              title: Text(listMajor[index].majorName,
-                                  style: TextStyle(
-                                      fontFamily: 'Kanit', fontSize: 18.0)),
-                                      
-                            );
-                          },
+                        child: Container(
+                          child: ListView.builder(
+                            itemCount: listMajor.length,
+                            itemBuilder: (_, index) {
+                              return InkWell(
+                                onTap: (){
+   Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WidgetItemMajor(
+                         university:widget.university,majorName:listMajor[index].majorName)));
+                                },
+                                child: Container(
+                                child: ListTile(
+                                 trailing: Icon(Icons.keyboard_arrow_right,
+                          color: Colors.black, size: 30.0),
+                                  title: Text(listMajor[index].majorName,
+                                      style: TextStyle(
+                                          fontFamily: 'Kanit', fontSize: 18.0)),
+                                          
+                                ),
+                              ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],

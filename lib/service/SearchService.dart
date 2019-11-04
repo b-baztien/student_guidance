@@ -132,6 +132,23 @@ DocumentReference refQueryUniver = faculty.university;
     }
   }
 
+  Future<List<Carrer>> getListCarrer(List<dynamic> listCarrer) async{
+ List<DocumentReference> list = new List<DocumentReference>();
+ List<Carrer> listReturn = new List<Carrer>();
+   for(int i = 0;i<listCarrer.length;i++){
+              list.add(listCarrer[i]);
+            }
+     for(DocumentReference doc in list){
+              Carrer carrer = new Carrer();
+              carrer =  await doc.get().then((docs) async {
+                          return Carrer.fromJson(docs.data);
+                 });
+                 listReturn.add(carrer);
+            }
+            return listReturn;
+
+  }
+
   Future<Major> getMajorForSearch(String majorName,String univerName)async {
 try{
   List<Major> major = new List<Major>();

@@ -69,258 +69,260 @@ class _ItemUniversityState extends State<ItemUniversity> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: 420.0,
-            color: UIdata.themeColor,
-          ),
-          Positioned(
-            left: screenWidth / 2 + 25.0,
-            bottom: screenHeight - 200.0,
-            child: Hero(
-              tag: _university.image,
+      body: SafeArea(
+              child: Stack(
+          children: <Widget>[
+            Container(
+              height: 420.0,
+              color: UIdata.themeColor,
+            ),
+            Positioned(
+              left: screenWidth / 2 + 25.0,
+              bottom: screenHeight - 200.0,
+              child: Hero(
+                tag: _university.image,
+                child: Container(
+                  height: 150.0,
+                  width: 150.0,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(_university.image),
+                          fit: BoxFit.fill)),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ),
+            Positioned(
+              top: 200,
               child: Container(
-                height: 150.0,
-                width: 150.0,
+                width: screenWidth,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(_university.image),
-                        fit: BoxFit.fill)),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ),
-          Positioned(
-            top: 200,
-            child: Container(
-              width: screenWidth,
-              decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(240))),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: 15.0, left: 20.0, right: 20.0, bottom: 10.0),
-                      child: Container(
-                        width: screenWidth - 40.0,
-                        child: Text(
-                          _university.universityname,
-                          style: TextStyle(
-                              fontFamily: 'kanit',
-                              fontWeight: FontWeight.w900,
-                              fontSize: 22.0),
-                        ),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.only(
-                          left: 20.0, right: 20.0, bottom: 10.0),
-                      child: Container(
-                        width: screenWidth - 40.0,
-                        child: Text(
-                          "ภาค" + _university.zone,
-                          style: TextStyle(
-                              fontFamily: 'kanit',
-                              color: Colors.grey,
-                              fontSize: 15.0),
-                        ),
-                      )),
-                  Container(
-                      margin: EdgeInsets.all(8),
-                      padding: EdgeInsets.only(
-                          left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                '0',
-                                style: TextStyle(
-                                    fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.0,
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(0),
+                        topRight: Radius.circular(240))),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(
+                            top: 15.0, left: 20.0, right: 20.0, bottom: 10.0),
+                        child: Container(
+                          width: screenWidth - 40.0,
+                          child: Text(
+                            _university.universityname,
+                            style: TextStyle(
+                                fontFamily: 'kanit',
+                                fontWeight: FontWeight.w900,
+                                fontSize: 22.0),
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: 20.0, right: 20.0, bottom: 10.0),
+                        child: Container(
+                          width: screenWidth - 40.0,
+                          child: Text(
+                            "ภาค" + _university.zone,
+                            style: TextStyle(
+                                fontFamily: 'kanit',
+                                color: Colors.grey,
+                                fontSize: 15.0),
+                          ),
+                        )),
+                    Container(
+                        margin: EdgeInsets.all(8),
+                        padding: EdgeInsets.only(
+                            left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
+                        child: Row(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  '0',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: UIdata.themeColor),
+                                ),
+                                Text(
+                                  'เรียนต่อ',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.black87),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  '0',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.pink),
+                                ),
+                                Text(
+                                  'ผู้ติดตาม',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.black87),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  _university.view.toString(),
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.green),
+                                ),
+                                Text(
+                                  'ผู้เข้าชม',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.black87),
+                                )
+                              ],
+                            ),
+                          ],
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
+                        child: Row(
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                print('ติดตาม');
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
                                     color: UIdata.themeColor),
+                                child: Text(
+                                  'ติดตาม',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.white),
+                                ),
                               ),
-                              Text(
-                                'เรียนต่อ',
-                                style: TextStyle(
-                                    fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.0,
-                                    color: Colors.black87),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 50,
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                '0',
-                                style: TextStyle(
-                                    fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.0,
-                                    color: Colors.pink),
-                              ),
-                              Text(
-                                'ผู้ติดตาม',
-                                style: TextStyle(
-                                    fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.0,
-                                    color: Colors.black87),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 50,
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                _university.view.toString(),
-                                style: TextStyle(
-                                    fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.0,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return Container(
+                                        height: 180,
+                                        child: _buildBottomNavigationMenu(
+                                            _university),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: const Radius.circular(30),
+                                            topRight: const Radius.circular(30),
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 40,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
                                     color: Colors.green),
+                                child: Text(
+                                  'ติดต่อ',
+                                  style: TextStyle(
+                                      fontFamily: 'kanit',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16.0,
+                                      color: Colors.white),
+                                ),
                               ),
-                              Text(
-                                'ผู้เข้าชม',
-                                style: TextStyle(
-                                    fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.0,
-                                    color: Colors.black87),
-                              )
-                            ],
-                          ),
-                        ],
-                      )),
-                  Padding(
+                            )
+                          ],
+                        )),
+                    Padding(
                       padding: EdgeInsets.only(
                           left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
-                      child: Row(
-                        children: <Widget>[
-                          InkWell(
-                            onTap: () {
-                              print('ติดตาม');
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 40,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: UIdata.themeColor),
-                              child: Text(
-                                'ติดตาม',
-                                style: TextStyle(
+                      child: Container(
+                          width: screenWidth - 40.0,
+                          child: listFaculty.length != 0
+                              ? Text(
+                                  'รายชื่อคณะ (${listFaculty.length}) ',
+                                  style: TextStyle(
                                     fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w900,
                                     fontSize: 16.0,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return Container(
-                                      height: 180,
-                                      child: _buildBottomNavigationMenu(
-                                          _university),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: const Radius.circular(30),
-                                          topRight: const Radius.circular(30),
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 40,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.green),
-                              child: Text(
-                                'ติดต่อ',
-                                style: TextStyle(
+                                  ),
+                                )
+                              : Text(
+                                  'รายชื่อคณะ',
+                                  style: TextStyle(
                                     fontFamily: 'kanit',
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.w900,
                                     fontSize: 16.0,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          )
-                        ],
-                      )),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
-                    child: Container(
-                        width: screenWidth - 40.0,
-                        child: listFaculty.length != 0
-                            ? Text(
-                                'รายชื่อคณะ (${listFaculty.length}) ',
-                                style: TextStyle(
-                                  fontFamily: 'kanit',
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16.0,
-                                ),
-                              )
-                            : Text(
-                                'รายชื่อคณะ',
-                                style: TextStyle(
-                                  fontFamily: 'kanit',
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 16.0,
-                                ),
-                              )),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    height: screenHeight,
-                    color: Colors.transparent,
-                    // child ListView
-                    child: listFaculty.length == 0
-                        ? Text(text)
-                        : ListView.builder(
-                            itemCount: listFaculty.length,
-                            itemBuilder: (_, i) => ListFacultys(
-                                  ff: listFaculty[i],
+                                  ),
                                 )),
-                  ),
-                ],
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      height: screenHeight,
+                      color: Colors.transparent,
+                      // child ListView
+                      child: listFaculty.length == 0
+                          ? Text(text)
+                          : ListView.builder(
+                              itemCount: listFaculty.length,
+                              itemBuilder: (_, i) => ListFacultys(
+                                    ff: listFaculty[i],
+                                  )),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
