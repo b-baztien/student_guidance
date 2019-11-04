@@ -101,10 +101,79 @@ class SearchService {
     }
   }
 
-  Future<List<Major>> getListMajor(String facName,String uname) async{
-  
-    List<Major> list = new List<Major>();
-  List<DocumentReference> listTemp = new List<DocumentReference>();
+Future<List<University>> getListUniversitybyMajor(String doc) async {
+     List<University> list = new List<University>();
+    try {
+     
+      CollectionReference collectionReferenceUniver = Firestore.instance.collection('Major');
+      QuerySnapshot qs = await collectionReferenceUniver.where('major_name', isEqualTo: doc).getDocuments();
+    
+     for(DocumentSnapshot ds in qs.documents){
+       Major major = Major.fromJson(ds.data); 
+       DocumentReference refQuery = major.faculty;
+      
+         Faculty faculty = new Faculty();
+     faculty = await refQuery.get().then((docs) async {
+        return Faculty.fromJson(docs.data);
+     });
+DocumentReference refQueryUniver = faculty.university;
+      University university = new University();
+      university = await refQueryUniver.get().then((docs) async {
+        return University.fromJson(docs.data);
+     });
+
+     
+     list.add(university);
+    
+     }
+      return list;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Major> getMajorForSearch(String majorName,String univerName)async {
+try{
+  List<Major> major = new List<Major>();
+        DocumentReference dof ;
+          CollectionReference collectionReferenceUniver = Firestore.instance.collection('University');
+         QuerySnapshot qs = await collectionReferenceUniver.where('university_name', isEqualTo: univerName).getDocuments();
+           dof = qs.documents[0].reference;
+            
+        CollectionReference collectionReferenceFac = Firestore.instance.collection('Faculty');
+         QuerySnapshot qsfac = await collectionReferenceFac.where('university', isEqualTo: dof).getDocuments();
+         for(DocumentSnapshot qs in qsfac.documents){
+           Faculty faculty = Faculty.fromJson(qs.data);
+           List<DocumentReference> listDocMajor = new  List<DocumentReference>();
+           List<dynamic> listmajor = faculty.major;
+         
+            for(int i = 0;i<listmajor.length;i++){
+              listDocMajor.add(listmajor[i]);
+            }
+           
+            for(DocumentReference doc in listDocMajor){
+              Major mj = new Major();
+              mj =  await doc.get().then((docs) async {
+                          return Major.fromJson(docs.data);
+                 });
+                 major.add(mj);
+            }
+         }
+         Major majorReturn = new Major();
+         for(Major ma in major){
+           if(ma.majorName ==majorName ){
+             majorReturn = ma;
+           }
+         }
+        return majorReturn;
+    }catch(e){
+      rethrow;
+    }
+  }
+
+
+
+  Future<Faculty> getFacultyForSearch(String facName,String uname) async{
     try{
         DocumentReference dof ;
           CollectionReference collectionReferenceUniver = Firestore.instance.collection('University');
@@ -114,18 +183,26 @@ class SearchService {
          QuerySnapshot qsfac = await collectionReferenceFac.where('university', isEqualTo: dof).where('faculty_name', isEqualTo: facName).getDocuments();
        
       Faculty fac = Faculty.fromJson(qsfac.documents[0].data);
+   
+      
+        return fac;
+    }catch(e){
+      rethrow;
+    }
+  }
+  Future<List<Major>> getListMajor(Faculty fac) async{
+    List<Major> list = new List<Major>();
+  
      for(DocumentReference f in fac.major){
 Major m = await Firestore.instance.collection('Major').document(f.documentID).get().then((major){
   return Major.fromJson(major.data);
 });
 list.add(m);
      }
-      
-        return list;
-    }catch(e){
-      rethrow;
-    }
+     return list;
   }
+
+
 
 
 }

@@ -28,6 +28,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
       MajorService()
           .getListMajor(carrerFromService.major)
           .then((listMajorFromService) {
+            
         GetImageService()
             .getImage(carrerFromService.image)
             .then((imageFromService) {
