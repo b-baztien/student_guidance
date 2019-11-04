@@ -61,9 +61,6 @@ class _ViewProfileState extends State<ViewProfile> {
                 new CardHolder(
                   student: student,
                 ),
-                SizedBox(
-                  height: 50,
-                )
               ],
             ),
           ),
@@ -83,8 +80,8 @@ class CardHolder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(bottom: 20),
       margin: EdgeInsets.only(top: 100, right: 20, left: 20),
-      height: 600,
       width: 400,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -255,80 +252,209 @@ class _CardState extends State<Card> {
         ),
         Column(
           children: <Widget>[
-            SizedBox(
-              height: 30,
-            ),
-            SizedBox(
-              width: 300,
-              child: Divider(
-                height: 1,
-                color: Color(0xff444444).withOpacity(.3),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
+            Column(
               children: <Widget>[
-                Material(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  child: InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddEducation()));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Icon(
-                        Icons.add_box,
-                        color: Colors.green,
-                        size: 40,
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 8),
+                  alignment: Alignment.center,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: UIdata.themeColor,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 22.0, vertical: 6.0),
+                        child: Text(
+                          "จัดการข้อมูลส่วนตัว",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Kanit',
+                              fontSize: 15.0),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'เพิ่มข้อมูล\nการสอบติด',
-                      style: TextStyle(color: Color(0xFFa9a9a9), fontSize: 15),
-                    )
-                  ],
-                ),
-                Spacer(),
-                Material(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  child: InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    onTap: () {
-                      logout();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Icon(
-                        Icons.adjust,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'ออกจากระบบ',
-                      style: TextStyle(color: Color(0xFFa9a9a9), fontSize: 15),
-                    )
-                  ],
                 ),
                 SizedBox(
-                  width: 14,
-                )
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                        child: InkWell(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddEducation()));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Icon(
+                              Icons.add_box,
+                              color: Colors.green,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'เพิ่มข้อมูลการสอบติด',
+                            style: TextStyle(
+                                color: Color(0xFFa9a9a9), fontSize: 16),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: Divider(
+                    height: 1,
+                    color: Color(0xff444444).withOpacity(.3),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                        child: InkWell(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddEducation()));
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Icon(
+                              Icons.school,
+                              color: Colors.blue,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'เลือกมหาวิทยาลัยที่ชอบ',
+                            style: TextStyle(
+                                color: Color(0xFFa9a9a9), fontSize: 16),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 300,
+                  child: Divider(
+                    height: 1,
+                    color: Color(0xff444444).withOpacity(.3),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        child: InkWell(
+                          onTap: () {
+                            logout();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Icon(
+                              Icons.favorite,
+                              color: Colors.orange,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'เลือกอาชีพที่ชอบ',
+                            style: TextStyle(
+                                color: Color(0xFFa9a9a9), fontSize: 16),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  width: 300,
+                  child: Divider(
+                    height: 1,
+                    color: Color(0xff444444).withOpacity(.3),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        child: InkWell(
+                          onTap: () {
+                            logout();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Icon(
+                              Icons.exit_to_app,
+                              color: Colors.red,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'ออกจากระบบ',
+                            style: TextStyle(
+                                color: Color(0xFFa9a9a9), fontSize: 16),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         )
       ],
