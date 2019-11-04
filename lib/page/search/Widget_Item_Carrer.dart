@@ -60,11 +60,6 @@ class _ItemCarrerState extends State<ItemCarrer> {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            color: Colors.transparent,
-          ),
           Positioned(
             top: 75,
             child: Container(
@@ -107,6 +102,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
             top: 165,
             left: 25,
             right: 25,
+            height: MediaQuery.of(context).size.height - 200,
             child: Container(
               height: (MediaQuery.of(context).size.height / 2),
               child: ListView(
