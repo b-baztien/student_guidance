@@ -34,6 +34,13 @@ class _DashboardState extends State<Dashboard> {
   String _selectedYear;
   List<DropdownMenuItem<Dash>> _dropdownMenuItem;
   List<Dash> _round = Dash.getRound();
+  List<Color> listColor = [
+    Colors.red,
+    Colors.blue,
+    Colors.yellow,
+    Colors.green,
+    Colors.purple
+  ];
 
   _generateData(Map<String, Map<int, List<ChartData>>> myData) {
     List<ChartData> listChartData = new List<ChartData>();
@@ -44,10 +51,13 @@ class _DashboardState extends State<Dashboard> {
     for (ChartData ch in chartMap[_selectedRound.id]) {
       valueall = valueall + ch.value.toInt();
     }
-    for (ChartData ch in chartMap[_selectedRound.id]) {
-      ch.value = (ch.value / valueall * 100).toDouble();
-      listChartData.add(ch);
+    for (int i = 0; i < chartMap[_selectedRound.id].length; i++) {
+      chartMap[_selectedRound.id][i].value =
+          (chartMap[_selectedRound.id][i].value / valueall * 100).toDouble();
+      chartMap[_selectedRound.id][i].colorVal = listColor[i];
+      listChartData.add(chartMap[_selectedRound.id][i]);
     }
+
     seriesBarData = List<charts.Series<ChartData, String>>();
     seriesBarData.add(
       charts.Series(
@@ -274,10 +284,10 @@ class _DashboardState extends State<Dashboard> {
                         itemBuilder: (_, i) {
                           return Center(
                             child: Text(
-                              listDashboardItem[i].name,
+                              listDashboardItem[i].name + " " + listDashboardItem[i].value.toInt().toString() + " ครั้ง",
                               style: TextStyle(
                                   fontSize: 15.0,
-                                  color: UIdata.themeColor,
+                                  color: listColor[i],
                                   fontWeight: FontWeight.bold),
                             ),
                           );
