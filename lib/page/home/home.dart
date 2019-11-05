@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
                 icon: new Icon(Icons.search, size: 30),
                 title: new Text('ค้นหา')),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.map, size: 30),
+                icon: new Icon(Icons.school, size: 30),
                 title: new Text('คุณครู')),
             BottomNavigationBarItem(
                 icon: new Icon(Icons.dashboard, size: 30),

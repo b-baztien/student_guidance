@@ -77,6 +77,7 @@ class _ListTeacherState extends State<ListTeacher> {
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 10.0),
                         leading: CircleAvatar(
+                          foregroundColor: UIdata.themeColor,
                           backgroundImage: NetworkImage(snapshot.data[i].image),
                         ),
                         title: Text(
