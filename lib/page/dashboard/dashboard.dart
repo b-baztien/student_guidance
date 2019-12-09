@@ -207,44 +207,49 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 10, right: 10, left: 10),
-                        height: MediaQuery.of(context).size.height / 2.5,
-                        width: 350,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color(0xff444444).withOpacity(.1),
-                                  blurRadius: 20,
-                                  spreadRadius: 10),
-                            ]),
-                        child: Center(
-                          child: FutureBuilder(
-                            future:
-                                EntranService().getDashboard(_selectedRound.id),
-                            builder: (_, snapshot) {
-                              if (snapshot.hasError)
-                                return new Text('Error: ${snapshot.error}');
-                              switch (snapshot.connectionState) {
-                                case ConnectionState.waiting:
-                                  return Container(
+                    if (_selectedRound.id != 4)
+                      Center(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10, right: 10, left: 10),
+                          height: MediaQuery.of(context).size.height / 2.5,
+                          width: 350,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color(0xff444444).withOpacity(.1),
+                                    blurRadius: 20,
+                                    spreadRadius: 10),
+                              ]),
+                          child: Center(
+                            child: FutureBuilder(
+                              future: EntranService()
+                                  .getDashboard(_selectedRound.id),
+                              builder: (_, snapshot) {
+                                if (snapshot.hasError) {
+                                  return new Text('Error: ${snapshot.error}');
+                                }
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Container(
                                       width: 200.0,
                                       child: FlareActor(
                                         "assets/animates/blessing.flr",
                                         animation: 'Preview2',
                                         alignment: Alignment.center,
                                         fit: BoxFit.contain,
-                                      ));
-                                default:
-                                  _generateData(snapshot.data);
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: charts.PieChart(
-                                      seriesBarData,
-                                      defaultRenderer: charts.ArcRendererConfig(
+                                      ),
+                                    );
+                                  default:
+                                    _generateData(snapshot.data);
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: charts.PieChart(
+                                        seriesBarData,
+                                        defaultRenderer:
+                                            charts.ArcRendererConfig(
                                           arcWidth: 70,
                                           arcRendererDecorators: [
                                             charts.ArcLabelDecorator(
@@ -257,15 +262,16 @@ class _DashboardState extends State<Dashboard> {
                                                           charts.Color.fromHex(
                                                               code: "#ffffff")),
                                             ),
-                                          ]),
-                                    ),
-                                  );
-                              }
-                            },
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     Container(
                       margin: EdgeInsets.only(top: 20, right: 10, left: 10),
                       width: 350,
@@ -284,7 +290,13 @@ class _DashboardState extends State<Dashboard> {
                         itemBuilder: (_, i) {
                           return Center(
                             child: Text(
-                              listDashboardItem[i].name + " " + listDashboardItem[i].value.toInt().toString() + " ครั้ง",
+                              listDashboardItem[i].name +
+                                  " " +
+                                  listDashboardItem[i]
+                                      .value
+                                      .toInt()
+                                      .toString() +
+                                  " ครั้ง",
                               style: TextStyle(
                                   fontSize: 15.0,
                                   color: listColor[i],

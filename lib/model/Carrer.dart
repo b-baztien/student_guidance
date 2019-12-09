@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Carrer{
   String carrer_name;
   List<dynamic> major;
@@ -9,6 +7,7 @@ class Carrer{
   Carrer({
   this.carrer_name,this.major,this.description,this.image
   });
+  
   factory Carrer.fromJson(Map<String, dynamic> json) {
     return Carrer(
      carrer_name: json['carrer_name'] as String,
