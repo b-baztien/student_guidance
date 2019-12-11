@@ -93,7 +93,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด ' + items.length.toString() + ' มหาวิทยาลัย',
-                style: TextStyle(color: UIdata.themeColor, fontFamily: 'kanit'),
+                style: TextStyle(color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
               ),
             ),
           ),
@@ -152,7 +152,7 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
                               child: Text(
                                 items[index].universityname,
                                 style: TextStyle(
-                                    fontFamily: 'kanit',
+                                    fontFamily: UIdata.fontFamily,
                                     fontSize: 20,
                                     color: UIdata.themeColor),
                               ),

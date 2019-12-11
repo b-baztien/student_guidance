@@ -123,7 +123,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                           child: Text(
                             _university.universityname,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 fontWeight: FontWeight.w900,
                                 fontSize: 22.0),
                           ),
@@ -136,7 +136,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                           child: Text(
                             "ภาค" + _university.zone,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 color: Colors.grey,
                                 fontSize: 15.0),
                           ),
@@ -152,7 +152,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 Text(
                                   '0',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: UIdata.themeColor),
@@ -160,7 +160,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 Text(
                                   'เรียนต่อ',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.black87),
@@ -175,7 +175,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 Text(
                                   '0',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.pink),
@@ -183,7 +183,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 Text(
                                   'ผู้ติดตาม',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.black87),
@@ -198,7 +198,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 Text(
                                   _university.view.toString(),
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.green),
@@ -206,7 +206,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 Text(
                                   'ผู้เข้าชม',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.black87),
@@ -234,7 +234,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 child: Text(
                                   'ติดตาม',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.white),
@@ -272,7 +272,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                                 child: Text(
                                   'ติดต่อ',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 16.0,
                                       color: Colors.white),
@@ -290,7 +290,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                               ? Text(
                                   'รายชื่อคณะ (${listFaculty.length}) ',
                                   style: TextStyle(
-                                    fontFamily: 'kanit',
+                                    fontFamily: UIdata.fontFamily,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16.0,
                                   ),
@@ -298,7 +298,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                               : Text(
                                   'รายชื่อคณะ',
                                   style: TextStyle(
-                                    fontFamily: 'kanit',
+                                    fontFamily: UIdata.fontFamily,
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16.0,
                                   ),
