@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/News.dart';
+import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
+import 'package:intl/intl.dart';
+
 class ViewNewsPage extends StatefulWidget {
-  final news;
-  final teacher;
+  final News news;
+  final Teacher teacher;
   ViewNewsPage({this.news, this.teacher});
 
   @override
@@ -49,30 +53,41 @@ class _ViewNewsPage extends State<ViewNewsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('วันที่ : 13/09/2019',
-                              style: TextStyle(
-                                  fontFamily: UIdata.fontFamily,
-                                  fontSize: 15.0,
-                                  color: Colors.grey)),
-                         
+                        children: [
+                          Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.access_time,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
+                              Text(
+                                ' วันที่ : ' +
+                                    new DateFormat(' dd MMMM yyyy', 'th_TH')
+                                        .format(widget.news.startTime.toDate()),
+                                style: TextStyle(
+                                    fontFamily: UIdata.fontFamily,
+                                    fontSize: 15.0,
+                                    color: Colors.grey),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ],
                   ),
-                   Container(
-                            child: Text(widget.news.topic,
-                                style: TextStyle(
-                                  fontFamily: UIdata.fontFamily,
-                                  fontSize: 20,
-                                )),
-                          ),
+                  Container(
+                    child: Text(widget.news.topic,
+                        style: TextStyle(
+                          fontFamily: UIdata.fontFamily,
+                          fontSize: 20,
+                        )),
+                  ),
                   SizedBox(height: 10.0),
                   Container(
                     child: Text(
@@ -84,7 +99,7 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                   ),
                   SizedBox(height: 10.0),
                   Container(
-                    child: Text(widget.news.detail,
+                    child: Text('\t' + widget.news.detail,
                         style: TextStyle(
                             fontSize: 15.0,
                             color: Colors.black.withOpacity(0.7))),

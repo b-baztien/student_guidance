@@ -22,7 +22,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
       new List<DocumentReference>();
   List<Faculty> listFaculty = new List<Faculty>();
   List<Faculty> items;
-  String text;
+  String emptyFacText = 'ไม่พบคณะในมหาวิทยาลัย';
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
           });
         });
       }
-      text = '';
+      emptyFacText = '';
     } else {
       GetImageService().getImage(_university.image).then((url) {
         GetImageService().getListImage(_university.albumImage).then((listUrl) {
@@ -57,7 +57,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
           });
         });
       });
-      text = 'ไม่พบคณะในมหาวิทยาลัย';
+      emptyFacText = 'ไม่พบคณะในมหาวิทยาลัย';
     }
 
     super.initState();
@@ -70,7 +70,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
 
     return Scaffold(
       body: SafeArea(
-              child: Stack(
+        child: Stack(
           children: <Widget>[
             Container(
               height: 420.0,
@@ -108,6 +108,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
               top: 200,
               child: Container(
                 width: screenWidth,
+                height: screenHeight - 200,
                 decoration: BoxDecoration(
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.only(
@@ -123,8 +124,9 @@ class _ItemUniversityState extends State<ItemUniversity> {
                           child: Text(
                             _university.universityname,
                             style: TextStyle(
+                                color: Colors.grey[800],
                                 fontFamily: UIdata.fontFamily,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w200,
                                 fontSize: 22.0),
                           ),
                         )),
@@ -285,32 +287,46 @@ class _ItemUniversityState extends State<ItemUniversity> {
                       padding: EdgeInsets.only(
                           left: 20.0, right: 20.0, bottom: 10.0, top: 5.0),
                       child: Container(
-                          width: screenWidth - 40.0,
-                          child: listFaculty.length != 0
-                              ? Text(
-                                  'รายชื่อคณะ (${listFaculty.length}) ',
-                                  style: TextStyle(
-                                    fontFamily: UIdata.fontFamily,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 16.0,
-                                  ),
-                                )
-                              : Text(
-                                  'รายชื่อคณะ',
-                                  style: TextStyle(
-                                    fontFamily: UIdata.fontFamily,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 16.0,
-                                  ),
-                                )),
+                        width: screenWidth - 40.0,
+                        child: Text(
+                          'รายชื่อคณะ ' +
+                              (listFaculty.length != 0
+                                  ? '(${listFaculty.length}) '
+                                  : ''),
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontFamily: UIdata.fontFamily,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ),
                     ),
                     Container(
                       padding: EdgeInsets.only(left: 15, right: 15),
-                      height: screenHeight,
+                      height: screenHeight - 520,
                       color: Colors.transparent,
                       // child ListView
                       child: listFaculty.length == 0
-                          ? Text(text)
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.search,
+                                  size: 50,
+                                  color: Colors.grey,
+                                ),
+                                Text(
+                                  emptyFacText,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: UIdata.fontFamily,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ],
+                            )
                           : ListView.builder(
                               itemCount: listFaculty.length,
                               itemBuilder: (_, i) => ListFacultys(
@@ -345,14 +361,19 @@ class ListFacultys extends StatelessWidget {
           child: Row(
             children: <Widget>[
               CircleAvatar(
-                child: Text(ff.facultyName[0]),
-                backgroundColor: Color(0xFF20D3D2),
-                foregroundColor: Colors.black87,
+                child: Text(
+                  ff.facultyName[0],
+                  style: TextStyle(color: UIdata.fontColor),
+                ),
+                backgroundColor: UIdata.themeColor,
               ),
               Padding(
                 padding: EdgeInsets.all(8),
               ),
-              Text(ff.facultyName),
+              Text(
+                ff.facultyName,
+                style: TextStyle(color: Colors.grey[800]),
+              ),
             ],
           ),
         ),

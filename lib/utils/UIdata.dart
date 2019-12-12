@@ -26,7 +26,7 @@ class UIdata {
 
   static String fontFamily = 'Kanit';
 
-  static Color themeColor = Colors.cyan[800];
+  static Color themeColor = Colors.blue[400];
   static MaterialColor themeMaterialColor = Colors.blue;
   static Color fontColor = Colors.white;
 }

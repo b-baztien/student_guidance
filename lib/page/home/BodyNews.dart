@@ -14,6 +14,7 @@ import 'package:student_guidance/service/TeacherService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 import 'package:student_guidance/widgets/customCard.dart';
+import 'package:intl/intl.dart';
 
 class BodyNews extends StatefulWidget {
   @override
@@ -127,11 +128,10 @@ class _BodyNewsState extends State<BodyNews> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (_, index) {
                             News newsFirebase = new News();
-
                             newsFirebase.topic = snapshot.data[index].topic;
                             newsFirebase.detail = snapshot.data[index].detail;
                             newsFirebase.image = snapshot.data[index].image;
-
+                            newsFirebase.startTime = snapshot.data[index].startTime;
                             newsFirebase.teacher = snapshot.data[index].teacher;
 
                             DocumentReference test =
