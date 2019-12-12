@@ -273,7 +273,7 @@ class _CardState extends State<Card> {
                           "จัดการข้อมูลส่วนตัว",
                           style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Kanit',
+                              fontFamily: UIdata.fontFamily,
                               fontSize: 15.0),
                         ),
                       ),

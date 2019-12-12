@@ -32,7 +32,7 @@ class _ItemFacultyState extends State<ItemFaculty> {
       appBar: AppBar(
          title: Text(widget.facultyName,
             style: TextStyle(
-              fontFamily: 'Kanit',
+              fontFamily: UIdata.fontFamily,
               fontSize: 20,
             )),
         backgroundColor: UIdata.themeColor,
@@ -94,7 +94,7 @@ class _ItemFacultyState extends State<ItemFaculty> {
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด '+listUniversity.length.toString()+' มหาวิทยาลัย',
-                style: TextStyle(color: Colors.grey, fontFamily: 'kanit'),
+                style: TextStyle(color: Colors.grey, fontFamily: UIdata.fontFamily),
               ),
             ),
           ),

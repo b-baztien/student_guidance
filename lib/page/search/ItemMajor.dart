@@ -32,7 +32,7 @@ class _ItemMajorState extends State<ItemMajor> {
       appBar: AppBar(
          title: Text(widget.majorName,
             style: TextStyle(
-              fontFamily: 'Kanit',
+              fontFamily: UIdata.fontFamily,
               fontSize: 20,
             )),
         backgroundColor: UIdata.themeColor,
@@ -94,7 +94,7 @@ class _ItemMajorState extends State<ItemMajor> {
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด '+listUniversity.length.toString()+' มหาวิทยาลัยที่มีสาขานี้',
-                style: TextStyle(color: Colors.grey, fontFamily: 'kanit'),
+                style: TextStyle(color: Colors.grey, fontFamily: UIdata.fontFamily),
               ),
             ),
           ),
@@ -127,7 +127,7 @@ child: ListView.builder(
                         decoration: new BoxDecoration(
                             border: new Border(
                                 right: new BorderSide(
-                                    width: 2, color: Colors.red))),
+                                    width: 2, color: UIdata.themeColor))),
                         child:Icon(Icons.school,
                         color: Colors.red, size: 30),
                         ),

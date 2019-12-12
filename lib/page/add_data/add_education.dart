@@ -107,7 +107,7 @@ class _AddEducationState extends State<AddEducation> {
                 Text(
                   'เพิ่มข้อมูลการสอบติด',
                   style: TextStyle(
-                      fontFamily: 'kanit', color: Colors.white, fontSize: 25),
+                      fontFamily: UIdata.fontFamily, color: Colors.white, fontSize: 25),
                 ),
               ],
             ),
@@ -140,7 +140,7 @@ class _AddEducationState extends State<AddEducation> {
                           Text(
                             'รอบการสมัคร',
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 fontSize: 18,
                                 color: Colors.black45),
                           ),
@@ -194,7 +194,7 @@ class _AddEducationState extends State<AddEducation> {
                                 Text(
                                   'มหาวิทยาลัย',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontSize: 18,
                                       color: Colors.black45),
                                 ),
@@ -256,7 +256,7 @@ class _AddEducationState extends State<AddEducation> {
                                 Text(
                                   'คณะ',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontSize: 18,
                                       color: Colors.black45),
                                 ),
@@ -313,7 +313,7 @@ class _AddEducationState extends State<AddEducation> {
                                 Text(
                                   'สาขา',
                                   style: TextStyle(
-                                      fontFamily: 'kanit',
+                                      fontFamily: UIdata.fontFamily,
                                       fontSize: 18,
                                       color: Colors.black45),
                                 ),

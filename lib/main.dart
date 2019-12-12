@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Student Guidance',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Kanit',
+        fontFamily: UIdata.fontFamily,
         primarySwatch: UIdata.themeMaterialColor,
       ),
       home: SplashPage(),

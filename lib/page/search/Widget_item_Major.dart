@@ -48,7 +48,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
         appBar: AppBar(
           title: Text('รายละเอียด',
               style: TextStyle(
-                fontFamily: 'Kanit',
+                fontFamily: UIdata.fontFamily,
                 fontSize: 20,
               )),
           leading: new IconButton(
@@ -77,7 +77,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                           Text(
                             widget.university.universityname,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 color: Colors.white,
                                 fontSize: 25),
                           ),
@@ -93,7 +93,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                           Text(
                            "คณะ "+facName,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 color: Colors.white,
                                 fontSize: 25),
                           ),
@@ -110,7 +110,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                           Text(
                             "สาขา "+widget.majorName,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 color: Colors.white,
                                 fontSize: 25),
                           ),
@@ -204,7 +204,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                             "สาขาอาชีพที่เกี่ยวข้อง",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Kanit',
+                                fontFamily: UIdata.fontFamily,
                                 fontSize: 15.0),
                           ),
                         ),
@@ -220,7 +220,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                           alignment: Alignment.center,
                           child: Text(listCarrer[index].carrer_name,
                               style: TextStyle(
-                                  fontFamily: 'Kanit', fontSize: 16.0)),
+                                  fontFamily: UIdata.fontFamily, fontSize: 16.0)),
                         );
                       },
                     ),

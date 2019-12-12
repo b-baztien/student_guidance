@@ -65,7 +65,7 @@ class EditStudentProfile extends StatelessWidget {
       child: Text(
         detail,
         style: TextStyle(
-          fontFamily: 'Kanit',
+          fontFamily: UIdata.fontFamily,
           color: Colors.black,
           fontSize: 20.0,
           fontWeight: FontWeight.w300,
@@ -125,7 +125,7 @@ class EditStudentProfile extends StatelessWidget {
                   child: Text(
                     'โทร',
                     style: TextStyle(
-                      fontFamily: ('Kanit'),
+                      fontFamily: (UIdata.fontFamily),
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
@@ -149,7 +149,7 @@ class EditStudentProfile extends StatelessWidget {
                     child: Text(
                       'ส่งอีเมล์',
                       style: TextStyle(
-                          fontFamily: 'Kanit', fontWeight: FontWeight.w600),
+                          fontFamily: UIdata.fontFamily, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

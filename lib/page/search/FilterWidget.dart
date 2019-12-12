@@ -14,7 +14,7 @@ class _FilterWidgetState extends State<FilterWidget> {
            title: Text('ตัวกรอง',
             style: TextStyle(
               color: UIdata.fontColor,
-              fontFamily: 'Kanit',
+              fontFamily: UIdata.fontFamily,
               fontSize: 20,
             )),
         backgroundColor: UIdata.themeColor,

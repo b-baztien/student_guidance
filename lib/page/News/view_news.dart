@@ -58,7 +58,7 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                         children: <Widget>[
                           Text('วันที่ : 13/09/2019',
                               style: TextStyle(
-                                  fontFamily: 'kanit',
+                                  fontFamily: UIdata.fontFamily,
                                   fontSize: 15.0,
                                   color: Colors.grey)),
                          
@@ -69,7 +69,7 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                    Container(
                             child: Text(widget.news.topic,
                                 style: TextStyle(
-                                  fontFamily: 'kanit',
+                                  fontFamily: UIdata.fontFamily,
                                   fontSize: 20,
                                 )),
                           ),

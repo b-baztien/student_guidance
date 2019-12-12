@@ -55,7 +55,7 @@ class _BodyNewsState extends State<BodyNews> {
                 'Student Guidance',
                 style: TextStyle(
                     color: UIdata.fontColor,
-                    fontFamily: 'Kanit',
+                    fontFamily: UIdata.fontFamily,
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -63,7 +63,7 @@ class _BodyNewsState extends State<BodyNews> {
                 shcool_name,
                 style: TextStyle(
                     color: UIdata.fontColor,
-                    fontFamily: 'Kanit',
+                    fontFamily: UIdata.fontFamily,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -93,7 +93,7 @@ class _BodyNewsState extends State<BodyNews> {
                       child: Text("ข่าวสาร",
                           style: TextStyle(
                               color: UIdata.fontColor,
-                              fontFamily: 'Kanit',
+                              fontFamily: UIdata.fontFamily,
                               fontSize: 20.0)),
                     ),
                   ),
@@ -170,7 +170,7 @@ class _BodyNewsState extends State<BodyNews> {
                       child: Text("สาขาที่เหมาะกับอาชีพในฝันของคุณ",
                           style: TextStyle(
                               color: UIdata.fontColor,
-                              fontFamily: 'Kanit',
+                              fontFamily: UIdata.fontFamily,
                               fontSize: 15.0)),
                     ),
                   ),

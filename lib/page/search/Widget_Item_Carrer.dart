@@ -52,7 +52,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
       appBar: AppBar(
         title: Text('ข้อมูลอาชีพ',
             style: TextStyle(
-              fontFamily: 'Kanit',
+              fontFamily: UIdata.fontFamily,
               fontSize: 20,
             )),
         backgroundColor: Colors.transparent,
@@ -147,7 +147,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
                             "สาขาอาชีพที่เกี่ยวข้อง",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontFamily: 'Kanit',
+                                fontFamily: UIdata.fontFamily,
                                 fontSize: 15.0),
                           ),
                         ),
@@ -163,7 +163,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
                           alignment: Alignment.center,
                           child: Text(listMajor[index].majorName,
                               style: TextStyle(
-                                  fontFamily: 'Kanit', fontSize: 16.0)),
+                                  fontFamily: UIdata.fontFamily, fontSize: 16.0)),
                         );
                       },
                     ),

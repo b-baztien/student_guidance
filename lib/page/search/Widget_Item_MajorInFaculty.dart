@@ -48,7 +48,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
         appBar: AppBar(
           title: Text('รายละเอียด',
               style: TextStyle(
-                fontFamily: 'Kanit',
+                fontFamily: UIdata.fontFamily,
                 fontSize: 20,
               )),
           leading: new IconButton(
@@ -77,7 +77,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                           Text(
                             widget.university.universityname,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 color: Colors.white,
                                 fontSize: 25),
                           ),
@@ -94,7 +94,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                           Text(
                             widget.faculty,
                             style: TextStyle(
-                                fontFamily: 'kanit',
+                                fontFamily: UIdata.fontFamily,
                                 color: Colors.white,
                                 fontSize: 25),
                           ),
@@ -169,7 +169,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                                 "สาขาภายในคณะ",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily: 'Kanit',
+                                    fontFamily: UIdata.fontFamily,
                                     fontSize: 15.0),
                               ),
                             ),
@@ -196,7 +196,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                           color: Colors.black, size: 30.0),
                                   title: Text(listMajor[index].majorName,
                                       style: TextStyle(
-                                          fontFamily: 'Kanit', fontSize: 18.0)),
+                                          fontFamily: UIdata.fontFamily, fontSize: 18.0)),
                                           
                                 ),
                               ),

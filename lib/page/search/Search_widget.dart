@@ -46,7 +46,7 @@ class _SearchWidgetState extends State<SearchWidget> {
         title: Text('สนใจอะไรอยู่ลองค้นหาดูสิ',
             style: TextStyle(
               color: UIdata.fontColor,
-              fontFamily: 'Kanit',
+              fontFamily: UIdata.fontFamily,
               fontSize: 20,
             )),
         backgroundColor: UIdata.themeColor,
@@ -127,7 +127,7 @@ class _SearchWidgetState extends State<SearchWidget> {
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด ' + items.length.toString() + ' รายการ',
-                style: TextStyle(color: UIdata.themeColor, fontFamily: 'kanit'),
+                style: TextStyle(color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
               ),
             ),
           ),
@@ -142,7 +142,7 @@ class _SearchWidgetState extends State<SearchWidget> {
       label: Text(chipname.name),
       labelStyle: TextStyle(
           color: UIdata.themeColor,
-          fontFamily: 'kanit',
+          fontFamily: UIdata.fontFamily,
           fontSize: 13,
           fontWeight: FontWeight.bold),
       selected: chipname.b,
