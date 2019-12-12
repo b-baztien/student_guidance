@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/FilterItems.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
@@ -28,12 +28,11 @@ class _SearchWidgetState extends State<SearchWidget> {
     super.initState();
     SearchService().getItemSearch().then((itemFromService) {
       setState(() {
-         for(Fliteritems f in _listFilter){
-            f.b = false;
-          }
+        for (Fliteritems f in _listFilter) {
+          f.b = false;
+        }
         listSearch = itemFromService;
         items = listSearch;
-        
       });
     });
   }
@@ -69,8 +68,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                       child: TextField(
                         onChanged: (value) {
                           setState(() {
-                          
-                            items = itemsAfterChooseFilter.where((w) => (w.name.toLowerCase().contains(value.toLowerCase()))).toList();
+                            items = itemsAfterChooseFilter
+                                .where((w) => (w.name
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase())))
+                                .toList();
                           });
                         },
                         controller: _controller,
@@ -109,7 +111,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                 child: Wrap(
                   direction: Axis.horizontal,
                   spacing: 1,
-                  runSpacing:1,
+                  runSpacing: 1,
                   children: <Widget>[
                     for (var i = 0; i < _listFilter.length; i++)
                       filterChipWidget(_listFilter[i])
@@ -127,7 +129,8 @@ class _SearchWidgetState extends State<SearchWidget> {
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด ' + items.length.toString() + ' รายการ',
-                style: TextStyle(color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
+                style: TextStyle(
+                    color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
               ),
             ),
           ),
@@ -139,171 +142,189 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   Widget filterChipWidget(Fliteritems chipname) {
     return FilterChip(
+      backgroundColor: Color(0xffededed),
       label: Text(chipname.name),
       labelStyle: TextStyle(
-          color: UIdata.themeColor,
+          color: Colors.black45,
           fontFamily: UIdata.fontFamily,
           fontSize: 13,
           fontWeight: FontWeight.bold),
       selected: chipname.b,
-      backgroundColor: Color(0xffededed),
       onSelected: (isSelected) {
         setState(() {
-          if (isSelected){
-       
-        if(chipname.name == "มหาวิทยาลัย"){
-          for(Fliteritems f in _listFilter){
-            f.b = false;
-          }
-           chipname.b = true;
-           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
-          for(FilterSeachItems f in listSearch){
-            if(f.type=="University"){
-              itemsNew.add(f);
-            }
-          }
-          itemsAfterChooseFilter = itemsNew;
-          items = itemsNew;
-        }
-         if(chipname.name == "คณะ"){
-            for(Fliteritems f in _listFilter){
-            f.b = false;
-          }
-            chipname.b = true;
-           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
-          for(FilterSeachItems f in listSearch){
-            if(f.type=="Faculty"){
-              itemsNew.add(f);
-            }
-          }
-           itemsAfterChooseFilter = itemsNew;
-          items = itemsNew;
-        }
-         if(chipname.name == "สาขา"){
-            for(Fliteritems f in _listFilter){
-            f.b = false;
-          }
-            chipname.b = true;
-           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
-          for(FilterSeachItems f in listSearch){
-            if(f.type=="Major"){
-              itemsNew.add(f);
-            }
-          }
-           itemsAfterChooseFilter = itemsNew;
-          items = itemsNew;
-        }
-           if(chipname.name == "อาชีพ"){
-              for(Fliteritems f in _listFilter){
-            f.b = false;
-          }
+          if (isSelected) {
+            if (chipname.name == "มหาวิทยาลัย") {
+              for (Fliteritems f in _listFilter) {
+                f.b = false;
+              }
               chipname.b = true;
-           List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
-          for(FilterSeachItems f in listSearch){
-            if(f.type=="Carrer"){
-              itemsNew.add(f);
+              List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+              for (FilterSeachItems f in listSearch) {
+                if (f.type == "University") {
+                  itemsNew.add(f);
+                }
+              }
+              itemsAfterChooseFilter = itemsNew;
+              items = itemsNew;
+            }
+            if (chipname.name == "คณะ") {
+              for (Fliteritems f in _listFilter) {
+                f.b = false;
+              }
+              chipname.b = true;
+              List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+              for (FilterSeachItems f in listSearch) {
+                if (f.type == "Faculty") {
+                  itemsNew.add(f);
+                }
+              }
+              itemsAfterChooseFilter = itemsNew;
+              items = itemsNew;
+            }
+            if (chipname.name == "สาขา") {
+              for (Fliteritems f in _listFilter) {
+                f.b = false;
+              }
+              chipname.b = true;
+              List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+              for (FilterSeachItems f in listSearch) {
+                if (f.type == "Major") {
+                  itemsNew.add(f);
+                }
+              }
+              itemsAfterChooseFilter = itemsNew;
+              items = itemsNew;
+            }
+            if (chipname.name == "อาชีพ") {
+              for (Fliteritems f in _listFilter) {
+                f.b = false;
+              }
+              chipname.b = true;
+              List<FilterSeachItems> itemsNew = List<FilterSeachItems>();
+              for (FilterSeachItems f in listSearch) {
+                if (f.type == "Carrer") {
+                  itemsNew.add(f);
+                }
+              }
+              itemsAfterChooseFilter = itemsNew;
+              items = itemsNew;
+            }
+          } else {
+            chipname.b = false;
+            if (chipname.name == "มหาวิทยาลัย") {
+              items = listSearch;
+              itemsAfterChooseFilter = listSearch;
+            }
+            if (chipname.name == "คณะ") {
+              items = listSearch;
+              itemsAfterChooseFilter = listSearch;
+            }
+            if (chipname.name == "สาขา") {
+              items = listSearch;
+              itemsAfterChooseFilter = listSearch;
+            }
+            if (chipname.name == "อาชีพ") {
+              items = listSearch;
+              itemsAfterChooseFilter = listSearch;
             }
           }
-           itemsAfterChooseFilter = itemsNew;
-          items = itemsNew;
-        }
-          }
-          else{
-chipname.b = false;
-if(chipname.name == "มหาวิทยาลัย"){
-          items = listSearch;
-         itemsAfterChooseFilter = listSearch;
-        }
-        if(chipname.name == "คณะ"){
-          items = listSearch;
-         itemsAfterChooseFilter = listSearch;
-        }
-        if(chipname.name == "สาขา"){
-          items = listSearch;
-           itemsAfterChooseFilter = listSearch;
-        
-        }
-        if(chipname.name == "อาชีพ"){
-          items = listSearch;
-           itemsAfterChooseFilter = listSearch;
-        }
-          }
-            
         });
       },
     );
   }
 
   Widget _buildExpended() {
-    return Expanded(
-        child: ListView.separated(
-          separatorBuilder: (context, index) => Divider(
-        color: Colors.black,
-      ),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        
-        return InkWell(
-          onTap: () {
-            print(items[index].documentSnapshot);
-            UniversityService().updateView(items[index].documentSnapshot);
-            if (items[index].type == 'University') {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ItemUniversity(
-                          universitys: items[index].documentSnapshot)));
-            }
-            if(items[index].type == 'Faculty'){
-               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ItemFaculty(
-                          facultyName: items[index].name)));
-            }
-              if(items[index].type == 'Major'){
-               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ItemMajor(
-                          majorName: items[index].name)));
-            }
-              if(items[index].type == 'Carrer'){
-               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ItemCarrer(
-                          carrer: items[index].name)));
-            }
-
-          },
-         
-            child: Container(
-                child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                    leading: Container(
-                        padding: EdgeInsets.only(right: 5.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 1.0, color: Colors.black))),
-                        child: test(items[index].type),
-                        ),
-                    
-                    title: Text(
-                      items[index].name,
-                      style: TextStyle(
-                          color: UIdata.themeColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Colors.black, size: 30.0)
-                        )
-                        ),
-        
-        );
-      },
-    ));
+    return FutureBuilder(
+        future: SearchService().getItemSearch(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return new Text('Error: ${snapshot.error}');
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: FlareActor(
+                    "assets/animates/body_rig.flr",
+                    animation: 'Run',
+                    alignment: Alignment.center,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              );
+            default:
+              return Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                    height: 1,
+                    color: UIdata.themeColor,
+                  ),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        print(snapshot.data[index].documentSnapshot);
+                        UniversityService()
+                            .updateView(snapshot.data[index].documentSnapshot);
+                        if (snapshot.data[index].type == 'University') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ItemUniversity(
+                                      universitys:
+                                          snapshot.data[index].documentSnapshot)));
+                        }
+                        if (snapshot.data[index].type == 'Faculty') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ItemFaculty(
+                                      facultyName: snapshot.data[index].name)));
+                        }
+                        if (snapshot.data[index].type == 'Major') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ItemMajor(majorName: snapshot.data[index].name)));
+                        }
+                        if (snapshot.data[index].type == 'Carrer') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ItemCarrer(carrer: snapshot.data[index].name)));
+                        }
+                      },
+                      child: Container(
+                          child: ListTile(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 10.0),
+                              leading: Container(
+                                padding: EdgeInsets.only(right: 5.0),
+                                decoration: new BoxDecoration(
+                                    border: new Border(
+                                        right: new BorderSide(
+                                            width: 1.0, color: Colors.black))),
+                                child: test(snapshot.data[index].type),
+                              ),
+                              title: Text(
+                                snapshot.data[index].name,
+                                style: TextStyle(
+                                    color: UIdata.themeColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              trailing: Icon(Icons.keyboard_arrow_right,
+                                  color: Colors.black, size: 30.0))),
+                    );
+                  },
+                ),
+              ));
+          }
+        });
   }
 
   test(String type) {
