@@ -42,13 +42,14 @@ class _CustomCardState extends State<CustomCard> {
         child: Container(
           width: 200,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: 4.0,
-                    spreadRadius: 5.0,
-                    color: Colors.grey.withOpacity(0.1))
-              ]),
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: 4.0,
+                  spreadRadius: 5.0,
+                  color: Colors.grey.withOpacity(0.1))
+            ],
+          ),
           child: Stack(
             children: <Widget>[
               Container(
@@ -88,23 +89,23 @@ class _CustomCardState extends State<CustomCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(widget.news.topic,
-                    softWrap: false,
+                        softWrap: false,
                         style: TextStyle(
                           fontFamily: UIdata.fontFamily,
                           fontSize: 14.0,
                         )),
                     SizedBox(height: 5.0),
                     Text(widget.news.detail,
-                    softWrap: false,
+                        softWrap: false,
                         style: TextStyle(fontSize: 11.0, color: Colors.grey)),
                     SizedBox(height: 5.0),
                     SizedBox(
-                  width: 300,
-                  child: Divider(
-                    height: 1,
-                    color: Color(0xff444444).withOpacity(.3),
-                  ),
-                ),
+                      width: 300,
+                      child: Divider(
+                        height: 1,
+                        color: Color(0xff444444).withOpacity(.3),
+                      ),
+                    ),
                     Row(
                       children: <Widget>[
                         Icon(
