@@ -129,16 +129,16 @@ child: ListView.builder(
                                 right: new BorderSide(
                                     width: 2, color: UIdata.themeColor))),
                         child:Icon(Icons.school,
-                        color: Colors.red, size: 30),
+                        color: UIdata.themeColor, size: 30),
                         ),
                 title: Text(
                       listUniversity[index].universityname,
                       style: TextStyle(
-                          color: Colors.red,
+                          color: UIdata.themeColor,
                           fontWeight: FontWeight.bold),
                     ),
                       trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Colors.red, size: 30),
+                        color: UIdata.themeColor, size: 30),
                     
             ),
           ),
