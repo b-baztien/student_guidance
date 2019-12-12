@@ -61,6 +61,7 @@ class _DashboardState extends State<Dashboard> {
     seriesBarData = List<charts.Series<ChartData, String>>();
     seriesBarData.add(
       charts.Series(
+        id: "DashBoard",
         domainFn: (ChartData chartData, _) => chartData.name,
         measureFn: (ChartData chartData, _) => chartData.value,
         colorFn: (ChartData chartData, _) =>
