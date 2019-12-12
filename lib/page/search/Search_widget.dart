@@ -274,8 +274,8 @@ class _SearchWidgetState extends State<SearchWidget> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ItemUniversity(
-                                      universitys:
-                                          snapshot.data[index].documentSnapshot)));
+                                      universitys: snapshot
+                                          .data[index].documentSnapshot)));
                         }
                         if (snapshot.data[index].type == 'Faculty') {
                           Navigator.push(
@@ -288,37 +288,39 @@ class _SearchWidgetState extends State<SearchWidget> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      ItemMajor(majorName: snapshot.data[index].name)));
+                                  builder: (context) => ItemMajor(
+                                      majorName: snapshot.data[index].name)));
                         }
                         if (snapshot.data[index].type == 'Carrer') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      ItemCarrer(carrer: snapshot.data[index].name)));
+                                  builder: (context) => ItemCarrer(
+                                      carrer: snapshot.data[index].name)));
                         }
                       },
                       child: Container(
-                          child: ListTile(
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 10.0),
-                              leading: Container(
-                                padding: EdgeInsets.only(right: 5.0),
-                                decoration: new BoxDecoration(
-                                    border: new Border(
-                                        right: new BorderSide(
-                                            width: 1.0, color: Colors.black))),
-                                child: test(snapshot.data[index].type),
-                              ),
-                              title: Text(
-                                snapshot.data[index].name,
-                                style: TextStyle(
-                                    color: UIdata.themeColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              trailing: Icon(Icons.keyboard_arrow_right,
-                                  color: Colors.black, size: 30.0))),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 10.0),
+                          leading: Container(
+                            padding: EdgeInsets.only(right: 5.0),
+                            decoration: new BoxDecoration(
+                                border: new Border(
+                                    right: new BorderSide(
+                                        width: 1.0, color: Colors.black))),
+                            child: test(snapshot.data[index].type),
+                          ),
+                          title: Text(
+                            snapshot.data[index].name,
+                            style: TextStyle(
+                                color: UIdata.themeColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          trailing: Icon(Icons.keyboard_arrow_right,
+                              color: UIdata.themeColor, size: 30.0),
+                        ),
+                      ),
                     );
                   },
                 ),
