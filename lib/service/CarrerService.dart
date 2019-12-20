@@ -8,8 +8,6 @@ class CarrerService{
         QuerySnapshot qs = await collectionReference.where('carrer_name', isEqualTo: name).getDocuments();
         Carrer carrer = Carrer.fromJson(qs.documents[0].data);
 
-      return await carrer;
-        
-
+      return carrer;
   }
 }

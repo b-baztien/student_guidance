@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
@@ -15,7 +14,6 @@ import 'package:student_guidance/service/TeacherService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 import 'package:student_guidance/widgets/customCard.dart';
-import 'package:intl/intl.dart';
 
 class BodyNews extends StatefulWidget {
   @override
