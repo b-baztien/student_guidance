@@ -16,9 +16,9 @@ class _TutorialsState extends State<Tutorials> {
   final int _pageCount = 3;
   int _currentIndex = 0;
   final List<String> titles = [
-    "ยินดีต้อนรับ",
-    "Student Guidance 2",
-    "Student Guidance 3",
+    "Student Guidance",
+    "การค้นหาข้อมูล ?",
+    "การตัดสินใจ ?",
   ];
   final List<String>  subtitles = [
     "แอพพลิเคชันที่จะช่วยแนะนำให้นักเรียน สามารถตรวจสอบรายละเอียดการศึกษาต่อในระดับมหาวิทยาลัย",
@@ -46,8 +46,8 @@ class _TutorialsState extends State<Tutorials> {
                 builder: CustomePaginationBuilder(
                     activeSize: Size(15,25),
                     size: Size(10,20),
-                    color: Colors.white,
-                    activeColor: Colors.yellowAccent
+                    color: Colors.grey.shade300,
+                    activeColor: Colors.red
                 )
               ),
               itemBuilder: (BuildContext context, int index) {
