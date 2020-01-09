@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/service/GetImageService.dart';
-import 'package:student_guidance/service/SchoolService.dart';
 import 'package:student_guidance/service/StudentService.dart';
 
 class TeacherService{
@@ -28,6 +26,7 @@ class TeacherService{
   
         CollectionReference collectionReferenceUniver = Firestore.instance.collection('Teacher');
       QuerySnapshot qs = await collectionReferenceUniver.where('school', isEqualTo: refQuery).getDocuments();
+      
        for(DocumentSnapshot ds in qs.documents){
          Teacher teacher = Teacher.fromJson(ds.data);
         teacher.image =

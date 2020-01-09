@@ -357,22 +357,12 @@ class _AddEducationState extends State<AddEducation> {
                             }).catchError((error) {
                               throw error;
                             });
-
                             EntranceExamResult enExam =
                                 new EntranceExamResult();
                             enExam.entrance_exam_name = _selectedRound.name;
                             enExam.round = _selectedRound.id;
-                            enExam.university = _selectedUniversity;
                             enExam.faculty = _selectedFaculty;
                             enExam.major = _selectedMajor;
-                            enExam.student = await StudentService()
-                                .getStudentReference()
-                                .then((result) {
-                              return result;
-                            }).catchError((error) {
-                              throw error;
-                            });
-                            enExam.school = std.school;
                             enExam.year =
                                 (new DateTime.now().year + 543).toString();
 
