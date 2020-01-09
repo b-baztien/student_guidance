@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:student_guidance/page/splash/splash.dart';
+import 'package:student_guidance/page/tutorials/View_Tutorial.dart';
 
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         fontFamily: UIdata.fontFamily,
         primarySwatch: UIdata.themeMaterialColor,
       ),
-      home: SplashPage(),
+      home: Tutorials(),
       routes: UIdata.routes,
     );
   }
