@@ -108,6 +108,7 @@ class _LoginState extends State<Login> {
 
           AnimatedSwitcher(
             duration: Duration(milliseconds: 200),
+
             child: (!formVisible) ? null : Container(
               color: Colors.black54,
               alignment: Alignment.center,
@@ -121,7 +122,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           RaisedButton(
-                            color: _formsIndex == 1 ?Colors.blueAccent : Colors.white,
+                            color: _formsIndex == 1 ? Colors.orange.shade700 : Colors.white,
                             textColor: _formsIndex == 1 ? Colors.white : Colors.black,
                             child: Text("ลงชื่อเข้าใช้"),
                             shape: RoundedRectangleBorder(
@@ -135,7 +136,7 @@ class _LoginState extends State<Login> {
                           ),
                           const SizedBox(width: 10,),
                           RaisedButton(
-                            color: _formsIndex == 2 ?Colors.blueAccent : Colors.white,
+                            color: _formsIndex == 2 ? Colors.orange.shade700 : Colors.white,
                             textColor: _formsIndex == 2 ? Colors.white : Colors.black,
                             child: Text("สมัครสมาชิก"),
                             shape: RoundedRectangleBorder(
@@ -162,6 +163,9 @@ class _LoginState extends State<Login> {
                       Container(
                         child: AnimatedSwitcher(
                           duration: Duration(milliseconds: 300),
+                          transitionBuilder: (Widget child,Animation<double> animation){
+                            return ScaleTransition(child: child, scale: animation,);
+                          },
                           child:
                           _formsIndex == 1 ? LoginForm() : SignupForm(),
                         ),
@@ -216,13 +220,13 @@ class LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           RaisedButton(
-            color: Colors.blueAccent,
+            color: Colors.green.shade700,
             textColor: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            child: Text("Login"),
+            child: Text("เข้าสู่ระบบ"),
             onPressed: () {},
           ),
         ],
@@ -291,13 +295,13 @@ class SignupForm extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           RaisedButton(
-            color: Colors.blueAccent,
+            color: Colors.brown,
             textColor: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),
-            child: Text("Signup"),
+            child: Text("ลงทะเบียน"),
             onPressed: () {},
           ),
         ],
