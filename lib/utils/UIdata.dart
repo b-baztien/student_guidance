@@ -12,14 +12,14 @@ class UIdata {
   static Icon searchIcon = new Icon(Icons.search);
 
   static Map<String, WidgetBuilder> routes = {
-    Login.tag: (context) => Login(),
+    LoginPages.tag: (context) => LoginPages(),
     SplashPage.tag:(context) => SplashPage(),
     Home.tag: (context) => Home(),
     Dashboard.tag: (context) => Dashboard(),
 
     EditProfile.tag: (context) => EditProfile(),
   };
-  static String loginPageTag = Login.tag;
+  static String loginPageTag = LoginPages.tag;
   static String homeTag = Home.tag;
   static String splashPage = SplashPage.tag;
   static String dashboardTag = Dashboard.tag;

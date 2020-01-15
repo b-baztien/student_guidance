@@ -131,8 +131,7 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
     try {
       if (prefs.get('login') != null) {
-        await Navigator.pushNamedAndRemoveUntil(
-            context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+        await Navigator.pushNamedAndRemoveUntil(context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
       }
     } catch (error) {
       throw (error);

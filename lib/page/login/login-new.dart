@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
-class Login extends StatefulWidget {
+class LoginPages extends StatefulWidget {
   static String tag = 'login-page-new';
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginPagesState createState() => _LoginPagesState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPagesState extends State<LoginPages> {
   bool formVisible;
   int _formsIndex;
   @override
@@ -19,6 +21,7 @@ class _LoginState extends State<Login> {
   }
   @override
   Widget build(BuildContext context) {
+    login();
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -157,6 +160,7 @@ class _LoginState extends State<Login> {
                             color: Colors.white,
                             icon: Icon(Icons.clear),
                             onPressed: (){
+                            
                               setState(() {
                                 formVisible = false;
                               });
@@ -189,14 +193,30 @@ class _LoginState extends State<Login> {
 
     );
   }
+
+  login() async {
+    final prefs = await SharedPreferences.getInstance();
+    try {
+      if (prefs.get('login') != null) {
+
+        await Navigator.pushNamedAndRemoveUntil(context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+      }
+    } catch (error) {
+      throw (error);
+    }
+  }
 }
 
-class LoginForm extends StatelessWidget {
-
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-
+class LoginForm extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  String _username, _password;
+  @override
+  Widget build(context) {
     return Container(
       margin: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -215,10 +235,11 @@ class LoginForm extends StatelessWidget {
                   return 'กรุณากรอกชื่อผู้ใช้งาน';
                 }
               },
+              onSaved: (input) => _username = input,
               decoration: InputDecoration(
 
-              labelText: "ไอดีผู้ใช้",
-                hasFloatingPlaceholder: true
+                  labelText: "ไอดีผู้ใช้",
+                  hasFloatingPlaceholder: true
               ),
             ),
             const SizedBox(height: 10.0),
@@ -229,8 +250,9 @@ class LoginForm extends StatelessWidget {
                   return 'รหัสผ่านต้องประกอบไปด้วย 4 ตัวอักษร';
                 }
               },
+              onSaved: (input) => _password = input,
               decoration: InputDecoration(
-                labelText: "รหัสผ่าน",
+                  labelText: "รหัสผ่าน",
                   hasFloatingPlaceholder: true
               ),
             ),
@@ -243,7 +265,7 @@ class LoginForm extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: Text("เข้าสู่ระบบ"),
-              onPressed: signIn,
+              onPressed:signIn,
             ),
           ],
         ),
@@ -255,12 +277,22 @@ class LoginForm extends StatelessWidget {
     final formState = _globalKey.currentState;
     if (formState.validate()) {
       formState.save();
+      try{
+        Login login = new Login();
+        login.username = _username;
+        login.password = _password;
+        print("something");
+        await Navigator.pushNamedAndRemoveUntil(context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+      }catch(e){
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.pop(context);
+      }
+
 
     }
   }
-
-
 }
+
 
 
 

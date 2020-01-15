@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:student_guidance/page/Views/list-teacher.dart';
-import 'package:student_guidance/page/Views/view-profile-student.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
-import 'package:student_guidance/page/home/BodyNews.dart';
+import 'package:student_guidance/page/home/news-page.dart';
 import 'package:student_guidance/page/search/Search_widget.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Home extends StatefulWidget {
   static String tag = "home-page";
 
@@ -18,14 +18,12 @@ var cardAspectRatio = 12.0 / 16.0;
 var widgetAspectRatio = cardAspectRatio * 1.2;
 
 class _HomeState extends State<Home> {
-  final _formKey = GlobalKey<FormState>();
   int _selectedPage = 0;
   final _pageOptions = [
-    BodyNews(),
+    NewsPage(),
     SearchWidget(),
     ListTeacher(),
     Dashboard(),
-    ViewProfile(),
   ];
 
   Icon actionIcon = new Icon(Icons.search);
@@ -48,23 +46,22 @@ class _HomeState extends State<Home> {
                         .grey))), // sets the inactive color of the `BottomNavigationBar`
         child: new BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
+          fixedColor: Colors.redAccent,
           currentIndex: _selectedPage,
           items: [
             BottomNavigationBarItem(
-                icon: new Icon(Icons.home, size: 30),
-                title: new Text('หน้าแรก')),
+                icon: new Icon(FontAwesomeIcons.newspaper, size: 30),
+                title: new Text('ข่าว')),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.search, size: 30),
+                icon: new Icon(FontAwesomeIcons.search, size: 30),
                 title: new Text('ค้นหา')),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.school, size: 30),
+                icon: new Icon(Icons.group, size: 30),
                 title: new Text('คุณครู')),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.dashboard, size: 30),
+                icon: new Icon(FontAwesomeIcons.chartBar, size: 30),
                 title: new Text('แผนภูมิ')),
-            BottomNavigationBarItem(
-                icon: new Icon(Icons.person, size: 30),
-                title: new Text('โปรไฟล์'))
+
           ],
           onTap: (int index) {
             setState(() {
