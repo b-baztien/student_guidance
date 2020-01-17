@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:table_calendar/table_calendar.dart';
+final Map<DateTime, List> _holidays = {
+  DateTime(2019, 1, 1): ['New Year\'s Day'],
+  DateTime(2019, 1, 6): ['Epiphany'],
+  DateTime(2019, 2, 14): ['Valentine\'s Day'],
+  DateTime(2019, 4, 21): ['Easter Sunday'],
+  DateTime(2019, 4, 22): ['Easter Monday'],
+};
+
 class NewsPage extends StatefulWidget {
   @override
   _NewsPageState createState() => _NewsPageState();
@@ -11,15 +19,17 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin{
 CalendarController _calendarController;
 List _selectedEvents;
+List<String> testList = ['xasdasd','asdasdasdasdasd','adxfkppllplpl'];
 AnimationController _animationController;
 bool toggle;
-Color _colorIcCalendar = Colors.black;
+String _toDay;
 bool _visibleDate;
 Map<DateTime, List> _events;
 @override
 void initState() {
   super.initState();
   final _selectedDay = DateTime.now();
+  _toDay = DateFormat('dd MMMM yyyy','th').format(_selectedDay);
   _calendarController = CalendarController();
   toggle = true;
   _visibleDate = true;
@@ -43,15 +53,24 @@ void initState() {
   _selectedEvents = _events[_selectedDay] ?? [];
   _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 400),
+    duration: const Duration(milliseconds: 300),
+
   );
+  _animationController.forward();
 }
+
+
 void _onDaySelected(DateTime day, List events) {
   print(events);
   setState(() {
+    _toDay = DateFormat('dd MMMM yyyy','th').format(day);
     _selectedEvents = events;
   });
 }
+void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
+  print('CALLBACK: ${last}');
+}
+
 
 @override
 void dispose() {
@@ -61,12 +80,15 @@ void dispose() {
 }
   @override
   Widget build(BuildContext context) {
+
+    Size size = MediaQuery.of(context).size;
     var  myCalendarOn = TableCalendar(
-      key: ValueKey("second"),
-      rowHeight: 50,
+      locale: 'th_TH',
       calendarController: _calendarController,
-      locale:'th_TH',
       events: _events,
+      holidays: _holidays,
+      rowHeight: 50,
+      initialCalendarFormat: CalendarFormat.week,
 
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -75,19 +97,19 @@ void dispose() {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
-      calendarStyle: CalendarStyle(
 
-        weekendStyle: TextStyle().copyWith(color: Colors.deepOrangeAccent),
-        holidayStyle: TextStyle().copyWith(color: Colors.deepOrangeAccent),
+      calendarStyle: CalendarStyle(
+        outsideDaysVisible: false,
+        weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
+        holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: TextStyle().copyWith(color: Colors.blue),
-        weekendStyle: TextStyle().copyWith(color: Colors.deepOrangeAccent),
+        weekendStyle: TextStyle().copyWith(color: Colors.blue[600]),
       ),
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,
-        formatButtonVisible: false,
 
+        formatButtonVisible: false,
       ),
       builders: CalendarBuilders(
         selectedDayBuilder: (context, date, _) {
@@ -110,7 +132,7 @@ void dispose() {
           return Container(
             margin: const EdgeInsets.all(4.0),
             padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: Colors.green[400],
+            color: Colors.green,
             width: 100,
             height: 100,
             child: Text(
@@ -119,27 +141,38 @@ void dispose() {
             ),
           );
         },
-          markersBuilder: (context, date, events, holidays){
-            final children = <Widget>[];
+        markersBuilder: (context, date, events, holidays) {
+          final children = <Widget>[];
 
-            if (events.isNotEmpty) {
-              children.add(
-                Positioned(
-                  right: 1,
-                  bottom: 1,
-                  child: _buildEventsMarker(date, events),
-                ),
-              );
-            }
-            return children;
-          },
+          if (events.isNotEmpty) {
+            children.add(
+              Positioned(
+                right: 1,
+                bottom: 1,
+                child: _buildEventsMarker(date, events),
+              ),
+            );
+          }
+
+          if (holidays.isNotEmpty) {
+            children.add(
+              Positioned(
+                right: -2,
+                top: -2,
+                child: _buildHolidaysMarker(),
+              ),
+            );
+          }
+
+          return children;
+        },
       ),
       onDaySelected: (date, events) {
         _onDaySelected(date, events);
         _animationController.forward(from: 0.0);
       },
+      onVisibleDaysChanged: _onVisibleDaysChanged,
     );
-
 
    var myCalendarOf = SizedBox(key: ValueKey("first"),height: 5,);
 
@@ -150,11 +183,24 @@ void dispose() {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-
+            backgroundColor: Colors.black,
            title: myAppbar(),
             pinned: true,
-            expandedHeight: 180,
+            expandedHeight: 220,
             flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: <Widget>[
+                  Center(
+                    child: Image.asset(
+                      'assets/images/Rectangle.png',
+                      width: size.width,
+                      height: size.height,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ],
+
+              ),
 
             ),
           ),
@@ -168,23 +214,23 @@ void dispose() {
                    children: <Widget>[
                      Text('ข่าว',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
                      Visibility(
-
-                       child: Text('17 มกราคม 2020'),
+                       child: Text(_toDay,style: TextStyle(fontSize: 18),),
                        visible: _visibleDate,
 
                      ),
                      IconButton(
-                       icon:  Icon(FontAwesomeIcons.calendarAlt,color: _colorIcCalendar,),
+                       icon:  toggle ? Icon(FontAwesomeIcons.calendarAlt,color: Colors.black,) :Icon(FontAwesomeIcons.check,color: Colors.green,) ,
                        onPressed: () {
-                       print("calendar");
+                         if(toggle == true){
+                           print("calendar");
+                         }else{
+                           print("check");
+                         }
+
                        setState(() {
                          toggle = !toggle;
                          _visibleDate = !_visibleDate;
-                         if(toggle == true){
-                           _colorIcCalendar = Colors.black;
-                         }else{
-                           _colorIcCalendar = Colors.red;
-                         }
+
                        });
                        },
                      ),
@@ -198,24 +244,60 @@ void dispose() {
                   sizeDuration: const Duration(milliseconds: 600),
                 ),
 
+
               ]
             ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context,index)=>
+              ListTile(
+                title: Text("${_selectedEvents[index]}"),
+              ),
+              childCount: _selectedEvents.length
+            ),
+
           )
+
         ],
       ),
       ),
     );
   }
-
+Widget _buildEventList() {
+  return ListView(
+    children: _selectedEvents.map((event) => Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 0.8),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      child: ListTile(
+        title: Text(event.toString()),
+        onTap: () => print('$event tapped!'),
+      ),
+    ))
+        .toList(),
+  );
+}
 
   Widget myAppbar(){
     return Container(
+
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Icon(FontAwesomeIcons.alignLeft),
       ),
     );
   }
+
+
+Widget _buildHolidaysMarker() {
+  return Icon(
+    Icons.add_box,
+    size: 20.0,
+    color: Colors.blueGrey[800],
+  );
+}
 
 Widget _buildEventsMarker(DateTime date, List events) {
   return AnimatedContainer(
@@ -239,4 +321,5 @@ Widget _buildEventsMarker(DateTime date, List events) {
     ),
   );
 }
+
 }
