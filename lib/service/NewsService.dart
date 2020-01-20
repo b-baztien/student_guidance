@@ -19,14 +19,14 @@ class NewsService {
     QuerySnapshot collecttionSnapshot =
         await collectionReference.getDocuments();
     templist = collecttionSnapshot.documentChanges;
-    templist.map((DocumentChange doc) async {
+    templist.forEach((DocumentChange doc) async {
       QuerySnapshot newsSnapshot =
           await doc.document.reference.collection('News').getDocuments();
       list = newsSnapshot.documentChanges.map((DocumentChange newsDoc) {
         print(newsDoc.document.data);
         return News.fromJson(newsDoc.document.data);
       }).toList();
-    }).toList();
+    });
     return list;
   }
 
