@@ -9,34 +9,38 @@ class NewsService {
     return qn.documents;
   }
 
-  Future<List<News>> getAllNews() async {
-    List<DocumentSnapshot> templist;
+  Future<List<News>> getAllNewsBySchoolName(String schoolName) async {
+    List<DocumentChange> templist;
     List<News> list = new List();
-    Query collectionReference =
-        Firestore.instance.collectionGroup('News');
+    CollectionReference collectionReference = Firestore.instance
+        .collection('School')
+        .document(schoolName)
+        .collection('Teacher');
     QuerySnapshot collecttionSnapshot =
         await collectionReference.getDocuments();
-    templist = collecttionSnapshot.documents;
-    list = templist.map((DocumentSnapshot doc) {
-      print(doc.data);
-      return News.fromJson(doc.data);
+    templist = collecttionSnapshot.documentChanges;
+    templist.map((DocumentChange doc) async {
+      QuerySnapshot newsSnapshot =
+          await doc.document.reference.collection('News').getDocuments();
+      list = newsSnapshot.documentChanges.map((DocumentChange newsDoc) {
+        print(newsDoc.document.data);
+        return News.fromJson(newsDoc.document.data);
+      }).toList();
     }).toList();
     return list;
   }
 
- Future<String> getImage(String path) async{
-   
-   String url;
-   try{
-     StorageReference ref = FirebaseStorage.instance.ref().child(path);
-    url = await ref.getDownloadURL().then((image) async{
+  Future<String> getImage(String path) async {
+    String url;
+    try {
+      StorageReference ref = FirebaseStorage.instance.ref().child(path);
+      url = await ref.getDownloadURL().then((image) async {
         return image.toString();
-    });
-   
-    return url;
-   }catch(e) {
+      });
+
+      return url;
+    } catch (e) {
       rethrow;
     }
-   
- }
+  }
 }

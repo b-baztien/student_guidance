@@ -5,16 +5,22 @@ class News {
   String detail;
   String image;
   Timestamp startTime;
-  DocumentReference teacher;
+  Timestamp endTime;
+  List listUniversityName;
 
-  News({this.detail, this.image, this.topic, this.startTime, this.teacher});
+  News(
+      {this.detail,
+      this.image,
+      this.topic,
+      this.startTime,
+      this.listUniversityName});
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
       topic: json['topic'] as String,
       detail: json['detail'] as String,
       image: json['image'] as String,
       startTime: json['start_time'] as Timestamp,
-      teacher: json['teacher'] as DocumentReference,
+      listUniversityName: json['listUniversity_name'],
     );
   }
 }

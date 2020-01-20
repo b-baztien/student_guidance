@@ -108,7 +108,7 @@ class _BodyNewsState extends State<BodyNews> {
               height: 275.0,
               width: MediaQuery.of(context).size.width,
               child: FutureBuilder(
-                future: newsService.getAllNews(),
+                future: newsService.getAllNewsBySchoolName('โรงเรียนทดสอบ'),
                 builder: (_, snapshot) {
                   if (snapshot.hasError)
                     return new Text('Error: ${snapshot.error}');
@@ -132,7 +132,6 @@ class _BodyNewsState extends State<BodyNews> {
                           newsFirebase.image = snapshot.data[index].image;
                           newsFirebase.startTime =
                               snapshot.data[index].startTime;
-                          newsFirebase.teacher = snapshot.data[index].teacher;
 
                           DocumentReference test = snapshot.data[index].teacher;
                           Future<Teacher> teacher =
