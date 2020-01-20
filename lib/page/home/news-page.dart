@@ -20,10 +20,10 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin{
 CalendarController _calendarController;
 List _selectedEvents;
-List<String> testList = ['xasdasd','asdasdasdasdasd','adxfkppllplpl'];
 AnimationController _animationController;
 bool toggle;
 String _toDay;
+DateTime _toDayCalendar;
 bool _visibleDate;
 Map<DateTime, List> _events;
 @override
@@ -31,6 +31,7 @@ void initState() {
   super.initState();
   new NewsService().getAllNews();
   final _selectedDay = DateTime.now();
+  _toDayCalendar = DateTime.now();
   _toDay = DateFormat('dd MMMM yyyy','th').format(_selectedDay);
   _calendarController = CalendarController();
   toggle = true;
@@ -43,7 +44,7 @@ void initState() {
     _selectedDay.subtract(Duration(days: 10)): ['Event A4', 'Event B4', 'Event C4'],
     _selectedDay.subtract(Duration(days: 4)): ['Event A5', 'Event B5', 'Event C5'],
     _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-    _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
+    _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7', 'Event D7'],
     _selectedDay.add(Duration(days: 1)): ['Event A8', 'Event B8', 'Event C8', 'Event D8'],
     _selectedDay.add(Duration(days: 3)): Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
     _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
@@ -52,6 +53,7 @@ void initState() {
     _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
     _selectedDay.add(Duration(days: 26)): ['Event A14', 'Event B14', 'Event C14'],
   };
+
   _selectedEvents = _events[_selectedDay] ?? [];
   _animationController = AnimationController(
     vsync: this,
@@ -65,6 +67,7 @@ void initState() {
 void _onDaySelected(DateTime day, List events) {
   print(events);
   setState(() {
+    _toDayCalendar = day;
     _toDay = DateFormat('dd MMMM yyyy','th').format(day);
     _selectedEvents = events;
   });
@@ -85,13 +88,14 @@ void dispose() {
 
     Size size = MediaQuery.of(context).size;
     var  myCalendarOn = TableCalendar(
+
       locale: 'th_TH',
       calendarController: _calendarController,
       events: _events,
       holidays: _holidays,
       rowHeight: 50,
       initialCalendarFormat: CalendarFormat.week,
-
+      initialSelectedDay: _toDayCalendar,
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
@@ -188,7 +192,7 @@ void dispose() {
             backgroundColor: Colors.black,
            title: myAppbar(),
             pinned: true,
-            expandedHeight: 220,
+            expandedHeight: 250,
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: <Widget>[
