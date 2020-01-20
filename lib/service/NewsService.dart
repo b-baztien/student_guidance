@@ -9,15 +9,16 @@ class NewsService {
     return qn.documents;
   }
 
-  Future<List<News>> getNewsList() async {
+  Future<List<News>> getAllNews() async {
     List<DocumentSnapshot> templist;
     List<News> list = new List();
-    CollectionReference collectionReference =
-        Firestore.instance.collection('News');
+    Query collectionReference =
+        Firestore.instance.collectionGroup('News');
     QuerySnapshot collecttionSnapshot =
         await collectionReference.getDocuments();
     templist = collecttionSnapshot.documents;
     list = templist.map((DocumentSnapshot doc) {
+      print(doc.data);
       return News.fromJson(doc.data);
     }).toList();
     return list;

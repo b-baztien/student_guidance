@@ -108,7 +108,7 @@ class _BodyNewsState extends State<BodyNews> {
               height: 275.0,
               width: MediaQuery.of(context).size.width,
               child: FutureBuilder(
-                future: newsService.getNewsList(),
+                future: newsService.getAllNews(),
                 builder: (_, snapshot) {
                   if (snapshot.hasError)
                     return new Text('Error: ${snapshot.error}');

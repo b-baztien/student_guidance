@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
+import 'package:student_guidance/service/NewsService.dart';
 import 'package:table_calendar/table_calendar.dart';
 final Map<DateTime, List> _holidays = {
   DateTime(2019, 1, 1): ['New Year\'s Day'],
@@ -28,6 +29,7 @@ Map<DateTime, List> _events;
 @override
 void initState() {
   super.initState();
+  new NewsService().getAllNews();
   final _selectedDay = DateTime.now();
   _toDay = DateFormat('dd MMMM yyyy','th').format(_selectedDay);
   _calendarController = CalendarController();
@@ -195,7 +197,7 @@ void dispose() {
                       'assets/images/Rectangle.png',
                       width: size.width,
                       height: size.height,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ],
