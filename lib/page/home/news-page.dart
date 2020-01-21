@@ -13,7 +13,7 @@ class NewsPage extends StatefulWidget {
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   CalendarController _calendarController;
 
-  List<News> _selectedEvents;
+  List _selectedEvents;
   AnimationController _animationController;
   bool toggle;
   String _toDay;
@@ -57,7 +57,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     _animationController.forward();
   }
 
-  void _onDaySelected(DateTime day, List<News> events) {
+  void _onDaySelected(DateTime day, List events) {
     print(events);
     setState(() {
       _toDayCalendar = day;
@@ -253,13 +253,26 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 ),
               ]),
             ),
+        _selectedEvents.length != 0?
             SliverList(
               delegate: SliverChildBuilderDelegate(
                   (context, index) => ListTile(
-                        title: Text("${_selectedEvents[index].detail}"),
+                        title:  Text("${_selectedEvents[index].detail}") ,
                       ),
                   childCount: _selectedEvents.length),
-            )
+            ) : SliverList(
+          delegate: SliverChildListDelegate(
+            <Widget>[
+              Center(
+                child: Text(
+                  'ไม่พบข่าวสำหรับวันนี้',
+                  style: TextStyle(
+                      fontSize: 15,color: Colors.brown),
+                ),
+              ),
+            ]
+          ),
+        )
           ],
         ),
       ),
