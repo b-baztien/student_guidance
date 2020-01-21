@@ -2,17 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
+import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-final Map<DateTime, List> _holidays = {
-  DateTime(2019, 1, 1): ['New Year\'s Day'],
-  DateTime(2019, 1, 6): ['Epiphany'],
-  DateTime(2019, 2, 14): ['Valentine\'s Day'],
-  DateTime(2019, 4, 21): ['Easter Sunday'],
-  DateTime(2019, 4, 22): ['Easter Monday'],
-};
-
 class NewsPage extends StatefulWidget {
   @override
   _NewsPageState createState() => _NewsPageState();
@@ -20,93 +12,44 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   CalendarController _calendarController;
-  List _selectedEvents;
+
+  List<News> _selectedEvents;
   AnimationController _animationController;
   bool toggle;
   String _toDay;
   DateTime _toDayCalendar;
   bool _visibleDate;
   Map<DateTime, List> _events;
+  Map<DateTime, List<News>> _eventsNews  = new  Map<DateTime, List<News>>();
+  Set<DateTime> dateSet = new Set<DateTime>();
   @override
   void initState() {
     super.initState();
-    new NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ');
+    NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ').then((itemFromService){
+      for(News news in itemFromService){
+        dateSet.add(news.startTime.toDate());
+      }
+      for(DateTime datetime in dateSet){
+        List<News> list = new List();
+        for(News news in itemFromService){
+            if(news.startTime.toDate() == datetime){
+              list.add(news);
+            }
+        }
+
+        _eventsNews[datetime] = list;
+        print(_eventsNews[datetime]);
+      }
+      print(dateSet.length);
+    });
     final _selectedDay = DateTime.now();
     _toDayCalendar = DateTime.now();
     _toDay = DateFormat('dd MMMM yyyy', 'th').format(_selectedDay);
     _calendarController = CalendarController();
     toggle = true;
     _visibleDate = true;
-    _events = {
-      _selectedDay.subtract(Duration(days: 30)): [
-        'Event A0',
-        'Event B0',
-        'Event C0'
-      ],
-      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-      _selectedDay.subtract(Duration(days: 20)): [
-        'Event A2',
-        'Event B2',
-        'Event C2',
-        'Event D2'
-      ],
-      _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-      _selectedDay.subtract(Duration(days: 10)): [
-        'Event A4',
-        'Event B4',
-        'Event C4'
-      ],
-      _selectedDay.subtract(Duration(days: 4)): [
-        'Event A5',
-        'Event B5',
-        'Event C5'
-      ],
-      _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      _selectedDay: [
-        'Event A7',
-        'Event B7',
-        'Event C7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7',
-        'Event D7'
-      ],
-      _selectedDay.add(Duration(days: 1)): [
-        'Event A8',
-        'Event B8',
-        'Event C8',
-        'Event D8'
-      ],
-      _selectedDay.add(Duration(days: 3)):
-          Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-      _selectedDay.add(Duration(days: 7)): [
-        'Event A10',
-        'Event B10',
-        'Event C10'
-      ],
-      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-      _selectedDay.add(Duration(days: 17)): [
-        'Event A12',
-        'Event B12',
-        'Event C12',
-        'Event D12'
-      ],
-      _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-      _selectedDay.add(Duration(days: 26)): [
-        'Event A14',
-        'Event B14',
-        'Event C14'
-      ],
-    };
 
-    _selectedEvents = _events[_selectedDay] ?? [];
+    _selectedEvents = _eventsNews[_selectedDay] ?? [];
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -114,7 +57,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     _animationController.forward();
   }
 
-  void _onDaySelected(DateTime day, List events) {
+  void _onDaySelected(DateTime day, List<News> events) {
     print(events);
     setState(() {
       _toDayCalendar = day;
@@ -141,8 +84,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     var myCalendarOn = TableCalendar(
       locale: 'th_TH',
       calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
+      events: _eventsNews,
       rowHeight: 50,
       initialCalendarFormat: CalendarFormat.week,
       initialSelectedDay: _toDayCalendar,
@@ -222,6 +164,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
         },
       ),
       onDaySelected: (date, events) {
+
         _onDaySelected(date, events);
         _animationController.forward(from: 0.0);
       },
@@ -313,7 +256,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                   (context, index) => ListTile(
-                        title: Text("${_selectedEvents[index]}"),
+                        title: Text("${_selectedEvents[index].detail}"),
                       ),
                   childCount: _selectedEvents.length),
             )
@@ -323,24 +266,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildEventList() {
-    return ListView(
-      children: _selectedEvents
-          .map((event) => Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(event.toString()),
-                  onTap: () => print('$event tapped!'),
-                ),
-              ))
-          .toList(),
-    );
-  }
 
   Widget myAppbar() {
     return Container(

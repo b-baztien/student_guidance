@@ -11,26 +11,23 @@ class NewsService {
 
   Future<List<News>> getAllNewsBySchoolName(String schoolName) async {
     List<DocumentChange> templist;
-    List<News> listNews = new List();
+    List<News> list = new List();
     CollectionReference collectionReference = Firestore.instance
         .collection('School')
         .document(schoolName)
         .collection('Teacher');
-    QuerySnapshot collecttionSnapshot =
-        await collectionReference.getDocuments();
+    QuerySnapshot collecttionSnapshot = await collectionReference.getDocuments();
     templist = collecttionSnapshot.documentChanges;
-    templist.forEach((DocumentChange doc) async {
-      QuerySnapshot newsSnapshot =
-          await doc.document.reference.collection('News').getDocuments();
-      List<News> list =
-          newsSnapshot.documentChanges.map((DocumentChange newsDoc) {
-        print(newsDoc.document.data);
-        return News.fromJson(newsDoc.document.data);
-      }).toList();
-      listNews.addAll(list);
-    });
-    return listNews;
+    for(DocumentChange dc in templist){
+      QuerySnapshot newsSnapshot = await dc.document.reference.collection('News').getDocuments();
+      for(DocumentChange dcsnap in newsSnapshot.documentChanges){
+        list.add(News.fromJson(dcsnap.document.data));
+      }
+    }
+    print(list[0].startTime.toDate());
+    return list;
   }
+
 
   Future<String> getImage(String path) async {
     String url;
