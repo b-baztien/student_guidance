@@ -20,7 +20,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   DateTime _toDayCalendar;
   bool _visibleDate;
   Map<DateTime, List> _events;
-  Map<DateTime, List<News>> _eventsNews  = new  Map<DateTime, List<News>>();
+  Map<DateTime, List> _eventsNews  = new  Map<DateTime, List>();
   Set<DateTime> dateSet = new Set<DateTime>();
   @override
   void initState() {
@@ -38,9 +38,10 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
         }
 
         _eventsNews[datetime] = list;
-        print(_eventsNews[datetime]);
       }
-      print(dateSet.length);
+      String getEventToday = DateFormat('dd/MM/yyyy').format(DateTime.now());
+      print(getEventToday);
+      _selectedEvents = _eventsNews[DateTime.now()] ?? [];
     });
     final _selectedDay = DateTime.now();
     _toDayCalendar = DateTime.now();
@@ -49,7 +50,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     toggle = true;
     _visibleDate = true;
 
-    _selectedEvents = _eventsNews[_selectedDay] ?? [];
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -253,6 +253,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 ),
               ]),
             ),
+
         _selectedEvents.length != 0?
             SliverList(
               delegate: SliverChildBuilderDelegate(
