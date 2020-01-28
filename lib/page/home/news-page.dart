@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +6,7 @@ import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 class NewsPage extends StatefulWidget {
   @override
   _NewsPageState createState() => _NewsPageState();
@@ -18,43 +20,66 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   bool toggle;
   String _toDay;
   DateTime _toDayCalendar;
-  bool _visibleDate;
+  bool _isVisibleDate;
   Map<DateTime, List> _events;
-  Map<DateTime, List> _eventsNews  = new  Map<DateTime, List>();
+  Map<DateTime, List> _eventsNews = new Map<DateTime, List>();
   Set<DateTime> dateSet = new Set<DateTime>();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ').then((itemFromService){
+  //     for(News news in itemFromService){
+  //       dateSet.add(news.startTime.toDate());
+  //     }
+  //     for(DateTime datetime in dateSet){
+  //       List<News> list = new List();
+  //       for(News news in itemFromService){
+  //           if(news.startTime.toDate() == datetime){
+  //             list.add(news);
+  //           }
+  //       }
+
+  //       _eventsNews[datetime] = list;
+  //     }
+  //     String getEventToday = DateFormat('dd/MM/yyyy').format(DateTime.now());
+  //     print(getEventToday);
+  //     _selectedEvents = _eventsNews[DateTime.now()] ?? [];
+  //   });
+  //   final _selectedDay = DateTime.now();
+  //   _toDayCalendar = DateTime.now();
+  //   _toDay = DateFormat('dd MMMM yyyy', 'th').format(_selectedDay);
+  //   _calendarController = CalendarController();
+  //   toggle = true;
+  //   _visibleDate = true;
+
+  //   _animationController = AnimationController(
+  //     vsync: this,
+  //     duration: const Duration(milliseconds: 300),
+  //   );
+  //   _animationController.forward();
+  // }
+
   @override
   void initState() {
     super.initState();
-    NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ').then((itemFromService){
-      for(News news in itemFromService){
-        dateSet.add(news.startTime.toDate());
-      }
-      for(DateTime datetime in dateSet){
-        List<News> list = new List();
-        for(News news in itemFromService){
-            if(news.startTime.toDate() == datetime){
-              list.add(news);
-            }
-        }
-
-        _eventsNews[datetime] = list;
-      }
-      String getEventToday = DateFormat('dd/MM/yyyy').format(DateTime.now());
-      print(getEventToday);
-      _selectedEvents = _eventsNews[DateTime.now()] ?? [];
-    });
     final _selectedDay = DateTime.now();
     _toDayCalendar = DateTime.now();
     _toDay = DateFormat('dd MMMM yyyy', 'th').format(_selectedDay);
     _calendarController = CalendarController();
     toggle = true;
-    _visibleDate = true;
+    _isVisibleDate = true;
 
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
     _animationController.forward();
+  }
+
+  void _onVisibleDaysChanged(
+      DateTime first, DateTime last, CalendarFormat format) {
+    print('CALLBACK: $last');
   }
 
   void _onDaySelected(DateTime day, List events) {
@@ -66,25 +91,13 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     });
   }
 
-  void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: ${last}');
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _calendarController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var myCalendarOn = TableCalendar(
+    TableCalendar myCalendarOn = TableCalendar(
       locale: 'th_TH',
       calendarController: _calendarController,
-      events: _eventsNews,
+      // events: _eventsNews,
       rowHeight: 50,
       initialCalendarFormat: CalendarFormat.week,
       initialSelectedDay: _toDayCalendar,
@@ -95,11 +108,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
-      calendarStyle: CalendarStyle(
-        outsideDaysVisible: false,
-        weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
-        holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
-      ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekendStyle: TextStyle().copyWith(color: Colors.blue[600]),
       ),
@@ -164,7 +172,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
         },
       ),
       onDaySelected: (date, events) {
-
         _onDaySelected(date, events);
         _animationController.forward(from: 0.0);
       },
@@ -217,7 +224,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                           _toDay,
                           style: TextStyle(fontSize: 18),
                         ),
-                        visible: _visibleDate,
+                        visible: _isVisibleDate,
                       ),
                       IconButton(
                         icon: toggle
@@ -238,7 +245,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
 
                           setState(() {
                             toggle = !toggle;
-                            _visibleDate = !_visibleDate;
+                            _isVisibleDate = !_isVisibleDate;
                           });
                         },
                       ),
@@ -253,33 +260,36 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 ),
               ]),
             ),
-
-        _selectedEvents.length != 0?
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (context, index) => ListTile(
-                        title:  Text("${_selectedEvents[index].detail}") ,
-                      ),
-                  childCount: _selectedEvents.length),
-            ) : SliverList(
-          delegate: SliverChildListDelegate(
-            <Widget>[
-              Center(
-                child: Text(
-                  'ไม่พบข่าวสำหรับวันนี้',
-                  style: TextStyle(
-                      fontSize: 15,color: Colors.brown),
-                ),
-              ),
-            ]
-          ),
-        )
+            StreamBuilder<List<News>>(
+                stream: NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ'),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (context, index) => ListTile(
+                                title: Text(snapshot.data[index].topic),
+                              ),
+                          childCount: snapshot.data.length),
+                    );
+                  } else {
+                    print('test ${snapshot.data}');
+                    return SliverList(
+                      delegate: SliverChildListDelegate(<Widget>[
+                        Center(
+                          child: Text(
+                            'ไม่พบข่าวสำหรับวันนี้',
+                            style: TextStyle(fontSize: 15, color: Colors.brown),
+                          ),
+                        ),
+                      ]),
+                    );
+                  }
+                })
           ],
         ),
       ),
     );
   }
-
 
   Widget myAppbar() {
     return Container(
