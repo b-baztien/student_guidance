@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/School.dart';
@@ -25,7 +26,7 @@ class _BodyNewsState extends State<BodyNews> {
   Student student = new Student();
   Login login;
   School school = new School();
-  String shcool_name = '';
+  String shcoolName = '';
   @override
   void initState() {
     super.initState();
@@ -34,7 +35,7 @@ class _BodyNewsState extends State<BodyNews> {
           .getSchool(studentFromService.school)
           .then((schoolFromService) {
         setState(() {
-          shcool_name = schoolFromService.schoolName;
+          shcoolName = schoolFromService.schoolName;
         });
       });
     });
@@ -62,7 +63,7 @@ class _BodyNewsState extends State<BodyNews> {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    shcool_name,
+                    shcoolName,
                     style: TextStyle(
                         color: UIdata.fontColor,
                         fontFamily: UIdata.fontFamily,
@@ -107,8 +108,8 @@ class _BodyNewsState extends State<BodyNews> {
             child: Container(
               height: 275.0,
               width: MediaQuery.of(context).size.width,
-              child: FutureBuilder(
-                future: newsService.getAllNewsBySchoolName('โรงเรียนทดสอบ'),
+              child: StreamBuilder(
+                stream: newsService.getAllNewsBySchoolName('โรงเรียนทดสอบ'),
                 builder: (_, snapshot) {
                   if (snapshot.hasError)
                     return new Text('Error: ${snapshot.error}');

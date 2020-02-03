@@ -8,28 +8,33 @@ CollectionReference ref = Firestore.instance.collection("Login");
 
 class LoginService {
   Future<Login> login(Login userLogin) async {
-      final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      DocumentReference refQuery = ref.document(userLogin.username);
+      Query query = Firestore.instance
+          .collectionGroup('Login')
+          .where('username', isEqualTo: userLogin.username);
 
-      Login login = await refQuery.get().then((doc) async {
-        if (doc.exists) {
-          return Login.fromJson(doc.data);
+      await query.getDocuments().then((snapshot) async {
+        if (snapshot.documents.isNotEmpty) {
+          Login login = Login.fromJson(snapshot.documents.first.data);
+
+          if (login.type == 'student') {
+            if (userLogin.password == login.password) {
+              prefs.setString('login', jsonEncode(login.toMap()));
+
+              //get schoolName
+              prefs.setString('schoolId', jsonEncode(snapshot.documents.first.reference.parent().parent().parent().parent().documentID));
+              return login;
+            } else {
+              throw ("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
+            }
+          } else {
+            throw ("ไม่ใช่นักเรียน");
+          }
         } else {
           throw ("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
         }
       });
-
-      if (login.type == 'student') {
-        if (userLogin.password == login.password) {
-          prefs.setString('login', jsonEncode(login.toMap()));
-          return login;
-        } else {
-          throw ("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
-        }
-      } else {
-        throw ("ไม่ใช่นักเรียน");
-      }
     } catch (e) {
       prefs.clear();
       rethrow;
