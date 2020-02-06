@@ -235,47 +235,49 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
               ]),
             ),
             FutureBuilder(
-                future: _getPrefs(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return StreamBuilder<List<News>>(
-                        stream: NewsService().getAllNewsBySchoolNameAndDate(
-                            'โรงเรียนทดสอบ', _toDayCalendar),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData && snapshot.data.isNotEmpty) {
-                            return SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  (context, index) => ListTile(
-                                        title: Text(snapshot.data[index].topic),
-                                      ),
-                                  childCount: snapshot.data.length),
-                            );
-                          } else {
-                            return SliverList(
-                              delegate: SliverChildListDelegate(<Widget>[
-                                Center(
-                                  child: Text(
-                                    'ไม่พบข่าวสำหรับวันนี้',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.brown),
+              future: _getPrefs(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return StreamBuilder<List<News>>(
+                    stream: NewsService().getAllNewsBySchoolNameAndDate(
+                        'โรงเรียนทดสอบ', _toDayCalendar),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data.isNotEmpty) {
+                        return SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              (context, index) => ListTile(
+                                    title: Text(snapshot.data[index].topic),
                                   ),
-                                ),
-                              ]),
-                            );
-                          }
-                        });
-                  }
-                  return SliverList(
-                    delegate: SliverChildListDelegate(<Widget>[
-                      Center(
-                        child: Text(
-                          'กำลังโหลด...',
-                          style: TextStyle(fontSize: 15, color: Colors.brown),
-                        ),
-                      ),
-                    ]),
+                              childCount: snapshot.data.length),
+                        );
+                      } else {
+                        return SliverList(
+                          delegate: SliverChildListDelegate(<Widget>[
+                            Center(
+                              child: Text(
+                                'ไม่พบข่าวสำหรับวันนี้',
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.brown),
+                              ),
+                            ),
+                          ]),
+                        );
+                      }
+                    },
                   );
-                })
+                }
+                return SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    Center(
+                      child: Text(
+                        'กำลังโหลด...',
+                        style: TextStyle(fontSize: 15, color: Colors.brown),
+                      ),
+                    ),
+                  ]),
+                );
+              },
+            )
           ],
         ),
       ),
