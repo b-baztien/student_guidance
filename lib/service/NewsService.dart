@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:student_guidance/model/News.dart';
 
 class NewsService {
@@ -9,13 +10,21 @@ class NewsService {
     return qn.documents;
   }
 
-  Stream<List<News>> getAllNewsBySchoolName(String schoolName) {
+  Stream<List<News>> getAllNewsBySchoolName(String schoolName,DateTime dateTime) {
+    String formattedDateStart = DateFormat('yyyy-MM-dd'+' 00:00:00').format(dateTime);
+    String formattedDateEnd = DateFormat('yyyy-MM-dd'+' 23:59:59').format(dateTime);
+    DateTime startDate = DateTime.parse(formattedDateStart);
+    DateTime endDate = DateTime.parse(formattedDateEnd);
+    print(startDate.toString());
+    print(endDate.toString());
+
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
         .where('schoolName', isEqualTo: schoolName);
 
     return collectionReference.snapshots().map((snapshot) {
       return snapshot.documents.map((document) {
+
         return News.fromJson(document.data);
       }).toList();
     });

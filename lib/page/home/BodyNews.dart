@@ -103,7 +103,7 @@ class _BodyNewsState extends State<BodyNews> {
               ],
             ),
           ),
-          Padding(
+     /*     Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
               height: 275.0,
@@ -151,7 +151,7 @@ class _BodyNewsState extends State<BodyNews> {
                 },
               ),
             ),
-          ),
+          ),*/
         ],
       ),
     );
