@@ -5,7 +5,6 @@ class News {
   String detail;
   String image;
   Timestamp startTime;
-  Timestamp endTime;
   List listUniversityName;
 
   News(

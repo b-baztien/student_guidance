@@ -25,40 +25,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   Map<DateTime, List> _eventsNews = new Map<DateTime, List>();
   Set<DateTime> dateSet = new Set<DateTime>();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ').then((itemFromService){
-  //     for(News news in itemFromService){
-  //       dateSet.add(news.startTime.toDate());
-  //     }
-  //     for(DateTime datetime in dateSet){
-  //       List<News> list = new List();
-  //       for(News news in itemFromService){
-  //           if(news.startTime.toDate() == datetime){
-  //             list.add(news);
-  //           }
-  //       }
 
-  //       _eventsNews[datetime] = list;
-  //     }
-  //     String getEventToday = DateFormat('dd/MM/yyyy').format(DateTime.now());
-  //     print(getEventToday);
-  //     _selectedEvents = _eventsNews[DateTime.now()] ?? [];
-  //   });
-  //   final _selectedDay = DateTime.now();
-  //   _toDayCalendar = DateTime.now();
-  //   _toDay = DateFormat('dd MMMM yyyy', 'th').format(_selectedDay);
-  //   _calendarController = CalendarController();
-  //   toggle = true;
-  //   _visibleDate = true;
-
-  //   _animationController = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 300),
-  //   );
-  //   _animationController.forward();
-  // }
 
   @override
   void initState() {
@@ -261,7 +228,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
               ]),
             ),
             StreamBuilder<List<News>>(
-                stream: NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ'),
+                stream: NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ',_toDayCalendar),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return SliverList(
