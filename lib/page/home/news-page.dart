@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -57,6 +58,11 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
 
   Widget myDrawer() {
     return Drawer();
+  }
+
+  Future<String> _getPrefs() async {
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    return sharedPrefs.getString('schoolId');
   }
 
   @override
@@ -228,31 +234,47 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 ),
               ]),
             ),
-            StreamBuilder<List<News>>(
-                stream: NewsService()
-                    .getAllNewsBySchoolName('โรงเรียนทดสอบ', _toDayCalendar),
+            FutureBuilder(
+                future: _getPrefs(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                          (context, index) => ListTile(
-                                title: Text(snapshot.data[index].topic),
-                              ),
-                          childCount: snapshot.data.length),
-                    );
-                  } else {
-                    print('test ${snapshot.data}');
-                    return SliverList(
-                      delegate: SliverChildListDelegate(<Widget>[
-                        Center(
-                          child: Text(
-                            'ไม่พบข่าวสำหรับวันนี้',
-                            style: TextStyle(fontSize: 15, color: Colors.brown),
-                          ),
-                        ),
-                      ]),
-                    );
+                    return StreamBuilder<List<News>>(
+                        stream: NewsService().getAllNewsBySchoolNameAndDate(
+                            'โรงเรียนทดสอบ', _toDayCalendar),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData && snapshot.data.isNotEmpty) {
+                            return SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                  (context, index) => ListTile(
+                                        title: Text(snapshot.data[index].topic),
+                                      ),
+                                  childCount: snapshot.data.length),
+                            );
+                          } else {
+                            return SliverList(
+                              delegate: SliverChildListDelegate(<Widget>[
+                                Center(
+                                  child: Text(
+                                    'ไม่พบข่าวสำหรับวันนี้',
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.brown),
+                                  ),
+                                ),
+                              ]),
+                            );
+                          }
+                        });
                   }
+                  return SliverList(
+                    delegate: SliverChildListDelegate(<Widget>[
+                      Center(
+                        child: Text(
+                          'กำลังโหลด...',
+                          style: TextStyle(fontSize: 15, color: Colors.brown),
+                        ),
+                      ),
+                    ]),
+                  );
                 })
           ],
         ),

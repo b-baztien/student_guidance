@@ -4,13 +4,20 @@ import 'package:intl/intl.dart';
 import 'package:student_guidance/model/News.dart';
 
 class NewsService {
-  Future getNews() async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection('News').getDocuments();
-    return qn.documents;
+  Stream<List<News>> getAllNewsBySchoolName(String schoolName) {
+    Query collectionReference = Firestore.instance
+        .collectionGroup('News')
+        .where('schoolName', isEqualTo: schoolName);
+
+    return collectionReference.snapshots().map((snapshot) {
+      print('length ' + snapshot.documentChanges.length.toString());
+      return snapshot.documentChanges.map((docChange) {
+        return News.fromJson(docChange.document.data);
+      }).toList();
+    });
   }
 
-  Stream<List<News>> getAllNewsBySchoolName(
+  Stream<List<News>> getAllNewsBySchoolNameAndDate(
       String schoolName, DateTime dateTime) {
     String formattedDateStart =
         DateFormat('yyyy-MM-dd' + ' 00:00:00').format(dateTime);
@@ -24,8 +31,7 @@ class NewsService {
         .where('schoolName', isEqualTo: schoolName)
         .where('start_time',
             isGreaterThanOrEqualTo: Timestamp.fromDate(startTime))
-        .where('start_time',
-            isLessThanOrEqualTo: Timestamp.fromDate(endTime));
+        .where('start_time', isLessThanOrEqualTo: Timestamp.fromDate(endTime));
 
     return collectionReference.snapshots().map((snapshot) {
       print('length ' + snapshot.documentChanges.length.toString());
