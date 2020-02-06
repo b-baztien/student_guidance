@@ -18,7 +18,7 @@ class ItemTutorial extends StatelessWidget {
            image,
            width: size.width,
            height: size.height,
-           fit: BoxFit.fill,
+           fit: BoxFit.fitHeight,
          ),
        ),
 

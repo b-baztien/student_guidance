@@ -13,6 +13,8 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   CalendarController _calendarController;
 
   List _selectedEvents;
@@ -152,42 +154,12 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
 
     return SafeArea(
       child: Scaffold(
-        drawer: Drawer(
-          // Add a ListView to the drawer. This ensures the user can scroll
-          // through the options in the drawer if there isn't enough vertical
-          // space to fit everything.
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Text('Drawer Header'),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-              ),
-              ListTile(
-                title: Text('Item 1'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                title: Text('Item 2'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
-          ),
-        ),
+        key: _scaffoldKey,
+        drawer: Drawer(),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
               backgroundColor: Colors.black,
-              title: myAppbar(),
               pinned: true,
               expandedHeight: 250,
               flexibleSpace: FlexibleSpaceBar(
@@ -285,15 +257,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 })
           ],
         ),
-      ),
-    );
-  }
-
-  Widget myAppbar() {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Icon(FontAwesomeIcons.alignLeft),
       ),
     );
   }

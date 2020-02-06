@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         fontFamily: UIdata.fontFamily,
         primarySwatch: UIdata.themeMaterialColor,
       ),
-      home: Home(),
+      home: SplashPage(),
       routes: UIdata.routes,
     );
   }

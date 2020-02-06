@@ -15,13 +15,24 @@ class _LandingState extends State<Landing> {
   @override
   void initState() {
     super.initState();
-    _loadUserInfo();
+    _loadFirstTimeAppOpen();
+  }
+
+  _loadFirstTimeAppOpen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool firstTime = prefs.getBool('first_time');
+    if (firstTime != null && !firstTime) {
+      // Not first time
+      _loadUserInfo();
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+          context, UIdata.tutorialTag, ModalRoute.withName(UIdata.tutorialTag));
+    }
   }
 
   _loadUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      print(prefs.get('login'));
       if (prefs.get('login') != null) {
         LoginService().login(Login.fromJson(jsonDecode(prefs.get('login'))));
         Navigator.pushNamedAndRemoveUntil(
