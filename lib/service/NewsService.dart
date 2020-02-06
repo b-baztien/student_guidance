@@ -10,22 +10,27 @@ class NewsService {
     return qn.documents;
   }
 
-  Stream<List<News>> getAllNewsBySchoolName(String schoolName,DateTime dateTime) {
-    String formattedDateStart = DateFormat('yyyy-MM-dd'+' 00:00:00').format(dateTime);
-    String formattedDateEnd = DateFormat('yyyy-MM-dd'+' 23:59:59').format(dateTime);
-    DateTime startDate = DateTime.parse(formattedDateStart);
-    DateTime endDate = DateTime.parse(formattedDateEnd);
-    print(startDate.toString());
-    print(endDate.toString());
+  Stream<List<News>> getAllNewsBySchoolName(
+      String schoolName, DateTime dateTime) {
+    String formattedDateStart =
+        DateFormat('yyyy-MM-dd' + ' 00:00:00').format(dateTime);
+    String formattedDateEnd =
+        DateFormat('yyyy-MM-dd' + ' 23:59:59').format(dateTime);
+    DateTime startTime = DateTime.parse(formattedDateStart);
+    DateTime endTime = DateTime.parse(formattedDateEnd);
 
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
-        .where('schoolName', isEqualTo: schoolName);
+        .where('schoolName', isEqualTo: schoolName)
+        .where('start_time',
+            isGreaterThanOrEqualTo: Timestamp.fromDate(startTime))
+        .where('start_time',
+            isLessThanOrEqualTo: Timestamp.fromDate(endTime));
 
     return collectionReference.snapshots().map((snapshot) {
-      return snapshot.documents.map((document) {
-
-        return News.fromJson(document.data);
+      print('length ' + snapshot.documentChanges.length.toString());
+      return snapshot.documentChanges.map((docChange) {
+        return News.fromJson(docChange.document.data);
       }).toList();
     });
   }

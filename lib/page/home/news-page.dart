@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +12,6 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   CalendarController _calendarController;
 
   List _selectedEvents;
@@ -26,8 +23,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   Map<DateTime, List> _events;
   Map<DateTime, List> _eventsNews = new Map<DateTime, List>();
   Set<DateTime> dateSet = new Set<DateTime>();
-
-
 
   @override
   void initState() {
@@ -58,6 +53,10 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
       _toDay = DateFormat('dd MMMM yyyy', 'th').format(day);
       _selectedEvents = events;
     });
+  }
+
+  Widget myDrawer() {
+    return Drawer();
   }
 
   @override
@@ -154,8 +153,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
 
     return SafeArea(
       child: Scaffold(
-        key: _scaffoldKey,
-        drawer: Drawer(),
+        drawer: myDrawer(),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
@@ -231,7 +229,8 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
               ]),
             ),
             StreamBuilder<List<News>>(
-                stream: NewsService().getAllNewsBySchoolName('โรงเรียนทดสอบ',_toDayCalendar),
+                stream: NewsService()
+                    .getAllNewsBySchoolName('โรงเรียนทดสอบ', _toDayCalendar),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return SliverList(
