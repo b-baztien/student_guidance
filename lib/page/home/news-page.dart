@@ -5,6 +5,7 @@ import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/service/NewsService.dart';
+import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class NewsPage extends StatefulWidget {
@@ -56,10 +57,70 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     });
   }
 
-  Widget myDrawer() {
-    return Drawer();
-  }
+ myDrawer() {
+    return ClipPath(
+      clipper: OvalRighBorderClipper(),
+      child: Drawer(
+        child: Container(
+          padding: const EdgeInsets.only(left : 16,right: 40),
+          decoration: BoxDecoration(
+            color: Colors.white,boxShadow: [BoxShadow(color: Colors.black45)]
+          ),
+          width: 300,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child:Column(
+               children: <Widget>[
+                 Container(
+                   alignment: Alignment.centerRight,
+                   child: IconButton(icon: Icon(Icons.power_settings_new,color: Colors.grey.shade800,),
+                    onPressed: (){
 
+                    }),
+                 ),
+                 Container(
+                   height: 90,
+                   alignment: Alignment.center,
+                   decoration: BoxDecoration(
+                     shape: BoxShape.circle,
+                     gradient: LinearGradient(colors: [Colors.orange,Colors.deepOrange])
+                   ),
+                   child: CircleAvatar(
+                     radius: 40,
+
+                   ),
+                 ),
+                 SizedBox(height: 5,),
+                 Text("name",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w600),),
+                  Text("school",style: TextStyle(color: Colors.purple,fontSize: 15),),
+                  Text("status",style: TextStyle(color: Colors.orange,fontSize: 15),),
+                    SizedBox(height: 15,),
+                    _buildRow(Icons.account_circle,"แก้ไขข้อมูลส่วนตัว",Colors.blue),
+                    _buildDivider()
+
+               ], 
+              ),
+              ),
+          ),
+        ),
+      ),
+    );
+  }
+  Divider _buildDivider(){
+    return Divider(color: Colors.deepOrange,);
+  }
+  Widget _buildRow(IconData icon ,String title,Color colors){
+    final TextStyle textStyle = TextStyle(color: Colors.black,fontFamily: 'kanit',fontSize: 15);
+    return Container(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Row(children: <Widget>[
+            Icon(icon,
+            color: colors),
+            SizedBox(width: 10,),
+            Text(title,style: textStyle,),
+        ],),
+    );
+  }
   Future<String> _getPrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     return sharedPrefs.getString('schoolId');
@@ -240,7 +301,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 if (snapshot.hasData) {
                   return StreamBuilder<List<News>>(
                     stream: NewsService().getAllNewsBySchoolNameAndDate(
-                        'โรงเรียนทดสอบ', _toDayCalendar),
+                        snapshot.data, _toDayCalendar),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data.isNotEmpty) {
                         return SliverList(
