@@ -4,6 +4,21 @@ import 'package:intl/intl.dart';
 import 'package:student_guidance/model/News.dart';
 
 class NewsService {
+  Stream<Map<String, dynamic>> getAllMapNewsBySchoolName(String schoolName) {
+    Query collectionReference = Firestore.instance
+        .collectionGroup('News')
+        .where('schoolName', isEqualTo: schoolName);
+
+    return collectionReference.snapshots().map((snapshot) {
+      Map<String, dynamic> mapNews = new Map();
+      snapshot.documentChanges.forEach((docChange) {
+        mapNews.addAll(docChange.document.data);
+      });
+      print('mapNews : ' + mapNews.toString());
+      return mapNews;
+    });
+  }
+
   Stream<List<News>> getAllNewsBySchoolName(String schoolName) {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
@@ -31,7 +46,8 @@ class NewsService {
         .where('schoolName', isEqualTo: schoolName)
         .where('start_time',
             isGreaterThanOrEqualTo: Timestamp.fromDate(startTime))
-        .where('start_time', isLessThanOrEqualTo: Timestamp.fromDate(endTime));
+        .where('start_time', isLessThanOrEqualTo: Timestamp.fromDate(endTime))
+        .orderBy('start_time');
 
     return collectionReference.snapshots().map((snapshot) {
       print('length ' + snapshot.documentChanges.length.toString());
