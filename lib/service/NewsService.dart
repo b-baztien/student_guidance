@@ -4,15 +4,24 @@ import 'package:intl/intl.dart';
 import 'package:student_guidance/model/News.dart';
 
 class NewsService {
-  Stream<Map<String, dynamic>> getAllMapNewsBySchoolName(String schoolName) {
+  Stream<Map<DateTime, List<News>>> getAllMapNewsBySchoolName(
+      String schoolName) {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
         .where('schoolName', isEqualTo: schoolName);
 
     return collectionReference.snapshots().map((snapshot) {
-      Map<String, dynamic> mapNews = new Map();
+      Map<DateTime, List<News>> mapNews = new Map();
       snapshot.documentChanges.forEach((docChange) {
-        mapNews.addAll(docChange.document.data);
+        DateTime timeMapKey =
+            (docChange.document.data['start_time'] as Timestamp).toDate();
+        mapNews[timeMapKey] = snapshot.documentChanges.map((doc) {
+          if (timeMapKey ==
+              (doc.document.data['start_time'] as Timestamp).toDate()) {
+            return News.fromJson(doc.document.data);
+          }
+          return null;
+        });
       });
       print('mapNews : ' + mapNews.toString());
       return mapNews;
