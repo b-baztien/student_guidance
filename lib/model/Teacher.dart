@@ -8,22 +8,24 @@ class Teacher extends Login {
   String phoneNO;
   String email;
   String image;
-  DocumentReference login;
-  DocumentReference school;
+  String position;
 
-
-  Teacher({this.firstname,this.lastname,this.phoneNO,this.email,this.image,this.login,this.school});
+  Teacher(
+      {this.firstname,
+      this.lastname,
+      this.phoneNO,
+      this.email,
+      this.image,
+      this.position});
 
   factory Teacher.fromJson(Map<String, dynamic> json) {
     return Teacher(
-     firstname: json['firstname'] as String,
-     lastname: json['lastname'] as String,
-     phoneNO: json['phone_no'] as String,
-     email: json['email'] as String,
+      firstname: json['firstname'] as String,
+      lastname: json['lastname'] as String,
+      phoneNO: json['phone_no'] as String,
+      email: json['email'] as String,
       image: json['image'] as String,
-      login: json['Login'] as DocumentReference,
-      school: json['School'] as DocumentReference,
-      
+      position: json['position'] as String,
     );
   }
 }
