@@ -8,7 +8,8 @@ class NewsService {
       String schoolName) {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
-        .where('schoolName', isEqualTo: schoolName);
+        .where('schoolName', isEqualTo: schoolName)
+        .orderBy('start_time');
 
     return collectionReference.snapshots().map((snapshot) {
       Map<DateTime, List<News>> mapNews = new Map();
