@@ -78,7 +78,13 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                           Icons.power_settings_new,
                           color: Colors.grey.shade800,
                         ),
-                        onPressed: () {}),
+                        onPressed: () {
+                          LoginService().clearLoginData();
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              UIdata.loginPageTag,
+                              ModalRoute.withName(UIdata.loginPageTag));
+                        }),
                   ),
                   Container(
                     height: 90,

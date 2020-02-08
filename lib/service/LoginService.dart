@@ -53,13 +53,17 @@ class LoginService {
         }
       });
     } catch (e) {
-      prefs.clear();
+      clearLoginData();
       rethrow;
     }
   }
 
-  remove(String key) async {
+  clearLoginData() async {
     final prefs = await SharedPreferences.getInstance();
+    bool firstTime = prefs.getBool('first_time') == null
+        ? true
+        : prefs.getBool('first_time');
     prefs.clear();
+    prefs.setBool('first_time', firstTime);
   }
 }
