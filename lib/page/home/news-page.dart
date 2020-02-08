@@ -57,78 +57,110 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     });
   }
 
- myDrawer() {
+  myDrawer() {
     return ClipPath(
       clipper: OvalRighBorderClipper(),
       child: Drawer(
         child: Container(
-          padding: const EdgeInsets.only(left : 16,right: 40),
+          padding: const EdgeInsets.only(left: 16, right: 40),
           decoration: BoxDecoration(
-            color: Colors.white,boxShadow: [BoxShadow(color: Colors.black45)]
-          ),
+              color: Colors.white,
+              boxShadow: [BoxShadow(color: Colors.black45)]),
           width: 300,
           child: SafeArea(
             child: SingleChildScrollView(
-              child:Column(
-               children: <Widget>[
-                 Container(
-                   alignment: Alignment.centerRight,
-                   child: IconButton(icon: Icon(Icons.power_settings_new,color: Colors.grey.shade800,),
-                    onPressed: (){
-
-                    }),
-                 ),
-                 Container(
-                   height: 90,
-                   alignment: Alignment.center,
-                   decoration: BoxDecoration(
-                     shape: BoxShape.circle,
-                     gradient: LinearGradient(colors: [Colors.orange,Colors.deepOrange])
-                   ),
-                   child: CircleAvatar(
-                     radius: 40,
-
-                   ),
-                 ),
-                 SizedBox(height: 5,),
-                 Text("name",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w600),),
-                  Text("school",style: TextStyle(color: Colors.purple,fontSize: 15),),
-                  Text("status",style: TextStyle(color: Colors.orange,fontSize: 15),),
-                    SizedBox(height: 15,),
-                    _buildRow(Icons.account_circle,"แก้ไขข้อมูลส่วนตัว",Colors.blue),
-                    _buildDivider(),
-                     _buildRow(Icons.add_to_photos,"เพิ่มข้อมูลการสอบ TCAS",Colors.green),
-                    _buildDivider(),
-                      _buildRow(Icons.add_to_photos,"เพิ่มข้อมูลหลังการจบการศึกษา",Colors.green),
-                    _buildDivider(),
-                      _buildRow(Icons.vpn_key,"แก้ไขข้อมูลส่วนตัว",Colors.yellow),
-                    _buildDivider(),
-                      _buildRow(Icons.favorite,"แก้ไขข้อมูลส่วนตัว",Colors.red[300]),
-                    _buildDivider(),
-
-               ], 
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.power_settings_new,
+                          color: Colors.grey.shade800,
+                        ),
+                        onPressed: () {}),
+                  ),
+                  Container(
+                    height: 90,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                            colors: [Colors.orange, Colors.deepOrange])),
+                    child: CircleAvatar(
+                      radius: 40,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    "name",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    "school",
+                    style: TextStyle(color: Colors.purple, fontSize: 15),
+                  ),
+                  Text(
+                    "status",
+                    style: TextStyle(color: Colors.orange, fontSize: 15),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildRow(
+                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue),
+                  _buildDivider(),
+                  _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
+                      Colors.green),
+                  _buildDivider(),
+                  _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลหลังการจบการศึกษา",
+                      Colors.green),
+                  _buildDivider(),
+                  _buildRow(Icons.vpn_key, "แก้ไขข้อมูลส่วนตัว", Colors.yellow),
+                  _buildDivider(),
+                  _buildRow(
+                      Icons.favorite, "แก้ไขข้อมูลส่วนตัว", Colors.red[300]),
+                  _buildDivider(),
+                ],
               ),
-              ),
+            ),
           ),
         ),
       ),
     );
   }
-  Divider _buildDivider(){
-    return Divider(color: Colors.deepOrange,);
-  }
-  Widget _buildRow(IconData icon ,String title,Color colors){
-    final TextStyle textStyle = TextStyle(color: Colors.black,fontFamily: 'kanit',fontSize: 15);
-    return Container(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Row(children: <Widget>[
-            Icon(icon,
-            color: colors),
-            SizedBox(width: 10,),
-            Text(title,style: textStyle,),
-        ],),
+
+  Divider _buildDivider() {
+    return Divider(
+      color: Colors.deepOrange,
     );
   }
+
+  Widget _buildRow(IconData icon, String title, Color colors) {
+    final TextStyle textStyle =
+        TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        children: <Widget>[
+          Icon(icon, color: colors),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            title,
+            style: textStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<String> _getPrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     return sharedPrefs.getString('schoolId');
@@ -138,107 +170,108 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     var myCalendarOn = FutureBuilder(
-      future: _getPrefs(),
-      builder: (context,snapshot){
-          if(snapshot.hasData){
-            return StreamBuilder<Map<DateTime,List>>(
+        future: _getPrefs(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return StreamBuilder<Map<DateTime, List>>(
               stream: NewsService().getAllMapNewsBySchoolName(snapshot.data),
-              builder: (context,snapshot){
-                if(snapshot.hasData){
-                    TableCalendar(
-      locale: 'th_TH',
-      calendarController: _calendarController,
-      events: snapshot.data,
-      rowHeight: 50,
-      initialCalendarFormat: CalendarFormat.week,
-      initialSelectedDay: _toDayCalendar,
-      formatAnimation: FormatAnimation.slide,
-      startingDayOfWeek: StartingDayOfWeek.sunday,
-      availableGestures: AvailableGestures.all,
-      availableCalendarFormats: const {
-        CalendarFormat.month: '',
-        CalendarFormat.week: '',
-      },
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.blue[600]),
-      ),
-      headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
-        formatButtonVisible: false,
-      ),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
-          return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
-            child: Container(
-              margin: const EdgeInsets.all(4.0),
-              padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.deepOrange[300],
-              width: 100,
-              height: 100,
-              child: Text(
-                '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
-              ),
-            ),
-          );
-        },
-        todayDayBuilder: (context, date, _) {
-          return Container(
-            margin: const EdgeInsets.all(4.0),
-            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: Colors.green,
-            width: 100,
-            height: 100,
-            child: Text(
-              '${date.day}',
-              style: TextStyle().copyWith(fontSize: 16.0),
-            ),
-          );
-        },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
+              builder: (context, snapshot) {
+                print(snapshot.hasData);
+                if (snapshot.hasData) {
+                  return TableCalendar(
+                    locale: 'th_TH',
+                    calendarController: _calendarController,
+                    events: snapshot.data,
+                    rowHeight: 50,
+                    initialCalendarFormat: CalendarFormat.week,
+                    initialSelectedDay: _toDayCalendar,
+                    formatAnimation: FormatAnimation.slide,
+                    startingDayOfWeek: StartingDayOfWeek.sunday,
+                    availableGestures: AvailableGestures.all,
+                    availableCalendarFormats: const {
+                      CalendarFormat.month: '',
+                      CalendarFormat.week: '',
+                    },
+                    daysOfWeekStyle: DaysOfWeekStyle(
+                      weekendStyle:
+                          TextStyle().copyWith(color: Colors.blue[600]),
+                    ),
+                    headerStyle: HeaderStyle(
+                      centerHeaderTitle: true,
+                      formatButtonVisible: false,
+                    ),
+                    builders: CalendarBuilders(
+                      selectedDayBuilder: (context, date, _) {
+                        return FadeTransition(
+                          opacity: Tween(begin: 0.0, end: 1.0)
+                              .animate(_animationController),
+                          child: Container(
+                            margin: const EdgeInsets.all(4.0),
+                            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+                            color: Colors.deepOrange[300],
+                            width: 100,
+                            height: 100,
+                            child: Text(
+                              '${date.day}',
+                              style: TextStyle().copyWith(fontSize: 16.0),
+                            ),
+                          ),
+                        );
+                      },
+                      todayDayBuilder: (context, date, _) {
+                        return Container(
+                          margin: const EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+                          color: Colors.green,
+                          width: 100,
+                          height: 100,
+                          child: Text(
+                            '${date.day}',
+                            style: TextStyle().copyWith(fontSize: 16.0),
+                          ),
+                        );
+                      },
+                      markersBuilder: (context, date, events, holidays) {
+                        final children = <Widget>[];
 
-          if (events.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: 1,
-                bottom: 1,
-                child: _buildEventsMarker(date, events),
-              ),
-            );
-          }
+                        if (events.isNotEmpty) {
+                          children.add(
+                            Positioned(
+                              right: 1,
+                              bottom: 1,
+                              child: _buildEventsMarker(date, events),
+                            ),
+                          );
+                        }
 
-          if (holidays.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: -2,
-                top: -2,
-                child: _buildHolidaysMarker(),
-              ),
-            );
-          }
+                        if (holidays.isNotEmpty) {
+                          children.add(
+                            Positioned(
+                              right: -2,
+                              top: -2,
+                              child: _buildHolidaysMarker(),
+                            ),
+                          );
+                        }
 
-          return children;
-        },
-      ),
-      onDaySelected: (date, events) {
-        _onDaySelected(date, events);
-        _animationController.forward(from: 0.0);
-      },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
-    );
-                }else{
-
+                        return children;
+                      },
+                    ),
+                    onDaySelected: (date, events) {
+                      _onDaySelected(date, events);
+                      _animationController.forward(from: 0.0);
+                    },
+                    onVisibleDaysChanged: _onVisibleDaysChanged,
+                  );
+                } else {
+                  return Text('');
                 }
               },
-
             );
+          } else {
+            return Text('');
           }
-      }
-      );
-    
-    
+        });
 
     var myCalendarOf = SizedBox(
       key: ValueKey("first"),
@@ -316,8 +349,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 ),
                 AnimatedSizeAndFade(
                   vsync: this,
-                  child: toggle ? myCalendarOf :
-                   myCalendarOn,
+                  child: toggle ? myCalendarOf : myCalendarOn,
                   fadeDuration: const Duration(milliseconds: 300),
                   sizeDuration: const Duration(milliseconds: 600),
                 ),
