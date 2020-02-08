@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
-import 'package:student_guidance/service/GetImageService.dart';
-import 'package:student_guidance/service/StudentService.dart';
 
-class TeacherService{
+class TeacherService {
   Future<Teacher> getTeacher(DocumentReference doc) async {
     try {
       DocumentReference refQuery = doc;
@@ -16,25 +13,20 @@ class TeacherService{
       rethrow;
     }
   }
-  Future<List<Teacher>> getAllTeacher() async{
-    Student student = new Student();
-    List<Teacher> list = new List<Teacher>();
-     student = await  StudentService().getStudent().then((studentFromService) async{
-       return studentFromService;
+
+  Stream<List<Teacher>> getAllTeacherBySchoolName(String schoolName) {
+    Query query = Firestore.instance
+        .collection('School')
+        .document(schoolName)
+        .collection('Teacher')
+        .orderBy('position')
+        .orderBy('firstname')
+        .orderBy('lastname');
+
+    return query.snapshots().map((snapshot) {
+      return snapshot.documents
+          .map((doc) => Teacher.fromJson(doc.data))
+          .toList();
     });
-     DocumentReference refQuery = student.school;
-  
-        CollectionReference collectionReferenceUniver = Firestore.instance.collection('Teacher');
-      QuerySnapshot qs = await collectionReferenceUniver.where('school', isEqualTo: refQuery).getDocuments();
-      
-       for(DocumentSnapshot ds in qs.documents){
-         Teacher teacher = Teacher.fromJson(ds.data);
-        teacher.image =
-          await GetImageService().getImage(teacher.image).then((url) async {
-        return url;
-      });
-         list.add(teacher);
-       }
-       return list;
   }
 }
