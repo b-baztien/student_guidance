@@ -15,13 +15,15 @@ class NewsService {
       snapshot.documentChanges.forEach((docChange) {
         DateTime timeMapKey =
             (docChange.document.data['start_time'] as Timestamp).toDate();
-        mapNews[timeMapKey] = snapshot.documentChanges.map((doc) {
-          if (timeMapKey ==
-              (doc.document.data['start_time'] as Timestamp).toDate()) {
-            return News.fromJson(doc.document.data);
+        List<News> listNews = new List();
+        snapshot.documentChanges.forEach((doc) {
+          if (timeMapKey.compareTo(
+                  (doc.document.data['start_time'] as Timestamp).toDate()) ==
+              0) {
+            listNews.add(News.fromJson(doc.document.data));
           }
-          return null;
         });
+        mapNews[timeMapKey] = listNews;
       });
       print('mapNews : ' + mapNews.toString());
       return mapNews;
