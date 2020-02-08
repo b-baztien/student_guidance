@@ -13,25 +13,38 @@ class NewsService {
 
     return collectionReference.snapshots().map((snapshot) {
       Map<DateTime, List<News>> mapNews = new Map();
-      snapshot.documentChanges.forEach((docChange) {
+      snapshot.documents.forEach((docChange) {
         DateFormat formatter = new DateFormat('yyyy-MM-dd');
-        DateTime timeMapKey = DateTime.parse(formatter.format(
-            (docChange.document.data['start_time'] as Timestamp).toDate()));
+        DateTime timeMapKey = DateTime.parse(formatter
+            .format((docChange.data['start_time'] as Timestamp).toDate()));
 
         List<News> listNews = new List();
-        snapshot.documentChanges.forEach((doc) {
-          DateTime timeForCompare = DateTime.parse(formatter
-              .format((doc.document.data['start_time'] as Timestamp).toDate()));
+        snapshot.documents.forEach((doc) {
+          DateTime timeForCompare = DateTime.parse(
+              formatter.format((doc.data['start_time'] as Timestamp).toDate()));
 
           if (timeMapKey.compareTo(timeForCompare) == 0) {
-            listNews.add(News.fromJson(doc.document.data));
+            listNews.add(News.fromJson(doc.data));
           }
         });
         mapNews[timeMapKey] = listNews;
       });
 
-      print('mapNews : ' + mapNews.toString());
       return mapNews;
+    });
+  }
+
+  Stream<News> getLastedNewsBySchoolName(String schoolName) {
+    print('object');
+    Query collectionReference = Firestore.instance
+        .collectionGroup('News')
+        .where('schoolName', isEqualTo: schoolName);
+
+    return collectionReference.snapshots().map((snapshot) {
+      if (snapshot.documents.isNotEmpty) {
+        return News.fromJson(snapshot.documents[0].data);
+      }
+      return null;
     });
   }
 
@@ -41,9 +54,8 @@ class NewsService {
         .where('schoolName', isEqualTo: schoolName);
 
     return collectionReference.snapshots().map((snapshot) {
-      print('length ' + snapshot.documentChanges.length.toString());
-      return snapshot.documentChanges.map((docChange) {
-        return News.fromJson(docChange.document.data);
+      return snapshot.documents.map((docChange) {
+        return News.fromJson(docChange.data);
       }).toList();
     });
   }
@@ -66,9 +78,8 @@ class NewsService {
         .orderBy('start_time');
 
     return collectionReference.snapshots().map((snapshot) {
-      print('length ' + snapshot.documentChanges.length.toString());
-      return snapshot.documentChanges.map((docChange) {
-        return News.fromJson(docChange.document.data);
+      return snapshot.documents.map((docChange) {
+        return News.fromJson(docChange.data);
       }).toList();
     });
   }
