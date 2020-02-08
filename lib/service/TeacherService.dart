@@ -29,4 +29,36 @@ class TeacherService {
           .toList();
     });
   }
+
+  Stream<List<Teacher>> getAllTeacherBySchoolNameAndPosition(
+      String schoolName, String position) {
+    Query query = Firestore.instance
+        .collection('School')
+        .document(schoolName)
+        .collection('Teacher')
+        .where('position', isEqualTo: position)
+        .orderBy('firstname')
+        .orderBy('lastname');
+
+    return query.snapshots().map((snapshot) {
+      return snapshot.documents
+          .map((doc) => Teacher.fromJson(doc.data))
+          .toList();
+    });
+  }
+
+  Stream<List<String>> getAllPositionTeacherBySchoolName(String schoolName) {
+    Query query = Firestore.instance
+        .collection('School')
+        .document(schoolName)
+        .collection('Teacher')
+        .orderBy('position');
+
+    return query.snapshots().map((snapshot) {
+      return snapshot.documents
+          .map((doc) => Teacher.fromJson(doc.data).position)
+          .toSet()
+          .toList();
+    });
+  }
 }
