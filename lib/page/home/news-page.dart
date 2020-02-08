@@ -96,7 +96,15 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                   Text("status",style: TextStyle(color: Colors.orange,fontSize: 15),),
                     SizedBox(height: 15,),
                     _buildRow(Icons.account_circle,"แก้ไขข้อมูลส่วนตัว",Colors.blue),
-                    _buildDivider()
+                    _buildDivider(),
+                     _buildRow(Icons.add_to_photos,"เพิ่มข้อมูลการสอบ TCAS",Colors.green),
+                    _buildDivider(),
+                      _buildRow(Icons.add_to_photos,"เพิ่มข้อมูลหลังการจบการศึกษา",Colors.green),
+                    _buildDivider(),
+                      _buildRow(Icons.vpn_key,"แก้ไขข้อมูลส่วนตัว",Colors.yellow),
+                    _buildDivider(),
+                      _buildRow(Icons.favorite,"แก้ไขข้อมูลส่วนตัว",Colors.red[300]),
+                    _buildDivider(),
 
                ], 
               ),
@@ -129,10 +137,18 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TableCalendar myCalendarOn = TableCalendar(
+    var myCalendarOn = FutureBuilder(
+      future: _getPrefs(),
+      builder: (context,snapshot){
+          if(snapshot.hasData){
+            return StreamBuilder<Map<DateTime,List>>(
+              stream: NewsService().getAllMapNewsBySchoolName(snapshot.data),
+              builder: (context,snapshot){
+                if(snapshot.hasData){
+                    TableCalendar(
       locale: 'th_TH',
       calendarController: _calendarController,
-      // events: _eventsNews,
+      events: snapshot.data,
       rowHeight: 50,
       initialCalendarFormat: CalendarFormat.week,
       initialSelectedDay: _toDayCalendar,
@@ -212,6 +228,17 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
       },
       onVisibleDaysChanged: _onVisibleDaysChanged,
     );
+                }else{
+
+                }
+              },
+
+            );
+          }
+      }
+      );
+    
+    
 
     var myCalendarOf = SizedBox(
       key: ValueKey("first"),
@@ -289,7 +316,8 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 ),
                 AnimatedSizeAndFade(
                   vsync: this,
-                  child: toggle ? myCalendarOf : myCalendarOn,
+                  child: toggle ? myCalendarOf :
+                   myCalendarOn,
                   fadeDuration: const Duration(milliseconds: 300),
                   sizeDuration: const Duration(milliseconds: 600),
                 ),
