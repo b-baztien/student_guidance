@@ -35,7 +35,6 @@ class NewsService {
   }
 
   Stream<News> getLastedNewsBySchoolName(String schoolName) {
-    print('object');
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
         .where('schoolName', isEqualTo: schoolName);
