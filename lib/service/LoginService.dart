@@ -22,8 +22,25 @@ class LoginService {
             if (userLogin.password == login.password) {
               prefs.setString('login', jsonEncode(login.toMap()));
 
+              //get student
+              prefs.setString(
+                  'student',
+                  jsonEncode((await snapshot.documents.first.reference
+                          .parent()
+                          .parent()
+                          .get())
+                      .data));
+
               //get schoolName
-              prefs.setString('schoolId', snapshot.documents.first.reference.parent().parent().parent().parent().documentID.trim());
+              prefs.setString(
+                  'schoolId',
+                  snapshot.documents.first.reference
+                      .parent()
+                      .parent()
+                      .parent()
+                      .parent()
+                      .documentID
+                      .trim());
               return login;
             } else {
               throw ("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
