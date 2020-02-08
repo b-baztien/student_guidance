@@ -8,21 +8,28 @@ class NewsService {
       String schoolName) {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
-        .where('schoolName', isEqualTo: schoolName);
+        .where('schoolName', isEqualTo: schoolName)
+        .orderBy('start_time');
 
     return collectionReference.snapshots().map((snapshot) {
       Map<DateTime, List<News>> mapNews = new Map();
       snapshot.documentChanges.forEach((docChange) {
-        DateTime timeMapKey =
-            (docChange.document.data['start_time'] as Timestamp).toDate();
-        mapNews[timeMapKey] = snapshot.documentChanges.map((doc) {
-          if (timeMapKey ==
-              (doc.document.data['start_time'] as Timestamp).toDate()) {
-            return News.fromJson(doc.document.data);
+        DateFormat formatter = new DateFormat('yyyy-MM-dd');
+        DateTime timeMapKey = DateTime.parse(formatter.format(
+            (docChange.document.data['start_time'] as Timestamp).toDate()));
+
+        List<News> listNews = new List();
+        snapshot.documentChanges.forEach((doc) {
+          DateTime timeForCompare = DateTime.parse(formatter
+              .format((doc.document.data['start_time'] as Timestamp).toDate()));
+
+          if (timeMapKey.compareTo(timeForCompare) == 0) {
+            listNews.add(News.fromJson(doc.document.data));
           }
-          return null;
         });
+        mapNews[timeMapKey] = listNews;
       });
+
       print('mapNews : ' + mapNews.toString());
       return mapNews;
     });
