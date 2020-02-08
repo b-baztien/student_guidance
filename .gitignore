@@ -71,4 +71,4 @@
 .flutter-plugins-dependencies
 ios/Flutter/flutter_export_environment.sh
 pubspec.lock
-android/app/.classpath
+android/app/
