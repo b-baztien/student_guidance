@@ -62,116 +62,101 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     });
   }
 
-  myDrawer() {
-    return FutureBuilder(
-        future: _getPrefs(),
-        builder: (_, snap) {
-          if (snap.hasData) {
-            Student student =
-                Student.fromJson(jsonDecode(snap.data.getString('student')));
-            return ClipPath(
-              clipper: OvalRighBorderClipper(),
-              child: Drawer(
-                child: Container(
-                  padding: const EdgeInsets.only(left: 16, right: 40),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [BoxShadow(color: Colors.black45)]),
-                  width: 300,
-                  child: SafeArea(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: IconButton(
-                                icon: Icon(
-                                  Icons.power_settings_new,
-                                  color: Colors.grey.shade800,
-                                ),
-                                onPressed: () {
-                                  LoginService().clearLoginData();
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      UIdata.loginPageTag,
-                                      ModalRoute.withName(UIdata.loginPageTag));
-                                }),
-                          ),
-                          Container(
-                              height: 90,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(colors: [
-                                    Colors.orange,
-                                    Colors.deepOrange
-                                  ])),
-                              child: FutureBuilder(
-                                  future:
-                                      GetImageService().getImage(student.image),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(snapshot.data),
-                                        radius: 40,
-                                      );
-                                    } else {
-                                      return CircleAvatar(
-                                        radius: 40,
-                                      );
-                                    }
-                                  })),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            student.firstname + ' ' + student.lastname,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            snap.data.getString('schoolId'),
-                            style: TextStyle(
-                                color: Colors.blueAccent, fontSize: 15),
-                          ),
-                          Text(
-                            student.status,
-                            style: TextStyle(
-                                color: student.status == 'กำลังศึกษา'
-                                    ? Colors.green
-                                    : Colors.orange,
-                                fontSize: 15),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          _buildRow(Icons.account_circle, "แก้ไขข้อมูลส่วนตัว",
-                              Colors.blue),
-                          _buildDivider(),
-                          student.status == 'กำลังศึกษา'
-                              ? _buildRow(Icons.add_to_photos,
-                                  "เพิ่มข้อมูลการสอบ TCAS", Colors.green)
-                              : _buildRow(Icons.add_to_photos,
-                                  "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green),
-                          _buildDivider(),
-                          _buildRow(
-                              Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
-                          _buildDivider(),
-                          _buildRow(
-                              Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
-                          _buildDivider(),
-                        ],
-                      ),
-                    ),
+  myDrawer(Student student, String schoolId) {
+    return ClipPath(
+      clipper: OvalRighBorderClipper(),
+      child: Drawer(
+        child: Container(
+          padding: const EdgeInsets.only(left: 16, right: 40),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [BoxShadow(color: Colors.black45)]),
+          width: 300,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                        icon: Icon(
+                          Icons.power_settings_new,
+                          color: Colors.grey.shade800,
+                        ),
+                        onPressed: () {
+                          LoginService().clearLoginData();
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              UIdata.loginPageTag,
+                              ModalRoute.withName(UIdata.loginPageTag));
+                        }),
                   ),
-                ),
+                  Container(
+                      height: 90,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              colors: [Colors.orange, Colors.deepOrange])),
+                      child: FutureBuilder(
+                          future: GetImageService().getImage(student.image),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return CircleAvatar(
+                                backgroundImage: NetworkImage(snapshot.data),
+                                radius: 40,
+                              );
+                            } else {
+                              return CircleAvatar(
+                                radius: 40,
+                              );
+                            }
+                          })),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    student.firstname + ' ' + student.lastname,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    schoolId,
+                    style: TextStyle(color: Colors.blueAccent, fontSize: 15),
+                  ),
+                  Text(
+                    student.status,
+                    style: TextStyle(
+                        color: student.status == 'กำลังศึกษา'
+                            ? Colors.green
+                            : Colors.orange,
+                        fontSize: 15),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  _buildRow(
+                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue),
+                  _buildDivider(),
+                  student.status == 'กำลังศึกษา'
+                      ? _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
+                          Colors.green)
+                      : _buildRow(Icons.add_to_photos,
+                          "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green),
+                  _buildDivider(),
+                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
+                  _buildDivider(),
+                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
+                  _buildDivider(),
+                ],
               ),
-            );
-          } else {}
-        });
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Divider _buildDivider() {
@@ -214,7 +199,8 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
           if (snapshot.hasData) {
             return StreamBuilder<Map<DateTime, List>>(
               stream: NewsService().getAllMapNewsBySchoolName(
-                  snapshot.data.getString('schoolId')),
+                snapshot.data.getString('schoolId'),
+              ),
               builder: (context, snapshot) {
                 print(snapshot.hasData);
                 if (snapshot.hasData) {
@@ -313,183 +299,165 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
           }
         });
 
-    var myCalendarOf = SizedBox(
+    var myCalendarOff = SizedBox(
       key: ValueKey("first"),
       height: 5,
     );
 
     return SafeArea(
-      child: Scaffold(
-        drawer: myDrawer(),
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              backgroundColor: Colors.black,
-              pinned: true,
-              expandedHeight: 250,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  children: <Widget>[
-                    FutureBuilder(
-                        future: _getPrefs(),
-                        builder: (_, snapshot) {
-                          if (snapshot.hasData) {
-                            return StreamBuilder(
-                                stream: NewsService().getLastedNewsBySchoolName(
-                                    snapshot.data.getString('schoolId')),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return FutureBuilder(
-                                        future: GetImageService()
-                                            .getImage(snapshot.data.image),
-                                        builder: (_, snap) {
-                                          if (snap.hasData) {
-                                            return Center(
-                                              child: Container(
+      child: FutureBuilder(
+          future: _getPrefs(),
+          builder: (context, futureSnapshot) {
+            if (futureSnapshot.hasData) {
+              return Scaffold(
+                drawer: myDrawer(
+                  Student.fromJson(
+                      jsonDecode(futureSnapshot.data.getString('student'))),
+                  futureSnapshot.data.getString('schoolId'),
+                ),
+                body: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      backgroundColor: Colors.black,
+                      pinned: true,
+                      expandedHeight: 250,
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Stack(
+                          children: <Widget>[
+                            StreamBuilder(
+                              stream: NewsService().getLastedNewsBySchoolName(
+                                  futureSnapshot.data.getString('schoolId')),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return FutureBuilder(
+                                      future: GetImageService()
+                                          .getImage(snapshot.data.image),
+                                      builder: (_, snap) {
+                                        if (snap.hasData) {
+                                          return Center(
+                                            child: Container(
                                               decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: NetworkImage(snap.data),fit: BoxFit.cover
-                                                )
-                                              ),  
-                                              ),
-                                            );
-                                          } else {
-                                            return Center(
-                                              child: Image.asset(
-                                                'assets/images/Rectangle.png',
-                                                width: size.width,
-                                                height: size.height,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            );
-                                          }
-                                        });
-                                  } else {
-                                    return Center(
-                                      child: Image.asset(
-                                        'assets/images/Rectangle.png',
-                                        width: size.width,
-                                        height: size.height,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  }
-                                });
-                          } else {
-                            return Center(
-                              child: Image.asset(
-                                'assets/images/Rectangle.png',
-                                width: size.width,
-                                height: size.height,
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          }
-                        })
-                  ],
-                ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(<Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, right: 10, left: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'ข่าว',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Visibility(
-                        child: Text(
-                          _toDay,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        visible: _isVisibleDate,
-                      ),
-                      IconButton(
-                        icon: toggle
-                            ? Icon(
-                                FontAwesomeIcons.calendarAlt,
-                                color: Colors.black,
-                              )
-                            : Icon(
-                                FontAwesomeIcons.check,
-                                color: Colors.green,
-                              ),
-                        onPressed: () {
-                          if (toggle == true) {
-                            print("calendar");
-                          } else {
-                            print("check");
-                          }
-
-                          setState(() {
-                            toggle = !toggle;
-                            _isVisibleDate = !_isVisibleDate;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                AnimatedSizeAndFade(
-                  vsync: this,
-                  child: toggle ? myCalendarOf : myCalendarOn,
-                  fadeDuration: const Duration(milliseconds: 300),
-                  sizeDuration: const Duration(milliseconds: 600),
-                ),
-              ]),
-            ),
-            FutureBuilder(
-              future: _getPrefs(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return StreamBuilder<List<News>>(
-                    stream: NewsService().getAllNewsBySchoolNameAndDate(
-                        snapshot.data.getString('schoolId'), _toDayCalendar),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data.isNotEmpty) {
-                        return SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                              (context, index) => ListTile(
-                                    title: Text(snapshot.data[index].topic),
-                                  ),
-                              childCount: snapshot.data.length),
-                        );
-                      } else {
-                        return SliverList(
-                          delegate: SliverChildListDelegate(<Widget>[
-                            Center(
-                              child: Text(
-                                'ไม่พบข่าวสำหรับวันนี้',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.brown),
-                              ),
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          snap.data),
+                                                      fit: BoxFit.cover)),
+                                            ),
+                                          );
+                                        } else {
+                                          return Center(
+                                            child: Image.asset(
+                                              'assets/images/no-photo-available.png',
+                                              width: size.width,
+                                              height: size.height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          );
+                                        }
+                                      });
+                                } else {
+                                  return Center(
+                                    child: Image.asset(
+                                      'assets/images/no-photo-available.png',
+                                      width: size.width,
+                                      height: size.height,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                          ]),
-                        );
-                      }
-                    },
-                  );
-                }
-                return SliverList(
-                  delegate: SliverChildListDelegate(<Widget>[
-                    Center(
-                      child: Text(
-                        'กำลังโหลด...',
-                        style: TextStyle(fontSize: 15, color: Colors.brown),
+                          ],
+                        ),
                       ),
                     ),
-                  ]),
-                );
-              },
-            )
-          ],
-        ),
-      ),
+                    SliverList(
+                      delegate: SliverChildListDelegate(<Widget>[
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: 10, right: 10, left: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'ข่าว',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Visibility(
+                                child: Text(
+                                  _toDay,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                visible: _isVisibleDate,
+                              ),
+                              IconButton(
+                                icon: toggle
+                                    ? Icon(
+                                        FontAwesomeIcons.calendarAlt,
+                                        color: Colors.black,
+                                      )
+                                    : Icon(
+                                        FontAwesomeIcons.check,
+                                        color: Colors.green,
+                                      ),
+                                onPressed: () {
+                                  if (toggle == true) {
+                                    print("calendar");
+                                  } else {
+                                    print("check");
+                                  }
+                                  setState(() {
+                                    toggle = !toggle;
+                                    _isVisibleDate = !_isVisibleDate;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        AnimatedSizeAndFade(
+                          vsync: this,
+                          child: toggle ? myCalendarOff : myCalendarOn,
+                          fadeDuration: const Duration(milliseconds: 300),
+                          sizeDuration: const Duration(milliseconds: 600),
+                        ),
+                      ]),
+                    ),
+                    StreamBuilder<List<News>>(
+                      stream: NewsService().getAllNewsBySchoolNameAndDate(
+                          futureSnapshot.data.getString('schoolId'),
+                          _toDayCalendar),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data.isNotEmpty) {
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                (context, index) => ListTile(
+                                      title: Text(snapshot.data[index].topic),
+                                    ),
+                                childCount: snapshot.data.length),
+                          );
+                        } else {
+                          return SliverList(
+                            delegate: SliverChildListDelegate(<Widget>[
+                              Center(
+                                child: Text(
+                                  'ไม่พบข่าวสำหรับวันนี้',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.brown),
+                                ),
+                              ),
+                            ]),
+                          );
+                        }
+                      },
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return Scaffold();
+            }
+          }),
     );
   }
 
