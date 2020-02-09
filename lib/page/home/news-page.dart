@@ -401,11 +401,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                         color: Colors.green,
                                       ),
                                 onPressed: () {
-                                  if (toggle == true) {
-                                    print("calendar");
-                                  } else {
-                                    print("check");
-                                  }
                                   setState(() {
                                     toggle = !toggle;
                                     _isVisibleDate = !_isVisibleDate;

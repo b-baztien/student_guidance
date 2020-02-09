@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
+import 'package:student_guidance/page/Views/item-teacher.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 
 import 'package:student_guidance/service/LoginService.dart';
+import 'package:student_guidance/service/TeacherService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -15,16 +18,21 @@ class ListTeacher extends StatefulWidget {
   _ListTeacherState createState() => _ListTeacherState();
 }
 
-class _ListTeacherState extends State<ListTeacher> {
+class _ListTeacherState extends State<ListTeacher>
+    with TickerProviderStateMixin {
   String shcool_name = '';
   School school = new School();
   List<Teacher> listTeacher = new List<Teacher>();
-
-
+  AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animationController.forward();
   }
 
   @override
@@ -34,135 +42,192 @@ class _ListTeacherState extends State<ListTeacher> {
       debugShowCheckedModeBanner: false,
       home: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/thembg.png"),fit: BoxFit.fill
-          )
-        ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/thembg.png"),
+                fit: BoxFit.fill)),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
             backgroundColor: Colors.transparent,
-            title: Text('ข้อมูลติดต่อครู'),
-          ),
-          drawer: myDrawer(),
-          
-        ),
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              title: Text('ข้อมูลติดต่อครู'),
+            ),
+            drawer: myDrawer(),
+            body: FutureBuilder(
+              future: _getPrefs(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return StreamBuilder(
+                      stream: TeacherService().getAllMapTeacherBySchoolName(
+                          snapshot.data.getString('schoolId')),
+                      builder: (context, snap) {
+                        Map<String, List<Teacher>> map = snap.data;
+                        if (snap.hasData) {
+                          return ListView.builder(
+                            itemCount: map.keys.length,
+                            itemBuilder: (context, index) {
+                              return itemPosition(map.keys.toList()[index],
+                                  map[map.keys.toList()[index]]);
+                            },
+                          );
+                        } else {
+                          return SizedBox(height: 1);
+                        }
+                      });
+                } else {
+                  return SizedBox(height: 1);
+                }
+              },
+            )),
       ),
-
     );
   }
 
-  
-  myDrawer() {
-    return FutureBuilder(
-      future: _getPrefs(),
-      builder: (_,snap){
-        if(snap.hasData){
-          Student student = Student.fromJson(jsonDecode(snap.data.getString('student')));
-          return   ClipPath(
-      clipper: OvalRighBorderClipper(),
-      child: Drawer(
-        child: Container(
-          padding: const EdgeInsets.only(left: 16, right: 40),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black45)]),
-          width: 300,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.power_settings_new,
-                          color: Colors.grey.shade800,
-                        ),
-                        onPressed: () {
-                          LoginService().clearLoginData();
-                          Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              UIdata.loginPageTag,
-                              ModalRoute.withName(UIdata.loginPageTag));
+  Widget itemPosition(String position, List<Teacher> list) {
+    bool toggle = true;
+    return GestureDetector(
+      onTap: () {
+        toggle = !toggle;
+        print(toggle.toString());
+      },
+      child: Row(
+        children: <Widget>[
+          Text(
+            position,
+            style: TextStyle(fontSize: 30),
+          ),
+          AnimatedSizeAndFade(
+            vsync: this,
+            child: toggle
+                ? SizedBox(
+                    key: ValueKey("first"),
+                    height: 1,
+                  )
+                : Container(
+                    height: 100,
+                    child: ListView.builder(
+                        itemCount: list.length,
+                        itemBuilder: (_, index) {
+                          return Text(list[index].firstname);
                         }),
                   ),
-                  Container(
-                    height: 90,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                            colors: [Colors.orange, Colors.deepOrange])),
-                    child: 
-                    FutureBuilder(
-                      future: GetImageService().getImage(student.image),
-                      builder: (context,snapshot){
-                        if(snapshot.hasData){
-                    return   CircleAvatar(
-                      backgroundImage: NetworkImage(snapshot.data),
-                        radius: 40,
-                    );
-                        }else{
-                        return   CircleAvatar(
-                      radius: 40,
-                    );
-                        }
-
-                      })
-                   
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    student.firstname+' '+student.lastname,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    snap.data.getString('schoolId'),
-                    style: TextStyle(color: Colors.blueAccent, fontSize: 15),
-                  ),
-                  Text(
-                    student.status,
-                    style: TextStyle(color:student.status == 'กำลังศึกษา' ? Colors.green :Colors.orange, fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildRow(
-                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue),
-                  _buildDivider(),
-                  student.status == 'กำลังศึกษา' ?
-                  _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
-                      Colors.green)
-                      :
-                  _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลหลังการจบการศึกษา",
-                      Colors.green),
-
-                  _buildDivider(),
-                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
-                  _buildDivider(),
-                  _buildRow(
-                      Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
-                  _buildDivider(),
-                ],
-              ),
-            ),
+            fadeDuration: const Duration(milliseconds: 300),
+            sizeDuration: const Duration(milliseconds: 600),
           ),
-        ),
+        ],
       ),
     );
-        }else{
+  }
 
-        }
-      });
-      
-    
-  
+  myDrawer() {
+    return FutureBuilder(
+        future: _getPrefs(),
+        builder: (_, snap) {
+          if (snap.hasData) {
+            Student student =
+                Student.fromJson(jsonDecode(snap.data.getString('student')));
+            return ClipPath(
+              clipper: OvalRighBorderClipper(),
+              child: Drawer(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 16, right: 40),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [BoxShadow(color: Colors.black45)]),
+                  width: 300,
+                  child: SafeArea(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                                icon: Icon(
+                                  Icons.power_settings_new,
+                                  color: Colors.grey.shade800,
+                                ),
+                                onPressed: () {
+                                  LoginService().clearLoginData();
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      UIdata.loginPageTag,
+                                      ModalRoute.withName(UIdata.loginPageTag));
+                                }),
+                          ),
+                          Container(
+                              height: 90,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(colors: [
+                                    Colors.orange,
+                                    Colors.deepOrange
+                                  ])),
+                              child: FutureBuilder(
+                                  future:
+                                      GetImageService().getImage(student.image),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(snapshot.data),
+                                        radius: 40,
+                                      );
+                                    } else {
+                                      return CircleAvatar(
+                                        radius: 40,
+                                      );
+                                    }
+                                  })),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            student.firstname + ' ' + student.lastname,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            snap.data.getString('schoolId'),
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontSize: 15),
+                          ),
+                          Text(
+                            student.status,
+                            style: TextStyle(
+                                color: student.status == 'กำลังศึกษา'
+                                    ? Colors.green
+                                    : Colors.orange,
+                                fontSize: 15),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          _buildRow(Icons.account_circle, "แก้ไขข้อมูลส่วนตัว",
+                              Colors.blue),
+                          _buildDivider(),
+                          student.status == 'กำลังศึกษา'
+                              ? _buildRow(Icons.add_to_photos,
+                                  "เพิ่มข้อมูลการสอบ TCAS", Colors.green)
+                              : _buildRow(Icons.add_to_photos,
+                                  "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green),
+                          _buildDivider(),
+                          _buildRow(
+                              Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
+                          _buildDivider(),
+                          _buildRow(
+                              Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
+                          _buildDivider(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {}
+        });
   }
 
   Divider _buildDivider() {
@@ -195,5 +260,4 @@ class _ListTeacherState extends State<ListTeacher> {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     return sharedPrefs;
   }
-
 }
