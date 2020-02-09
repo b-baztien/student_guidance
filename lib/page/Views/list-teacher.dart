@@ -65,8 +65,8 @@ class _ListTeacherState extends State<ListTeacher>
                           return ListView.builder(
                             itemCount: map.keys.length,
                             itemBuilder: (context, index) {
-                              return itemPosition(map.keys.toList()[index],
-                                  map[map.keys.toList()[index]]);
+                              return ItemTeacher(position:map.keys.toList()[index],
+                                  listTeacher:map[map.keys.toList()[index]]);
                             },
                           );
                         } else {
@@ -81,43 +81,6 @@ class _ListTeacherState extends State<ListTeacher>
       ),
     );
   }
-
-  Widget itemPosition(String position, List<Teacher> list) {
-    bool toggle = true;
-    return GestureDetector(
-      onTap: () {
-        toggle = !toggle;
-        print(toggle.toString());
-      },
-      child: Row(
-        children: <Widget>[
-          Text(
-            position,
-            style: TextStyle(fontSize: 30),
-          ),
-          AnimatedSizeAndFade(
-            vsync: this,
-            child: toggle
-                ? SizedBox(
-                    key: ValueKey("first"),
-                    height: 1,
-                  )
-                : Container(
-                    height: 100,
-                    child: ListView.builder(
-                        itemCount: list.length,
-                        itemBuilder: (_, index) {
-                          return Text(list[index].firstname);
-                        }),
-                  ),
-            fadeDuration: const Duration(milliseconds: 300),
-            sizeDuration: const Duration(milliseconds: 600),
-          ),
-        ],
-      ),
-    );
-  }
-
   myDrawer() {
     return FutureBuilder(
         future: _getPrefs(),
