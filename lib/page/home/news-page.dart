@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/News.dart';
+import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/service/LoginService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -58,7 +63,12 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   }
 
   myDrawer() {
-    return ClipPath(
+    return FutureBuilder(
+      future: _getPrefs(),
+      builder: (_,snap){
+        if(snap.hasData){
+          Student student = Student.fromJson(jsonDecode(snap.data.getString('student')));
+          return   ClipPath(
       clipper: OvalRighBorderClipper(),
       child: Drawer(
         child: Container(
@@ -93,27 +103,41 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                         shape: BoxShape.circle,
                         gradient: LinearGradient(
                             colors: [Colors.orange, Colors.deepOrange])),
-                    child: CircleAvatar(
+                    child: 
+                    FutureBuilder(
+                      future: GetImageService().getImage(student.image),
+                      builder: (context,snapshot){
+                        if(snapshot.hasData){
+                    return   CircleAvatar(
+                      backgroundImage: NetworkImage(snapshot.data),
+                        radius: 40,
+                    );
+                        }else{
+                        return   CircleAvatar(
                       radius: 40,
-                    ),
+                    );
+                        }
+
+                      })
+                   
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   Text(
-                    "name",
+                    student.firstname+' '+student.lastname,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    "school",
-                    style: TextStyle(color: Colors.purple, fontSize: 15),
+                    snap.data.getString('schoolId'),
+                    style: TextStyle(color: Colors.blueAccent, fontSize: 15),
                   ),
                   Text(
-                    "status",
-                    style: TextStyle(color: Colors.orange, fontSize: 15),
+                    student.status,
+                    style: TextStyle(color:student.status == 'กำลังศึกษา' ? Colors.green :Colors.orange, fontSize: 15),
                   ),
                   SizedBox(
                     height: 15,
@@ -121,16 +145,18 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                   _buildRow(
                       Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue),
                   _buildDivider(),
+                  student.status == 'กำลังศึกษา' ?
                   _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
-                      Colors.green),
-                  _buildDivider(),
+                      Colors.green)
+                      :
                   _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลหลังการจบการศึกษา",
                       Colors.green),
+
                   _buildDivider(),
-                  _buildRow(Icons.vpn_key, "แก้ไขข้อมูลส่วนตัว", Colors.yellow),
+                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
                   _buildDivider(),
                   _buildRow(
-                      Icons.favorite, "แก้ไขข้อมูลส่วนตัว", Colors.red[300]),
+                      Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
                   _buildDivider(),
                 ],
               ),
@@ -139,6 +165,13 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
         ),
       ),
     );
+        }else{
+
+        }
+      });
+      
+    
+  
   }
 
   Divider _buildDivider() {
@@ -167,9 +200,9 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     );
   }
 
-  Future<String> _getPrefs() async {
+  Future<SharedPreferences> _getPrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    return sharedPrefs.getString('schoolId');
+    return sharedPrefs;
   }
 
   @override
@@ -180,7 +213,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return StreamBuilder<Map<DateTime, List>>(
-              stream: NewsService().getAllMapNewsBySchoolName(snapshot.data),
+              stream: NewsService().getAllMapNewsBySchoolName(snapshot.data.getString('schoolId')),
               builder: (context, snapshot) {
                 print(snapshot.hasData);
                 if (snapshot.hasData) {
@@ -367,7 +400,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 if (snapshot.hasData) {
                   return StreamBuilder<List<News>>(
                     stream: NewsService().getAllNewsBySchoolNameAndDate(
-                        snapshot.data, _toDayCalendar),
+                        snapshot.data.getString('schoolId'), _toDayCalendar),
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data.isNotEmpty) {
                         return SliverList(
