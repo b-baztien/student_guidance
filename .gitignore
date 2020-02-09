@@ -72,3 +72,4 @@
 ios/Flutter/flutter_export_environment.sh
 pubspec.lock
 android/app/
+.flutter-plugins-dependencies
