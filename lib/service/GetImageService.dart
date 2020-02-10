@@ -2,8 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class GetImageService {
   Future<String> getImage(String path) async {
-    String url = "";
-    print('object ' + path);
+    String url;
     try {
       if (path.isNotEmpty) {
         StorageReference ref = FirebaseStorage.instance.ref().child(path);
