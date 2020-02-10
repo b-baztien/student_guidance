@@ -17,7 +17,7 @@ class ItemUniversity extends StatefulWidget {
 
 class _ItemUniversityState extends State<ItemUniversity> {
   University _university = new University();
-  List<dynamic> listFacultyDynamic = new List<dynamic>();
+  String facId = '';
   List<DocumentReference> listFacultyDocumentReference =
       new List<DocumentReference>();
   List<Faculty> listFaculty = new List<Faculty>();
@@ -27,10 +27,12 @@ class _ItemUniversityState extends State<ItemUniversity> {
   @override
   void initState() {
     _university = University.fromJson(widget.universitys.data);
-    listFacultyDynamic = _university.faculty;
-    if (listFacultyDynamic.length != 0) {
-      for (DocumentReference docRef in listFacultyDynamic) {
-        FacultyService().getFaculty(docRef).then((facultyFromService) {
+    facId = widget.universitys.documentID;
+    if (facId.length != 0) {
+      FacultyService()
+          .getFacultyByUniversityId(facId)
+          .then((facultyFromService) {
+        for (Faculty fac in facultyFromService) {
           GetImageService().getImage(_university.image).then((url) {
             GetImageService()
                 .getListImage(_university.albumImage)
@@ -40,12 +42,12 @@ class _ItemUniversityState extends State<ItemUniversity> {
                 _university.albumImage = listUrl;
 
                 _university.image = url;
-                listFaculty.add(facultyFromService);
+                listFaculty.add(fac);
               });
             });
           });
-        });
-      }
+        }
+      });
       emptyFacText = '';
     } else {
       GetImageService().getImage(_university.image).then((url) {

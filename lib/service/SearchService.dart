@@ -104,6 +104,28 @@ class SearchService {
     }
   }
 
+  Future<List<University>> getListUniversityByFaculty(
+      DocumentSnapshot doc) async {
+    try {
+      DocumentReference docRef = doc.reference.parent().parent();
+      List<University> list = new List<University>();
+      await docRef.get().then((onValue) {
+        bool isDup = false;
+        for (University uni in list) {
+          if (uni.universityname == onValue.data['university_name']) {
+            isDup = true;
+          }
+        }
+        if (!isDup) {
+          list.add(University.fromJson(onValue.data));
+        }
+      });
+      return list;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<University>> getListUniversitybyMajor(String doc) async {
     List<University> list = new List<University>();
     try {

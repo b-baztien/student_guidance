@@ -37,13 +37,13 @@ class Major {
 
   factory Major.fromJson(Map<String, dynamic> json) {
     return Major(
-        majorName: json['major_name'] as String,
+        majorName: json['majorName'] as String,
         // tcasEntranceRound: json['tcasEntranceRound'] as List<Tcas>,
         url: json['url'] as String,
         certificate: json['certificate'] as String,
         courseDuration: json['courseDuration'] as String,
         tuitionFee: json['courseDuration'] as String,
-        career: json['courseDuration'] as List<dynamic>,
-        faculty: json['courseDuration'] as DocumentReference);
+        career: json['career'] as List<dynamic>,
+        faculty: json['faculty'] as DocumentReference);
   }
 }
