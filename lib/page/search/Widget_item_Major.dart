@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/model/Carrer.dart';
+import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
@@ -23,7 +23,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
   String majorDetail = "loading...";
   String url = "loading...";
 
-  List<Carrer> listCarrer = new List<Carrer>();
+  List<Career> listCareer = new List<Career>();
   @override
   void initState() {
     super.initState();
@@ -34,11 +34,11 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
           .getFaculty(majorFromService.faculty)
           .then((facultyFromService) {
         SearchService()
-            .getListCarrer(majorFromService.carrer)
-            .then((carrerFromService) {
+            .getListCareer(majorFromService.career)
+            .then((careerFromService) {
           setState(() {
-            listCarrer = carrerFromService;
-            majorDetail = majorFromService.entrancedetail;
+            listCareer = careerFromService;
+            // majorDetail = majorFromService.entrancedetail;
             url = majorFromService.url;
             facName = facultyFromService.facultyName;
           });
@@ -218,16 +218,14 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                     Container(
                       height: 100,
                       child: ListView.builder(
-                        itemCount: listCarrer.length,
+                        itemCount: listCareer.length,
                         itemBuilder: (_, index) {
                           return Container(
                             alignment: Alignment.center,
-                            child: Text(
-                              listCarrer[index].carrer_name,
-                              style: TextStyle(
-                                  fontFamily: UIdata.fontFamily,
-                                  fontSize: 16.0),
-                            ),
+                            child: Text(listCareer[index].career_name,
+                                style: TextStyle(
+                                    fontFamily: UIdata.fontFamily,
+                                    fontSize: 16.0)),
                           );
                         },
                       ),
