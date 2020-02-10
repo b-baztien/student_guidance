@@ -336,14 +336,29 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                           .getImage(snapshot.data.image),
                                       builder: (_, snap) {
                                         if (snap.hasData) {
-                                          return Center(
-                                            child: Container(
+                                          return Stack(
+                                            children: <Widget>[
+                                               Container(
                                               decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                       image: NetworkImage(
                                                           snap.data),
-                                                      fit: BoxFit.cover)),
+                                                      fit: BoxFit.fill)),
                                             ),
+                                            Positioned(
+                                              left: 20,
+                                              bottom: 10,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text('ข่าวล่าสุด',style: TextStyle(fontFamily: 'kanit',fontSize: 10,color:Colors.white,fontWeight: FontWeight.bold),),
+                                                   Text(snapshot.data.topic,style: TextStyle(fontFamily: 'kanit',fontSize: 28,color:Colors.white,fontWeight: FontWeight.bold),),
+                                                    Text('- '+'คนโพส',style: TextStyle(fontFamily: 'kanit',fontSize: 16,color:Colors.white),),
+                                                ],
+                                              ),
+                                            )
+                                            ],
+                                          
                                           );
                                         } else {
                                           return Center(
