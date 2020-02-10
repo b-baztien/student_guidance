@@ -111,7 +111,9 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                 radius: 40,
                               );
                             }
-                          })),
+                          }
+                          )
+                          ),
                   SizedBox(
                     height: 5,
                   ),
