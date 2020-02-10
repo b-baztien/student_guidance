@@ -170,19 +170,24 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   Widget _buildRow(IconData icon, String title, Color colors) {
     final TextStyle textStyle =
         TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: <Widget>[
-          Icon(icon, color: colors),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            title,
-            style: textStyle,
-          ),
-        ],
+    return GestureDetector(
+      onTap: (){
+        print(title);
+      },
+          child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: Row(
+          children: <Widget>[
+            Icon(icon, color: colors),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              title,
+              style: textStyle,
+            ),
+          ],
+        ),
       ),
     );
   }
