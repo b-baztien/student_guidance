@@ -62,12 +62,13 @@ class _ListTeacherState extends State<ListTeacher>
                       builder: (context, snap) {
                         Map<String, List<Teacher>> map = snap.data;
                         if (snap.hasData) {
-                          return ListView.builder(
-                            itemCount: map.keys.length,
-                            itemBuilder: (context, index) {
-                              return ItemTeacher(position:map.keys.toList()[index],
-                                  listTeacher:map[map.keys.toList()[index]]);
-                            },
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: map.keys.toList().map((key) {
+                                return ItemTeacher(
+                                    position: key, listTeacher: map[key]);
+                              }).toList(),
+                            ),
                           );
                         } else {
                           return SizedBox(height: 1);
@@ -81,6 +82,7 @@ class _ListTeacherState extends State<ListTeacher>
       ),
     );
   }
+
   myDrawer() {
     return FutureBuilder(
         future: _getPrefs(),

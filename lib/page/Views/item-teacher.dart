@@ -71,12 +71,11 @@ class _ItemTeacherState extends State<ItemTeacher>
                   )
                 : Container(
                     height: widget.listTeacher.length * 150.0,
-                    child: ListView.builder(
-                        itemCount: widget.listTeacher.length,
-                        itemBuilder: (context, index) {
-                          return cardItem(context, widget.listTeacher[index]);
-                        }),
-                  ),
+                    child: Column(
+                      children: widget.listTeacher.map((teacher) {
+                        return cardItem(context, teacher);
+                      }).toList(),
+                    )),
             fadeDuration: const Duration(milliseconds: 200),
             sizeDuration: const Duration(milliseconds: 400),
           ),
@@ -113,7 +112,8 @@ class _ItemTeacherState extends State<ItemTeacher>
                     );
                   } else {
                     return CircleAvatar(
-                      radius: 40,
+                      backgroundImage:
+                          AssetImage('assets/images/people-placeholder.jpg'),
                     );
                   }
                 }),
@@ -122,9 +122,18 @@ class _ItemTeacherState extends State<ItemTeacher>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(teacher.firstname +' '+ teacher.lastname,style: TextStyle(fontSize: 20,fontFamily: 'kanit'),),
-                Text(teacher.position,style: TextStyle(fontSize: 14,fontFamily: 'kanit',color: Colors.orange),),
-                SizedBox(height: 20,),
+                Text(
+                  teacher.firstname + ' ' + teacher.lastname,
+                  style: TextStyle(fontSize: 20, fontFamily: 'kanit'),
+                ),
+                Text(
+                  teacher.position,
+                  style: TextStyle(
+                      fontSize: 14, fontFamily: 'kanit', color: Colors.orange),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -132,34 +141,50 @@ class _ItemTeacherState extends State<ItemTeacher>
                       width: 100,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(5)
-                      ),
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(5)),
                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: <Widget>[
-                           Icon(Icons.phone,color: Colors.white,),
-                           SizedBox(width: 10,),
-                           Text('โทร',style: TextStyle(color: Colors.white,fontFamily: 'kanit'),)
-                         ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.phone,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'โทร',
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'kanit'),
+                          )
+                        ],
                       ),
                     ),
-                     Container(
+                    Container(
                       width: 100,
                       height: 30,
                       decoration: BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(5)
-                      ),
-                         child: Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: <Widget>[
-                           Icon(Icons.email,color: Colors.white,),
-                           SizedBox(width: 10,),
-                           Text('อีเมล์',style: TextStyle(color: Colors.white,fontFamily: 'kanit'),)
-                         ],
+                          color: Colors.green,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.email,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'อีเมล์',
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: 'kanit'),
+                          )
+                        ],
                       ),
                     ),
                   ],
@@ -167,7 +192,6 @@ class _ItemTeacherState extends State<ItemTeacher>
               ],
             ),
           ),
-       
         ],
       ),
     );
