@@ -114,6 +114,7 @@ class _ItemTeacherState extends State<ItemTeacher>
                     return CircleAvatar(
                       backgroundImage:
                           AssetImage('assets/images/people-placeholder.jpg'),
+                           radius: 40,
                     );
                   }
                 }),
