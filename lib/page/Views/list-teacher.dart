@@ -50,7 +50,7 @@ class _ListTeacherState extends State<ListTeacher>
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
-              title: Text('ข้อมูลติดต่อครู'),
+              title: Text(UIdata.tx_teacher_widget,style: UIdata.textTitleStyle,),
             ),
             drawer: myDrawer(),
             body: FutureBuilder(

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:student_guidance/page/Views/list-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/news-page.dart';
+import 'package:student_guidance/page/search-new/Search_widget_new.dart';
 import 'package:student_guidance/page/search/Search_widget.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
   int _selectedPage = 0;
   final _pageOptions = [
     NewsPage(),
-    SearchWidget(),
+    SearchWidgetNew(),
     ListTeacher(),
     Dashboard(),
   ];
