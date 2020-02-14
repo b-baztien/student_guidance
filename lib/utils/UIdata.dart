@@ -37,6 +37,7 @@ class UIdata {
   /*String Text*/
   static String tx_search_widget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
   static String tx_teacher_widget = 'ข้อมูลติดต่อครู';
+  static String tx_search_box = 'ค้นหา ?';
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'kanit',fontSize: 20,color:Colors.white);
   static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'kanit',fontSize: 15,color:Colors.white);

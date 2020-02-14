@@ -87,10 +87,9 @@ class _ListTeacherState extends State<ListTeacher>
   myDrawer() {
     return FutureBuilder(
         future: _getPrefs(),
-        builder: (_, snap) {
+        builder: (context,snap) {
           if (snap.hasData) {
-            Student student =
-                Student.fromJson(jsonDecode(snap.data.getString('student')));
+            Student student = Student.fromJson(jsonDecode(snap.data.getString('student')));
             return ClipPath(
               clipper: OvalRighBorderClipper(),
               child: Drawer(
@@ -192,7 +191,11 @@ class _ListTeacherState extends State<ListTeacher>
                 ),
               ),
             );
-          } else {}
+          } else {
+            return SizedBox(
+              height: 15,
+            );
+          }
         });
   }
 
