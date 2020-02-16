@@ -8,11 +8,12 @@ import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WidgetItemMajor extends StatefulWidget {
+  
   final University university;
   final String majorName;
-
   const WidgetItemMajor({Key key, this.university, this.majorName})
       : super(key: key);
+
   @override
   _WidgetItemMajorState createState() => _WidgetItemMajorState();
 }
