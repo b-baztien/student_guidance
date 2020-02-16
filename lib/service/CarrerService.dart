@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:student_guidance/model/Carrer.dart';
+import 'package:student_guidance/model/Career.dart';
 
 class CarrerService{
-  Future<Carrer> getCarrer(String name)async{
+  Future<Career> getCarrer(String name)async{
     CollectionReference collectionReference =
         Firestore.instance.collection('Carrer');
         QuerySnapshot qs = await collectionReference.where('carrer_name', isEqualTo: name).getDocuments();
-        Carrer carrer = Carrer.fromJson(qs.documents[0].data);
+        Career carrer = Career.fromJson(qs.documents[0].data);
 
       return carrer;
   }

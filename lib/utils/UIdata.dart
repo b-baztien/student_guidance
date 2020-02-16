@@ -44,8 +44,8 @@ class UIdata {
 
 
 
-  static TextStyle textTitleStyle = TextStyle(fontFamily: 'kanit',fontSize: 20,color:Colors.white);
-  static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'kanit',fontSize: 15,color:Colors.white);
+  static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
+  static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);
 
 
 }

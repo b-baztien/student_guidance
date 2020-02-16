@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/model/Carrer.dart';
+import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
@@ -23,7 +23,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
   String majorDetail = "loading...";
   String url = "loading...";
 
-  List<Carrer> listCarrer = new List<Carrer>();
+  List<Career> listCarrer = new List<Career>();
   @override
   void initState() {
     super.initState();
@@ -223,7 +223,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                           return Container(
                             alignment: Alignment.center,
                             child: Text(
-                              listCarrer[index].carrer_name,
+                              listCarrer[index].careerName,
                               style: TextStyle(
                                   fontFamily: UIdata.fontFamily,
                                   fontSize: 16.0),

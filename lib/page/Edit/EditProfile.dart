@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class EditProfile extends StatelessWidget {
   
   static String tag = 'edit-profile';
 
+  //ตัวแปรรับมาจาก drawer เพื่อเอาไปใช้ต่อ
+ final Student student;
+
+
+  EditProfile({Key key, @required this.student}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: EditStudentProfile(),
+      child: EditStudentProfile(student),
     );
   }
 }
 
 class EditStudentProfile extends StatelessWidget {
+
+ final Student _student;
+
+  EditStudentProfile(this._student);
+
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 3.1,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/studying.png'),
+          image: AssetImage(_student.image),
           fit: BoxFit.cover,
         ),
       ),

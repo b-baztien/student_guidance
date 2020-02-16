@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/model/Carrer.dart';
+import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/service/CarrerService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
@@ -15,7 +15,7 @@ class ItemCarrer extends StatefulWidget {
 }
 
 class _ItemCarrerState extends State<ItemCarrer> {
-  Carrer carrerItem = new Carrer();
+  Career carrerItem = new Career();
   List<Major> listMajor = new List<Major>();
   String img = 'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
   String des = '';
@@ -37,7 +37,7 @@ class _ItemCarrerState extends State<ItemCarrer> {
             listMajor = listMajorFromService;
 
             des = carrerFromService.description;
-            name = carrerFromService.carrer_name;
+            name = carrerFromService.careerName;
             img = imageFromService;
           });
         });

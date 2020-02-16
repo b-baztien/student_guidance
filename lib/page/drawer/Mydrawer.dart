@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
@@ -9,6 +10,7 @@ import 'package:student_guidance/utils/UIdata.dart';
 
 class MyDrawer extends StatefulWidget {
   final String schoolId;
+  
   final Student student;
 
   const MyDrawer({Key key, this.schoolId, this.student}) : super(key: key);
@@ -49,27 +51,28 @@ class _MyDrawerState extends State<MyDrawer> {
                         }),
                   ),
                   Container(
-                      height: 90,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              colors: [Colors.orange, Colors.deepOrange])),
-                      child: FutureBuilder(
-                          future:
-                              GetImageService().getImage(widget.student.image),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return CircleAvatar(
-                                backgroundImage: NetworkImage(snapshot.data),
-                                radius: 40,
-                              );
-                            } else {
-                              return CircleAvatar(
-                                radius: 40,
-                              );
-                            }
-                          })),
+                    height: 90,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                            colors: [Colors.orange, Colors.deepOrange])),
+                    child: FutureBuilder(
+                        future:
+                            GetImageService().getImage(widget.student.image),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CircleAvatar(
+                              backgroundImage: NetworkImage(snapshot.data),
+                              radius: 40,
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: 40,
+                            );
+                          }
+                        }),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -95,18 +98,23 @@ class _MyDrawerState extends State<MyDrawer> {
                   SizedBox(
                     height: 15,
                   ),
-                  _buildRow(
-                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue, UIdata.editProfileTag),
+                  _buildRow(Icons.account_circle, "แก้ไขข้อมูลส่วนตัว",
+                      Colors.blue, UIdata.editProfileTag),
                   _buildDivider(),
                   widget.student.status == 'กำลังศึกษา'
                       ? _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
                           Colors.green, UIdata.editProfileTag)
-                      : _buildRow(Icons.add_to_photos,
-                          "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green, UIdata.editProfileTag),
+                      : _buildRow(
+                          Icons.add_to_photos,
+                          "เพิ่มข้อมูลหลังการจบการศึกษา",
+                          Colors.green,
+                          UIdata.editProfileTag),
                   _buildDivider(),
-                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow, UIdata.editProfileTag),
+                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow,
+                      UIdata.editProfileTag),
                   _buildDivider(),
-                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300], UIdata.editProfileTag),
+                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300],
+                      UIdata.editProfileTag),
                   _buildDivider(),
                 ],
               ),
@@ -129,7 +137,10 @@ class _MyDrawerState extends State<MyDrawer> {
         TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, routePath);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EditProfile()),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
