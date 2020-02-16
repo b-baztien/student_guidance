@@ -20,6 +20,7 @@ class UIdata {
     Dashboard.tag: (context) => Dashboard(),
     EditProfile.tag: (context) => EditProfile(),
   };
+  /*tag page */
   static String loginPageTag = LoginPages.tag;
   static String homeTag = Home.tag;
   static String splashPage = SplashPage.tag;
@@ -30,4 +31,21 @@ class UIdata {
   static Color themeColor = Colors.blue[400];
   static MaterialColor themeMaterialColor = Colors.blue;
   static Color fontColor = Colors.white;
+
+
+
+  /*String Text*/
+  static String tx_search_widget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
+  static String tx_teacher_widget = 'ข้อมูลติดต่อครู';
+  static String tx_search_box = 'ค้นหา ?';
+  static String tx_filtter_title = 'กรองผลการค้นหา';
+  static String bt_filtter_success = 'กรอง';
+  static String bt_filtter_close = 'ปิด';
+
+
+
+  static TextStyle textTitleStyle = TextStyle(fontFamily: 'kanit',fontSize: 20,color:Colors.white);
+  static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'kanit',fontSize: 15,color:Colors.white);
+
+
 }

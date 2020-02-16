@@ -6,6 +6,7 @@ import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -20,15 +21,11 @@ class NewsPage extends StatefulWidget {
 
 class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   CalendarController _calendarController;
-
-  List _selectedEvents;
   AnimationController _animationController;
   bool toggle;
   String _toDay;
   DateTime _toDayCalendar;
   bool _isVisibleDate;
-  Map<DateTime, List> _events;
-  Map<DateTime, List> _eventsNews = new Map<DateTime, List>();
   Set<DateTime> dateSet = new Set<DateTime>();
 
   @override
@@ -58,7 +55,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     setState(() {
       _toDayCalendar = day;
       _toDay = DateFormat('dd MMMM yyyy', 'th').format(day);
-      _selectedEvents = events;
     });
   }
 
@@ -317,10 +313,11 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
           builder: (context, futureSnapshot) {
             if (futureSnapshot.hasData) {
               return Scaffold(
-                drawer: myDrawer(
+                drawer: MyDrawer(
+                    student:
                   Student.fromJson(
                       jsonDecode(futureSnapshot.data.getString('student'))),
-                  futureSnapshot.data.getString('schoolId'),
+                    schoolId:futureSnapshot.data.getString('schoolId')
                 ),
                 body: CustomScrollView(
                   slivers: <Widget>[

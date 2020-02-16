@@ -76,8 +76,9 @@ class _ItemTeacherState extends State<ItemTeacher>
                         return cardItem(context, teacher);
                       }).toList(),
                     )),
-            fadeDuration: const Duration(milliseconds: 200),
+            fadeDuration: const Duration(milliseconds: 300),
             sizeDuration: const Duration(milliseconds: 400),
+
           ),
         ],
       ),
@@ -114,6 +115,7 @@ class _ItemTeacherState extends State<ItemTeacher>
                     return CircleAvatar(
                       backgroundImage:
                           AssetImage('assets/images/people-placeholder.jpg'),
+                           radius: 40,
                     );
                   }
                 }),

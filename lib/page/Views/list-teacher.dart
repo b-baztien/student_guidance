@@ -39,6 +39,7 @@ class _ListTeacherState extends State<ListTeacher>
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'teacher Page',
+    
       debugShowCheckedModeBanner: false,
       home: Container(
         decoration: BoxDecoration(
@@ -49,7 +50,7 @@ class _ListTeacherState extends State<ListTeacher>
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
-              title: Text('ข้อมูลติดต่อครู'),
+              title: Text(UIdata.tx_teacher_widget,style: UIdata.textTitleStyle,),
             ),
             drawer: myDrawer(),
             body: FutureBuilder(
@@ -86,10 +87,9 @@ class _ListTeacherState extends State<ListTeacher>
   myDrawer() {
     return FutureBuilder(
         future: _getPrefs(),
-        builder: (_, snap) {
+        builder: (context,snap) {
           if (snap.hasData) {
-            Student student =
-                Student.fromJson(jsonDecode(snap.data.getString('student')));
+            Student student = Student.fromJson(jsonDecode(snap.data.getString('student')));
             return ClipPath(
               clipper: OvalRighBorderClipper(),
               child: Drawer(
@@ -191,7 +191,11 @@ class _ListTeacherState extends State<ListTeacher>
                 ),
               ),
             );
-          } else {}
+          } else {
+            return SizedBox(
+              height: 15,
+            );
+          }
         });
   }
 
