@@ -13,7 +13,6 @@ class MyDrawer extends StatefulWidget {
 
   const MyDrawer({Key key, this.schoolId, this.student}) : super(key: key);
 
-
   @override
   _MyDrawerState createState() => _MyDrawerState();
 }
@@ -57,7 +56,8 @@ class _MyDrawerState extends State<MyDrawer> {
                           gradient: LinearGradient(
                               colors: [Colors.orange, Colors.deepOrange])),
                       child: FutureBuilder(
-                          future: GetImageService().getImage(widget.student.image),
+                          future:
+                              GetImageService().getImage(widget.student.image),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return CircleAvatar(
@@ -69,9 +69,7 @@ class _MyDrawerState extends State<MyDrawer> {
                                 radius: 40,
                               );
                             }
-                          }
-                      )
-                  ),
+                          })),
                   SizedBox(
                     height: 5,
                   ),
@@ -98,17 +96,17 @@ class _MyDrawerState extends State<MyDrawer> {
                     height: 15,
                   ),
                   _buildRow(
-                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue),
+                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue, UIdata.editProfileTag),
                   _buildDivider(),
                   widget.student.status == 'กำลังศึกษา'
                       ? _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
-                      Colors.green)
+                          Colors.green, UIdata.editProfileTag)
                       : _buildRow(Icons.add_to_photos,
-                      "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green),
+                          "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green, UIdata.editProfileTag),
                   _buildDivider(),
-                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
+                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow, UIdata.editProfileTag),
                   _buildDivider(),
-                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
+                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300], UIdata.editProfileTag),
                   _buildDivider(),
                 ],
               ),
@@ -119,19 +117,19 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 
-
   Divider _buildDivider() {
     return Divider(
       color: Colors.deepOrange,
     );
   }
 
-  Widget _buildRow(IconData icon, String title, Color colors) {
+  Widget _buildRow(
+      IconData icon, String title, Color colors, String routePath) {
     final TextStyle textStyle =
-    TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
+        TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
     return GestureDetector(
-      onTap: (){
-        print(title);
+      onTap: () {
+        Navigator.pushNamed(context, routePath);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
