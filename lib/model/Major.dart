@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Tcas {
   String round;
   String description;
@@ -22,28 +20,24 @@ class Major {
   String certificate;
   String courseDuration;
   String tuitionFee;
-  List<dynamic> career;
-  DocumentReference faculty;
 
-  Major(
-      {this.majorName,
-      this.url,
-      this.tcasEntranceRound,
-      this.certificate,
-      this.courseDuration,
-      this.tuitionFee,
-      this.career,
-      this.faculty});
+  Major({
+    this.majorName,
+    this.url,
+    this.tcasEntranceRound,
+    this.certificate,
+    this.courseDuration,
+    this.tuitionFee,
+  });
 
   factory Major.fromJson(Map<String, dynamic> json) {
     return Major(
         majorName: json['majorName'] as String,
-        tcasEntranceRound: json['tcasEntranceRound'] as List<Tcas>,
+        // tcasEntranceRound: (json['tcasEntranceRound'] as List<Map>)
+        //     .map((tcas) => Tcas.fromJson(tcas)),
         url: json['url'] as String,
         certificate: json['certificate'] as String,
         courseDuration: json['courseDuration'] as String,
-        tuitionFee: json['courseDuration'] as String,
-        career: json['career'] as List<dynamic>,
-        faculty: json['faculty'] as DocumentReference);
+        tuitionFee: json['courseDuration'] as String);
   }
 }

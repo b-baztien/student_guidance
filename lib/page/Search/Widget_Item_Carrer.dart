@@ -6,16 +6,16 @@ import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
-class ItemCareer extends StatefulWidget {
-  final String career;
+class ItemCarrer extends StatefulWidget {
+  final String carrer;
 
-  const ItemCareer({Key key, this.career}) : super(key: key);
+  const ItemCarrer({Key key, this.carrer}) : super(key: key);
   @override
-  _ItemCareerState createState() => _ItemCareerState();
+  _ItemCarrerState createState() => _ItemCarrerState();
 }
 
-class _ItemCareerState extends State<ItemCareer> {
-  Career careerItem = Career();
+class _ItemCarrerState extends State<ItemCarrer> {
+  Career carrerItem = new Career();
   List<Major> listMajor = new List<Major>();
   String img =
       'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
@@ -25,19 +25,20 @@ class _ItemCareerState extends State<ItemCareer> {
   @override
   void initState() {
     super.initState();
-    // CareerService().getCareer(widget.career).then((careerFromService) {
+    // CareerService().getCareer(widget.carrer).then((carrerFromService) {
     //   MajorService()
-    //       .getListMajor(careerFromService.major)
+    //       .getListMajor(carrerFromService.major)
     //       .then((listMajorFromService) {
+
     //     GetImageService()
-    //         .getImage(careerFromService.image)
+    //         .getImage(carrerFromService.image)
     //         .then((imageFromService) {
     //       setState(() {
-    //         careerItem = careerFromService;
+    //         carrerItem = carrerFromService;
     //         listMajor = listMajorFromService;
 
-    //         des = careerFromService.description;
-    //         name = careerFromService.career_name;
+    //         des = carrerFromService.description;
+    //         name = carrerFromService.careerName;
     //         img = imageFromService;
     //       });
     //     });

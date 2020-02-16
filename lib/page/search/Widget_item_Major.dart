@@ -24,28 +24,28 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
   String majorDetail = "loading...";
   String url = "loading...";
 
-  List<Career> listCarrer = new List<Career>();
+  List<Career> listCareer = new List<Career>();
   @override
   void initState() {
     super.initState();
-    SearchService()
-        .getMajorForSearch(widget.majorName, widget.university.universityname)
-        .then((majorFromService) {
-      FacultyService()
-          .getFaculty(majorFromService.faculty)
-          .then((facultyFromService) {
-        SearchService()
-            .getListCareer(majorFromService.career)
-            .then((careerFromService) {
-          setState(() {
-            listCareer = careerFromService;
-            // majorDetail = majorFromService.entrancedetail;
-            url = majorFromService.url;
-            facName = facultyFromService.facultyName;
-          });
-        });
-      });
-    });
+    // SearchService()
+    //     .getMajorForSearch(widget.majorName, widget.university.universityname)
+    //     .then((majorFromService) {
+    //   FacultyService()
+    //       .getFaculty(majorFromService.faculty)
+    //       .then((facultyFromService) {
+    //     SearchService()
+    //         .getListCareer(majorFromService.career)
+    //         .then((careerFromService) {
+    //       setState(() {
+    //         listCareer = careerFromService;
+    //         // majorDetail = majorFromService.entrancedetail;
+    //         url = majorFromService.url;
+    //         facName = facultyFromService.facultyName;
+    //       });
+    //     });
+    //   });
+    // });
   }
 
   @override
@@ -224,7 +224,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                           return Container(
                             alignment: Alignment.center,
                             child: Text(
-                              listCarrer[index].careerName,
+                              listCareer[index].careerName,
                               style: TextStyle(
                                   fontFamily: UIdata.fontFamily,
                                   fontSize: 16.0),
