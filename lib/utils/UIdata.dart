@@ -41,8 +41,11 @@ class UIdata {
   static String tx_filtter_title = 'กรองผลการค้นหา';
   static String bt_filtter_success = 'กรอง';
   static String bt_filtter_close = 'ปิด';
-
-
+  static String tx_filter_type = 'ตัวเลือการกรอง';
+  static String tx_filter_item_university = 'มหาวิทยาลัย';
+  static String tx_filter_item_faculty = 'คณะ';
+  static String tx_filter_item_major = 'สาขา';
+  static String tx_filter_item_career = 'อาชีพ';
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
   static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);

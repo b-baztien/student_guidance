@@ -116,8 +116,8 @@ class _ItemMajorState extends State<ItemMajor> {
                 MaterialPageRoute(
                   builder: (context) => WidgetItemMajor(
                       university: listUniversity[index],
-                      majorName: widget.majorName),
-                ),
+                      majorName: widget.majorName)
+                )
               );
             },
             child: Container(
