@@ -9,7 +9,7 @@ class Student {
   String entryyear;
   DocumentReference school;
   List<DocumentReference> entranceExamResult;
-  List<DocumentReference> favoriteCarrer;
+  List<DocumentReference> favoriteCareer;
   List<DocumentReference> favoriteUniversity;
   String image;
   String juniorSchool;
@@ -19,7 +19,7 @@ class Student {
   DocumentReference login;
   Student({this.studentID,this.firstname,this.lastname,this.email
   ,this.entryyear,this.gender,this.image,this.school,
-  this.juniorSchool,this.phone,this.plan,this.status,this.entranceExamResult,this.favoriteCarrer,this.favoriteUniversity,this.login});
+  this.juniorSchool,this.phone,this.plan,this.status,this.entranceExamResult,this.favoriteCareer,this.favoriteUniversity,this.login});
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
@@ -36,7 +36,7 @@ class Student {
       plan: json['study_plan'] as String,
        studentID: json['student_id'] as String,
       entranceExamResult: json['entrance_exam_result'] as List<DocumentReference>,
-      favoriteCarrer: json['favorite_carrer'] as List<DocumentReference>,
+      favoriteCareer: json['favorite_career'] as List<DocumentReference>,
       favoriteUniversity: json['favorite_university'] as List<DocumentReference>,
       login: json['login'] as DocumentReference,
 

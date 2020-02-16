@@ -35,11 +35,11 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
           .getFaculty(majorFromService.faculty)
           .then((facultyFromService) {
         SearchService()
-            .getListCarrer(majorFromService.carrer)
-            .then((carrerFromService) {
+            .getListCareer(majorFromService.career)
+            .then((careerFromService) {
           setState(() {
-            listCarrer = carrerFromService;
-            majorDetail = majorFromService.entrancedetail;
+            listCareer = careerFromService;
+            // majorDetail = majorFromService.entrancedetail;
             url = majorFromService.url;
             facName = facultyFromService.facultyName;
           });
@@ -219,7 +219,7 @@ class _WidgetItemMajorState extends State<WidgetItemMajor> {
                     Container(
                       height: 100,
                       child: ListView.builder(
-                        itemCount: listCarrer.length,
+                        itemCount: listCareer.length,
                         itemBuilder: (_, index) {
                           return Container(
                             alignment: Alignment.center,

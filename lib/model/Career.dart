@@ -1,10 +1,9 @@
 class Career {
   String careerName;
-  List<dynamic> major;
   String description;
   String image;
 
-  Career({this.careerName, this.major, this.description, this.image});
+  Career({this.careerName, this.description, this.image});
 
   factory Career.fromJson(Map<String, dynamic> json) {
     return Career(

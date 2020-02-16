@@ -1,43 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
-import 'package:student_guidance/service/CarrerService.dart';
+import 'package:student_guidance/service/CareerService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
-class ItemCarrer extends StatefulWidget {
-  final String carrer;
+class ItemCareer extends StatefulWidget {
+  final String career;
 
-  const ItemCarrer({Key key, this.carrer}) : super(key: key);
+  const ItemCareer({Key key, this.career}) : super(key: key);
   @override
-  _ItemCarrerState createState() => _ItemCarrerState();
+  _ItemCareerState createState() => _ItemCareerState();
 }
 
-class _ItemCarrerState extends State<ItemCarrer> {
-  Career carrerItem = new Career();
+class _ItemCareerState extends State<ItemCareer> {
+  Career careerItem = Career();
   List<Major> listMajor = new List<Major>();
-  String img = 'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
+  String img =
+      'https://studentguidance-1565684067738.web.app/assets/img/no-photo-available.png';
   String des = '';
   String name = '';
 
   @override
   void initState() {
     super.initState();
-    CarrerService().getCarrer(widget.carrer).then((carrerFromService) {
+    CareerService().getCareer(widget.career).then((careerFromService) {
       MajorService()
-          .getListMajor(carrerFromService.major)
-          .then((listMajorFromService) {
-            
+          // .getListMajor(careerFromService.major)
+          // .then((listMajorFromService) {
+            {
         GetImageService()
-            .getImage(carrerFromService.image)
+            .getImage(careerFromService.image)
             .then((imageFromService) {
           setState(() {
-            carrerItem = carrerFromService;
-            listMajor = listMajorFromService;
+            careerItem = careerFromService;
+            // listMajor = listMajorFromService;
 
-            des = carrerFromService.description;
-            name = carrerFromService.careerName;
+            des = careerFromService.description;
+            name = careerFromService.careerName;
             img = imageFromService;
           });
         });
@@ -88,10 +89,8 @@ class _ItemCarrerState extends State<ItemCarrer> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black26,
-                      blurRadius:
-                          5.0, // has the effect of softening the shadow
-                      spreadRadius:
-                          1.0,
+                      blurRadius: 5.0, // has the effect of softening the shadow
+                      spreadRadius: 1.0,
                       offset: Offset(
                         2.0,
                         2.0,
@@ -163,7 +162,8 @@ class _ItemCarrerState extends State<ItemCarrer> {
                           alignment: Alignment.center,
                           child: Text(listMajor[index].majorName,
                               style: TextStyle(
-                                  fontFamily: UIdata.fontFamily, fontSize: 16.0)),
+                                  fontFamily: UIdata.fontFamily,
+                                  fontSize: 16.0)),
                         );
                       },
                     ),

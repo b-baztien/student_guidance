@@ -112,13 +112,11 @@ class _ItemMajorState extends State<ItemMajor> {
           return InkWell(
             onTap: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WidgetItemMajor(
-                      university: listUniversity[index],
-                      majorName: widget.majorName)
-                )
-              );
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WidgetItemMajor(
+                          university: listUniversity[index],
+                          majorName: widget.majorName)));
             },
             child: Container(
               child: ListTile(
