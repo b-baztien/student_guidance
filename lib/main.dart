@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:student_guidance/page/Splash/splash.dart';
-import 'package:student_guidance/page/home/home.dart';
 
 import 'package:student_guidance/utils/UIdata.dart';
 

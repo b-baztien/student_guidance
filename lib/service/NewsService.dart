@@ -9,7 +9,7 @@ class NewsService {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
         .where('schoolName', isEqualTo: schoolName)
-        .orderBy('start_time');
+        .orderBy('start_time', descending: true);
 
     return collectionReference.snapshots().map((snapshot) {
       Map<DateTime, List<News>> mapNews = new Map();
@@ -37,7 +37,8 @@ class NewsService {
   Stream<News> getLastedNewsBySchoolName(String schoolName) {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
-        .where('schoolName', isEqualTo: schoolName);
+        .where('schoolName', isEqualTo: schoolName)
+        .orderBy('start_time', descending: true);
 
     return collectionReference.snapshots().map((snapshot) {
       if (snapshot.documents.isNotEmpty) {
@@ -50,7 +51,8 @@ class NewsService {
   Stream<List<News>> getAllNewsBySchoolName(String schoolName) {
     Query collectionReference = Firestore.instance
         .collectionGroup('News')
-        .where('schoolName', isEqualTo: schoolName);
+        .where('schoolName', isEqualTo: schoolName)
+        .orderBy('start_time', descending: true);
 
     return collectionReference.snapshots().map((snapshot) {
       return snapshot.documents.map((docChange) {
@@ -74,7 +76,7 @@ class NewsService {
         .where('start_time',
             isGreaterThanOrEqualTo: Timestamp.fromDate(startTime))
         .where('start_time', isLessThanOrEqualTo: Timestamp.fromDate(endTime))
-        .orderBy('start_time');
+        .orderBy('start_time', descending: true);
 
     return collectionReference.snapshots().map((snapshot) {
       return snapshot.documents.map((docChange) {
