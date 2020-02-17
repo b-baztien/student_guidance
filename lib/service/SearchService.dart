@@ -29,22 +29,18 @@ class SearchService {
         Set<String> uniNameSet = uniData.documents
             .map((doc) => University.fromJson(doc.data).universityname)
             .toSet();
-        print('uniNameSet : ' + uniNameSet.length.toString());
 
         Set<String> facNameSet = facData.documents
             .map((doc) => Faculty.fromJson(doc.data).facultyName)
             .toSet();
-        print('facNameSet : ' + facNameSet.length.toString());
 
         Set<String> majorNameSet = majorData.documents
             .map((doc) => Major.fromJson(doc.data).majorName)
             .toSet();
-        print('majorNameSet : ' + majorNameSet.length.toString());
 
         Set<String> careerNameSet = careerData.documents
             .map((doc) => Career.fromJson(doc.data).careerName)
             .toSet();
-        print('careerNameSet : ' + careerNameSet.length.toString());
 
         for (var uniName in uniNameSet) {
           FilterSeachItems filterSeachItems = new FilterSeachItems();
