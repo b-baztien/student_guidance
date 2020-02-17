@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class EditProfile extends StatelessWidget {
-  
   static String tag = 'edit-profile';
 
   //ตัวแปรรับมาจาก drawer เพื่อเอาไปใช้ต่อ
- final Student student;
-
+  final Student student;
 
   EditProfile({Key key, @required this.student}) : super(key: key);
 
@@ -21,8 +20,7 @@ class EditProfile extends StatelessWidget {
 }
 
 class EditStudentProfile extends StatelessWidget {
-
- final Student _student;
+  final Student _student;
 
   EditStudentProfile(this._student);
 
@@ -40,22 +38,43 @@ class EditStudentProfile extends StatelessWidget {
 
   Widget _buildProfileImage() {
     return Center(
-      child: Container(
-        width: 140.0,
-        height: 140.0,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-                'https://avatarfiles.alphacoders.com/894/89415.jpg'),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(80.0),
-          border: Border.all(
-            color: Colors.lime,
-            width: 10.0,
-          ),
-        ),
-      ),
+      child: FutureBuilder(
+          future: GetImageService().getImage(_student.image),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                width: 140.0,
+                height: 140.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(snapshot.data),
+                    fit: BoxFit.contain,
+                  ),
+                  borderRadius: BorderRadius.circular(80.0),
+                  border: Border.all(
+                    color: Colors.lime,
+                    width: 10.0,
+                  ),
+                ),
+              );
+            } else {
+              return Container(
+                width: 140.0,
+                height: 140.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/people-placeholder.png'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(80.0),
+                  border: Border.all(
+                    color: Colors.lime,
+                    width: 10.0,
+                  ),
+                ),
+              );
+            }
+          }),
     );
   }
 
@@ -161,7 +180,8 @@ class EditStudentProfile extends StatelessWidget {
                     child: Text(
                       'ส่งอีเมล์',
                       style: TextStyle(
-                          fontFamily: UIdata.fontFamily, fontWeight: FontWeight.w600),
+                          fontFamily: UIdata.fontFamily,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -218,17 +238,19 @@ class EditStudentProfile extends StatelessWidget {
                       SizedBox(height: 15.0),
                       _buildDetailInfo('แก้ไขข้อมูล'),
                       _buildSeparator(screenSize),
-                      _buildInputText('องอาจ', 'ชื่อ', 'กรุณากรอกชื่อ'),
-                      _buildInputText('ใจทมิฬ', 'นามสกุล', 'กรุณากรอกนามสกุล'),
-                      _buildInputText('081-2345678', 'เบอร์โทรศัพท์',
+                      _buildInputText(
+                          _student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
+                      _buildInputText(
+                          _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
+                      _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
                           'กรุณากรอกชืเบอร์โทรศัพท์'),
                       _buildInputText(
-                          'ggg@ggg.com', 'อีเมล์', 'กรุณากรอกอีเมล์'),
+                          _student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          _buildDetailItem('เบอร์โทรศัพท์', '081-2345678'),
-                          _buildDetailItem('อีเมล์', 'ggg@ggg.com'),
+                          _buildDetailItem('เบอร์โทรศัพท์', _student.phone),
+                          _buildDetailItem('อีเมล์', _student.email),
                         ],
                       ),
                       _buildButtons(),
