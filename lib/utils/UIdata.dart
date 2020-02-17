@@ -50,9 +50,22 @@ class UIdata {
   static String tx_filter_item_major = 'สาขา';
   static String tx_filter_item_career = 'อาชีพ';
 
+  static String tx_dashboard_student_all = 'นักเรียนทั้งหมด';
+  static String tx_dashboard_student_add_university = 'ศึกษาต่อ';
+  static String tx_dashboard_student_none_university = 'ไม่ศึกษาต่อ';
+  static String tx_dashboard_student_other = 'อื่นๆ ';
+
+
+
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
+
+  static TextStyle textTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
   static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);
   static TextStyle textSubTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.black);
+
+
+  static TextStyle textSubTitleStyle_9 = TextStyle(fontFamily: 'Kanit',fontSize:9);
+  static TextStyle textSubTitleStyle_12 = TextStyle(fontFamily: 'Kanit',fontSize:12);
 
 
 }

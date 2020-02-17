@@ -140,8 +140,10 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Swiper(
+
               autoplay: true,
               itemBuilder: (BuildContext context,int index){
+                print(index);
                 return Container(
                   decoration: BoxDecoration(
                       color: list[index]
