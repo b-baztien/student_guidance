@@ -23,19 +23,6 @@ class EditStudentProfile extends StatelessWidget {
   final Student _student;
 
   EditStudentProfile(this._student);
-
-  Widget _buildCoverImage(Size screenSize) {
-    return Container(
-      height: screenSize.height / 3.1,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(_student.image),
-          fit: BoxFit.cover,
-        ),
-      ),
-    );
-  }
-
   Widget _buildProfileImage() {
     return Center(
       child: FutureBuilder(
@@ -115,46 +102,28 @@ class EditStudentProfile extends StatelessWidget {
           hintText: hintText,
           labelText: labelText,
         ),
+        style: TextStyle(fontFamily: UIdata.fontFamily),
       ),
     );
   }
 
-  Widget _buildDetailItem(String title, String value) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
-        ),
-        SizedBox(
-          height: 5.0,
-        ),
-        Text(
-          value,
-          style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.normal),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildButtons() {
+  Widget _buildButtons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => print('โทร'),
+              onTap: () => Navigator.pop(context),
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
-                  border: Border.all(),
-                  color: Color(0xFF404A5C),
+                  border: Border.all(color: Colors.red),
+                  color: Colors.red,
                 ),
                 child: Center(
                   child: Text(
-                    'โทร',
+                    'ยกเลิก',
                     style: TextStyle(
                       fontFamily: (UIdata.fontFamily),
                       color: Colors.white,
@@ -168,18 +137,20 @@ class EditStudentProfile extends StatelessWidget {
           SizedBox(width: 10.0),
           Expanded(
             child: InkWell(
-              onTap: () => print('Message'),
+              onTap: () => Navigator.pop(context),
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
-                  border: Border.all(),
+                  border: Border.all(color: Colors.green),
+                  color: Colors.green,
                 ),
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      'ส่งอีเมล์',
+                      'แก้ไขข้อมูล',
                       style: TextStyle(
+                          color: Colors.white,
                           fontFamily: UIdata.fontFamily,
                           fontWeight: FontWeight.w600),
                     ),
@@ -195,71 +166,46 @@ class EditStudentProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
+    Size _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('แก้ไขข้อมูลส่วนตัว'),
-          leading: IconButton(
-            icon: UIdata.backIcon,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'แก้ไขข้อมูลส่วนตัว',
+          style: TextStyle(fontFamily: UIdata.fontFamily),
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: Stack(
+        leading: IconButton(
+          icon: UIdata.backIcon,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: _screenSize.height / 50),
+              _buildProfileImage(),
+              Column(
                 children: <Widget>[
-                  _buildCoverImage(screenSize),
-                  SafeArea(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: screenSize.height / 5),
-                          _buildProfileImage(),
-                        ],
-                      ),
-                    ),
-                  ),
+                  _buildDetailInfo('แก้ไขข้อมูล'),
+                  _buildSeparator(_screenSize),
+                  _buildInputText(_student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
+                  _buildInputText(
+                      _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
+                  _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
+                      'กรุณากรอกเบอร์โทรศัพท์'),
+                  _buildInputText(_student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
                 ],
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: screenSize.height / 600),
-                      SizedBox(height: 15.0),
-                      _buildDetailInfo('แก้ไขข้อมูล'),
-                      _buildSeparator(screenSize),
-                      _buildInputText(
-                          _student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
-                      _buildInputText(
-                          _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
-                      _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
-                          'กรุณากรอกชืเบอร์โทรศัพท์'),
-                      _buildInputText(
-                          _student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          _buildDetailItem('เบอร์โทรศัพท์', _student.phone),
-                          _buildDetailItem('อีเมล์', _student.email),
-                        ],
-                      ),
-                      _buildButtons(),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ));
+              SizedBox(height: 30.0),
+              _buildButtons(context),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
