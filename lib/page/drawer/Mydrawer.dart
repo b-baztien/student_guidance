@@ -10,7 +10,7 @@ import 'package:student_guidance/utils/UIdata.dart';
 
 class MyDrawer extends StatefulWidget {
   final String schoolId;
-  
+
   final Student student;
 
   const MyDrawer({Key key, this.schoolId, this.student}) : super(key: key);
@@ -81,11 +81,15 @@ class _MyDrawerState extends State<MyDrawer> {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w600,
+                        fontFamily: UIdata.fontFamily),
                   ),
                   Text(
                     widget.schoolId,
-                    style: TextStyle(color: Colors.blueAccent, fontSize: 15),
+                    style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 15,
+                        fontFamily: UIdata.fontFamily),
                   ),
                   Text(
                     widget.student.status,
@@ -93,28 +97,54 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: widget.student.status == 'กำลังศึกษา'
                             ? Colors.green
                             : Colors.orange,
-                        fontSize: 15),
+                        fontSize: 15,
+                        fontFamily: UIdata.fontFamily),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  _buildRow(Icons.account_circle, "แก้ไขข้อมูลส่วนตัว",
-                      Colors.blue, UIdata.editProfileTag),
+                  _buildRow(
+                    Icons.account_circle,
+                    "แก้ไขข้อมูลส่วนตัว",
+                    Colors.blue,
+                    (context) => EditProfile(
+                      student: widget.student,
+                    ),
+                  ),
                   _buildDivider(),
                   widget.student.status == 'กำลังศึกษา'
-                      ? _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
-                          Colors.green, UIdata.editProfileTag)
+                      ? _buildRow(
+                          Icons.add_to_photos,
+                          "เพิ่มข้อมูลการสอบ TCAS",
+                          Colors.green,
+                          (context) => EditProfile(
+                            student: widget.student,
+                          ),
+                        )
                       : _buildRow(
                           Icons.add_to_photos,
                           "เพิ่มข้อมูลหลังการจบการศึกษา",
                           Colors.green,
-                          UIdata.editProfileTag),
+                          (context) => EditProfile(
+                            student: widget.student,
+                          ),
+                        ),
                   _buildDivider(),
-                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow,
-                      UIdata.editProfileTag),
+                  _buildRow(
+                      Icons.vpn_key,
+                      "เปลี่ยนพาสเวิร์ด",
+                      Colors.yellow,
+                      (context) => EditProfile(
+                            student: widget.student,
+                          )),
                   _buildDivider(),
-                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300],
-                      UIdata.editProfileTag),
+                  _buildRow(
+                      Icons.favorite,
+                      "สาขาที่ติดตาม",
+                      Colors.red[300],
+                      (context) => EditProfile(
+                            student: widget.student,
+                          )),
                   _buildDivider(),
                 ],
               ),
@@ -131,15 +161,15 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 
-  Widget _buildRow(
-      IconData icon, String title, Color colors, String routePath) {
+  Widget _buildRow(IconData icon, String title, Color colors,
+      Function(BuildContext) builder) {
     final TextStyle textStyle =
-        TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
+        TextStyle(color: Colors.black, fontFamily: 'Kanit', fontSize: 15);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditProfile(student: widget.student,)),
+          MaterialPageRoute(builder: builder),
         );
       },
       child: Container(
