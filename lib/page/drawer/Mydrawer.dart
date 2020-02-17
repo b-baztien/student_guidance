@@ -139,7 +139,7 @@ class _MyDrawerState extends State<MyDrawer> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditProfile()),
+          MaterialPageRoute(builder: (context) => EditProfile(student: widget.student,)),
         );
       },
       child: Container(

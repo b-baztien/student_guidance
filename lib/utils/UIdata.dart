@@ -37,11 +37,14 @@ class UIdata {
   /*String Text*/
   static String tx_search_widget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
   static String tx_teacher_widget = 'ข้อมูลติดต่อครู';
+  static String tx_dashboard_widget = 'แผนภูมิ';
+  static String tx_dashboard_title = 'การศึกษาต่อ';
   static String tx_search_box = 'ค้นหา ?';
   static String tx_filtter_title = 'กรองผลการค้นหา';
+  static String tx_filter_recommend = 'การค้นหาที่แนะนำ';
   static String bt_filtter_success = 'กรอง';
   static String bt_filtter_close = 'ปิด';
-  static String tx_filter_type = 'ตัวเลือการกรอง';
+  static String tx_filter_type = 'ตัวเลือกการกรอง';
   static String tx_filter_item_university = 'มหาวิทยาลัย';
   static String tx_filter_item_faculty = 'คณะ';
   static String tx_filter_item_major = 'สาขา';
@@ -49,6 +52,7 @@ class UIdata {
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
   static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);
+  static TextStyle textSubTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.black);
 
 
 }
