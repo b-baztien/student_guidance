@@ -13,16 +13,13 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'editprofile Page',
-      debugShowCheckedModeBanner: false,
-      home: Container(
+    return Material(
+      child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/edit-img.png"),
                   fit: BoxFit.fill)),
-          child: EditStudentProfile(student)
-      ),
+          child: EditStudentProfile(student)),
     );
   }
 }
@@ -82,16 +79,13 @@ class EditStudentProfile extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailInfo(String detail,TextStyle textStyle) {
+  Widget _buildDetailInfo(String detail, TextStyle textStyle) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4.0),
       ),
-      child: Text(
-        detail,
-        style: textStyle
-      ),
+      child: Text(detail, style: textStyle),
     );
   }
 
@@ -104,10 +98,12 @@ class EditStudentProfile extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           labelText: labelText,
-          hintStyle: TextStyle(fontFamily: UIdata.fontFamily,color: Colors.white),
-          labelStyle: TextStyle(fontFamily: UIdata.fontFamily,color: Colors.white),
+          hintStyle:
+              TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+          labelStyle:
+              TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
         ),
-        style: TextStyle(fontFamily: UIdata.fontFamily,color: Colors.white),
+        style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
       ),
     );
   }
@@ -188,13 +184,12 @@ class EditStudentProfile extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 15.0,right: 8,left: 8),
+        padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: Colors.black.withOpacity(0.5),
-              border: Border.all(width: 2,color: Colors.white)
-          ),
+              border: Border.all(width: 2, color: Colors.white)),
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
@@ -203,14 +198,17 @@ class EditStudentProfile extends StatelessWidget {
                 _buildProfileImage(),
                 Column(
                   children: <Widget>[
-                    _buildDetailInfo(UIdata.tx_edit_subtitle,UIdata.textTitleStyle),
+                    _buildDetailInfo(
+                        UIdata.tx_edit_subtitle, UIdata.textTitleStyle),
                     _buildSeparator(_screenSize),
-                    _buildInputText(_student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
+                    _buildInputText(
+                        _student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
                     _buildInputText(
                         _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
                     _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
                         'กรุณากรอกเบอร์โทรศัพท์'),
-                    _buildInputText(_student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
+                    _buildInputText(
+                        _student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
                   ],
                 ),
                 SizedBox(height: 30.0),
