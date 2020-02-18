@@ -59,8 +59,11 @@ class UIdata {
   static String tx_dashboard_student_other = 'อื่นๆ ';
 
   static String tx_dashnoard_university_pop = 'มหาวิทยาลัยยอดนิยม';
+  static String img_dashnoard_university_pop = 'assets/images/Group.png';
   static String tx_dashnoard_faculty_pop = 'คณะยอดนิยม';
+  static String img_dashnoard_faculty_pop = 'assets/images/Group-Faculty.png';
   static String tx_dashnoard_major_pop = 'สาขายอดนิยม';
+  static String img_dashnoard_major_pop = 'assets/images/Group-Major.png';
 
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
@@ -73,7 +76,9 @@ class UIdata {
   static TextStyle textSubTitleStyle_9 = TextStyle(fontFamily: 'Kanit',fontSize:9);
   static TextStyle textSubTitleStyle_12 = TextStyle(fontFamily: 'Kanit',fontSize:12);
 
-  static TextStyle text_Dashboard_TitleStyle_15_pink = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.pink.shade300);
+  static TextStyle text_Dashboard_TitleStyle_15_pink = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Color(0xffFFADAD));
+  static TextStyle text_Dashboard_TitleStyle_15_dark = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.black87);
+
   static TextStyle text_Dashboard_TitleStyle_15_white = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
   static TextStyle text_Dashboard_subTitleStyle_12_white = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
 }

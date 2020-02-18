@@ -19,6 +19,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: FutureBuilder(
           future: _getPrefs(),
@@ -48,8 +50,8 @@ class _DashboardState extends State<Dashboard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            _buildCardTop5(Colors.black87,230,180,UIdata.tx_dashnoard_university_pop,UIdata.text_Dashboard_TitleStyle_15_pink),
-                            _buildCardTop5(Colors.deepOrange,150,180,UIdata.tx_dashnoard_faculty_pop,UIdata.text_Dashboard_TitleStyle_15_white)
+                            _buildCardTop5(Colors.black87,screenWidth /2.1,180,UIdata.tx_dashnoard_university_pop,UIdata.text_Dashboard_TitleStyle_15_pink,UIdata.img_dashnoard_university_pop,40,27),
+                            _buildCardTop5(Color(0xffF08201),screenWidth /2.5,180,UIdata.tx_dashnoard_faculty_pop,UIdata.text_Dashboard_TitleStyle_15_dark,UIdata.img_dashnoard_faculty_pop,30,30)
                           ],
                         ),
                       ),
@@ -59,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            _buildCardTop5(Colors.indigo,230,200,UIdata.tx_dashnoard_major_pop,UIdata.text_Dashboard_TitleStyle_15_white),
+                            _buildCardTop5(Color(0xff006A82),screenWidth - 37,200,UIdata.tx_dashnoard_major_pop,UIdata.text_Dashboard_TitleStyle_15_white,UIdata.img_dashnoard_major_pop,30,30),
 
                           ],
                         ),
@@ -69,7 +71,11 @@ class _DashboardState extends State<Dashboard> {
                 ),
               );
             }else{
-              return SizedBox(height: 1);
+              return Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: Colors.black,
+                  )
+              );
             }
           }
       ),
@@ -152,7 +158,7 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Widget _buildCardTop5(Color color,double widthLayout,double hightLayout,String title,TextStyle titleStyle){
+  Widget _buildCardTop5(Color color,double widthLayout,double hightLayout,String title,TextStyle titleStyle,String assetImage,double widthImg,double hightImg){
     return Container(
       width: widthLayout,
       height: hightLayout,
@@ -169,6 +175,24 @@ class _DashboardState extends State<Dashboard> {
           children: <Widget>[
             Text(title,style: titleStyle,),
             Text('subTitle',style: UIdata.text_Dashboard_subTitleStyle_12_white,),
+            Expanded(
+              child: Align(
+                alignment: FractionalOffset.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Container(
+                    width: widthImg,
+                    height: hightImg,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(assetImage),
+                        fit: BoxFit.fill
+                      )
+                    ),
+                  )
+                ),
+              ),
+            )
           ],
         ),
       ),
