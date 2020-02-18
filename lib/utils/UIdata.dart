@@ -50,11 +50,17 @@ class UIdata {
   static String tx_filter_item_major = 'สาขา';
   static String tx_filter_item_career = 'อาชีพ';
 
+  static String tx_edit_profile_title = 'แก้ไขข้อมูลส่วนตัว';
+  static String tx_edit_subtitle = 'แก้ไขข้อมูล';
+
   static String tx_dashboard_student_all = 'นักเรียนทั้งหมด';
   static String tx_dashboard_student_add_university = 'ศึกษาต่อ';
   static String tx_dashboard_student_none_university = 'ไม่ศึกษาต่อ';
   static String tx_dashboard_student_other = 'อื่นๆ ';
 
+  static String tx_dashnoard_university_pop = 'มหาวิทยาลัยยอดนิยม';
+  static String tx_dashnoard_faculty_pop = 'คณะยอดนิยม';
+  static String tx_dashnoard_major_pop = 'สาขายอดนิยม';
 
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
@@ -67,5 +73,7 @@ class UIdata {
   static TextStyle textSubTitleStyle_9 = TextStyle(fontFamily: 'Kanit',fontSize:9);
   static TextStyle textSubTitleStyle_12 = TextStyle(fontFamily: 'Kanit',fontSize:12);
 
-
+  static TextStyle text_Dashboard_TitleStyle_15_pink = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.pink.shade300);
+  static TextStyle text_Dashboard_TitleStyle_15_white = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
+  static TextStyle text_Dashboard_subTitleStyle_12_white = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
 }

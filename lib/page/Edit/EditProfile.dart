@@ -13,8 +13,16 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: EditStudentProfile(student),
+    return MaterialApp(
+      title: 'editprofile Page',
+      debugShowCheckedModeBanner: false,
+      home: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/edit-img.png"),
+                  fit: BoxFit.fill)),
+          child: EditStudentProfile(student)
+      ),
     );
   }
 }
@@ -39,8 +47,8 @@ class EditStudentProfile extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(80.0),
                   border: Border.all(
-                    color: Colors.lime,
-                    width: 10.0,
+                    color: Colors.white,
+                    width: 5,
                   ),
                 ),
               );
@@ -51,7 +59,7 @@ class EditStudentProfile extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/images/people-placeholder.png'),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                   borderRadius: BorderRadius.circular(80.0),
                   border: Border.all(
@@ -69,12 +77,12 @@ class EditStudentProfile extends StatelessWidget {
     return Container(
       width: screenSize.width / 1.6,
       height: 2.0,
-      color: Colors.black54,
+      color: Colors.white,
       margin: EdgeInsets.only(top: 4.0),
     );
   }
 
-  Widget _buildDetailInfo(String detail) {
+  Widget _buildDetailInfo(String detail,TextStyle textStyle) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
       decoration: BoxDecoration(
@@ -82,12 +90,7 @@ class EditStudentProfile extends StatelessWidget {
       ),
       child: Text(
         detail,
-        style: TextStyle(
-          fontFamily: UIdata.fontFamily,
-          color: Colors.black,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w300,
-        ),
+        style: textStyle
       ),
     );
   }
@@ -101,8 +104,10 @@ class EditStudentProfile extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           labelText: labelText,
+          hintStyle: TextStyle(fontFamily: UIdata.fontFamily,color: Colors.white),
+          labelStyle: TextStyle(fontFamily: UIdata.fontFamily,color: Colors.white),
         ),
-        style: TextStyle(fontFamily: UIdata.fontFamily),
+        style: TextStyle(fontFamily: UIdata.fontFamily,color: Colors.white),
       ),
     );
   }
@@ -148,7 +153,7 @@ class EditStudentProfile extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      'แก้ไขข้อมูล',
+                      UIdata.tx_edit_subtitle,
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: UIdata.fontFamily,
@@ -168,11 +173,12 @@ class EditStudentProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     Size _screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        centerTitle: true,
+        backgroundColor: Colors.black,
         title: Text(
-          'แก้ไขข้อมูลส่วนตัว',
-          style: TextStyle(fontFamily: UIdata.fontFamily),
+          UIdata.tx_edit_profile_title,
+          style: UIdata.textTitleStyle,
         ),
         leading: IconButton(
           icon: UIdata.backIcon,
@@ -182,27 +188,35 @@ class EditStudentProfile extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: _screenSize.height / 50),
-              _buildProfileImage(),
-              Column(
-                children: <Widget>[
-                  _buildDetailInfo('แก้ไขข้อมูล'),
-                  _buildSeparator(_screenSize),
-                  _buildInputText(_student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
-                  _buildInputText(
-                      _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
-                  _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
-                      'กรุณากรอกเบอร์โทรศัพท์'),
-                  _buildInputText(_student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
-                ],
-              ),
-              SizedBox(height: 30.0),
-              _buildButtons(context),
-            ],
+        padding: const EdgeInsets.only(top: 15.0,right: 8,left: 8),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.black.withOpacity(0.5),
+              border: Border.all(width: 2,color: Colors.white)
+          ),
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: _screenSize.height / 50),
+                _buildProfileImage(),
+                Column(
+                  children: <Widget>[
+                    _buildDetailInfo(UIdata.tx_edit_subtitle,UIdata.textTitleStyle),
+                    _buildSeparator(_screenSize),
+                    _buildInputText(_student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
+                    _buildInputText(
+                        _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
+                    _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
+                        'กรุณากรอกเบอร์โทรศัพท์'),
+                    _buildInputText(_student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
+                  ],
+                ),
+                SizedBox(height: 30.0),
+                _buildButtons(context),
+              ],
+            ),
           ),
         ),
       ),

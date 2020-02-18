@@ -41,7 +41,29 @@ class _DashboardState extends State<Dashboard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(UIdata.tx_dashboard_title,style: UIdata.textTitleStyle_dark,),
-                      cardDashboradYear()
+                      cardDashboradYear(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            _buildCardTop5(Colors.black87,230,180,UIdata.tx_dashnoard_university_pop,UIdata.text_Dashboard_TitleStyle_15_pink),
+                            _buildCardTop5(Colors.deepOrange,150,180,UIdata.tx_dashnoard_faculty_pop,UIdata.text_Dashboard_TitleStyle_15_white)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            _buildCardTop5(Colors.indigo,230,200,UIdata.tx_dashnoard_major_pop,UIdata.text_Dashboard_TitleStyle_15_white),
+
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -127,6 +149,29 @@ class _DashboardState extends State<Dashboard> {
 
         )
 
+    );
+  }
+
+  Widget _buildCardTop5(Color color,double widthLayout,double hightLayout,String title,TextStyle titleStyle){
+    return Container(
+      width: widthLayout,
+      height: hightLayout,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.all(
+         Radius.circular(10)
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(title,style: titleStyle,),
+            Text('subTitle',style: UIdata.text_Dashboard_subTitleStyle_12_white,),
+          ],
+        ),
+      ),
     );
   }
 
