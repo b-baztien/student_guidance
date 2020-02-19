@@ -124,7 +124,7 @@ class EditStudentProfile extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'ยกเลิก',
+                    UIdata.tx_cancel,
                     style: TextStyle(
                       fontFamily: (UIdata.fontFamily),
                       color: Colors.white,
@@ -184,6 +184,7 @@ class EditStudentProfile extends StatelessWidget {
         ),
       ),
       body: Padding(
+
         padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
         child: Container(
           decoration: BoxDecoration(
