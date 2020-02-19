@@ -49,7 +49,7 @@ class UIdata {
   static String tx_filter_item_faculty = 'คณะ';
   static String tx_filter_item_major = 'สาขา';
   static String tx_filter_item_career = 'อาชีพ';
-
+  static String tx_cancel = 'ยกเลิก';
   static String tx_edit_profile_title = 'แก้ไขข้อมูลส่วนตัว';
   static String tx_edit_subtitle = 'แก้ไขข้อมูล';
 
@@ -65,12 +65,16 @@ class UIdata {
   static String tx_dashnoard_major_pop = 'สาขายอดนิยม';
   static String img_dashnoard_major_pop = 'assets/images/Group-Major.png';
 
+  static String tx_news_notfound = 'ไม่พบข่าวสำหรับวันนี้';
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
 
   static TextStyle textTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
   static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);
   static TextStyle textSubTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.black);
+
+
+  static TextStyle text_News_TitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
 
 
   static TextStyle textSubTitleStyle_9 = TextStyle(fontFamily: 'Kanit',fontSize:9);
