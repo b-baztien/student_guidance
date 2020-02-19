@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
+import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
@@ -117,9 +118,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           Icons.add_to_photos,
                           "เพิ่มข้อมูลการสอบ TCAS",
                           Colors.green,
-                          (context) => EditProfile(
-                            student: widget.student,
-                          ),
+                          (context) => AddEducation(),
                         )
                       : _buildRow(
                           Icons.add_to_photos,
@@ -162,14 +161,14 @@ class _MyDrawerState extends State<MyDrawer> {
   }
 
   Widget _buildRow(IconData icon, String title, Color colors,
-      Function(BuildContext) builder) {
+      Function(BuildContext) functionPageBuilder) {
     final TextStyle textStyle =
         TextStyle(color: Colors.black, fontFamily: 'Kanit', fontSize: 15);
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: builder),
+          MaterialPageRoute(builder: functionPageBuilder),
         );
       },
       child: Container(

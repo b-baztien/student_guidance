@@ -65,12 +65,11 @@ class _AddEducationState extends State<AddEducation> {
   }
 
   final GlobalKey<FormState> _educationKey = GlobalKey<FormState>();
-  String _username, _password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: UIdata.themeColor,
-      body: ListView(
+      body: Column(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 15, left: 10),
@@ -107,7 +106,9 @@ class _AddEducationState extends State<AddEducation> {
                 Text(
                   'เพิ่มข้อมูลการสอบติด',
                   style: TextStyle(
-                      fontFamily: UIdata.fontFamily, color: Colors.white, fontSize: 25),
+                      fontFamily: UIdata.fontFamily,
+                      color: Colors.white,
+                      fontSize: 25),
                 ),
               ],
             ),
@@ -116,6 +117,7 @@ class _AddEducationState extends State<AddEducation> {
             height: 40,
           ),
           Container(
+            width: double.infinity,
             height: MediaQuery.of(context).size.height - 185,
             decoration: BoxDecoration(
               color: Colors.white,
@@ -123,260 +125,259 @@ class _AddEducationState extends State<AddEducation> {
                 topLeft: Radius.circular(75),
               ),
             ),
-            child: ListView(
-              children: <Widget>[
-                Form(
-                  key: _educationKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 40,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            'รอบการสมัคร',
-                            style: TextStyle(
-                                fontFamily: UIdata.fontFamily,
-                                fontSize: 18,
-                                color: Colors.black45),
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          DropdownButton(
-                            value: _selectedRound,
-                            items: _dropdownMenuItem,
-                            onChanged: onChangeDropdownItem,
-                            hint: Text('เลือกรอบการสอบ'),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance
-                            .collection('University')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container(
-                                width: 100.0,
-                                child: FlareActor(
-                                  "assets/animates/Loader.flr",
-                                  animation:
-                                      '{"keyframes":{"nodes":{"995":{"framePosY',
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                ));
-                          } else {
-                            List<DropdownMenuItem> currencyItem = [];
-                            for (int i = 0;
-                                i < snapshot.data.documents.length;
-                                i++) {
-                              DocumentSnapshot doc = snapshot.data.documents[i];
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Form(
+                    key: _educationKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'รอบการสมัคร',
+                              style: TextStyle(
+                                  fontFamily: UIdata.fontFamily,
+                                  fontSize: 18,
+                                  color: Colors.black45),
+                            ),
+                            SizedBox(
+                              width: 30,
+                            ),
+                            DropdownButton(
+                              value: _selectedRound,
+                              items: _dropdownMenuItem,
+                              onChanged: onChangeDropdownItem,
+                              hint: Text('เลือกรอบการสอบ'),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance
+                              .collection('University')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                  width: 100.0,
+                                  child: FlareActor(
+                                    "assets/animates/Loader.flr",
+                                    animation:
+                                        '{"keyframes":{"nodes":{"995":{"framePosY',
+                                    alignment: Alignment.center,
+                                    fit: BoxFit.contain,
+                                  ));
+                            } else {
+                              List<DropdownMenuItem> currencyItem = [];
+                              for (int i = 0;
+                                  i < snapshot.data.documents.length;
+                                  i++) {
+                                DocumentSnapshot doc =
+                                    snapshot.data.documents[i];
 
-                              currencyItem.add(DropdownMenuItem(
-                                child: Text(doc.data['university_name']),
-                                value: doc.reference,
-                              ));
-                            }
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'มหาวิทยาลัย',
-                                  style: TextStyle(
-                                      fontFamily: UIdata.fontFamily,
-                                      fontSize: 18,
-                                      color: Colors.black45),
-                                ),
-                                SizedBox(
-                                  width: 50,
-                                ),
-                                DropdownButton(
-                                  items: currencyItem,
-                                  onChanged: (values) {
-                                    setState(() {
-                                      _selectedUniversity = values;
-                                      _selectedFaculty = null;
-                                      _selectedMajor = null;
-                                    });
-                                  },
-                                  value: _selectedUniversity,
-                                  hint: Text('เลือกมหาวิทยาลัย'),
-                                )
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      StreamBuilder<QuerySnapshot>(
-                        stream: Firestore.instance
-                            .collection('Faculty')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container(
-                                width: 100.0,
-                                child: FlareActor(
-                                  "assets/animates/Loader.flr",
-                                  animation:
-                                      '{"keyframes":{"nodes":{"995":{"framePosY',
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                ));
-                          } else {
-                            List<DropdownMenuItem> currencyItem = [];
-                            for (int i = 0;
-                                i < snapshot.data.documents.length;
-                                i++) {
-                              DocumentSnapshot doc = snapshot.data.documents[i];
-                              if (doc['university'] == _selectedUniversity) {
-                                Faculty fct = Faculty.fromJson(doc.data);
                                 currencyItem.add(DropdownMenuItem(
-                                  child: Text(fct.facultyName),
+                                  child: Text(doc.data['university_name']),
                                   value: doc.reference,
                                 ));
                               }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'มหาวิทยาลัย',
+                                    style: TextStyle(
+                                        fontFamily: UIdata.fontFamily,
+                                        fontSize: 18,
+                                        color: Colors.black45),
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  DropdownButton(
+                                    items: currencyItem,
+                                    onChanged: (values) {
+                                      setState(() {
+                                        _selectedUniversity = values;
+                                        _selectedFaculty = null;
+                                        _selectedMajor = null;
+                                      });
+                                    },
+                                    value: _selectedUniversity,
+                                    hint: Text('เลือกมหาวิทยาลัย'),
+                                  )
+                                ],
+                              );
                             }
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'คณะ',
-                                  style: TextStyle(
-                                      fontFamily: UIdata.fontFamily,
-                                      fontSize: 18,
-                                      color: Colors.black45),
-                                ),
-                                SizedBox(
-                                  width: 50,
-                                ),
-                                DropdownButton(
-                                  items: currencyItem,
-                                  onChanged: (values) {
-                                    setState(() {
-                                      _selectedFaculty = values;
-                                      _selectedMajor = null;
-                                    });
-                                  },
-                                  value: _selectedFaculty,
-                                  hint: Text('เลือกคณะ'),
-                                )
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                      StreamBuilder<QuerySnapshot>(
-                        stream:
-                            Firestore.instance.collection('Major').snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return Container(
-                                width: 100.0,
-                                child: FlareActor(
-                                  "assets/animates/Loader.flr",
-                                  animation:
-                                      '{"keyframes":{"nodes":{"995":{"framePosY',
-                                  alignment: Alignment.center,
-                                  fit: BoxFit.contain,
-                                ));
-                          } else {
-                            List<DropdownMenuItem> currencyItem = [];
-                            for (int i = 0;
-                                i < snapshot.data.documents.length;
-                                i++) {
-                              DocumentSnapshot doc = snapshot.data.documents[i];
-                              if (doc['faculty'] == _selectedFaculty) {
-                                Major major = Major.fromJson(doc.data);
-                                currencyItem.add(DropdownMenuItem(
-                                  child: Text(major.majorName),
-                                  value: doc.reference,
-                                ));
-                              }
-                            }
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'สาขา',
-                                  style: TextStyle(
-                                      fontFamily: UIdata.fontFamily,
-                                      fontSize: 18,
-                                      color: Colors.black45),
-                                ),
-                                SizedBox(
-                                  width: 50,
-                                ),
-                                DropdownButton(
-                                  items: currencyItem,
-                                  onChanged: (values) {
-                                    setState(() {
-                                      _selectedMajor = values;
-                                    });
-                                  },
-                                  value: _selectedMajor,
-                                  hint: Text('เลือกสาขา'),
-                                )
-                              ],
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 0.0, horizontal: 30.0),
-                        width: double.infinity,
-                        child: RaisedButton(
-                          padding: EdgeInsets.all(15.0),
-                          shape: StadiumBorder(),
-                          child: Text(
-                            'เพิ่มข้อมูล',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          color: UIdata.themeColor,
-                          onPressed: () async {
-                            Student std = new Student();
-                            await StudentService().getStudent().then((result) {
-                              std = result;
-                            }).catchError((error) {
-                              throw error;
-                            });
-                            EntranceExamResult enExam =
-                                new EntranceExamResult();
-                            enExam.entrance_exam_name = _selectedRound.name;
-                            enExam.round = _selectedRound.id;
-                            enExam.faculty = _selectedFaculty;
-                            enExam.major = _selectedMajor;
-                            enExam.year =
-                                (new DateTime.now().year + 543).toString();
-
-                            EntranService().addEntranceExamResult(enExam);
                           },
                         ),
-                      ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance
+                              .collection('Faculty')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                  width: 100.0,
+                                  child: FlareActor(
+                                    "assets/animates/Loader.flr",
+                                    animation:
+                                        '{"keyframes":{"nodes":{"995":{"framePosY',
+                                    alignment: Alignment.center,
+                                    fit: BoxFit.contain,
+                                  ));
+                            } else {
+                              List<DropdownMenuItem> currencyItem = [];
+                              for (int i = 0;
+                                  i < snapshot.data.documents.length;
+                                  i++) {
+                                DocumentSnapshot doc =
+                                    snapshot.data.documents[i];
+                                if (doc['university'] == _selectedUniversity) {
+                                  Faculty fct = Faculty.fromJson(doc.data);
+                                  currencyItem.add(DropdownMenuItem(
+                                    child: Text(fct.facultyName),
+                                    value: doc.reference,
+                                  ));
+                                }
+                              }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'คณะ',
+                                    style: TextStyle(
+                                        fontFamily: UIdata.fontFamily,
+                                        fontSize: 18,
+                                        color: Colors.black45),
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  DropdownButton(
+                                    items: currencyItem,
+                                    onChanged: (values) {
+                                      setState(() {
+                                        _selectedFaculty = values;
+                                        _selectedMajor = null;
+                                      });
+                                    },
+                                    value: _selectedFaculty,
+                                    hint: Text('เลือกคณะ'),
+                                  )
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: Firestore.instance
+                              .collection('Major')
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Container(
+                                  width: 100.0, child: Text('data'));
+                            } else {
+                              List<DropdownMenuItem> currencyItem = [];
+                              for (int i = 0;
+                                  i < snapshot.data.documents.length;
+                                  i++) {
+                                DocumentSnapshot doc =
+                                    snapshot.data.documents[i];
+                                if (doc['faculty'] == _selectedFaculty) {
+                                  Major major = Major.fromJson(doc.data);
+                                  currencyItem.add(DropdownMenuItem(
+                                    child: Text(major.majorName),
+                                    value: doc.reference,
+                                  ));
+                                }
+                              }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'สาขา',
+                                    style: TextStyle(
+                                        fontFamily: UIdata.fontFamily,
+                                        fontSize: 18,
+                                        color: Colors.black45),
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  DropdownButton(
+                                    items: currencyItem,
+                                    onChanged: (values) {
+                                      setState(() {
+                                        _selectedMajor = values;
+                                      });
+                                    },
+                                    value: _selectedMajor,
+                                    hint: Text('เลือกสาขา'),
+                                  )
+                                ],
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 30.0),
+                          width: double.infinity,
+                          child: RaisedButton(
+                            padding: EdgeInsets.all(15.0),
+                            shape: StadiumBorder(),
+                            child: Text(
+                              'เพิ่มข้อมูล',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            color: UIdata.themeColor,
+                            onPressed: () async {
+                              Student std = Student();
+                              await StudentService()
+                                  .getStudent()
+                                  .then((result) {
+                                std = result;
+                              }).catchError((error) {
+                                throw error;
+                              });
+                              EntranceExamResult enExam = EntranceExamResult();
+                              enExam.entrance_exam_name = _selectedRound.name;
+                              enExam.round = _selectedRound.id;
+                              enExam.faculty = _selectedFaculty;
+                              enExam.major = _selectedMajor;
+                              enExam.year =
+                                  (DateTime.now().toLocal().year).toString();
+                              EntranService().addEntranceExamResult(enExam);
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         ],

@@ -9,6 +9,7 @@ import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
+import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
@@ -107,9 +108,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                 radius: 40,
                               );
                             }
-                          }
-                          )
-                          ),
+                          })),
                   SizedBox(
                     height: 5,
                   ),
@@ -167,10 +166,10 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     final TextStyle textStyle =
         TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         print(title);
       },
-          child: Container(
+      child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
           children: <Widget>[
@@ -314,11 +313,9 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
             if (futureSnapshot.hasData) {
               return Scaffold(
                 drawer: MyDrawer(
-                    student:
-                  Student.fromJson(
-                      jsonDecode(futureSnapshot.data.getString('student'))),
-                    schoolId:futureSnapshot.data.getString('schoolId')
-                ),
+                    student: Student.fromJson(
+                        jsonDecode(futureSnapshot.data.getString('student'))),
+                    schoolId: futureSnapshot.data.getString('schoolId')),
                 body: CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(
@@ -340,27 +337,49 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                         if (snap.hasData) {
                                           return Stack(
                                             children: <Widget>[
-                                               Container(
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          snap.data),
-                                                      fit: BoxFit.fill)),
-                                            ),
-                                            Positioned(
-                                              left: 20,
-                                              bottom: 10,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text('ข่าวล่าสุด',style: TextStyle(fontFamily: 'kanit',fontSize: 10,color:Colors.white,fontWeight: FontWeight.bold),),
-                                                   Text(snapshot.data.topic,style: TextStyle(fontFamily: 'kanit',fontSize: 28,color:Colors.white,fontWeight: FontWeight.bold),),
-                                                    Text('- '+'คนโพส',style: TextStyle(fontFamily: 'kanit',fontSize: 16,color:Colors.white),),
-                                                ],
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            snap.data),
+                                                        fit: BoxFit.fill)),
                                               ),
-                                            )
+                                              Positioned(
+                                                left: 20,
+                                                bottom: 10,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'ข่าวล่าสุด',
+                                                      style: TextStyle(
+                                                          fontFamily: 'kanit',
+                                                          fontSize: 10,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      snapshot.data.topic,
+                                                      style: TextStyle(
+                                                          fontFamily: 'kanit',
+                                                          fontSize: 28,
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      '- ' + 'คนโพส',
+                                                      style: TextStyle(
+                                                          fontFamily: 'kanit',
+                                                          fontSize: 16,
+                                                          color: Colors.white),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
                                             ],
-                                          
                                           );
                                         } else {
                                           return Center(
@@ -437,32 +456,22 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                         ),
                       ]),
                     ),
-                    StreamBuilder<List<News>>(
-                      stream: NewsService().getAllNewsBySchoolNameAndDate(
-                          futureSnapshot.data.getString('schoolId'),
-                          _toDayCalendar),
+                    StreamBuilder<Map>(
+                      stream:
+                          UniversityService().getAllUniversityFacultyMajor(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data.isNotEmpty) {
-                          return SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                                (context, index) => ListTile(
-                                      title: Text(snapshot.data[index].topic),
-                                    ),
-                                childCount: snapshot.data.length),
-                          );
-                        } else {
-                          return SliverList(
-                            delegate: SliverChildListDelegate(<Widget>[
-                              Center(
-                                child: Text(
-                                  'ไม่พบข่าวสำหรับวันนี้',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.brown),
-                                ),
+                        print(snapshot.data['มหาวิทยาลัยแม่โจ้']);
+                        return SliverList(
+                          delegate: SliverChildListDelegate(<Widget>[
+                            Center(
+                              child: Text(
+                                'ไม่พบข่าวสำหรับวันนี้',
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.brown),
                               ),
-                            ]),
-                          );
-                        }
+                            ),
+                          ]),
+                        );
                       },
                     )
                   ],
