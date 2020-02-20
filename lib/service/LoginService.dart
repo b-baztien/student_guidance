@@ -8,6 +8,7 @@ CollectionReference ref = Firestore.instance.collection("Login");
 
 class LoginService {
   Future<Login> login(Login userLogin) async {
+    Login login;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       Query query = Firestore.instance
@@ -16,7 +17,7 @@ class LoginService {
 
       await query.getDocuments().then((snapshot) async {
         if (snapshot.documents.isNotEmpty) {
-          Login login = Login.fromJson(snapshot.documents.first.data);
+          login = Login.fromJson(snapshot.documents.first.data);
 
           if (login.type == 'student') {
             if (userLogin.password == login.password) {
@@ -41,7 +42,6 @@ class LoginService {
                       .parent()
                       .documentID
                       .trim());
-              return login;
             } else {
               throw ("ชื่อผู้ใช้ หรือ รหัสผ่านไม่ถูกต้อง");
             }
@@ -56,6 +56,7 @@ class LoginService {
       clearLoginData();
       rethrow;
     }
+    return login;
   }
 
   clearLoginData() async {

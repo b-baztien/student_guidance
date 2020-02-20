@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
-import 'package:student_guidance/service/CareerService.dart';
-import 'package:student_guidance/service/GetImageService.dart';
-import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemCareer extends StatefulWidget {

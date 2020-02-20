@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:animated_size_and_fade/animated_size_and_fade.dart';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/School.dart';
@@ -7,11 +7,7 @@ import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/page/Views/item-teacher.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
-import 'package:student_guidance/service/GetImageService.dart';
-
-import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/service/TeacherService.dart';
-import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class ListTeacher extends StatefulWidget {
@@ -21,7 +17,7 @@ class ListTeacher extends StatefulWidget {
 
 class _ListTeacherState extends State<ListTeacher>
     with TickerProviderStateMixin {
-  String shcool_name = '';
+  String shcoolName = '';
   School school = new School();
   List<Teacher> listTeacher = new List<Teacher>();
   AnimationController _animationController;
@@ -54,7 +50,7 @@ class _ListTeacherState extends State<ListTeacher>
           backgroundColor: Colors.transparent,
           appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(UIdata.tx_teacher_widget,style: UIdata.textTitleStyle,),
+          title: Text(UIdata.txTeacherWidget,style: UIdata.textTitleStyle,),
               ),
         drawer: MyDrawer(
             student:

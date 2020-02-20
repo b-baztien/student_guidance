@@ -4,7 +4,6 @@ import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemUniversity extends StatefulWidget {

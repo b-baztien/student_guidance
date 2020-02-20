@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Tutorials/View_Tutorial.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/page/login/login-new.dart';
-import 'package:student_guidance/page/login/login.dart';
 import 'package:student_guidance/page/splash/splash.dart';
 
 class UIdata {
@@ -18,7 +18,7 @@ class UIdata {
     Home.tag: (context) => Home(),
     Tutorials.tag: (context) => Tutorials(),
     Dashboard.tag: (context) => Dashboard(),
-    EditProfile.tag: (context) => EditProfile(),
+    EditProfile.tag: (context) => EditProfile(student: Student(),),
   };
   /*tag page */
   static String loginPageTag = LoginPages.tag;
@@ -35,54 +35,54 @@ class UIdata {
 
 
   /*String Text*/
-  static String tx_search_widget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
-  static String tx_teacher_widget = 'ข้อมูลติดต่อครู';
-  static String tx_dashboard_widget = 'แผนภูมิ';
-  static String tx_dashboard_title = 'การศึกษาต่อ';
-  static String tx_search_box = 'ค้นหา ?';
-  static String tx_filtter_title = 'กรองผลการค้นหา';
-  static String tx_filter_recommend = 'การค้นหาที่แนะนำ';
-  static String bt_filtter_success = 'กรอง';
-  static String bt_filtter_close = 'ปิด';
-  static String tx_filter_type = 'ตัวเลือกการกรอง';
-  static String tx_filter_item_university = 'มหาวิทยาลัย';
-  static String tx_filter_item_faculty = 'คณะ';
-  static String tx_filter_item_major = 'สาขา';
-  static String tx_filter_item_career = 'อาชีพ';
-  static String tx_cancel = 'ยกเลิก';
-  static String tx_edit_profile_title = 'แก้ไขข้อมูลส่วนตัว';
-  static String tx_edit_subtitle = 'แก้ไขข้อมูล';
+  static String txSearchWidget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
+  static String txTeacherWidget = 'ข้อมูลติดต่อครู';
+  static String txDashboardWidget = 'แผนภูมิ';
+  static String txDashboardTitle = 'การศึกษาต่อ';
+  static String txSearchBox = 'ค้นหา ?';
+  static String txFiltterTitle = 'กรองผลการค้นหา';
+  static String txFilterRecommend = 'การค้นหาที่แนะนำ';
+  static String btFiltterSuccess = 'กรอง';
+  static String btFiltterClose = 'ปิด';
+  static String txFilterType = 'ตัวเลือกการกรอง';
+  static String txFilterItemUniversity = 'มหาวิทยาลัย';
+  static String txFilterItemFaculty = 'คณะ';
+  static String txFilterItemMajor = 'สาขา';
+  static String txFilterItemCareer = 'อาชีพ';
+  static String txCancel = 'ยกเลิก';
+  static String txEditProfileTitle = 'แก้ไขข้อมูลส่วนตัว';
+  static String txEditSubtitle = 'แก้ไขข้อมูล';
 
-  static String tx_dashboard_student_all = 'นักเรียนทั้งหมด';
-  static String tx_dashboard_student_add_university = 'ศึกษาต่อ';
-  static String tx_dashboard_student_none_university = 'ไม่ศึกษาต่อ';
-  static String tx_dashboard_student_other = 'อื่นๆ ';
+  static String txDashboardStudentAll = 'นักเรียนทั้งหมด';
+  static String txDashboardStudentAddUniversity = 'ศึกษาต่อ';
+  static String txDashboardStudentNoneUniversity = 'ไม่ศึกษาต่อ';
+  static String txDashboardStudentOther = 'อื่นๆ ';
 
-  static String tx_dashnoard_university_pop = 'มหาวิทยาลัยยอดนิยม';
-  static String img_dashnoard_university_pop = 'assets/images/Group.png';
-  static String tx_dashnoard_faculty_pop = 'คณะยอดนิยม';
-  static String img_dashnoard_faculty_pop = 'assets/images/Group-Faculty.png';
-  static String tx_dashnoard_major_pop = 'สาขายอดนิยม';
-  static String img_dashnoard_major_pop = 'assets/images/Group-Major.png';
+  static String txDashnoardUniversityPop = 'มหาวิทยาลัยยอดนิยม';
+  static String imgDashnoardUniversityPop = 'assets/images/Group.png';
+  static String txDashnoardFacultyPop = 'คณะยอดนิยม';
+  static String imgDashnoardFacultyPop = 'assets/images/Group-Faculty.png';
+  static String txDashnoardMajorPop = 'สาขายอดนิยม';
+  static String imgDashnoardMajorPop = 'assets/images/Group-Major.png';
 
-  static String tx_news_notfound = 'ไม่พบข่าวสำหรับวันนี้';
+  static String txNewsNotfound = 'ไม่พบข่าวสำหรับวันนี้';
 
   static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
 
-  static TextStyle textTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
+  static TextStyle textTitleStyleDark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
   static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);
-  static TextStyle textSubTitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.black);
+  static TextStyle textSubTitleStyleDark = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.black);
 
 
-  static TextStyle text_News_TitleStyle_dark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
+  static TextStyle textNewsTitleStyleDark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
 
 
   static TextStyle textSubTitleStyle_9 = TextStyle(fontFamily: 'Kanit',fontSize:9);
   static TextStyle textSubTitleStyle_12 = TextStyle(fontFamily: 'Kanit',fontSize:12);
 
-  static TextStyle text_Dashboard_TitleStyle_15_pink = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Color(0xffFFADAD));
-  static TextStyle text_Dashboard_TitleStyle_15_dark = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.black87);
+  static TextStyle textDashboardTitleStyle15Pink = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Color(0xffFFADAD));
+  static TextStyle textDashboardTitleStyle15Dark = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.black87);
 
-  static TextStyle text_Dashboard_TitleStyle_15_white = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
-  static TextStyle text_Dashboard_subTitleStyle_12_white = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
+  static TextStyle textDashboardTitleStyle15White = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
+  static TextStyle textDashboardSubTitleStyle12White = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
 }

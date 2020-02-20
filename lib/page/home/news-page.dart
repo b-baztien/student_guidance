@@ -454,7 +454,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                 (context, index) => Padding(
                                   padding: const EdgeInsets.only(bottom: 8),
                                   child: ListTile(
-                                        title: Text(snapshot.data[index].topic,style: UIdata.text_News_TitleStyle_dark,),
+                                        title: Text(snapshot.data[index].topic,style: UIdata.textNewsTitleStyleDark,),
                                     subtitle: Text(snapshot.data[index].startTime.toDate().toString()),
                                     trailing: FutureBuilder(
                                       future: GetImageService().getImage(snapshot.data[index].image),
@@ -495,7 +495,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                             delegate: SliverChildListDelegate(<Widget>[
                               Center(
                                 child: Text(
-                                  UIdata.tx_news_notfound,
+                                  UIdata.txNewsNotfound,
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.brown),
                                 ),
