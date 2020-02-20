@@ -190,7 +190,8 @@ class EditStudentProfile extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: Colors.black.withOpacity(0.5),
-              border: Border.all(width: 2, color: Colors.white)),
+              border: Border.all(width: 2, color: Colors.white)
+          ),
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
