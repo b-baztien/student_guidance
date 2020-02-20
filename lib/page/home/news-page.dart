@@ -348,15 +348,21 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                                       fit: BoxFit.fill)),
                                             ),
                                             Positioned(
-                                              left: 20,
-                                              bottom: 10,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text('ข่าวล่าสุด',style: TextStyle(fontFamily: 'kanit',fontSize: 10,color:Colors.white,fontWeight: FontWeight.bold),),
-                                                   Text(snapshot.data.topic,style: TextStyle(fontFamily: 'kanit',fontSize: 28,color:Colors.white,fontWeight: FontWeight.bold),),
-                                                    Text('- '+'คนโพส',style: TextStyle(fontFamily: 'kanit',fontSize: 16,color:Colors.white),),
-                                                ],
+                                              bottom: 0,
+                                              child: Container(
+                                                width:MediaQuery.of(context).size.width,
+                                                padding: const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black.withOpacity(0.5),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text('ข่าวล่าสุด',style: TextStyle(fontFamily: 'kanit',fontSize: 13,color:Colors.white,fontWeight: FontWeight.bold),),
+                                                     Text(snapshot.data.topic,style: TextStyle(fontFamily: 'kanit',fontSize: 25,color:Colors.white,fontWeight: FontWeight.bold),),
+                                                      Text('- '+'คนโพส',style: TextStyle(fontFamily: 'kanit',fontSize: 16,color:Colors.white),),
+                                                  ],
+                                                ),
                                               ),
                                             )
                                             ],
@@ -445,9 +451,43 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                         if (snapshot.hasData && snapshot.data.isNotEmpty) {
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(
-                                (context, index) => ListTile(
-                                      title: Text(snapshot.data[index].topic),
-                                    ),
+                                (context, index) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: ListTile(
+                                        title: Text(snapshot.data[index].topic,style: UIdata.text_News_TitleStyle_dark,),
+                                    subtitle: Text(snapshot.data[index].startTime.toDate().toString()),
+                                    trailing: FutureBuilder(
+                                      future: GetImageService().getImage(snapshot.data[index].image),
+                                      builder: (context,snapImg){
+                                        if(snapImg.hasData){
+                                          return Container(
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                      snapImg.data
+                                                    ),
+                                                  fit: BoxFit.cover
+                                                )
+                                            ),
+                                          );
+                                        }else{
+                                          return Container(
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                              image: DecorationImage(
+                                                image: AssetImage('assets/images/news-photo.png'),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    )
+                                      ),
+                                ),
                                 childCount: snapshot.data.length),
                           );
                         } else {
@@ -455,7 +495,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                             delegate: SliverChildListDelegate(<Widget>[
                               Center(
                                 child: Text(
-                                  'ไม่พบข่าวสำหรับวันนี้',
+                                  UIdata.tx_news_notfound,
                                   style: TextStyle(
                                       fontSize: 15, color: Colors.brown),
                                 ),
