@@ -107,9 +107,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                 radius: 40,
                               );
                             }
-                          }
-                          )
-                          ),
+                          })),
                   SizedBox(
                     height: 5,
                   ),
@@ -167,10 +165,10 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     final TextStyle textStyle =
         TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         print(title);
       },
-          child: Container(
+      child: Container(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
           children: <Widget>[
@@ -188,16 +186,11 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     );
   }
 
-  Future<SharedPreferences> _getPrefs() async {
-    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    return sharedPrefs;
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     var myCalendarOn = FutureBuilder(
-        future: _getPrefs(),
+        future: UIdata.getPrefs(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return StreamBuilder<Map<DateTime, List>>(
@@ -309,16 +302,14 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
 
     return SafeArea(
       child: FutureBuilder(
-          future: _getPrefs(),
+          future: UIdata.getPrefs(),
           builder: (context, futureSnapshot) {
             if (futureSnapshot.hasData) {
               return Scaffold(
                 drawer: MyDrawer(
-                    student:
-                  Student.fromJson(
-                      jsonDecode(futureSnapshot.data.getString('student'))),
-                    schoolId:futureSnapshot.data.getString('schoolId')
-                ),
+                    student: Student.fromJson(
+                        jsonDecode(futureSnapshot.data.getString('student'))),
+                    schoolId: futureSnapshot.data.getString('schoolId')),
                 body: CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(
@@ -340,33 +331,63 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                         if (snap.hasData) {
                                           return Stack(
                                             children: <Widget>[
-                                               Container(
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          snap.data),
-                                                      fit: BoxFit.fill)),
-                                            ),
-                                            Positioned(
-                                              bottom: 0,
-                                              child: Container(
-                                                width:MediaQuery.of(context).size.width,
-                                                padding: const EdgeInsets.all(10),
+                                              Container(
                                                 decoration: BoxDecoration(
-                                                    color: Colors.black.withOpacity(0.5),
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text('ข่าวล่าสุด',style: TextStyle(fontFamily: 'kanit',fontSize: 13,color:Colors.white,fontWeight: FontWeight.bold),),
-                                                     Text(snapshot.data.topic,style: TextStyle(fontFamily: 'kanit',fontSize: 25,color:Colors.white,fontWeight: FontWeight.bold),),
-                                                      Text('- '+'คนโพส',style: TextStyle(fontFamily: 'kanit',fontSize: 16,color:Colors.white),),
-                                                  ],
-                                                ),
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            snap.data),
+                                                        fit: BoxFit.fill)),
                                               ),
-                                            )
+                                              Positioned(
+                                                bottom: 0,
+                                                child: Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'ข่าวล่าสุด',
+                                                        style: TextStyle(
+                                                            fontFamily: 'kanit',
+                                                            fontSize: 13,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        snapshot.data.topic,
+                                                        style: TextStyle(
+                                                            fontFamily: 'kanit',
+                                                            fontSize: 25,
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        '- ' + 'คนโพส',
+                                                        style: TextStyle(
+                                                            fontFamily: 'kanit',
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
                                             ],
-                                          
                                           );
                                         } else {
                                           return Center(
@@ -452,42 +473,51 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(
                                 (context, index) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: ListTile(
-                                        title: Text(snapshot.data[index].topic,style: UIdata.textNewsTitleStyleDark,),
-                                    subtitle: Text(snapshot.data[index].startTime.toDate().toString()),
-                                    trailing: FutureBuilder(
-                                      future: GetImageService().getImage(snapshot.data[index].image),
-                                      builder: (context,snapImg){
-                                        if(snapImg.hasData){
-                                          return Container(
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      snapImg.data
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: ListTile(
+                                          title: Text(
+                                            snapshot.data[index].topic,
+                                            style:
+                                                UIdata.textNewsTitleStyleDark,
+                                          ),
+                                          subtitle: Text(snapshot
+                                              .data[index].startTime
+                                              .toDate()
+                                              .toString()),
+                                          trailing: FutureBuilder(
+                                            future: GetImageService().getImage(
+                                                snapshot.data[index].image),
+                                            builder: (context, snapImg) {
+                                              if (snapImg.hasData) {
+                                                return Container(
+                                                  width: 80,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              snapImg.data),
+                                                          fit: BoxFit.cover)),
+                                                );
+                                              } else {
+                                                return Container(
+                                                  width: 80,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          'assets/images/news-photo.png'),
+                                                      fit: BoxFit.fill,
                                                     ),
-                                                  fit: BoxFit.cover
-                                                )
-                                            ),
-                                          );
-                                        }else{
-                                          return Container(
-                                            width: 80,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
-                                              image: DecorationImage(
-                                                image: AssetImage('assets/images/news-photo.png'),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    )
-                                      ),
-                                ),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          )),
+                                    ),
                                 childCount: snapshot.data.length),
                           );
                         } else {

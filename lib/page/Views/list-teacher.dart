@@ -34,58 +34,54 @@ class _ListTeacherState extends State<ListTeacher>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'teacher Page',
-      debugShowCheckedModeBanner: false,
-      home: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/thembg.png"),
-                fit: BoxFit.fill)),
-        child: FutureBuilder(
-          future: _getPrefs(),
-            builder: (context, futureSnapshot){
-    if (futureSnapshot.hasData) {
-      return  Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Text(UIdata.txTeacherWidget,style: UIdata.textTitleStyle,),
-              ),
-        drawer: MyDrawer(
-            student:
-            Student.fromJson(
-                jsonDecode(futureSnapshot.data.getString('student'))),
-            schoolId:futureSnapshot.data.getString('schoolId')
-        ),
-        body: StreamBuilder(
-            stream: TeacherService().getAllMapTeacherBySchoolName(
-                futureSnapshot.data.getString('schoolId')),
-            builder: (context, snap) {
-              Map<String, List<Teacher>> map = snap.data;
-              if (snap.hasData) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: map.keys.toList().map((key) {
-                      return ItemTeacher(
-                          position: key, listTeacher: map[key]);
-                    }).toList(),
-                  ),
-                );
-              } else {
-                return SizedBox(height: 1);
-              }
-            }),
-      );
-    }else{
-      return SizedBox(height: 1);
-    }
-            }
-        )
-      ),
+    return Material(
+      child: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/images/thembg.png"),
+                  fit: BoxFit.fill)),
+          child: FutureBuilder(
+              future: _getPrefs(),
+              builder: (context, futureSnapshot) {
+                if (futureSnapshot.hasData) {
+                  return Scaffold(
+                    backgroundColor: Colors.transparent,
+                    appBar: AppBar(
+                      backgroundColor: Colors.transparent,
+                      title: Text(
+                        UIdata.txTeacherWidget,
+                        style: UIdata.textTitleStyle,
+                      ),
+                    ),
+                    drawer: MyDrawer(
+                        student: Student.fromJson(jsonDecode(
+                            futureSnapshot.data.getString('student'))),
+                        schoolId: futureSnapshot.data.getString('schoolId')),
+                    body: StreamBuilder(
+                        stream: TeacherService().getAllMapTeacherBySchoolName(
+                            futureSnapshot.data.getString('schoolId')),
+                        builder: (context, snap) {
+                          Map<String, List<Teacher>> map = snap.data;
+                          if (snap.hasData) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: map.keys.toList().map((key) {
+                                  return ItemTeacher(
+                                      position: key, listTeacher: map[key]);
+                                }).toList(),
+                              ),
+                            );
+                          } else {
+                            return SizedBox(height: 1);
+                          }
+                        }),
+                  );
+                } else {
+                  return SizedBox(height: 1);
+                }
+              })),
     );
   }
-
 
   Future<SharedPreferences> _getPrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();

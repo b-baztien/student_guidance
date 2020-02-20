@@ -22,17 +22,25 @@ class DashboardService {
 
       total = alumniData.documents.length;
 
-      alumniData.documents.forEach((alumniDoc) {
-        if (Alumni.fromJson(alumniDoc.data).status == 'ศึกษาต่อ') {
-          studying++;
-        } else if (Alumni.fromJson(alumniDoc.data).status == 'ไม่ระบุ') {
-          other++;
-        } else {
-          working++;
-        }
-      });
+      String latedGraduateDateTime = (DateTime.now().year + 542).toString();
 
-      dashboardAlumni = DashboardAlumni(total, studying, working, other);
+      for (var alumniDoc in alumniData.documents) {
+        String graduateDateTime = Alumni.fromJson(alumniDoc.data).graduateYear;
+
+        print(graduateDateTime);
+        if (latedGraduateDateTime == graduateDateTime) {
+          if (Alumni.fromJson(alumniDoc.data).status == 'ศึกษาต่อ') {
+            studying++;
+          } else if (Alumni.fromJson(alumniDoc.data).status == 'ไม่ระบุ') {
+            other++;
+          } else {
+            working++;
+          }
+        }
+      }
+
+      dashboardAlumni = DashboardAlumni(
+          latedGraduateDateTime, total, studying, working, other);
       return dashboardAlumni;
     });
   }

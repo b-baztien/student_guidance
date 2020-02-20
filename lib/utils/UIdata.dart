@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Tutorials/View_Tutorial.dart';
@@ -18,8 +19,17 @@ class UIdata {
     Home.tag: (context) => Home(),
     Tutorials.tag: (context) => Tutorials(),
     Dashboard.tag: (context) => Dashboard(),
-    EditProfile.tag: (context) => EditProfile(student: Student(),),
+    EditProfile.tag: (context) => EditProfile(
+          student: Student(),
+        ),
   };
+
+  //SharedPreferences
+  static Future<SharedPreferences> getPrefs() async {
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+    return sharedPrefs;
+  }
+
   /*tag page */
   static String loginPageTag = LoginPages.tag;
   static String homeTag = Home.tag;
@@ -31,8 +41,6 @@ class UIdata {
   static Color themeColor = Colors.blue[400];
   static MaterialColor themeMaterialColor = Colors.blue;
   static Color fontColor = Colors.white;
-
-
 
   /*String Text*/
   static String txSearchWidget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
@@ -67,22 +75,31 @@ class UIdata {
 
   static String txNewsNotfound = 'ไม่พบข่าวสำหรับวันนี้';
 
-  static TextStyle textTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.white);
+  static TextStyle textTitleStyle =
+      TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.white);
 
-  static TextStyle textTitleStyleDark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
-  static TextStyle textSubTitleStyle = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.white);
-  static TextStyle textSubTitleStyleDark = TextStyle(fontFamily: 'Kanit',fontSize: 15,color:Colors.black);
+  static TextStyle textTitleStyleDark =
+      TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
+  static TextStyle textSubTitleStyle =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
+  static TextStyle textSubTitleStyleDark =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.black);
 
+  static TextStyle textNewsTitleStyleDark =
+      TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
 
-  static TextStyle textNewsTitleStyleDark = TextStyle(fontFamily: 'Kanit',fontSize: 20,color:Colors.black);
+  static TextStyle textSubTitleStyle_9 =
+      TextStyle(fontFamily: 'Kanit', fontSize: 9);
+  static TextStyle textSubTitleStyle_12 =
+      TextStyle(fontFamily: 'Kanit', fontSize: 12);
 
+  static TextStyle textDashboardTitleStyle15Pink =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xffFFADAD));
+  static TextStyle textDashboardTitleStyle15Dark =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.black87);
 
-  static TextStyle textSubTitleStyle_9 = TextStyle(fontFamily: 'Kanit',fontSize:9);
-  static TextStyle textSubTitleStyle_12 = TextStyle(fontFamily: 'Kanit',fontSize:12);
-
-  static TextStyle textDashboardTitleStyle15Pink = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Color(0xffFFADAD));
-  static TextStyle textDashboardTitleStyle15Dark = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.black87);
-
-  static TextStyle textDashboardTitleStyle15White = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
-  static TextStyle textDashboardSubTitleStyle12White = TextStyle(fontFamily: 'Kanit',fontSize:15,color: Colors.white);
+  static TextStyle textDashboardTitleStyle15White =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
+  static TextStyle textDashboardSubTitleStyle12White =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
 }

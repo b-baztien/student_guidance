@@ -6,6 +6,7 @@ import 'package:student_guidance/page/Views/list-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/search-new/Search_widget_new.dart';
 import 'package:student_guidance/utils/UIdata.dart';
+
 class Home extends StatefulWidget {
   static String tag = "home-page";
 
@@ -60,7 +61,6 @@ class _HomeState extends State<Home> {
             BottomNavigationBarItem(
                 icon: new Icon(FontAwesomeIcons.chartBar, size: 30),
                 title: new Text('แผนภูมิ')),
-
           ],
           onTap: (int index) {
             setState(() {

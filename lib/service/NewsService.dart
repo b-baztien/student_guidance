@@ -14,7 +14,7 @@ class NewsService {
     return collectionReference.snapshots().map((snapshot) {
       Map<DateTime, List<News>> mapNews = new Map();
       snapshot.documents.forEach((docChange) {
-        DateFormat formatter = new DateFormat('yyyy-MM-dd');
+        DateFormat formatter = DateFormat('yyyy-MM-dd');
         DateTime timeMapKey = DateTime.parse(formatter
             .format((docChange.data['start_time'] as Timestamp).toDate()));
 
