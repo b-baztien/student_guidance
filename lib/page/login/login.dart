@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
@@ -55,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   if (input.isEmpty) {
                     return 'กรุณากรอกชื่อผู้ใช้งาน';
                   }
+                  return '';
                 },
                 onSaved: (input) => _username = input,
                 decoration: InputDecoration(
@@ -72,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   if (input.length < 4) {
                     return 'รหัสผ่านต้องประกอบไปด้วย 4 ตัวอักษร';
                   }
+                  return '';
                 },
                 onSaved: (input) => _password = input,
                 decoration: InputDecoration(
@@ -131,7 +132,8 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
     try {
       if (prefs.get('login') != null) {
-        await Navigator.pushNamedAndRemoveUntil(context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
+        await Navigator.pushNamedAndRemoveUntil(
+            context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
       }
     } catch (error) {
       throw (error);

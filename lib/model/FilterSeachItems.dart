@@ -6,5 +6,4 @@ class  FilterSeachItems {
   String name;
   DocumentSnapshot documentSnapshot;
   FilterSeachItems({this.id,this.name,this.type,this.documentSnapshot});
-  
 }

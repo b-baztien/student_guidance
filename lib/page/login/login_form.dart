@@ -30,6 +30,7 @@ class _LoginFormState extends State<LoginForm> {
                 if (input.isEmpty) {
                   return 'กรุณากรอกชื่อผู้ใช้งาน';
                 }
+                return '';
               },
               onSaved: (input) => _username = input,
               decoration: InputDecoration(
@@ -42,6 +43,7 @@ class _LoginFormState extends State<LoginForm> {
                 if (input.length < 4) {
                   return 'รหัสผ่านต้องประกอบไปด้วย 4 ตัวอักษร';
                 }
+                return '';
               },
               onSaved: (input) => _password = input,
               decoration: InputDecoration(

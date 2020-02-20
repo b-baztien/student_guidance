@@ -27,7 +27,7 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
                 height: 20,
               ),
               Text(
-                UIdata.tx_filtter_title,
+                UIdata.txFiltterTitle,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -36,19 +36,19 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
               SizedBox(
                 height: 10,
               ),
-              Text(UIdata.tx_filter_type),
-              itemFilter(UIdata.tx_filter_item_university,1),
+              Text(UIdata.txFilterType),
+              itemFilter(UIdata.txFilterItemUniversity,1),
               _buildDivider(),
-              itemFilter(UIdata.tx_filter_item_faculty,2),
+              itemFilter(UIdata.txFilterItemFaculty,2),
               _buildDivider(),
-              itemFilter(UIdata.tx_filter_item_major,3),
+              itemFilter(UIdata.txFilterItemMajor,3),
               _buildDivider(),
-              itemFilter(UIdata.tx_filter_item_career,4),
+              itemFilter(UIdata.txFilterItemCareer,4),
               SizedBox(
                 height: 40,
               ),
               Text(
-                UIdata.tx_filter_recommend,
+                UIdata.txFilterRecommend,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -69,7 +69,7 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
                         RaisedButton(
                           color: Colors.green,
                           child: Text(
-                            UIdata.bt_filtter_success,
+                            UIdata.btFiltterSuccess,
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
@@ -79,7 +79,7 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
                           },
                         ),
                         RaisedButton(
-                          child: Text(UIdata.bt_filtter_close),
+                          child: Text(UIdata.btFiltterClose),
                           onPressed: () {
                             setState(() {
                               Navigator.pop(context);

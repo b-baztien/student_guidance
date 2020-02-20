@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
-import 'package:student_guidance/service/FacultyService.dart';
-import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
 

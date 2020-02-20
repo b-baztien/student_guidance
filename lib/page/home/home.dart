@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:student_guidance/page/Home/news-page.dart';
 import 'package:student_guidance/page/Views/list-teacher.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
-import 'package:student_guidance/page/home/news-page.dart';
 import 'package:student_guidance/page/search-new/Search_widget_new.dart';
-import 'package:student_guidance/page/search/Search_widget.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Home extends StatefulWidget {
   static String tag = "home-page";
 

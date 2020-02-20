@@ -124,7 +124,7 @@ class EditStudentProfile extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    UIdata.tx_cancel,
+                    UIdata.txCancel,
                     style: TextStyle(
                       fontFamily: (UIdata.fontFamily),
                       color: Colors.white,
@@ -149,7 +149,7 @@ class EditStudentProfile extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      UIdata.tx_edit_subtitle,
+                      UIdata.txEditSubtitle,
                       style: TextStyle(
                           color: Colors.white,
                           fontFamily: UIdata.fontFamily,
@@ -173,7 +173,7 @@ class EditStudentProfile extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          UIdata.tx_edit_profile_title,
+          UIdata.txEditProfileTitle,
           style: UIdata.textTitleStyle,
         ),
         leading: IconButton(
@@ -200,7 +200,7 @@ class EditStudentProfile extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     _buildDetailInfo(
-                        UIdata.tx_edit_subtitle, UIdata.textTitleStyle),
+                        UIdata.txEditSubtitle, UIdata.textTitleStyle),
                     _buildSeparator(_screenSize),
                     _buildInputText(
                         _student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),

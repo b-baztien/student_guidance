@@ -6,7 +6,6 @@ import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/StudentService.dart';
-import 'package:http/http.dart' as http;
 
 class EntranService {
   Future<List<EntranceExamResult>> getAllEntranceExamResult() async {
@@ -140,10 +139,6 @@ class EntranService {
               List<ChartData> listChartData = new List<ChartData>();
               Map<int, List<ChartData>> chartUniData =
                   new Map<int, List<ChartData>>();
-              var Response = await http.get(
-                "https://api.github.com/users/nitishk72",
-                headers: {"Accept": "application/json"},
-              );
               for (DocumentReference fac in setFac) {
                 await fireExam
                     .where('faculty', isEqualTo: fac)

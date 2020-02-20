@@ -1,20 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
-import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
-import 'package:student_guidance/model/Teacher.dart';
-
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/service/SchoolService.dart';
 import 'package:student_guidance/service/StudentService.dart';
-import 'package:student_guidance/service/TeacherService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-
-import 'package:student_guidance/widgets/customCard.dart';
 
 class BodyNews extends StatefulWidget {
   @override

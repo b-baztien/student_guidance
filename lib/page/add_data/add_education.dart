@@ -360,7 +360,7 @@ class _AddEducationState extends State<AddEducation> {
                                 throw error;
                               });
                               EntranceExamResult enExam = EntranceExamResult();
-                              enExam.entrance_exam_name = _selectedRound.name;
+                              enExam.entranceExamName = _selectedRound.name;
                               enExam.round = _selectedRound.id;
                               enExam.faculty = _selectedFaculty;
                               enExam.major = _selectedMajor;

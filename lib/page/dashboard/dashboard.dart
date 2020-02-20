@@ -19,7 +19,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: FutureBuilder(
@@ -29,7 +28,7 @@ class _DashboardState extends State<Dashboard> {
               return  Scaffold(
                 appBar: AppBar(
                   backgroundColor: Colors.black,
-                  title: Text(UIdata.tx_dashboard_widget,style: UIdata.textTitleStyle,),
+                  title: Text(UIdata.txDashboardWidget,style: UIdata.textTitleStyle,),
                 ),
                 drawer: MyDrawer(
                     student:
@@ -42,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(UIdata.tx_dashboard_title,style: UIdata.textTitleStyle_dark,),
+                      Text(UIdata.txDashboardTitle,style: UIdata.textTitleStyleDark,),
                       cardDashboradYear(),
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -50,8 +49,8 @@ class _DashboardState extends State<Dashboard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            _buildCardTop5(Colors.black87,screenWidth /2.1,180,UIdata.tx_dashnoard_university_pop,UIdata.text_Dashboard_TitleStyle_15_pink,UIdata.img_dashnoard_university_pop,40,27),
-                            _buildCardTop5(Color(0xffF08201),screenWidth /2.5,180,UIdata.tx_dashnoard_faculty_pop,UIdata.text_Dashboard_TitleStyle_15_dark,UIdata.img_dashnoard_faculty_pop,30,30)
+                            _buildCardTop5(Colors.black87,screenWidth /2.1,180,UIdata.txDashnoardUniversityPop,UIdata.textDashboardTitleStyle15Pink,UIdata.imgDashnoardUniversityPop,40,27),
+                            _buildCardTop5(Color(0xffF08201),screenWidth /2.5,180,UIdata.txDashnoardFacultyPop,UIdata.textDashboardTitleStyle15Dark,UIdata.imgDashnoardFacultyPop,30,30)
                           ],
                         ),
                       ),
@@ -61,7 +60,7 @@ class _DashboardState extends State<Dashboard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            _buildCardTop5(Color(0xff006A82),screenWidth - 37,200,UIdata.tx_dashnoard_major_pop,UIdata.text_Dashboard_TitleStyle_15_white,UIdata.img_dashnoard_major_pop,30,30),
+                            _buildCardTop5(Color(0xff006A82),screenWidth - 37,200,UIdata.txDashnoardMajorPop,UIdata.textDashboardTitleStyle15White,UIdata.imgDashnoardMajorPop,30,30),
 
                           ],
                         ),
@@ -101,7 +100,7 @@ class _DashboardState extends State<Dashboard> {
                Column(
                  children: <Widget>[
                    Text(
-                       UIdata.tx_dashboard_student_all
+                       UIdata.txDashboardStudentAll
                            ,style: UIdata.textSubTitleStyle_9,
                    ),
                    Text(
@@ -114,7 +113,7 @@ class _DashboardState extends State<Dashboard> {
                 Column(
                   children: <Widget>[
                     Text(
-                      UIdata.tx_dashboard_student_add_university
+                      UIdata.txDashboardStudentAddUniversity
                       ,style: UIdata.textSubTitleStyle_9,
                     ),
                     Text(
@@ -128,7 +127,7 @@ class _DashboardState extends State<Dashboard> {
                 Column(
                   children: <Widget>[
                     Text(
-                      UIdata.tx_dashboard_student_none_university
+                      UIdata.txDashboardStudentNoneUniversity
                       ,style: UIdata.textSubTitleStyle_9,
                     ),
                     Text(
@@ -141,7 +140,7 @@ class _DashboardState extends State<Dashboard> {
                 Column(
                   children: <Widget>[
                     Text(
-                      UIdata.tx_dashboard_student_other
+                      UIdata.txDashboardStudentOther
                       ,style: UIdata.textSubTitleStyle_9,
                     ),
                     Text(
@@ -174,7 +173,7 @@ class _DashboardState extends State<Dashboard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(title,style: titleStyle,),
-            Text('subTitle',style: UIdata.text_Dashboard_subTitleStyle_12_white,),
+            Text('subTitle',style: UIdata.textDashboardSubTitleStyle12White,),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomRight,
