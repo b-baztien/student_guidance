@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class GetImageService {
@@ -15,6 +16,21 @@ class GetImageService {
       rethrow;
     }
   }
+
+  /*Future<String> getImageDocument(DocumentSnapshot path) async {
+    String url;
+    try {
+      if (path.isNotEmpty) {
+        StorageReference ref = FirebaseStorage.instance.ref().child(path);
+        url = await ref.getDownloadURL().then((image) async {
+          return image.toString();
+        });
+      }
+      return url;
+    } catch (e) {
+      rethrow;
+    }
+  }*/
 
   Future<List<String>> getListImage(List<dynamic> listAlbum) async {
     List<String> album = new List<String>();
