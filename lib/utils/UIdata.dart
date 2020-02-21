@@ -95,9 +95,19 @@ class UIdata {
 
   static TextStyle textDashboardTitleStyle15Pink =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xffFFADAD));
+
+  static TextStyle textSearchTitleStyle24Blue =
+  TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Color(0xff005BC7));
+
+  static TextStyle textSearchSubTitleStyle13Blue =
+  TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Color(0xff005BC7));
+  static TextStyle textSearchSubTitleStyle13Black =
+  TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.black);
   static TextStyle textDashboardTitleStyle15Dark =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.black87);
 
+  static TextStyle textSearchTitleStyle20Orange =
+  TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Color(0xffFF9211));
   static TextStyle textDashboardTitleStyle15White =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
   static TextStyle textDashboardSubTitleStyle12White =

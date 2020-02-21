@@ -25,16 +25,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   @override
   void initState() {
     super.initState();
-    SearchService().getItemSearch().then((itemFromService) {
-      setState(() {
-         for(Fliteritems f in _listFilter){
-            f.b = false;
-          }
-        listSearch = itemFromService;
-        items = listSearch;
-        
-      });
-    });
+
   }
 
   @override

@@ -73,6 +73,7 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
+                            Navigator.pop(context,groupRadio);
                             setState(() {
                               print('okayyyy');
                             });
@@ -82,7 +83,7 @@ class _MyFilterDrawerState extends State<MyFilterDrawer> {
                           child: Text(UIdata.btFiltterClose),
                           onPressed: () {
                             setState(() {
-                              Navigator.pop(context);
+                              Navigator.pop(context,groupRadio);
                               print('Close');
                             });
                           },
