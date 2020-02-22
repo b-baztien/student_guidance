@@ -12,6 +12,7 @@ import 'package:student_guidance/utils/UIdata.dart';
 
 class Dashboard extends StatefulWidget {
   static String tag = "dashboard-page";
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -53,12 +54,10 @@ class _DashboardState extends State<Dashboard> {
                             AsyncSnapshot<List<DashboardAlumni>> snapshot) {
                           if (snapshot.hasData) {
                             return Column(
-                              children: <Widget>[
-                                snapshot.data
-                                    .map((DashboardAlumni dashboardAlumni) {
-                                  return cardDashboradYear(dashboardAlumni);
-                                })
-                              ],
+                              children: snapshot.data
+                                  .map((DashboardAlumni dashboardAlumni) {
+                                return cardDashboradYear(dashboardAlumni);
+                              }),
                             );
                           } else {
                             return cardDashboradYear(
