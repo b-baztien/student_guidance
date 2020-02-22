@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -25,7 +26,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   var _scaffordKey = new GlobalKey<ScaffoldState>();
   String type = 'University';
   int coutOrder = 0;
-  int _curentRadio = 0;
+  int _curentRadio = 1;
   int groupRadio = 1;
   List<Color> list = [
     Colors.green,
@@ -53,103 +54,103 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
     });
   }
 
-  Widget MyFilterDrawer() {
-    return Drawer(
-      child: Container(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        decoration: BoxDecoration(
-            color: Colors.white, boxShadow: [BoxShadow(color: Colors.black45)]),
-        width: 300,
-        child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                UIdata.txFiltterTitle,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(UIdata.txFilterType),
-              itemFilter(UIdata.txFilterItemUniversity, 1),
-              _buildDivider(),
-              itemFilter(UIdata.txFilterItemFaculty, 2),
-              _buildDivider(),
-              itemFilter(UIdata.txFilterItemMajor, 3),
-              _buildDivider(),
-              itemFilter(UIdata.txFilterItemCareer, 4),
-              SizedBox(
-                height: 40,
-              ),
-              Text(
-                UIdata.txFilterRecommend,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              itemRecommend(),
-              Expanded(
-                child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        RaisedButton(
-                          color: Colors.green,
-                          child: Text(
-                            UIdata.btFiltterSuccess,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-
-                            if (groupRadio == 1) {
-                              setState(() {
-                                type = 'University';
-                              });
-                            } else if (groupRadio == 2) {
-                              setState(() {
-                                type = 'Faculty';
-                              });
-                            } else if (groupRadio == 3) {
-                              setState(() {
-                                type = 'Major';
-                              });
-                            } else {
-                              setState(() {
-                                type = 'Career';
-                              });
-                            }
-                          },
+  Widget myFilterDrawer() {
+    return Container(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      decoration: BoxDecoration(
+          color: Colors.white, boxShadow: [BoxShadow(color: Colors.black45)]),
+      width: 300,
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              UIdata.txFiltterTitle,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(UIdata.txFilterType),
+            itemFilter(UIdata.txFilterItemUniversity, 1),
+            _buildDivider(),
+            itemFilter(UIdata.txFilterItemFaculty, 2),
+            _buildDivider(),
+            itemFilter(UIdata.txFilterItemMajor, 3),
+            _buildDivider(),
+            itemFilter(UIdata.txFilterItemCareer, 4),
+            SizedBox(
+              height: 40,
+            ),
+            Text(
+              UIdata.txFilterRecommend,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            itemRecommend(),
+            Expanded(
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      RaisedButton(
+                        color: Colors.green,
+                        child: Text(
+                          UIdata.btFiltterSuccess,
+                          style: TextStyle(color: Colors.white),
                         ),
-                        RaisedButton(
-                          child: Text(UIdata.btFiltterClose),
-                          onPressed: () {
+                        onPressed: () {
+                          groupRadio = _curentRadio;
+                          Navigator.pop(context);
+
+                          if (_curentRadio == 1) {
                             setState(() {
-                              Navigator.pop(context);
-                              print('Close');
+                              type = 'University';
                             });
-                          },
-                        )
-                      ],
-                    ),
+                          } else if (_curentRadio == 2) {
+                            setState(() {
+                              type = 'Faculty';
+                            });
+                          } else if (_curentRadio == 3) {
+                            setState(() {
+                              type = 'Major';
+                            });
+                          } else {
+                            setState(() {
+                              type = 'Career';
+                            });
+                          }
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text(UIdata.btFiltterClose),
+                        onPressed: () {
+                          setState(() {
+                            _curentRadio = groupRadio;
+                            Navigator.pop(context);
+                            print('Close');
+                          });
+                        },
+                      )
+                    ],
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -164,11 +165,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
           Text(txTypeFilter),
           Radio(
               value: value,
-              groupValue: groupRadio,
+              groupValue: _curentRadio,
               activeColor: Colors.pink,
-              onChanged: (T) {
+              onChanged: (int T) {
                 setState(() {
-                  groupRadio = T;
+                  _curentRadio = T;
                 });
               })
         ],
@@ -246,7 +247,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                       student: Student.fromJson(
                           jsonDecode(snapshot.data.getString('student'))),
                       schoolId: snapshot.data.getString('schoolId')),
-                  endDrawer: MyFilterDrawer(),
+                  endDrawer: myFilterDrawer(),
                   body: Column(
                     children: <Widget>[
                       Stack(
