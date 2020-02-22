@@ -57,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
                               children: snapshot.data
                                   .map((DashboardAlumni dashboardAlumni) {
                                 return cardDashboradYear(dashboardAlumni);
-                              }),
+                              }).toList(),
                             );
                           } else {
                             return cardDashboradYear(
