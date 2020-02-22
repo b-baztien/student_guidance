@@ -98,6 +98,56 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                 height: 20,
               ),
               itemRecommend(),
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Colors.green,
+                          child: Text(
+                            UIdata.btFiltterSuccess,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+
+                            if (groupRadio == 1) {
+                              setState(() {
+                                type = 'University';
+                              });
+                            } else if (groupRadio == 2) {
+                              setState(() {
+                                type = 'Faculty';
+                              });
+                            } else if (groupRadio == 3) {
+                              setState(() {
+                                type = 'Major';
+                              });
+                            } else {
+                              setState(() {
+                                type = 'Career';
+                              });
+                            }
+                          },
+                        ),
+                        RaisedButton(
+                          child: Text(UIdata.btFiltterClose),
+                          onPressed: () {
+                            setState(() {
+                              Navigator.pop(context);
+                              print('Close');
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -119,37 +169,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
               onChanged: (T) {
                 setState(() {
                   groupRadio = T;
-                  onRadioClick();
                 });
               })
         ],
       ),
     );
-  }
-
-  void onRadioClick() {
-    switch (groupRadio) {
-      case 1:
-        setState(() {
-          type = 'University';
-        });
-        break;
-      case 2:
-        setState(() {
-          type = 'Faculty';
-        });
-        break;
-      case 3:
-        setState(() {
-          type = 'Major';
-        });
-        break;
-      case 4:
-        setState(() {
-          type = 'Career';
-        });
-        break;
-    }
   }
 
   Divider _buildDivider() {
