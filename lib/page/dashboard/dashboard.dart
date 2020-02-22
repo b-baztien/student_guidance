@@ -49,10 +49,17 @@ class _DashboardState extends State<Dashboard> {
                       StreamBuilder(
                         stream: DashboardService().getAlumniDashboard(
                             futureSnapshot.data.getString('schoolId')),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<DashboardAlumni>> snapshot) {
                           if (snapshot.hasData) {
-                            return cardDashboradYear(snapshot.data);
+                            return Column(
+                              children: <Widget>[
+                                snapshot.data
+                                    .map((DashboardAlumni dashboardAlumni) {
+                                  return cardDashboradYear(dashboardAlumni);
+                                })
+                              ],
+                            );
                           } else {
                             return cardDashboradYear(
                               DashboardAlumni(
