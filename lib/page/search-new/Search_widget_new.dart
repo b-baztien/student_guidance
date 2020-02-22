@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -19,8 +17,6 @@ import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchWidgetNew extends StatefulWidget {
-
-
   @override
   _SearchWidgetNewState createState() => _SearchWidgetNewState();
 }
@@ -31,28 +27,33 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   int coutOrder = 0;
   int _curentRadio = 0;
   int groupRadio = 1;
-  List<Color> list = [Colors.green,Colors.black,Colors.blue,Colors.deepOrange];
+  List<Color> list = [
+    Colors.green,
+    Colors.black,
+    Colors.blue,
+    Colors.deepOrange
+  ];
   List<University> setListSize = new List<University>();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    SearchService().getAllSearchItem().listen((data){
+    SearchService().getAllSearchItem().listen((data) {
       List<FilterSeachItems> list = data;
-      List<FilterSeachItems> listItem = new  List<FilterSeachItems>();
-      for(FilterSeachItems f in list){
-        if(f.type == type){
+      List<FilterSeachItems> listItem = new List<FilterSeachItems>();
+      for (FilterSeachItems f in list) {
+        if (f.type == type) {
           listItem.add(f);
         }
       }
-     setState(() {
-       coutOrder = listItem.length;
-     });
+      setState(() {
+        coutOrder = listItem.length;
+      });
     });
   }
 
-
-  Widget MyFilterDrawer(){
+  Widget MyFilterDrawer() {
     return Drawer(
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16),
@@ -76,13 +77,13 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                 height: 10,
               ),
               Text(UIdata.txFilterType),
-              itemFilter(UIdata.txFilterItemUniversity,1),
+              itemFilter(UIdata.txFilterItemUniversity, 1),
               _buildDivider(),
-              itemFilter(UIdata.txFilterItemFaculty,2),
+              itemFilter(UIdata.txFilterItemFaculty, 2),
               _buildDivider(),
-              itemFilter(UIdata.txFilterItemMajor,3),
+              itemFilter(UIdata.txFilterItemMajor, 3),
               _buildDivider(),
-              itemFilter(UIdata.txFilterItemCareer,4),
+              itemFilter(UIdata.txFilterItemCareer, 4),
               SizedBox(
                 height: 40,
               ),
@@ -114,27 +115,23 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           onPressed: () {
                             Navigator.pop(context);
 
-                            if(groupRadio == 1 ){
+                            if (groupRadio == 1) {
                               setState(() {
                                 type = 'University';
                               });
-                            }
-                            else if(groupRadio == 2 ){
+                            } else if (groupRadio == 2) {
                               setState(() {
                                 type = 'Faculty';
                               });
-                            }
-                            else if(groupRadio == 3 ){
+                            } else if (groupRadio == 3) {
                               setState(() {
                                 type = 'Major';
                               });
+                            } else {
+                              setState(() {
+                                type = 'Career';
+                              });
                             }
-                            else{
-                                setState(() {
-                                  type = 'Career';
-                                });
-                            }
-
                           },
                         ),
                         RaisedButton(
@@ -158,41 +155,42 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
     );
   }
 
-
-  Widget itemFilter(String txTypeFilter,int value) {
-
+  Widget itemFilter(String txTypeFilter, int value) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[Text(txTypeFilter),
-          Radio(value: value,
+        children: <Widget>[
+          Text(txTypeFilter),
+          Radio(
+              value: value,
               groupValue: groupRadio,
               activeColor: Colors.pink,
-              onChanged: (T){
+              onChanged: (T) {
                 setState(() {
                   groupRadio = T;
                 });
               })
-
         ],
       ),
     );
   }
+
   Divider _buildDivider() {
     return Divider(
       color: Colors.indigo,
     );
   }
-  Widget itemRecommend(){
+
+  Widget itemRecommend() {
     return Container(
         height: 150,
-
         child: Stack(
           children: <Widget>[
             ClipPath(
               clipper: DiagonalPathClipperOne(),
-              child: Container(height: 140,
+              child: Container(
+                height: 140,
                 color: Colors.deepPurple,
               ),
             ),
@@ -200,12 +198,10 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Swiper(
                 autoplay: true,
-                itemBuilder: (BuildContext context,int index){
+                itemBuilder: (BuildContext context, int index) {
                   print(index);
                   return Container(
-                    decoration: BoxDecoration(
-                        color: list[index]
-                    ),
+                    decoration: BoxDecoration(color: list[index]),
                   );
                 },
                 itemCount: list.length,
@@ -213,8 +209,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
               ),
             )
           ],
-        )
-    );
+        ));
   }
 
   @override
@@ -224,7 +219,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/thembg.png"), // <-- BACKGROUND IMAGE
+              image: AssetImage("assets/images/thembg.png"),
+              // <-- BACKGROUND IMAGE
               fit: BoxFit.cover,
             ),
           ),
@@ -232,27 +228,25 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         SafeArea(
           child: FutureBuilder(
             future: _getPrefs(),
-            builder: (context,snapshot){
-              if(snapshot.hasData){
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
                 return Scaffold(
                   key: _scaffordKey,
                   backgroundColor: Colors.transparent,
                   appBar: AppBar(
-
                     elevation: 0,
                     backgroundColor: Colors.transparent,
-                    title: Text(UIdata.txSearchWidget,style: UIdata.textTitleStyle,),
-                    actions: <Widget>[
-                      Container()
-                    ],
+                    title: Text(
+                      UIdata.txSearchWidget,
+                      style: UIdata.textTitleStyle,
+                    ),
+                    actions: <Widget>[Container()],
                   ),
-                  drawer: MyDrawer(student:
-                  Student.fromJson(
-                      jsonDecode(snapshot.data.getString('student'))),
-                      schoolId:snapshot.data.getString('schoolId')
-                  ),
+                  drawer: MyDrawer(
+                      student: Student.fromJson(
+                          jsonDecode(snapshot.data.getString('student'))),
+                      schoolId: snapshot.data.getString('schoolId')),
                   endDrawer: MyFilterDrawer(),
-
                   body: Column(
                     children: <Widget>[
                       Stack(
@@ -263,14 +257,13 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                 height: 10.0,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: 12.0, right: 12.0),
+                                padding:
+                                    EdgeInsets.only(left: 12.0, right: 12.0),
                                 child: Material(
                                   elevation: 5.0,
                                   borderRadius: BorderRadius.circular(10.0),
                                   child: TextField(
-                                    onChanged: (value) {
-
-                                    },
+                                    onChanged: (value) {},
                                     //  controller: _controller,
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
@@ -279,16 +272,14 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                           color: UIdata.themeColor,
                                           size: 25.0,
                                         ),
-                                        contentPadding:
-                                        EdgeInsets.only(left: 10.0, top: 12.0),
+                                        contentPadding: EdgeInsets.only(
+                                            left: 10.0, top: 12.0),
                                         hintText: UIdata.txSearchBox,
-                                        hintStyle: TextStyle(color: Colors.grey),
+                                        hintStyle:
+                                            TextStyle(color: Colors.grey),
                                         suffixIcon: IconButton(
                                           icon: Icon(Icons.clear),
-                                          onPressed: () {
-
-
-                                          },
+                                          onPressed: () {},
                                         )),
                                   ),
                                 ),
@@ -298,10 +289,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10,bottom: 10),
+                        padding: EdgeInsets.only(top: 10, bottom: 10),
                         child: Container(
                             alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(left: 26,top: 5,bottom: 5,right: 5),
+                            padding: EdgeInsets.only(
+                                left: 26, top: 5, bottom: 5, right: 5),
                             height: 50,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(color: Colors.white),
@@ -310,39 +302,38 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  'พบทั้งหมด '+coutOrder.toString()+' รายการ',
+                                  'พบทั้งหมด ' +
+                                      coutOrder.toString() +
+                                      ' รายการ',
                                   style: TextStyle(
-                                      color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
+                                      color: UIdata.themeColor,
+                                      fontFamily: UIdata.fontFamily),
                                 ),
                                 IconButton(
-                                  icon:  Icon(
+                                  icon: Icon(
                                     Icons.filter_list,
                                     color: Colors.black,
-
-                                  ) ,
+                                  ),
                                   onPressed: () {
-                                   _scaffordKey.currentState.openEndDrawer();
-
-
-
+                                    _scaffordKey.currentState.openEndDrawer();
                                   },
                                 )
                               ],
-                            )
-                        ),
+                            )),
                       ),
                       _buildExpendedSearch(type)
-
-
                     ],
                   ),
                 );
-              }else{
+              } else {
                 return Scaffold(
                   backgroundColor: Colors.transparent,
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
-                    title: Text(UIdata.txSearchWidget,style: UIdata.textTitleStyle,),
+                    title: Text(
+                      UIdata.txSearchWidget,
+                      style: UIdata.textTitleStyle,
+                    ),
                   ),
                   drawer: Drawer(
                     elevation: 0,
@@ -354,245 +345,135 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         )
       ],
     );
-
-
-
-
-
   }
 
-  Widget _buildExpendedSearch(String type){
+  Widget _buildExpendedSearch(String type) {
     return Expanded(
       child: StreamBuilder(
         stream: SearchService().getAllSearchItem(),
-        builder: (context,snapshot){
-          if(snapshot.hasData){
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
             List<FilterSeachItems> list = snapshot.data;
-            List<FilterSeachItems> listItem = new  List<FilterSeachItems>();
-            for(FilterSeachItems f in list){
-              if(f.type == type){
+            List<FilterSeachItems> listItem = new List<FilterSeachItems>();
+            for (FilterSeachItems f in list) {
+              if (f.type == type) {
                 listItem.add(f);
               }
             }
             coutOrder = listItem.length;
-            if(type ==  'University'){
-
-                List<University> listUniversity = new List<University>();
-                for(FilterSeachItems filterSeachItems in listItem){
-                  listUniversity.add(University.fromJson(filterSeachItems.documentSnapshot.data));
-                }
-              return ListView.builder(
-                  itemCount: listItem.length,
-                  itemBuilder: (context,index){
-                    return Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: InkWell(
-                        onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) =>
-                                    ItemUniversity(
-                                        universitys: listItem[index].documentSnapshot)
-                                )
-                            );
-
-                        },
-                        child: Container(width: MediaQuery.of(context).size.width,
-                            height:  120,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white
-                            ),
-                            child: Container(
-                                padding: const EdgeInsets.all(10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Align(
-                                      alignment: FractionalOffset.centerLeft,
-                                      child: Container(
-                                          padding: EdgeInsets.only(right: 10.0),
-                                          decoration: new BoxDecoration(
-                                              border: new Border(
-                                                  right: new BorderSide(
-                                                      width: 2.0, color:Color(0xff005BC7))
-                                              )
-                                          ),
-                                        child: FutureBuilder(
-                                            future: GetImageService().getImage(listUniversity[index].image),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.hasData) {
-                                                return Container(
-                                                  width: 100,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(snapshot.data),
-                                                      fit: BoxFit.fill,
-                                                    ),
-
-                                                  ),
-                                                );
-                                              } else {
-                                                return Container(
-                                                  width: 100,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage('assets/images/University-Icon.png'),
-                                                      fit: BoxFit.fill,
-                                                    ),
-
-                                                  ),
-                                                );
-                                              }
-                                            }),
-                                      ),
-                                    ),
-                                  SizedBox(width: 15,),
-                                 Column(
-                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                   children: <Widget>[
-                                     Text(listUniversity[index].universityname,style: UIdata.textSearchTitleStyle24Blue,),
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(FontAwesomeIcons.mapMarkerAlt,color: Color(0xff005BC7),size: 13,),
-                                          SizedBox(width: 3,),
-                                          Text("ภาค"+listUniversity[index].zone+" จังหวัด" +listUniversity[index].province,style: UIdata.textSearchSubTitleStyle13Blue,),
-                                        ],
-                                      )
-                                   ],
-                                 )
-                                  ],
-                                )
-
-                            )
-                        ),
-
-                      ),
-                    );
-                  },
-                );
-            }else if (type == 'Faculty'){
-              return ListView.builder(
-                itemCount: listItem.length,
-                itemBuilder: (context,index){
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ItemFaculty(
-                                    facultyName: listItem[index].name)));
-
-                      },
-                      child: Container(width: MediaQuery.of(context).size.width,
-                          height:  60,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white
-                          ),
-                          child: Container(
-                              child: ListTile(
-                                  leading: Container(
-                                    padding: EdgeInsets.only(right: 15.0),
-                                    decoration: new BoxDecoration(
-                                        border: new Border(
-                                            right: new BorderSide(
-                                                width: 1.0, color: Colors.black)
-                                        )
-                                    ),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage('assets/images/icon-faculty.png'),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  title: Text(
-                                    listItem[index].name,
-                                    style:UIdata.textSearchSubTitleStyle13Black),
-
-                                  trailing: Icon(Icons.keyboard_arrow_right,
-                                      color: Colors.black, size: 30.0)
-                              )
-
-                          )
-                      ),
-
-                    ),
-                  );
-                },
-              );
-            }
-            else if (type == 'Major' ){
-              return ListView.builder(
-                itemCount: listItem.length,
-                itemBuilder: (context,index){
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ItemFaculty(
-                                    facultyName: listItem[index].name)));
-
-                      },
-                      child: Container(width: MediaQuery.of(context).size.width,
-                          height:  60,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white
-                          ),
-                          child: Container(
-                              child: ListTile(
-                                  leading: Container(
-                                    padding: EdgeInsets.only(right: 15.0),
-                                    decoration: new BoxDecoration(
-                                        border: new Border(
-                                            right: new BorderSide(
-                                                width: 1.0, color: Colors.black)
-                                        )
-                                    ),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage('assets/images/icon-major.png'),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  title: Text(
-                                      listItem[index].name,
-                                      style:UIdata.textSearchSubTitleStyle13Black),
-
-                                  trailing: Icon(Icons.keyboard_arrow_right,
-                                      color: Colors.black, size: 30.0)
-                              )
-
-                          )
-                      ),
-
-                    ),
-                  );
-                },
-              );
-            }
-            else{
-              List<Career> listCareer = new List<Career>();
-              for(FilterSeachItems filterSeachItems in listItem){
-                listCareer.add(Career.fromJson(filterSeachItems.documentSnapshot.data));
+            if (type == 'University') {
+              List<University> listUniversity = new List<University>();
+              for (FilterSeachItems filterSeachItems in listItem) {
+                listUniversity.add(University.fromJson(
+                    filterSeachItems.documentSnapshot.data));
               }
               return ListView.builder(
                 itemCount: listItem.length,
-                itemBuilder: (context,index){
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ItemUniversity(
+                                    universitys:
+                                        listItem[index].documentSnapshot)));
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white),
+                          child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: FractionalOffset.centerLeft,
+                                    child: Container(
+                                      padding: EdgeInsets.only(right: 10.0),
+                                      decoration: new BoxDecoration(
+                                          border: new Border(
+                                              right: new BorderSide(
+                                                  width: 2.0,
+                                                  color: Color(0xff005BC7)))),
+                                      child: FutureBuilder(
+                                          future: GetImageService().getImage(
+                                              listUniversity[index].image),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Container(
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        snapshot.data),
+                                                    fit: BoxFit.fitHeight,
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              return Container(
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/images/University-Icon.png'),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          }),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        listUniversity[index].universityname,
+                                        style:
+                                            UIdata.textSearchTitleStyle24Blue,
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            FontAwesomeIcons.mapMarkerAlt,
+                                            color: Color(0xff005BC7),
+                                            size: 13,
+                                          ),
+                                          SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text(
+                                            "ภาค" +
+                                                listUniversity[index].zone +
+                                                " จังหวัด" +
+                                                listUniversity[index].province,
+                                            style: UIdata
+                                                .textSearchSubTitleStyle13Blue,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ))),
+                    ),
+                  );
+                },
+              );
+            } else if (type == 'Faculty') {
+              return ListView.builder(
+                itemCount: listItem.length,
+                itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(5),
                     child: InkWell(
@@ -602,14 +483,118 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                             MaterialPageRoute(
                                 builder: (context) => ItemFaculty(
                                     facultyName: listItem[index].name)));
-
                       },
-                      child: Container(width: MediaQuery.of(context).size.width,
-                          height:  100,
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: Colors.white
-                          ),
+                              color: Colors.white),
+                          child: Container(
+                              child: ListTile(
+                                  leading: Container(
+                                    padding: EdgeInsets.only(right: 15.0),
+                                    decoration: new BoxDecoration(
+                                        border: new Border(
+                                            right: new BorderSide(
+                                                width: 1.0,
+                                                color: Colors.black))),
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/icon-faculty.png'),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(listItem[index].name,
+                                      style: UIdata
+                                          .textSearchSubTitleStyle13Black),
+                                  trailing: Icon(Icons.keyboard_arrow_right,
+                                      color: Colors.black, size: 30.0)))),
+                    ),
+                  );
+                },
+              );
+            } else if (type == 'Major') {
+              return ListView.builder(
+                itemCount: listItem.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ItemFaculty(
+                                    facultyName: listItem[index].name)));
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white),
+                          child: Container(
+                              child: ListTile(
+                                  leading: Container(
+                                    padding: EdgeInsets.only(right: 15.0),
+                                    decoration: new BoxDecoration(
+                                        border: new Border(
+                                            right: new BorderSide(
+                                                width: 1.0,
+                                                color: Colors.black))),
+                                    child: Container(
+                                      width: 30,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/icon-major.png'),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(listItem[index].name,
+                                      style: UIdata
+                                          .textSearchSubTitleStyle13Black),
+                                  trailing: Icon(Icons.keyboard_arrow_right,
+                                      color: Colors.black, size: 30.0)))),
+                    ),
+                  );
+                },
+              );
+            } else {
+              List<Career> listCareer = new List<Career>();
+              for (FilterSeachItems filterSeachItems in listItem) {
+                listCareer.add(
+                    Career.fromJson(filterSeachItems.documentSnapshot.data));
+              }
+              return ListView.builder(
+                itemCount: listItem.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ItemFaculty(
+                                    facultyName: listItem[index].name)));
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white),
                           child: Center(
                             child: Container(
                                 child: ListTile(
@@ -618,24 +603,25 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                       decoration: new BoxDecoration(
                                           border: new Border(
                                               right: new BorderSide(
-                                                  width: 3, color: Colors.deepOrange[700])
-                                          )
-                                      ),
+                                                  width: 3,
+                                                  color:
+                                                      Colors.deepOrange[700]))),
                                       child: FutureBuilder(
-                                          future: GetImageService().getImage(listCareer[index].image),
+                                          future: GetImageService().getImage(
+                                              listCareer[index].image),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasData) {
                                               return Container(
-
                                                 width: 50,
                                                 height: 50,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(50),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
                                                   image: DecorationImage(
-                                                    image: NetworkImage(snapshot.data),
+                                                    image: NetworkImage(
+                                                        snapshot.data),
                                                     fit: BoxFit.fill,
                                                   ),
-
                                                 ),
                                               );
                                             } else {
@@ -643,47 +629,36 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                                 width: 50,
                                                 decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                    image: AssetImage('assets/images/icon-career.png'),
+                                                    image: AssetImage(
+                                                        'assets/images/icon-career.png'),
                                                     fit: BoxFit.fill,
                                                   ),
-
                                                 ),
                                               );
                                             }
                                           }),
                                     ),
-                                    title: Text(
-                                        listItem[index].name,
-                                        style:UIdata.textSearchTitleStyle20Orange),
-
+                                    title: Text(listItem[index].name,
+                                        style: UIdata
+                                            .textSearchTitleStyle20Orange),
                                     trailing: Icon(Icons.keyboard_arrow_right,
-                                        color: Colors.red[900], size: 30.0)
-                                )
-
-                            ),
-                          )
-                      ),
-
+                                        color: Colors.red[900], size: 30.0))),
+                          )),
                     ),
                   );
                 },
               );
-
             }
-          }else{
+          } else {
             return SizedBox(height: 1);
-
           }
         },
       ),
     );
   }
 
-
-
   Future<SharedPreferences> _getPrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     return sharedPrefs;
   }
 }
-

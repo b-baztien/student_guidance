@@ -88,7 +88,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(_university.image),
-                          fit: BoxFit.fill)),
+                          fit: BoxFit.fitHeight)),
                 ),
               ),
             ),
