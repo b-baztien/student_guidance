@@ -11,10 +11,10 @@ class GetImageService {
           return image.toString();
         });
       }
-      return url;
     } catch (e) {
       rethrow;
     }
+    return url;
   }
 
   /*Future<String> getImageDocument(DocumentSnapshot path) async {
