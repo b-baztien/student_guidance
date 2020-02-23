@@ -23,7 +23,7 @@ class _BodyNewsState extends State<BodyNews> {
     super.initState();
     StudentService().getStudent().then((studentFromService) {
       SchoolService()
-          .getSchool(studentFromService.school)
+          .getSchool()
           .then((schoolFromService) {
         setState(() {
           shcoolName = schoolFromService.schoolName;

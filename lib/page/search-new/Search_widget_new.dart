@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
@@ -246,6 +247,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                   drawer: MyDrawer(
                       student: Student.fromJson(
                           jsonDecode(snapshot.data.getString('student'))),
+                      login: Login.fromJson(
+                          jsonDecode(snapshot.data.getString('login'))),
                       schoolId: snapshot.data.getString('schoolId')),
                   endDrawer: myFilterDrawer(),
                   body: Column(

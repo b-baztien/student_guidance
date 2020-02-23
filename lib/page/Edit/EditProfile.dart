@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class EditProfile extends StatelessWidget {
   static String tag = 'edit-profile';
 
   //ตัวแปรรับมาจาก drawer เพื่อเอาไปใช้ต่อ
-  final Student student;
+  final Login login;
 
-  EditProfile({Key key, @required this.student}) : super(key: key);
+  EditProfile({Key key, @required this.login}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +22,18 @@ class EditProfile extends StatelessWidget {
               image: DecorationImage(
                   image: AssetImage("assets/images/edit-img.png"),
                   fit: BoxFit.fill)),
-          child: EditStudentProfile(student)),
+          child: EditStudentProfile(login)),
     );
   }
 }
 
 class EditStudentProfile extends StatelessWidget {
-  final Student _student;
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final Login _login;
+  Student _student;
+  ProgressDialog _progressDialog;
 
-  EditStudentProfile(this._student);
+  EditStudentProfile(this._login);
   Widget _buildProfileImage() {
     return Center(
       child: FutureBuilder(
@@ -89,7 +95,8 @@ class EditStudentProfile extends StatelessWidget {
     );
   }
 
-  Widget _buildInputText(String value, String labelText, String hintText) {
+  Widget _buildInputText(String value, String labelText, String hintText,
+      Function onSaveFunction) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
       child: TextFormField(
@@ -104,11 +111,13 @@ class EditStudentProfile extends StatelessWidget {
               TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
         ),
         style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+        onSaved: onSaveFunction,
       ),
     );
   }
 
-  Widget _buildButtons(BuildContext context) {
+  Widget _buildButtons(BuildContext context, ProgressDialog _progressDialog) {
+    _progressDialog.style(message: 'กำลังโหลด...');
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
@@ -138,7 +147,23 @@ class EditStudentProfile extends StatelessWidget {
           SizedBox(width: 10.0),
           Expanded(
             child: InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: () async {
+                final formState = _globalKey.currentState;
+                if (formState.validate()) {
+                  formState.save();
+                  try {
+                    _progressDialog.show();
+                    await StudentService()
+                        .editStudentProfile(_login.username, _student)
+                        .then((result) {
+                      _progressDialog.hide();
+                      Navigator.pop(context);
+                    });
+                  } catch (e) {
+                    // Navigator.pop(context);
+                  }
+                }
+              },
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -167,59 +192,84 @@ class EditStudentProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size _screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
-          UIdata.txEditProfileTitle,
-          style: UIdata.textTitleStyle,
-        ),
-        leading: IconButton(
-          icon: UIdata.backIcon,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: Padding(
+    _progressDialog = new ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
 
-        padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.black.withOpacity(0.5),
-              border: Border.all(width: 2, color: Colors.white)
-          ),
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: _screenSize.height / 50),
-                _buildProfileImage(),
-                Column(
-                  children: <Widget>[
-                    _buildDetailInfo(
-                        UIdata.txEditSubtitle, UIdata.textTitleStyle),
-                    _buildSeparator(_screenSize),
-                    _buildInputText(
-                        _student.firstname, 'ชื่อ', 'กรุณากรอกชื่อ'),
-                    _buildInputText(
-                        _student.lastname, 'นามสกุล', 'กรุณากรอกนามสกุล'),
-                    _buildInputText(_student.phone, 'เบอร์โทรศัพท์',
-                        'กรุณากรอกเบอร์โทรศัพท์'),
-                    _buildInputText(
-                        _student.email, 'อีเมล์', 'กรุณากรอกอีเมล์'),
-                  ],
+    Size _screenSize = MediaQuery.of(context).size;
+    return StreamBuilder<Student>(
+        stream: StudentService().getStudentByUsername(_login.username),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            _student = snapshot.data;
+            return Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.black,
+                title: Text(
+                  UIdata.txEditProfileTitle,
+                  style: UIdata.textTitleStyle,
                 ),
-                SizedBox(height: 30.0),
-                _buildButtons(context),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                leading: IconButton(
+                  icon: UIdata.backIcon,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black.withOpacity(0.5),
+                      border: Border.all(width: 2, color: Colors.white)),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _globalKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(height: _screenSize.height / 50),
+                          _buildProfileImage(),
+                          Column(
+                            children: <Widget>[
+                              _buildDetailInfo(
+                                  UIdata.txEditSubtitle, UIdata.textTitleStyle),
+                              _buildSeparator(_screenSize),
+                              _buildInputText(
+                                  _student.firstname,
+                                  'ชื่อ',
+                                  'กรุณากรอกชื่อ',
+                                  (value) => _student.firstname = value),
+                              _buildInputText(
+                                  _student.lastname,
+                                  'นามสกุล',
+                                  'กรุณากรอกนามสกุล',
+                                  (value) => _student.lastname = value),
+                              _buildInputText(
+                                  _student.phone,
+                                  'เบอร์โทรศัพท์',
+                                  'กรุณากรอกเบอร์โทรศัพท์',
+                                  (value) => _student.phone = value),
+                              _buildInputText(
+                                  _student.email,
+                                  'อีเมล์',
+                                  'กรุณากรอกอีเมล์',
+                                  (value) => _student.email = value),
+                            ],
+                          ),
+                          SizedBox(height: 30.0),
+                          _buildButtons(context, _progressDialog),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return Center();
+          }
+        });
   }
 }

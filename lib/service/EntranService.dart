@@ -37,7 +37,7 @@ class EntranService {
 
     return await Firestore.instance
         .collection('EntranceExamResult')
-        .where('school', isEqualTo: student.school)
+        // .where('school', isEqualTo: student.school)
         .getDocuments()
         .then((result) async {
       for (DocumentSnapshot doc in result.documents) {

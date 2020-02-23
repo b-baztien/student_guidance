@@ -8,6 +8,43 @@ import 'package:student_guidance/model/Student.dart';
 CollectionReference ref = Firestore.instance.collection("Student");
 
 class StudentService {
+  Stream<Student> getStudentByUsername(String username) {
+    Stream<QuerySnapshot> studentSnapshot =
+        Firestore.instance.collectionGroup('Student').snapshots();
+    return studentSnapshot.map((stuSnapshot) {
+      Student student;
+      for (var doc in stuSnapshot.documents) {
+        if (doc.documentID == username) {
+          student = Student.fromJson(doc.data);
+        }
+      }
+      return student;
+    });
+  }
+
+  Future<bool> editStudentProfile(String username, Student student) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool result;
+    try {
+      Future<QuerySnapshot> studentSnapshot =
+          Firestore.instance.collectionGroup('Student').getDocuments();
+      await studentSnapshot.then((stuSnapshot) async {
+        for (var stuDoc in stuSnapshot.documents) {
+          if (stuDoc.documentID == username) {
+            await stuDoc.reference.setData(student.toMap());
+            result = true;
+            sharedPreferences.setString('student', jsonEncode(student.toMap()));
+          }
+        }
+      });
+    } catch (error) {
+      result = false;
+      rethrow;
+    }
+    return result;
+  }
+
+//not use
   Future<Student> getStudent() async {
     final prefs = await SharedPreferences.getInstance();
     try {

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/DashboardAlumni.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/DashboardService.dart';
@@ -35,6 +35,8 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 drawer: MyDrawer(
+                    login: Login.fromJson(
+                        jsonDecode(futureSnapshot.data.getString('login'))),
                     student: Student.fromJson(
                         jsonDecode(futureSnapshot.data.getString('student'))),
                     schoolId: futureSnapshot.data.getString('schoolId')),

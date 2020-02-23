@@ -1,17 +1,18 @@
 import 'dart:convert';
+
+import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:animated_size_and_fade/animated_size_and_fade.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
-import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/service/NewsService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class NewsPage extends StatefulWidget {
@@ -58,7 +59,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     });
   }
 
-  myDrawer(Student student, String schoolId) {
+  myDrawer(Student student, Login login, String schoolId) {
     return ClipPath(
       clipper: OvalRighBorderClipper(),
       child: Drawer(
@@ -307,9 +308,12 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
             if (futureSnapshot.hasData) {
               return Scaffold(
                 drawer: MyDrawer(
-                    student: Student.fromJson(
-                        jsonDecode(futureSnapshot.data.getString('student'))),
-                    schoolId: futureSnapshot.data.getString('schoolId')),
+                  student: Student.fromJson(
+                      jsonDecode(futureSnapshot.data.getString('student'))),
+                  schoolId: futureSnapshot.data.getString('schoolId'),
+                  login: Login.fromJson(
+                      jsonDecode(futureSnapshot.data.getString('login'))),
+                ),
                 body: CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(

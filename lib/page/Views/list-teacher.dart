@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/Teacher.dart';
@@ -56,6 +57,8 @@ class _ListTeacherState extends State<ListTeacher>
                     drawer: MyDrawer(
                         student: Student.fromJson(jsonDecode(
                             futureSnapshot.data.getString('student'))),
+                        login: Login.fromJson(
+                            jsonDecode(futureSnapshot.data.getString('login'))),
                         schoolId: futureSnapshot.data.getString('schoolId')),
                     body: StreamBuilder(
                         stream: TeacherService().getAllMapTeacherBySchoolName(

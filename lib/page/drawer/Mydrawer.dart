@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/add_data/add_education.dart';
@@ -11,8 +12,10 @@ class MyDrawer extends StatefulWidget {
   final String schoolId;
 
   final Student student;
+  final Login login;
 
-  const MyDrawer({Key key, this.schoolId, this.student}) : super(key: key);
+  const MyDrawer({Key key, this.schoolId, this.student, this.login})
+      : super(key: key);
 
   @override
   _MyDrawerState createState() => _MyDrawerState();
@@ -107,7 +110,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     "แก้ไขข้อมูลส่วนตัว",
                     Colors.blue,
                     (context) => EditProfile(
-                      student: widget.student,
+                      login: widget.login,
                     ),
                   ),
                   _buildDivider(),
@@ -123,7 +126,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           "เพิ่มข้อมูลหลังการจบการศึกษา",
                           Colors.green,
                           (context) => EditProfile(
-                            student: widget.student,
+                            login: widget.login,
                           ),
                         ),
                   _buildDivider(),
@@ -132,7 +135,7 @@ class _MyDrawerState extends State<MyDrawer> {
                       "เปลี่ยนพาสเวิร์ด",
                       Colors.yellow,
                       (context) => EditProfile(
-                            student: widget.student,
+                            login: widget.login,
                           )),
                   _buildDivider(),
                   _buildRow(
@@ -140,7 +143,7 @@ class _MyDrawerState extends State<MyDrawer> {
                       "สาขาที่ติดตาม",
                       Colors.red[300],
                       (context) => EditProfile(
-                            student: widget.student,
+                            login: widget.login,
                           )),
                   _buildDivider(),
                 ],

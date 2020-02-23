@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Tutorials/View_Tutorial.dart';
@@ -20,7 +21,7 @@ class UIdata {
     Tutorials.tag: (context) => Tutorials(),
     Dashboard.tag: (context) => Dashboard(),
     EditProfile.tag: (context) => EditProfile(
-          student: Student(),
+          login: Login(),
         ),
   };
 
