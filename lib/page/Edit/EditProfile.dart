@@ -112,7 +112,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(snapshot.data),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fitHeight,
                       ),
                       borderRadius: BorderRadius.circular(80.0),
                       border: Border.all(
@@ -123,18 +123,22 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                   ),
                 );
               } else {
-                return Container(
-                  width: 140.0,
-                  height: 140.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/people-placeholder.png'),
-                      fit: BoxFit.fill,
-                    ),
-                    borderRadius: BorderRadius.circular(80.0),
-                    border: Border.all(
-                      color: Colors.lime,
-                      width: 10.0,
+                return GestureDetector(
+                  onTap: () => getImage(),
+                  child: Container(
+                    width: 140.0,
+                    height: 140.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image:
+                            AssetImage('assets/images/people-placeholder.png'),
+                        fit: BoxFit.fitHeight,
+                      ),
+                      borderRadius: BorderRadius.circular(80.0),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 5,
+                      ),
                     ),
                   ),
                 );
