@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -13,6 +14,10 @@ class _LoginFormState extends State<LoginForm> {
   String _username, _password;
   @override
   Widget build(context) {
+    ProgressDialog _progressDialog =
+        new ProgressDialog(context, type: ProgressDialogType.Normal);
+    _progressDialog.style(message: 'กำลังโหลด...');
+
     Future<void> signIn() async {
       final formState = _globalKey.currentState;
       print(formState.validate());
@@ -20,12 +25,14 @@ class _LoginFormState extends State<LoginForm> {
         formState.save();
         try {
           Login login = new Login();
-          login.username = _username;
+          login.username = _username.trim();
           login.password = _password;
+          _progressDialog.show();
           await LoginService().login(login);
           await Navigator.pushNamedAndRemoveUntil(
               context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
         } catch (e) {
+          _progressDialog.hide();
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text(e.toString())));
         }

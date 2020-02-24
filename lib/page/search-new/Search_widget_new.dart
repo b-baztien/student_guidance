@@ -134,6 +134,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               type = 'Career';
                             });
                           }
+
+                          
                         },
                       ),
                       RaisedButton(
@@ -282,9 +284,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                             TextStyle(color: Colors.grey),
                                         suffixIcon: IconButton(
                                           icon: Icon(Icons.clear),
-                                          onPressed: () {
-
-                                          },
+                                          onPressed: () {},
                                         )),
                                   ),
                                 ),

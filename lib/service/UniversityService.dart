@@ -53,15 +53,20 @@ class UniversityService {
           for (var majorDoc in majorData.documents) {
             if (facDoc.documentID ==
                 majorDoc.reference.parent().parent().documentID) {
+              // listMajor.add(Major.fromJson(majorDoc.data).majorName);
               listMajor.add(Major.fromJson(majorDoc.data).majorName);
+              break;
             }
           }
-          mapFaculty[Faculty.fromJson(facDoc.data).facultyName] = listMajor;
+          if (listMajor.isNotEmpty) {
+            mapFaculty[Faculty.fromJson(facDoc.data).facultyName] = listMajor;
+          }
 
           if (uniDoc.documentID ==
               facDoc.reference.parent().parent().documentID) {
             mapUniversity[University.fromJson(uniDoc.data).universityname] =
                 mapFaculty;
+            mapFaculty = Map();
           }
         }
       }
@@ -71,7 +76,7 @@ class UniversityService {
 
   Future<List<University>> getUniversity() async {
     List<DocumentSnapshot> templist;
-    List<University> list = new List();
+    List<University> list = List();
     CollectionReference collectionReference =
         Firestore.instance.collection('University');
 

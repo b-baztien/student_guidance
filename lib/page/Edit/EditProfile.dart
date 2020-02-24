@@ -228,10 +228,12 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                           .editStudentProfile(widget._login.username, _student)
                           .then((result) {
                         _progressDialog.hide();
-                        Navigator.pop(context);
+                        Navigator.pop(context, 'แก้ไขข้อมูลสำเร็จ');
                       });
                     } catch (e) {
-                      // Navigator.pop(context);
+                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                        content: Text('แก้ไขข้อมูลล้มเหลว'),
+                      ));
                     }
                   }
                 },

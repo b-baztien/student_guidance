@@ -165,11 +165,15 @@ class _MyDrawerState extends State<MyDrawer> {
         TextStyle(color: Colors.black, fontFamily: 'Kanit', fontSize: 15);
     return FlatButton(
       padding: EdgeInsets.all(0),
-      onPressed: () {
-        Navigator.push(
+      onPressed: () async {
+        final result = await Navigator.push(
           context,
           MaterialPageRoute(builder: functionPageBuilder),
         );
+        Scaffold.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text('$result')));
+        Navigator.pop(context);
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 0),
