@@ -19,7 +19,7 @@ class LoginService {
         if (snapshot.documents.isNotEmpty) {
           login = Login.fromJson(snapshot.documents.first.data);
 
-          if (login.type == 'student') {
+          if (login.type == 'student' || login.type == 'alumni') {
             if (userLogin.password == login.password) {
               prefs.setString('login', jsonEncode(login.toMap()));
 
