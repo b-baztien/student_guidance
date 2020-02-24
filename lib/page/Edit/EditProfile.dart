@@ -112,7 +112,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(snapshot.data),
-                        fit: BoxFit.fitHeight,
+                        fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(80.0),
                       border: Border.all(
