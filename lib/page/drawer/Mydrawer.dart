@@ -166,14 +166,16 @@ class _MyDrawerState extends State<MyDrawer> {
     return FlatButton(
       padding: EdgeInsets.all(0),
       onPressed: () async {
-        final result = await Navigator.push(
+        final String result = await Navigator.push(
           context,
           MaterialPageRoute(builder: functionPageBuilder),
         );
-        Scaffold.of(context)
-          ..removeCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text('$result')));
-        Navigator.pop(context);
+        if (result != null) {
+          Scaffold.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text('$result')));
+          Navigator.pop(context);
+        }
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 0),
