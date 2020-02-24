@@ -113,7 +113,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                     height: 5,
                   ),
                   Text(
-                    student.firstname + ' ' + student.lastname,
+                    student.firstName + ' ' + student.lastName,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,

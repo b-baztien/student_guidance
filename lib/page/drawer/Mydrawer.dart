@@ -79,7 +79,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     height: 5,
                   ),
                   Text(
-                    widget.student.firstname + ' ' + widget.student.lastname,
+                    widget.student.firstName + ' ' + widget.student.lastName,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,

@@ -237,15 +237,15 @@ class EditStudentProfile extends StatelessWidget {
                                   UIdata.txEditSubtitle, UIdata.textTitleStyle),
                               _buildSeparator(_screenSize),
                               _buildInputText(
-                                  _student.firstname,
+                                  _student.firstName,
                                   'ชื่อ',
                                   'กรุณากรอกชื่อ',
-                                  (value) => _student.firstname = value),
+                                  (value) => _student.firstName = value),
                               _buildInputText(
-                                  _student.lastname,
+                                  _student.lastName,
                                   'นามสกุล',
                                   'กรุณากรอกนามสกุล',
-                                  (value) => _student.lastname = value),
+                                  (value) => _student.lastName = value),
                               _buildInputText(
                                   _student.phone,
                                   'เบอร์โทรศัพท์',

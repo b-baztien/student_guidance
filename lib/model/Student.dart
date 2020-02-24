@@ -2,22 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Student {
   String studentID;
-  String firstname;
-  String lastname;
+  String firstName;
+  String lastName;
   String email;
   String gender;
-  String entryyear;
+  String entryYear;
   String image;
   String juniorSchool;
   String phone;
   String status;
   String plan;
+
   Student({
     this.studentID,
-    this.firstname,
-    this.lastname,
+    this.firstName,
+    this.lastName,
     this.email,
-    this.entryyear,
+    this.entryYear,
     this.gender,
     this.image,
     this.juniorSchool,
@@ -28,11 +29,11 @@ class Student {
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-      firstname: json['firstname'] as String,
-      lastname: json['lastname'] as String,
+      firstName: json['firstname'] as String,
+      lastName: json['lastname'] as String,
       email: json['email'] as String,
       gender: json['gender'] as String,
-      entryyear: json['entry_year'] as String,
+      entryYear: json['entry_year'] as String,
       image: json['image'] as String,
       juniorSchool: json['junior_school'] as String,
       phone: json['phone_no'] as String,
@@ -44,11 +45,11 @@ class Student {
 
   Map<String, dynamic> toMap() {
     return {
-      'firstname': firstname,
-      'lastname': lastname,
+      'firstname': firstName,
+      'lastname': lastName,
       'email': email,
       'gender': gender,
-      'entry_year': entryyear,
+      'entry_year': entryYear,
       'image': image,
       'junior_school': juniorSchool,
       'phone_no': phone,
