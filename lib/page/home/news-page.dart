@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/News.dart';
 import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/page/News/view_news.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
@@ -28,7 +29,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
   DateTime _toDayCalendar;
   bool _isVisibleDate;
   Set<DateTime> dateSet = new Set<DateTime>();
-
+  final formattedDate = DateFormat('dd MMMM yyyy', 'th');
   @override
   void initState() {
     super.initState();
@@ -479,15 +480,23 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                 (context, index) => Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
                                       child: ListTile(
+                                        onTap: (){
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => ViewNewsPage(
+                                                      news:snapshot.data[index])));
+                                        },
                                           title: Text(
                                             snapshot.data[index].topic,
                                             style:
                                                 UIdata.textNewsTitleStyleDark,
                                           ),
-                                          subtitle: Text(snapshot
-                                              .data[index].startTime
-                                              .toDate()
-                                              .toString()),
+                                          subtitle: Text(
+                                              formattedDate.format( snapshot
+                                                  .data[index].startTime
+                                                  .toDate())
+                                             ),
                                           trailing: FutureBuilder(
                                             future: GetImageService().getImage(
                                                 snapshot.data[index].image),
@@ -520,7 +529,8 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                                 );
                                               }
                                             },
-                                          )),
+                                          )
+                                      ),
                                     ),
                                 childCount: snapshot.data.length),
                           );

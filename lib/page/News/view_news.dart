@@ -1,114 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:student_guidance/model/News.dart';
-import 'package:student_guidance/model/Teacher.dart';
+import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
-import 'package:intl/intl.dart';
 
 class ViewNewsPage extends StatefulWidget {
   final News news;
-  final Teacher teacher;
-  ViewNewsPage({this.news, this.teacher});
+  ViewNewsPage({this.news});
 
   @override
   _ViewNewsPage createState() => _ViewNewsPage();
 }
 
 class _ViewNewsPage extends State<ViewNewsPage> {
+  final formattedDate = DateFormat('dd MMMM yyyy', 'th');
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        leading: IconButton(
-          icon: UIdata.backIcon,
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(UIdata.txTitleDetailNews),
+          centerTitle: true,
+          backgroundColor: Colors.black87,
+          leading: IconButton(
+            icon: UIdata.backIconAndroid,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Stack(
+        body: SingleChildScrollView(
+          child: Column(
             children: <Widget>[
-              Hero(
-                tag: 'images-${widget.news.topic}',
-                child: Container(
-                  height: 350.0,
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.only(bottomLeft: Radius.circular(50)),
-                      image: DecorationImage(
-                          image: new NetworkImage(widget.news.image),
-                          fit: BoxFit.cover)),
+              FutureBuilder(
+                future: GetImageService().getImage(
+                    widget.news.image),
+                builder: (context, snapImg) {
+                  if (snapImg.hasData) {
+                    return Container(
+                      height: 300,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  snapImg.data),
+                              fit: BoxFit.cover)),
+                    );
+                  } else {
+                    return Container(
+                      height: 300,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/view-news.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(formattedDate.format(widget.news.startTime.toDate())),
+                        IconButton(icon: Icon(Icons.share),onPressed: (){
+
+                        },)
+                      ],
+                    ),
+                    Text(widget.news.topic,style: UIdata.textTitleStyleDarkBold,),
+                    Divider(),
+                    SizedBox(height: 10),
+                  Row(
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.eye),
+                        SizedBox(width: 10,),
+                        Text('20')
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      widget.news.detail,style: UIdata.textSubTitleStyleDark,
+                    )
+                  ],
                 ),
               )
+
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.access_time,
-                                size: 16,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                ' วันที่ : ' +
-                                    new DateFormat(' dd MMMM yyyy', 'th_TH')
-                                        .format(widget.news.startTime.toDate()),
-                                style: TextStyle(
-                                    fontFamily: UIdata.fontFamily,
-                                    fontSize: 15.0,
-                                    color: Colors.grey),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Container(
-                    child: Text(widget.news.topic,
-                        style: TextStyle(
-                          fontFamily: UIdata.fontFamily,
-                          fontSize: 20,
-                        )),
-                  ),
-                  SizedBox(height: 10.0),
-                  Container(
-                    child: Text(
-                        "โพสโดย ครู" +
-                            widget.teacher.firstname +
-                            "  " +
-                            widget.teacher.lastname,
-                        style: TextStyle(fontSize: 15.0, color: Colors.grey)),
-                  ),
-                  SizedBox(height: 10.0),
-                  Container(
-                    child: Text('\t' + widget.news.detail,
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.black.withOpacity(0.7))),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+
+        )
       ),
     );
   }

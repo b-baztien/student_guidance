@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
@@ -39,7 +40,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SearchService().getAllSearchItem().listen((data) {
       List<FilterSeachItems> list = data;
@@ -201,7 +201,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
               child: Swiper(
                 autoplay: true,
                 itemBuilder: (BuildContext context, int index) {
-                  print(index);
                   return Container(
                     decoration: BoxDecoration(color: list[index]),
                   );
@@ -283,7 +282,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                             TextStyle(color: Colors.grey),
                                         suffixIcon: IconButton(
                                           icon: Icon(Icons.clear),
-                                          onPressed: () {},
+                                          onPressed: () {
+
+                                          },
                                         )),
                                   ),
                                 ),
@@ -320,6 +321,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                   ),
                                   onPressed: () {
                                     _scaffordKey.currentState.openEndDrawer();
+                                    setState(() {
+                                      _curentRadio = groupRadio;
+                                    });
                                   },
                                 )
                               ],

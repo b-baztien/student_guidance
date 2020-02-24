@@ -11,6 +11,8 @@ import 'package:student_guidance/page/splash/splash.dart';
 
 class UIdata {
   static Icon backIcon = new Icon(Icons.arrow_back_ios);
+
+  static Icon backIconAndroid = new Icon(Icons.arrow_back);
   static Icon menuIcon = new Icon(Icons.menu);
   static Icon searchIcon = new Icon(Icons.search);
 
@@ -74,6 +76,8 @@ class UIdata {
   static String txDashnoardMajorPop = 'สาขายอดนิยม';
   static String imgDashnoardMajorPop = 'assets/images/Group-Major.png';
 
+  static String txTitleDetailNews = 'รายละเอียดข่าว';
+
   static String txNewsNotfound = 'ไม่พบข่าวสำหรับวันนี้';
 
   static TextStyle textTitleStyle =
@@ -81,6 +85,8 @@ class UIdata {
 
   static TextStyle textTitleStyleDark =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
+  static TextStyle textTitleStyleDarkBold =
+  TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold);
   static TextStyle textSubTitleStyle =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
   static TextStyle textSubTitleStyleDark =

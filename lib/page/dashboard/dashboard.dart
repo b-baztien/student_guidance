@@ -129,9 +129,15 @@ class _DashboardState extends State<Dashboard> {
               );
             } else {
               return Scaffold(
-                  appBar: AppBar(
-                backgroundColor: Colors.black,
-              ));
+                appBar: AppBar(
+                  backgroundColor: Colors.black,
+                  title: Text(
+                    UIdata.txDashboardWidget,
+                    style: UIdata.textTitleStyle,
+                  ),
+                ),
+                drawer: MyDrawer(),
+              );
             }
           }),
     );

@@ -80,7 +80,17 @@ class _ListTeacherState extends State<ListTeacher>
                         }),
                   );
                 } else {
-                  return SizedBox(height: 1);
+                  return Scaffold(
+                    backgroundColor: Colors.transparent,
+                    appBar: AppBar(
+                      backgroundColor: Colors.transparent,
+                      title: Text(
+                        UIdata.txTeacherWidget,
+                        style: UIdata.textTitleStyle,
+                      ),
+                    ),
+                    drawer: MyDrawer(),
+                  );
                 }
               })),
     );
