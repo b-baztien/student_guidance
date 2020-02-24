@@ -381,7 +381,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                                                 .bold),
                                                       ),
                                                       Text(
-                                                        '- ' + 'คนโพส',
+                                                        '- ' + snapshot.data.teacherName,
                                                         style: TextStyle(
                                                             fontFamily: 'kanit',
                                                             fontSize: 16,

@@ -17,6 +17,12 @@ class ViewNewsPage extends StatefulWidget {
 class _ViewNewsPage extends State<ViewNewsPage> {
   final formattedDate = DateFormat('dd MMMM yyyy', 'th');
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -78,16 +84,31 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                       ],
                     ),
                     Text(widget.news.topic,style: UIdata.textTitleStyleDarkBold,),
-                    Divider(),
-                    SizedBox(height: 10),
-                  Row(
-                      children: <Widget>[
-                        Icon(FontAwesomeIcons.eye),
-                        SizedBox(width: 10,),
-                        Text('20')
-                      ],
+                    Divider(
+                      color: Colors.red,
                     ),
                     SizedBox(height: 10),
+
+                  Row(
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.home),
+                        SizedBox(width: 10,),
+                        widget.news.listUniversityName.isNotEmpty ?
+                          SingleChildScrollView(
+                            child: Row(
+                              children: widget.news.listUniversityName.map((univer){
+                                return Text(univer+" ");
+                              }).toList()
+                            ),
+                          )
+                        :
+                        Text('ไม่มีมหาวิทยาลัยเกี่ยวข้อง')
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.red,
+                    ),
+                    SizedBox(width: 10,),
                     Text(
                       widget.news.detail,style: UIdata.textSubTitleStyleDark,
                     )
