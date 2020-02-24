@@ -11,7 +11,6 @@ import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/service/NewsService.dart';
-import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -327,7 +326,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                             StreamBuilder(
                               stream: NewsService().getLastedNewsBySchoolName(
                                   futureSnapshot.data.getString('schoolId')),
-                              builder: (context, AsyncSnapshot<News> snapshot) {
+                              builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   return FutureBuilder(
                                       future: GetImageService()
@@ -381,10 +380,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                                                     .bold),
                                                       ),
                                                       Text(
-                                                        '- ' +
-                                                            'ครู ' +
-                                                            snapshot.data
-                                                                .teacherName,
+                                                        '- ' + 'คนโพส',
                                                         style: TextStyle(
                                                             fontFamily: 'kanit',
                                                             fontSize: 16,
@@ -472,24 +468,75 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                         ),
                       ]),
                     ),
-                    StreamBuilder(
-                      stream:
-                          UniversityService().getAllUniversityFacultyMajor(),
+                    StreamBuilder<List<News>>(
+                      stream: NewsService().getAllNewsBySchoolNameAndDate(
+                          futureSnapshot.data.getString('schoolId'),
+                          _toDayCalendar),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          print(snapshot.data);
-                        }
-                        return SliverList(
-                          delegate: SliverChildListDelegate(<Widget>[
-                            Center(
-                              child: Text(
-                                UIdata.txNewsNotfound,
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.brown),
+                        if (snapshot.hasData && snapshot.data.isNotEmpty) {
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                (context, index) => Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: ListTile(
+                                          title: Text(
+                                            snapshot.data[index].topic,
+                                            style:
+                                                UIdata.textNewsTitleStyleDark,
+                                          ),
+                                          subtitle: Text(snapshot
+                                              .data[index].startTime
+                                              .toDate()
+                                              .toString()),
+                                          trailing: FutureBuilder(
+                                            future: GetImageService().getImage(
+                                                snapshot.data[index].image),
+                                            builder: (context, snapImg) {
+                                              if (snapImg.hasData) {
+                                                return Container(
+                                                  width: 80,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              snapImg.data),
+                                                          fit: BoxFit.cover)),
+                                                );
+                                              } else {
+                                                return Container(
+                                                  width: 80,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          'assets/images/news-photo.png'),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          )),
+                                    ),
+                                childCount: snapshot.data.length),
+                          );
+                        } else {
+                          return SliverList(
+                            delegate: SliverChildListDelegate(<Widget>[
+                              Center(
+                                child: Text(
+                                  UIdata.txNewsNotfound,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.brown),
+                                ),
                               ),
-                            ),
-                          ]),
-                        );
+                            ]),
+                          );
+                        }
                       },
                     )
                   ],
