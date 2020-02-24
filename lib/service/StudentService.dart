@@ -31,7 +31,7 @@ class StudentService {
       await studentSnapshot.then((stuSnapshot) async {
         for (var stuDoc in stuSnapshot.documents) {
           if (stuDoc.documentID == username) {
-            await stuDoc.reference.setData(student.toMap());
+            await stuDoc.reference.updateData(student.toMap());
             result = true;
             sharedPreferences.setString('student', jsonEncode(student.toMap()));
           }

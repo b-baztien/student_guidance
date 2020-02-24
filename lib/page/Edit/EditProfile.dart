@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
@@ -27,168 +31,24 @@ class EditProfile extends StatelessWidget {
   }
 }
 
-class EditStudentProfile extends StatelessWidget {
-  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+class EditStudentProfile extends StatefulWidget {
   final Login _login;
-  Student _student;
-  ProgressDialog _progressDialog;
 
   EditStudentProfile(this._login);
-  Widget _buildProfileImage() {
-    return Center(
-      child: FutureBuilder(
-          future: GetImageService().getImage(_student.image),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                width: 140.0,
-                height: 140.0,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(snapshot.data),
-                    fit: BoxFit.contain,
-                  ),
-                  borderRadius: BorderRadius.circular(80.0),
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 5,
-                  ),
-                ),
-              );
-            } else {
-              return Container(
-                width: 140.0,
-                height: 140.0,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/people-placeholder.png'),
-                    fit: BoxFit.fill,
-                  ),
-                  borderRadius: BorderRadius.circular(80.0),
-                  border: Border.all(
-                    color: Colors.lime,
-                    width: 10.0,
-                  ),
-                ),
-              );
-            }
-          }),
-    );
-  }
 
-  Widget _buildSeparator(Size screenSize) {
-    return Container(
-      width: screenSize.width / 1.6,
-      height: 2.0,
-      color: Colors.white,
-      margin: EdgeInsets.only(top: 4.0),
-    );
-  }
+  @override
+  _EditStudentProfileState createState() => _EditStudentProfileState();
+}
 
-  Widget _buildDetailInfo(String detail, TextStyle textStyle) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      child: Text(detail, style: textStyle),
-    );
-  }
+class _EditStudentProfileState extends State<EditStudentProfile> {
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget _buildInputText(String value, String labelText, String hintText,
-      Function onSaveFunction) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
-      child: TextFormField(
-        initialValue: value,
-        maxLines: 1,
-        decoration: InputDecoration(
-          hintText: hintText,
-          labelText: labelText,
-          hintStyle:
-              TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
-          labelStyle:
-              TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
-        ),
-        style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
-        onSaved: onSaveFunction,
-      ),
-    );
-  }
+  Student _student;
 
-  Widget _buildButtons(BuildContext context, ProgressDialog _progressDialog) {
-    _progressDialog.style(message: 'กำลังโหลด...');
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.red),
-                  color: Colors.red,
-                ),
-                child: Center(
-                  child: Text(
-                    UIdata.txCancel,
-                    style: TextStyle(
-                      fontFamily: (UIdata.fontFamily),
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 10.0),
-          Expanded(
-            child: InkWell(
-              onTap: () async {
-                final formState = _globalKey.currentState;
-                if (formState.validate()) {
-                  formState.save();
-                  try {
-                    _progressDialog.show();
-                    await StudentService()
-                        .editStudentProfile(_login.username, _student)
-                        .then((result) {
-                      _progressDialog.hide();
-                      Navigator.pop(context);
-                    });
-                  } catch (e) {
-                    // Navigator.pop(context);
-                  }
-                }
-              },
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.green),
-                  color: Colors.green,
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      UIdata.txEditSubtitle,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: UIdata.fontFamily,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  ProgressDialog _progressDialog;
+
+  File _image;
 
   @override
   Widget build(BuildContext context) {
@@ -196,12 +56,214 @@ class EditStudentProfile extends StatelessWidget {
         type: ProgressDialogType.Normal, isDismissible: false);
 
     Size _screenSize = MediaQuery.of(context).size;
+
+    Future uploadPic(BuildContext context) async {
+      try {
+        String fileName = _image.path.split('/').last;
+        StorageReference firebaseStorageRef =
+            FirebaseStorage.instance.ref().child('student').child(fileName);
+        StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+        _progressDialog.style(message: 'กำลังอัพโหลดรูปภาพ...');
+        _progressDialog.show();
+        StorageTaskSnapshot taskSnapshot =
+            await uploadTask.onComplete.then((onValue) {
+          _progressDialog.hide();
+          return onValue;
+        });
+
+        setState(() {
+          _student.image = taskSnapshot.ref.path;
+          StudentService().editStudentProfile(widget._login.username, _student);
+          _scaffoldKey.currentState
+              .showSnackBar(SnackBar(content: Text('อัพโหลดรูปภาพสำเร็จ')));
+        });
+      } catch (e) {
+        setState(() {
+          _scaffoldKey.currentState
+              .showSnackBar(SnackBar(content: Text('อัพโหลดรูปภาพสำเร็จ')));
+        });
+      }
+    }
+
+    Future getImage() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        setState(() {
+          _image = image;
+          print('Image Path $_image');
+          print(_image.path.split('/').last);
+          uploadPic(context);
+        });
+      }
+    }
+
+    Widget _buildProfileImage() {
+      return Center(
+        child: FutureBuilder(
+            future: GetImageService().getImage(_student.image),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return GestureDetector(
+                  onTap: () => getImage(),
+                  child: Container(
+                    width: 140.0,
+                    height: 140.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(snapshot.data),
+                        fit: BoxFit.contain,
+                      ),
+                      borderRadius: BorderRadius.circular(80.0),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 5,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Container(
+                  width: 140.0,
+                  height: 140.0,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/people-placeholder.png'),
+                      fit: BoxFit.fill,
+                    ),
+                    borderRadius: BorderRadius.circular(80.0),
+                    border: Border.all(
+                      color: Colors.lime,
+                      width: 10.0,
+                    ),
+                  ),
+                );
+              }
+            }),
+      );
+    }
+
+    Widget _buildSeparator(Size screenSize) {
+      return Container(
+        width: screenSize.width / 1.6,
+        height: 2.0,
+        color: Colors.white,
+        margin: EdgeInsets.only(top: 4.0),
+      );
+    }
+
+    Widget _buildDetailInfo(String detail, TextStyle textStyle) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Text(detail, style: textStyle),
+      );
+    }
+
+    Widget _buildInputText(String value, String labelText, String hintText,
+        Function onSaveFunction) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+        child: TextFormField(
+          initialValue: value,
+          maxLines: 1,
+          decoration: InputDecoration(
+            hintText: hintText,
+            labelText: labelText,
+            hintStyle:
+                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+            labelStyle:
+                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+          ),
+          style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+          onSaved: onSaveFunction,
+        ),
+      );
+    }
+
+    Widget _buildButtons(BuildContext context, ProgressDialog _progressDialog) {
+      _progressDialog.style(message: 'กำลังโหลด...');
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: InkWell(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red),
+                    color: Colors.red,
+                  ),
+                  child: Center(
+                    child: Text(
+                      UIdata.txCancel,
+                      style: TextStyle(
+                        fontFamily: (UIdata.fontFamily),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 10.0),
+            Expanded(
+              child: InkWell(
+                onTap: () async {
+                  final formState = _globalKey.currentState;
+                  if (formState.validate()) {
+                    formState.save();
+                    try {
+                      _progressDialog.show();
+                      await StudentService()
+                          .editStudentProfile(widget._login.username, _student)
+                          .then((result) {
+                        _progressDialog.hide();
+                        Navigator.pop(context);
+                      });
+                    } catch (e) {
+                      // Navigator.pop(context);
+                    }
+                  }
+                },
+                child: Container(
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.green),
+                    color: Colors.green,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        UIdata.txEditSubtitle,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: UIdata.fontFamily,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return StreamBuilder<Student>(
-        stream: StudentService().getStudentByUsername(_login.username),
+        stream: StudentService().getStudentByUsername(widget._login.username),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _student = snapshot.data;
             return Scaffold(
+              key: _scaffoldKey,
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 backgroundColor: Colors.black,
