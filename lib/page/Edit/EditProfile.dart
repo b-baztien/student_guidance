@@ -74,13 +74,15 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
         setState(() {
           _student.image = taskSnapshot.ref.path;
           StudentService().editStudentProfile(widget._login.username, _student);
-          _scaffoldKey.currentState
-              .showSnackBar(SnackBar(content: Text('อัพโหลดรูปภาพสำเร็จ')));
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+              content: Text('อัพโหลดรูปภาพสำเร็จ',
+                  style: TextStyle(fontFamily: UIdata.fontFamily))));
         });
       } catch (e) {
         setState(() {
-          _scaffoldKey.currentState
-              .showSnackBar(SnackBar(content: Text('อัพโหลดรูปภาพสำเร็จ')));
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+              content: Text('อัพโหลดรูปภาพสำเร็จ',
+                  style: TextStyle(fontFamily: UIdata.fontFamily))));
         });
       }
     }
@@ -232,7 +234,8 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                       });
                     } catch (e) {
                       _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content: Text('แก้ไขข้อมูลล้มเหลว'),
+                        content: Text('แก้ไขข้อมูลล้มเหลว',
+                            style: TextStyle(fontFamily: UIdata.fontFamily)),
                       ));
                     }
                   }
