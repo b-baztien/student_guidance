@@ -134,8 +134,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               type = 'Career';
                             });
                           }
-
-                          
                         },
                       ),
                       RaisedButton(
@@ -397,80 +395,82 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               color: Colors.white),
                           child: Container(
                               padding: const EdgeInsets.all(10),
-                              child: Row(
+                              child: Wrap(
+                                direction: Axis.vertical,
                                 children: <Widget>[
-                                  Align(
-                                    alignment: FractionalOffset.centerLeft,
-                                    child: Container(
-                                      padding: EdgeInsets.only(right: 10.0),
-                                      decoration: new BoxDecoration(
-                                          border: new Border(
-                                              right: new BorderSide(
-                                                  width: 2.0,
-                                                  color: Color(0xff005BC7)))),
-                                      child: FutureBuilder(
-                                          future: GetImageService().getImage(
-                                              listUniversity[index].image),
-                                          builder: (context, snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Container(
-                                                width: 100,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        snapshot.data),
-                                                    fit: BoxFit.fitHeight,
-                                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(right: 10.0),
+                                    decoration: new BoxDecoration(
+                                        border: new Border(
+                                            right: new BorderSide(
+                                                width: 2.0,
+                                                color: Color(0xff005BC7)))),
+                                    child: FutureBuilder(
+                                        future: GetImageService().getImage(
+                                            listUniversity[index].image),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Container(
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      snapshot.data),
+                                                  fit: BoxFit.fitHeight,
                                                 ),
-                                              );
-                                            } else {
-                                              return Container(
-                                                width: 100,
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/images/University-Icon.png'),
-                                                    fit: BoxFit.fill,
-                                                  ),
+                                              ),
+                                            );
+                                          } else {
+                                            return Container(
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/images/University-Icon.png'),
+                                                  fit: BoxFit.fill,
                                                 ),
-                                              );
-                                            }
-                                          }),
-                                    ),
+                                              ),
+                                            );
+                                          }
+                                        }),
                                   ),
                                   SizedBox(
                                     width: 15,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        listUniversity[index].universityname,
-                                        style:
-                                            UIdata.textSearchTitleStyle24Blue,
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            FontAwesomeIcons.mapMarkerAlt,
-                                            color: Color(0xff005BC7),
-                                            size: 13,
-                                          ),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            "ภาค" +
-                                                listUniversity[index].zone +
-                                                " จังหวัด" +
-                                                listUniversity[index].province,
-                                            style: UIdata
-                                                .textSearchSubTitleStyle13Blue,
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          listUniversity[index].universityname,
+                                          style:
+                                              UIdata.textSearchTitleStyle24Blue,
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Icon(
+                                              FontAwesomeIcons.mapMarkerAlt,
+                                              color: Color(0xff005BC7),
+                                              size: 13,
+                                            ),
+                                            SizedBox(
+                                              width: 3,
+                                            ),
+                                            Text(
+                                              "ภาค" +
+                                                  listUniversity[index].zone +
+                                                  " จังหวัด" +
+                                                  listUniversity[index]
+                                                      .province,
+                                              style: UIdata
+                                                  .textSearchSubTitleStyle13Blue,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   )
                                 ],
                               ))),
