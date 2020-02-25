@@ -84,11 +84,14 @@ class UIdata {
   static TextStyle textTitleStyle =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.white);
   static TextStyle textTitleStyle24 =
-  TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Colors.white);
+      TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Colors.white);
   static TextStyle textTitleStyleDark =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
-  static TextStyle textTitleStyleDarkBold =
-  TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold);
+  static TextStyle textTitleStyleDarkBold = TextStyle(
+      fontFamily: 'Kanit',
+      fontSize: 20,
+      color: Colors.black,
+      fontWeight: FontWeight.bold);
   static TextStyle textSubTitleStyle =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
   static TextStyle textSubTitleStyleDark =
@@ -106,17 +109,21 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xffFFADAD));
 
   static TextStyle textSearchTitleStyle24Blue =
-  TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Color(0xff005BC7));
+      TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Color(0xff005BC7));
 
   static TextStyle textSearchSubTitleStyle13Blue =
-  TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Color(0xff005BC7));
+      TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Color(0xff005BC7));
+      static TextStyle textSearchSubTitleStyle13Green =
+      TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.green);
+  static TextStyle textSearchSubTitleStyle13Red =
+      TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.red);
   static TextStyle textSearchSubTitleStyle13Black =
-  TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.black);
+      TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.black);
   static TextStyle textDashboardTitleStyle15Dark =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.black87);
 
   static TextStyle textSearchTitleStyle20Orange =
-  TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Color(0xffFF9211));
+      TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Color(0xffFF9211));
   static TextStyle textDashboardTitleStyle15White =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
   static TextStyle textDashboardSubTitleStyle12White =
