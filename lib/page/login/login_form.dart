@@ -33,9 +33,14 @@ class _LoginFormState extends State<LoginForm> {
               context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
         } catch (e) {
           _progressDialog.hide();
-          Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(e.toString(),
-                  style: TextStyle(fontFamily: UIdata.fontFamily))));
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                e.toString(),
+                style: TextStyle(fontFamily: UIdata.fontFamily),
+              ),
+            ),
+          );
         }
       }
     }
