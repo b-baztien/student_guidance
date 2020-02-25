@@ -173,11 +173,14 @@ class _MyDrawerState extends State<MyDrawer> {
         if (result != null) {
           Scaffold.of(context)
             ..removeCurrentSnackBar()
-            ..showSnackBar(SnackBar(
+            ..showSnackBar(
+              SnackBar(
                 content: Text(
-              '$result',
-              style: TextStyle(fontFamily: UIdata.fontFamily),
-            )));
+                  '$result',
+                  style: TextStyle(fontFamily: UIdata.fontFamily),
+                ),
+              ),
+            );
           Navigator.pop(context);
         }
       },
