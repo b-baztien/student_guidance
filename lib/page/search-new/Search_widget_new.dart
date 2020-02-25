@@ -464,7 +464,46 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                               .textSearchSubTitleStyle13Blue,
                                         ),
                                       ],
-                                    )
+                                    ),
+                                    FutureBuilder(
+                                      future: SearchService()
+                                          .getCountAlumniEntranceMajor(
+                                              listUniversity[index]
+                                                  .universityname),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<int> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                FontAwesomeIcons.userGraduate,
+                                                color: Color(0xff005BC7),
+                                                size: 13,
+                                              ),
+                                              SizedBox(
+                                                width: 3,
+                                              ),
+                                              snapshot.data > 0
+                                                  ? Text(
+                                                      'รุ่นพี่ ' +
+                                                          snapshot.data
+                                                              .toString() +
+                                                          ' คน เคยมาเรียนที่นี่',
+                                                      style: UIdata
+                                                          .textSearchSubTitleStyle13Green,
+                                                    )
+                                                  : Text(
+                                                      'ยังไม่มีรุ่นพี่เคยมาเรียนที่นี่',
+                                                      style: UIdata
+                                                          .textSearchSubTitleStyle13Red,
+                                                    )
+                                            ],
+                                          );
+                                        } else {
+                                          return Text('');
+                                        }
+                                      },
+                                    ),
                                   ],
                                 ),
                               )

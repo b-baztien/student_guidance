@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemUniversityNew extends StatefulWidget {
@@ -20,20 +21,19 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
     super.initState();
     _university = University.fromJson(widget.universitys.data);
   }
+
   @override
   Widget build(BuildContext context) {
-
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Material(
         child: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/university-bg.png'),fit: BoxFit.cover,
-
-            )
-          ),
+              image: DecorationImage(
+            image: AssetImage('assets/images/university-bg.png'),
+            fit: BoxFit.cover,
+          )),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
@@ -51,133 +51,191 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
             ),
             body: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(12),
-                child:Column(
-
-                  children: <Widget>[
-                    Container(
-                      width: screenWidth,
-                      height: screenHeight / 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                      padding: const EdgeInsets.all(8.0),
-                      child: Wrap(
-                        direction: Axis.vertical,
-                        children: <Widget>[
-                        Column(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: screenWidth,
+                        height: screenHeight / 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Wrap(
+                          direction: Axis.vertical,
                           children: <Widget>[
-                            Row(
+                            Column(
                               children: <Widget>[
-                                //Icon University
-                                FutureBuilder(
-                                  future: GetImageService().getImage(_university.image),
-                                  builder: (context,snapshot){
-                                    if(snapshot.hasData){
-                                      return Container(
-                                        height: 150.0,
-                                        width: 150.0,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(snapshot.data),
-                                                fit: BoxFit.fitHeight)),
-                                      );
-                                    }else{
-                                      return Container(
-                                        height: 150.0,
-                                        width: 150.0,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image:AssetImage('assets/images/University-Icon.png'),
-                                                fit: BoxFit.cover)),
-                                      );
-                                    }
-                                  },
-                                ),
-                                SizedBox(width: 10,),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
                                   children: <Widget>[
-                                    Text(_university.universityname,style: UIdata.textTitleStyle24,),
-                                    Row(
-                                      children: <Widget>[
-                                        Icon(Icons.people,color: Colors.white),
-                                        SizedBox(width: 10,),
-                                        Text('รุ่นพี่ 20 คน เคยเรียนที่นี่',style: UIdata.textDashboardSubTitleStyle12White,),
-
-                                      ],
-                                    ),
-                                    SizedBox(height: 10),
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                            context: context,
-
-                                            builder: (context) {
-                                              return Container(
-                                                height: 180,
-                                                child: _buildBottomNavigationMenu(
-                                                    _university),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(
-                                                    topLeft: const Radius.circular(30),
-                                                    topRight: const Radius.circular(30),
-                                                  ),
-                                                ),
-                                              );
-                                            });
+                                    //Icon University
+                                    FutureBuilder(
+                                      future: GetImageService()
+                                          .getImage(_university.image),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Container(
+                                            height: 150.0,
+                                            width: 150.0,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        snapshot.data),
+                                                    fit: BoxFit.fitHeight)),
+                                          );
+                                        } else {
+                                          return Container(
+                                            height: 150.0,
+                                            width: 150.0,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/images/University-Icon.png'),
+                                                    fit: BoxFit.cover)),
+                                          );
+                                        }
                                       },
-                                      child: Container(
-                                        height: 40,
-                                        width: 120,
-                                        padding: const EdgeInsets.all(9),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(8),
-                                            color: Colors.blueAccent),
-                                        child: Row(
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Icon(FontAwesomeIcons.idCard,color: Colors.white,size: 20,),
-                                            Text(
-                                            UIdata.txContectUniversityButton,
-                                              style: UIdata.textDashboardSubTitleStyle12White,
-                                            )
-                                          ],
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          _university.universityname,
+                                          style: UIdata.textTitleStyle24,
                                         ),
-                                      ),
+                                        FutureBuilder(
+                                          future: SearchService()
+                                              .getCountAlumniEntranceMajor(
+                                                  _university.universityname),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<int> snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                      FontAwesomeIcons
+                                                          .userGraduate,
+                                                      color: Colors.white),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    'รุ่นพี่ ' +
+                                                        snapshot.data
+                                                            .toString() +
+                                                        ' คน เคยเรียนที่นี่',
+                                                    style: UIdata
+                                                        .textDashboardSubTitleStyle12White,
+                                                  ),
+                                                ],
+                                              );
+                                            } else {
+                                              return Row(
+                                                children: <Widget>[
+                                                  Icon(
+                                                      FontAwesomeIcons
+                                                          .userGraduate,
+                                                      color: Colors.white),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    'กำลังโหลด...',
+                                                    style: UIdata
+                                                        .textDashboardSubTitleStyle12White,
+                                                  ),
+                                                ],
+                                              );
+                                            }
+                                          },
+                                        ),
+                                        SizedBox(height: 10),
+                                        InkWell(
+                                          onTap: () {
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) {
+                                                  return Container(
+                                                    height: 180,
+                                                    child:
+                                                        _buildBottomNavigationMenu(
+                                                            _university),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft: const Radius
+                                                            .circular(30),
+                                                        topRight: const Radius
+                                                            .circular(30),
+                                                      ),
+                                                    ),
+                                                  );
+                                                });
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 120,
+                                            padding: const EdgeInsets.all(9),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: Colors.blueAccent),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Icon(
+                                                  FontAwesomeIcons.idCard,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                                Text(
+                                                  UIdata
+                                                      .txContectUniversityButton,
+                                                  style: UIdata
+                                                      .textDashboardSubTitleStyle12White,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     )
                                   ],
                                 )
                               ],
                             )
                           ],
-                        )
-                        ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    Container(
-                      width: screenWidth,
-                      height: screenHeight / 2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.black.withOpacity(0.5),
-
+                      SizedBox(
+                        height: 20,
                       ),
-                      padding: const EdgeInsets.all(8.0),
-                    ),
-                  ],
-                )
-              ),
+                      Container(
+                        width: screenWidth,
+                        height: screenHeight / 2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                        padding: const EdgeInsets.all(8.0),
+                      ),
+                    ],
+                  )),
             ),
           ),
         ),
-
       ),
     );
   }
 }
+
 Column _buildBottomNavigationMenu(University university) {
   return Column(
     children: <Widget>[

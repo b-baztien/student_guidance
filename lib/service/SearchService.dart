@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Career.dart';
+import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchService {
   Stream<List<FilterSeachItems>> getAllSearchItem() {
@@ -69,6 +73,30 @@ class SearchService {
         return listItem;
       },
     );
+  }
+
+  Future<int> getCountAlumniEntranceMajor(String university) async {
+    SharedPreferences sharedPref = await UIdata.getPrefs();
+
+    return await Firestore.instance
+        .collectionGroup('Alumni')
+        .where('schoolName', isEqualTo: sharedPref.getString('schoolId'))
+        .getDocuments()
+        .then((alumniDocs) async {
+      int countAlumni = 0;
+      for (var doc in alumniDocs.documents) {
+        await doc.reference
+            .collection('EntranceMajor')
+            .where('universityName', isEqualTo: university)
+            .getDocuments()
+            .then((entranceDoc) {
+          if (entranceDoc.documents.isNotEmpty) {
+            countAlumni++;
+          }
+        });
+      }
+      return countAlumni;
+    });
   }
 
   Future<List<University>> getListUniversity(String doc) async {
