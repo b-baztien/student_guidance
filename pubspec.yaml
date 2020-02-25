@@ -25,6 +25,7 @@ dependencies:
   cloud_firestore: any
   photo_view: any
   shared_preferences: any
+  auto_size_text: ^2.1.0
   firebase_storage: any
   material_design_icons_flutter: any
   curved_navigation_bar: any

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -394,8 +395,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                             color: Colors.white),
                         child: Container(
                           padding: const EdgeInsets.all(10),
-                          child: Wrap(
-                            direction: Axis.vertical,
+                          child: Row(
                             children: <Widget>[
                               Container(
                                 padding: EdgeInsets.only(right: 10.0),
@@ -441,10 +441,17 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      listUniversity[index].universityname,
-                                      style: UIdata.textSearchTitleStyle24Blue,
+                                    Container(
+                                      width: 200,
+                                      child: AutoSizeText(
+                                         listUniversity[index].universityname,
+                                         style: UIdata.textSearchTitleStyle24Blue,
+                                         minFontSize: 10,
+                                         maxLines: 1,
+                                         overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
+                                  
                                     Row(
                                       children: <Widget>[
                                         Icon(
