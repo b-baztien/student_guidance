@@ -62,8 +62,9 @@ class UIdata {
   static String txFilterItemCareer = 'อาชีพ';
   static String txCancel = 'ยกเลิก';
   static String txEditProfileTitle = 'แก้ไขข้อมูลส่วนตัว';
+  static String txItemUniversityTitle = 'ข้อมูลมหาวิทยาลัย';
   static String txEditSubtitle = 'แก้ไขข้อมูล';
-
+  static String txContectUniversityButton = 'ข้อมูลติดต่อ';
   static String txDashboardStudentAll = 'นักเรียนทั้งหมด';
   static String txDashboardStudentAddUniversity = 'ศึกษาต่อ';
   static String txDashboardStudentNoneUniversity = 'ไม่ศึกษาต่อ';
@@ -82,7 +83,8 @@ class UIdata {
 
   static TextStyle textTitleStyle =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.white);
-
+  static TextStyle textTitleStyle24 =
+  TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Colors.white);
   static TextStyle textTitleStyleDark =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
   static TextStyle textTitleStyleDarkBold =

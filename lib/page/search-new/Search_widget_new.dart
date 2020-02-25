@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
@@ -13,8 +11,8 @@ import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
+import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
 import 'package:student_guidance/page/search/ItemFaculty.dart';
-import 'package:student_guidance/page/search/ItemsUniversity.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -250,6 +248,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           jsonDecode(snapshot.data.getString('login'))),
                       schoolId: snapshot.data.getString('schoolId')),
                   endDrawer: myFilterDrawer(),
+                  drawerEdgeDragWidth: 0,
                   body: Column(
                     children: <Widget>[
                       Stack(
@@ -383,7 +382,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ItemUniversity(
+                                builder: (context) => ItemUniversityNew(
                                     universitys:
                                         listItem[index].documentSnapshot)));
                       },
