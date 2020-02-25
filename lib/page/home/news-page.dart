@@ -350,7 +350,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                                         image: DecorationImage(
                                                             image: NetworkImage(
                                                                 snap.data),
-                                                            fit: BoxFit.fill)),
+                                                            fit: BoxFit.cover)),
                                                   ),
                                                   Positioned(
                                                     bottom: 0,
