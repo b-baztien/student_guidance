@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Career.dart';
-import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Major.dart';
@@ -12,14 +10,22 @@ import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchService {
   Stream<List<FilterSeachItems>> getAllSearchItem() {
-    Stream<QuerySnapshot> universitySnapshot =
-        Firestore.instance.collectionGroup('University').snapshots();
-    Stream<QuerySnapshot> facultySnapshot =
-        Firestore.instance.collectionGroup('Faculty').snapshots();
-    Stream<QuerySnapshot> majorSnapshot =
-        Firestore.instance.collectionGroup('Major').snapshots();
-    Stream<QuerySnapshot> careerSnapshot =
-        Firestore.instance.collectionGroup('Career').snapshots();
+    Stream<QuerySnapshot> universitySnapshot = Firestore.instance
+        .collectionGroup('University')
+        .orderBy('university_name')
+        .snapshots();
+    Stream<QuerySnapshot> facultySnapshot = Firestore.instance
+        .collectionGroup('Faculty')
+        .orderBy('faculty_name')
+        .snapshots();
+    Stream<QuerySnapshot> majorSnapshot = Firestore.instance
+        .collectionGroup('Major')
+        .orderBy('majorName')
+        .snapshots();
+    Stream<QuerySnapshot> careerSnapshot = Firestore.instance
+        .collectionGroup('Career')
+        .orderBy('career_name')
+        .snapshots();
 
     return Rx.combineLatest4(
       universitySnapshot,
