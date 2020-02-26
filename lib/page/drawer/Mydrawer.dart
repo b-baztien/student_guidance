@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
@@ -173,14 +174,7 @@ class _MyDrawerState extends State<MyDrawer> {
         if (result != null) {
           Scaffold.of(context)
             ..removeCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(
-                  '$result',
-                  style: TextStyle(fontFamily: UIdata.fontFamily),
-                ),
-              ),
-            );
+            ..showSnackBar(UIdata.successSnackBar(result));
           Navigator.pop(context);
         }
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
@@ -113,7 +114,7 @@ class UIdata {
 
   static TextStyle textSearchSubTitleStyle13Blue =
       TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Color(0xff005BC7));
-      static TextStyle textSearchSubTitleStyle13Green =
+  static TextStyle textSearchSubTitleStyle13Green =
       TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.green);
   static TextStyle textSearchSubTitleStyle13Red =
       TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.red);
@@ -128,4 +129,42 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
   static TextStyle textDashboardSubTitleStyle12White =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
+
+  static successSnackBar(String message) {
+    return SnackBar(
+      backgroundColor: Colors.green,
+      content: Wrap(
+        direction: Axis.horizontal,
+        children: <Widget>[
+          Icon(FontAwesomeIcons.solidCheckCircle),
+          SizedBox(
+            width: 8,
+          ),
+          Text(
+            '$message',
+            style: TextStyle(fontSize: 18, fontFamily: UIdata.fontFamily),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static dangerSnackBar(String message) {
+    return SnackBar(
+      backgroundColor: Colors.red,
+      content: Wrap(
+        direction: Axis.horizontal,
+        children: <Widget>[
+          Icon(FontAwesomeIcons.exclamationCircle),
+          SizedBox(
+            width: 8,
+          ),
+          Text(
+            '$message',
+            style: TextStyle(fontSize: 15, fontFamily: UIdata.fontFamily),
+          ),
+        ],
+      ),
+    );
+  }
 }

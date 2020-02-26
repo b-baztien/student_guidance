@@ -74,15 +74,13 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
         setState(() {
           _student.image = taskSnapshot.ref.path;
           StudentService().editStudentProfile(widget._login.username, _student);
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-              content: Text('อัพโหลดรูปภาพสำเร็จ',
-                  style: TextStyle(fontFamily: UIdata.fontFamily))));
+          _scaffoldKey.currentState
+              .showSnackBar(UIdata.successSnackBar('อัพโหลดรูปภาพสำเร็จ'));
         });
       } catch (e) {
         setState(() {
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-              content: Text('อัพโหลดรูปภาพสำเร็จ',
-                  style: TextStyle(fontFamily: UIdata.fontFamily))));
+          _scaffoldKey.currentState.showSnackBar(
+              UIdata.dangerSnackBar('เกิดข้อผิดพลาดในการอัพโหลดรูปภาพ'));
         });
       }
     }
@@ -233,10 +231,8 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                         Navigator.pop(context, 'แก้ไขข้อมูลสำเร็จ');
                       });
                     } catch (e) {
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
-                        content: Text('แก้ไขข้อมูลล้มเหลว',
-                            style: TextStyle(fontFamily: UIdata.fontFamily)),
-                      ));
+                      _scaffoldKey.currentState.showSnackBar(
+                          UIdata.dangerSnackBar('แก้ไขข้อมูลล้มเหลว'));
                     }
                   }
                 },
