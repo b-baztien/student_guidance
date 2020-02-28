@@ -17,7 +17,7 @@ import 'package:student_guidance/page/search/ItemFaculty.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-
+import 'package:shimmer/shimmer.dart';
 class SearchWidgetNew extends StatefulWidget {
   @override
   _SearchWidgetNewState createState() => _SearchWidgetNewState();
@@ -236,10 +236,25 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                   appBar: AppBar(
                     elevation: 0,
                     backgroundColor: Colors.transparent,
-                    title: Text(
-                      UIdata.txSearchWidget,
-                      style: UIdata.textTitleStyle,
-                    ),
+                    title:
+
+                    ShaderMask(
+                        shaderCallback: (bound) =>
+                            RadialGradient(
+                                radius: 5.0,
+                                colors: [
+                                  Colors.greenAccent,
+                                  Colors.blueAccent
+                                ],
+                                center: Alignment.topLeft,
+                                tileMode: TileMode.clamp
+                            ).createShader(bound),
+                        child: Shimmer.fromColors(child: Text(
+                          UIdata.txSearchWidget,
+                          style: UIdata.textTitleStyle,
+                        ),  baseColor: Colors.greenAccent,
+              highlightColor: Colors.blueAccent,
+                    )),
                     actions: <Widget>[Container()],
                   ),
                   drawer: MyDrawer(
@@ -256,6 +271,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
+
                               SizedBox(
                                 height: 10.0,
                               ),
@@ -304,13 +320,25 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(
-                                  'พบทั้งหมด ' +
-                                      coutOrder.toString() +
-                                      ' รายการ',
-                                  style: TextStyle(
-                                      color: UIdata.themeColor,
-                                      fontFamily: UIdata.fontFamily),
+                                ShaderMask(
+                                  shaderCallback: (bound) =>
+                                  RadialGradient(
+                                    radius: 5.0,
+                                    colors: [
+                                      Colors.redAccent,
+                                      Colors.blueAccent,
+                                    ],
+                                    center: Alignment.topLeft,
+                                    tileMode: TileMode.mirror
+                                  ).createShader(bound),
+                                  child: Text(
+                                    'พบทั้งหมด ' +
+                                        coutOrder.toString() +
+                                        ' รายการ',
+                                    style: TextStyle(
+                                        color: UIdata.themeColor,
+                                        fontFamily: UIdata.fontFamily)
+                                  )
                                 ),
                                 IconButton(
                                   icon: Icon(
@@ -336,9 +364,22 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                   backgroundColor: Colors.transparent,
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
-                    title: Text(
-                      UIdata.txSearchWidget,
-                      style: UIdata.textTitleStyle,
+                    title:  ShaderMask(
+
+                        shaderCallback: (bound) =>
+                            RadialGradient(
+                                radius: 5.0,
+                                colors: [
+                                  Colors.greenAccent,
+                                  Colors.blueAccent
+                                ],
+                                center: Alignment.topLeft,
+                                tileMode: TileMode.clamp
+                            ).createShader(bound),
+                        child: Text(
+                          UIdata.txSearchWidget,
+                          style: UIdata.textTitleStyle,
+                        )
                     ),
                   ),
                   drawer: Drawer(

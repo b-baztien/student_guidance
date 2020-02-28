@@ -95,6 +95,7 @@ class UIdata {
       fontWeight: FontWeight.bold);
   static TextStyle textSubTitleStyle =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
+
   static TextStyle textSubTitleStyleDark =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.black);
 

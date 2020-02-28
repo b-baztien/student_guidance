@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -62,150 +63,152 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                           color: Colors.black.withOpacity(0.5),
                         ),
                         padding: const EdgeInsets.all(8.0),
-                        child: Wrap(
-                          direction: Axis.vertical,
+                        child: Column(
                           children: <Widget>[
-                            Column(
+                            Row(
                               children: <Widget>[
-                                Row(
+                                //Icon University
+                                FutureBuilder(
+                                  future: GetImageService()
+                                      .getImage(_university.image),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        height: 130.0,
+                                        width: 130.0,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: NetworkImage(
+                                                    snapshot.data),
+                                                fit: BoxFit.fitHeight)),
+                                      );
+                                    } else {
+                                      return Container(
+                                        height: 130.0,
+                                        width: 130.0,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    'assets/images/University-Icon.png'),
+                                                fit: BoxFit.cover)),
+                                      );
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    //Icon University
+                                    Container(
+                                      padding: EdgeInsets.only(top: 5),
+                                      width:
+                                      MediaQuery.of(context).size.width / 2,
+                                      child: AutoSizeText(
+                                        _university.universityname,
+                                        style: UIdata.textTitleStyle,
+                                        minFontSize: 10,
+                                        maxLines: 2,
+                                      ),
+                                    ),
                                     FutureBuilder(
-                                      future: GetImageService()
-                                          .getImage(_university.image),
-                                      builder: (context, snapshot) {
+                                      future: SearchService()
+                                          .getCountAlumniEntranceMajor(
+                                              _university.universityname),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<int> snapshot) {
                                         if (snapshot.hasData) {
-                                          return Container(
-                                            height: 150.0,
-                                            width: 150.0,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        snapshot.data),
-                                                    fit: BoxFit.fitHeight)),
+                                          return Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                  FontAwesomeIcons
+                                                      .userGraduate,
+                                                  color: Colors.white),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                'รุ่นพี่ ' +
+                                                    snapshot.data
+                                                        .toString() +
+                                                    ' คน เคยเรียนที่นี่',
+                                                style: UIdata
+                                                    .textDashboardSubTitleStyle12White,
+                                              ),
+                                            ],
                                           );
                                         } else {
-                                          return Container(
-                                            height: 150.0,
-                                            width: 150.0,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/images/University-Icon.png'),
-                                                    fit: BoxFit.cover)),
+                                          return Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                  FontAwesomeIcons
+                                                      .userGraduate,
+                                                  color: Colors.white),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                'กำลังโหลด...',
+                                                style: UIdata
+                                                    .textDashboardSubTitleStyle12White,
+                                              ),
+                                            ],
                                           );
                                         }
                                       },
                                     ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          _university.universityname,
-                                          style: UIdata.textTitleStyle24,
-                                        ),
-                                        FutureBuilder(
-                                          future: SearchService()
-                                              .getCountAlumniEntranceMajor(
-                                                  _university.universityname),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<int> snapshot) {
-                                            if (snapshot.hasData) {
-                                              return Row(
-                                                children: <Widget>[
-                                                  Icon(
-                                                      FontAwesomeIcons
-                                                          .userGraduate,
-                                                      color: Colors.white),
-                                                  SizedBox(
-                                                    width: 10,
+                                    SizedBox(height: 10),
+                                    InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                height: 180,
+                                                child:
+                                                    _buildBottomNavigationMenu(
+                                                        _university),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft: const Radius
+                                                        .circular(30),
+                                                    topRight: const Radius
+                                                        .circular(30),
                                                   ),
-                                                  Text(
-                                                    'รุ่นพี่ ' +
-                                                        snapshot.data
-                                                            .toString() +
-                                                        ' คน เคยเรียนที่นี่',
-                                                    style: UIdata
-                                                        .textDashboardSubTitleStyle12White,
-                                                  ),
-                                                ],
-                                              );
-                                            } else {
-                                              return Row(
-                                                children: <Widget>[
-                                                  Icon(
-                                                      FontAwesomeIcons
-                                                          .userGraduate,
-                                                      color: Colors.white),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    'กำลังโหลด...',
-                                                    style: UIdata
-                                                        .textDashboardSubTitleStyle12White,
-                                                  ),
-                                                ],
-                                              );
-                                            }
-                                          },
-                                        ),
-                                        SizedBox(height: 10),
-                                        InkWell(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) {
-                                                  return Container(
-                                                    height: 180,
-                                                    child:
-                                                        _buildBottomNavigationMenu(
-                                                            _university),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        topLeft: const Radius
-                                                            .circular(30),
-                                                        topRight: const Radius
-                                                            .circular(30),
-                                                      ),
-                                                    ),
-                                                  );
-                                                });
-                                          },
-                                          child: Container(
-                                            height: 40,
-                                            width: 120,
-                                            padding: const EdgeInsets.all(9),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                color: Colors.blueAccent),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Icon(
-                                                  FontAwesomeIcons.idCard,
-                                                  color: Colors.white,
-                                                  size: 20,
                                                 ),
-                                                Text(
-                                                  UIdata
-                                                      .txContectUniversityButton,
-                                                  style: UIdata
-                                                      .textDashboardSubTitleStyle12White,
-                                                )
-                                              ],
+                                              );
+                                            });
+                                      },
+                                      child: Container(
+                                        height: 40,
+                                        width: 120,
+                                        padding: const EdgeInsets.all(9),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Colors.blueAccent),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                          children: <Widget>[
+                                            Icon(
+                                              FontAwesomeIcons.idCard,
+                                              color: Colors.white,
+                                              size: 20,
                                             ),
-                                          ),
-                                        )
-                                      ],
+                                            Text(
+                                              UIdata
+                                                  .txContectUniversityButton,
+                                              style: UIdata
+                                                  .textDashboardSubTitleStyle12White,
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     )
                                   ],
                                 )

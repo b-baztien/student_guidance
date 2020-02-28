@@ -49,9 +49,21 @@ class _ListTeacherState extends State<ListTeacher>
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
-                      title: Text(
-                        UIdata.txTeacherWidget,
-                        style: UIdata.textTitleStyle,
+                      title: ShaderMask(
+                          shaderCallback: (bound) =>
+                              RadialGradient(
+                                  radius: 5.0,
+                                  colors: [
+                                    Colors.greenAccent,
+                                    Colors.blueAccent
+                                  ],
+                                  center: Alignment.topLeft,
+                                  tileMode: TileMode.clamp
+                              ).createShader(bound),
+                          child: Text(
+                            UIdata.txSearchWidget,
+                            style: UIdata.textTitleStyle,
+                          )
                       ),
                     ),
                     drawer: MyDrawer(
@@ -84,9 +96,21 @@ class _ListTeacherState extends State<ListTeacher>
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
-                      title: Text(
-                        UIdata.txTeacherWidget,
-                        style: UIdata.textTitleStyle,
+                      title: ShaderMask(
+                          shaderCallback: (bound) =>
+                              RadialGradient(
+                                  radius: 5.0,
+                                  colors: [
+                                    Colors.greenAccent,
+                                    Colors.blueAccent
+                                  ],
+                                  center: Alignment.topLeft,
+                                  tileMode: TileMode.clamp
+                              ).createShader(bound),
+                          child: Text(
+                            UIdata.txSearchWidget,
+                            style: UIdata.textTitleStyle,
+                          )
                       ),
                     ),
                     drawer: MyDrawer(),
