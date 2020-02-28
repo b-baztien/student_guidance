@@ -236,9 +236,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                   appBar: AppBar(
                     elevation: 0,
                     backgroundColor: Colors.transparent,
-                    title:
-
-                    ShaderMask(
+                    title: ShaderMask(
                         shaderCallback: (bound) =>
                             RadialGradient(
                                 radius: 5.0,
@@ -254,7 +252,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           style: UIdata.textTitleStyle,
                         ),  baseColor: Colors.greenAccent,
               highlightColor: Colors.blueAccent,
-                    )),
+                    )
+                    ),
                     actions: <Widget>[Container()],
                   ),
                   drawer: MyDrawer(

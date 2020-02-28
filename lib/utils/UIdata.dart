@@ -71,6 +71,8 @@ class UIdata {
   static String txDashboardStudentNoneUniversity = 'ไม่ศึกษาต่อ';
   static String txDashboardStudentOther = 'อื่นๆ ';
 
+
+  static String txDeatilUniversityGroupFaculty = 'กลุ่มคณะ';
   static String txDashnoardUniversityPop = 'มหาวิทยาลัยยอดนิยม';
   static String imgDashnoardUniversityPop = 'assets/images/Group.png';
   static String txDashnoardFacultyPop = 'คณะยอดนิยม';
@@ -106,7 +108,8 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 9);
   static TextStyle textSubTitleStyle_12 =
       TextStyle(fontFamily: 'Kanit', fontSize: 12);
-
+  static TextStyle textDetailSubTitleStyle_12 =
+  TextStyle(fontFamily: 'Kanit', fontSize: 12,color: Colors.white);
   static TextStyle textDashboardTitleStyle15Pink =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xffFFADAD));
 

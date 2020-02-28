@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/DashboardAlumni.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
@@ -29,9 +30,24 @@ class _DashboardState extends State<Dashboard> {
               return Scaffold(
                 appBar: AppBar(
                   backgroundColor: Colors.black,
-                  title: Text(
-                    UIdata.txDashboardWidget,
-                    style: UIdata.textTitleStyle,
+                  title: ShaderMask(
+                      shaderCallback: (bound) =>
+                          RadialGradient(
+                              radius: 4.0,
+                              colors: [
+                                Colors.greenAccent,
+                                Colors.white
+                              ],
+                              center: Alignment.topLeft,
+                              tileMode: TileMode.clamp
+                          ).createShader(bound),
+                      child: Shimmer.fromColors(child: Text(
+                        UIdata.txDashboardWidget,
+                        style: UIdata.textTitleStyle,
+                      ),  baseColor: Colors.white,
+                          highlightColor: Colors.red,
+                          period: const Duration(milliseconds: 3000)
+                      )
                   ),
                 ),
                 drawer: MyDrawer(

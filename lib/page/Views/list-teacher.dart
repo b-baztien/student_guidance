@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
@@ -49,20 +50,23 @@ class _ListTeacherState extends State<ListTeacher>
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
-                      title: ShaderMask(
+                      title:ShaderMask(
                           shaderCallback: (bound) =>
                               RadialGradient(
-                                  radius: 5.0,
+                                  radius: 4.0,
                                   colors: [
-                                    Colors.greenAccent,
-                                    Colors.blueAccent
+                                    Colors.lightBlue,
+                                    Colors.white
                                   ],
                                   center: Alignment.topLeft,
                                   tileMode: TileMode.clamp
                               ).createShader(bound),
-                          child: Text(
-                            UIdata.txSearchWidget,
+                          child: Shimmer.fromColors(child: Text(
+                            UIdata.txTeacherWidget,
                             style: UIdata.textTitleStyle,
+                          ),  baseColor: Colors.white,
+                              highlightColor: Colors.limeAccent,
+                              period: const Duration(milliseconds: 3000)
                           )
                       ),
                     ),
@@ -99,17 +103,20 @@ class _ListTeacherState extends State<ListTeacher>
                       title: ShaderMask(
                           shaderCallback: (bound) =>
                               RadialGradient(
-                                  radius: 5.0,
+                                  radius: 4.0,
                                   colors: [
-                                    Colors.greenAccent,
-                                    Colors.blueAccent
+                                    Colors.lightBlue,
+                                    Colors.white
                                   ],
                                   center: Alignment.topLeft,
                                   tileMode: TileMode.clamp
                               ).createShader(bound),
-                          child: Text(
-                            UIdata.txSearchWidget,
+                          child: Shimmer.fromColors(child: Text(
+                            UIdata.txTeacherWidget,
                             style: UIdata.textTitleStyle,
+                          ),  baseColor: Colors.white,
+                              highlightColor: Colors.limeAccent,
+                              period: const Duration(milliseconds: 3000)
                           )
                       ),
                     ),
