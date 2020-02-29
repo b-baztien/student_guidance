@@ -1,17 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:student_guidance/model/Faculty.dart';
+import 'package:student_guidance/model/University.dart';
 
 class FacultyService {
-  Future<Faculty> getFaculty(DocumentReference doc) async {
-    try {
-      DocumentReference refQuery = doc;
-      Faculty faculty = await refQuery.get().then((doc) async {
-        return Faculty.fromJson(doc.data);
-      });
-      return faculty;
-    } catch (e) {
-      rethrow;
-    }
+  Stream<List<Faculty>> getListFacultyByUniversityId(String universityId) {
+    DocumentReference universityDocument =
+        Firestore.instance.collection('University').document(universityId);
+
+    print(universityDocument.path);
+
+    Stream<QuerySnapshot> facultySnapshot = Firestore.instance
+        .document(universityDocument.path)
+        .collection('Faculty')
+        .snapshots();
+
+    return facultySnapshot.map((facSnapshot) {
+      if (facSnapshot.documents.length == 0) return null;
+      return facSnapshot.documents
+          .map((facDoc) => Faculty.fromJson(facDoc.data))
+          .toList();
+    });
   }
 
   Future<List<Faculty>> getFacultyByUniversityId(String uniId) async {

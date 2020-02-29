@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -20,7 +22,12 @@ class ItemUniversityNew extends StatefulWidget {
 
 class _ItemUniversityNewState extends State<ItemUniversityNew> {
   University _university = new University();
-  List<Color> list = [Colors.white,Colors.black,Colors.blue,Colors.deepOrange];
+  List<Color> list = [
+    Colors.white,
+    Colors.black,
+    Colors.blue,
+    Colors.deepOrange
+  ];
   @override
   void initState() {
     super.initState();
@@ -43,46 +50,39 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               backgroundColor: Colors.black,
-              title:ShaderMask(
-                  shaderCallback: (bound) =>
-                      RadialGradient(
+              title: ShaderMask(
+                  shaderCallback: (bound) => RadialGradient(
                           radius: 4.0,
-                          colors: [
-                            Colors.yellow,
-                            Colors.white
-                          ],
+                          colors: [Colors.yellow, Colors.white],
                           center: Alignment.topLeft,
-                          tileMode: TileMode.clamp
-                      ).createShader(bound),
-                  child: Shimmer.fromColors(child: Text(
-                    UIdata.txItemUniversityTitle,
-                    style: UIdata.textTitleStyle,
-                  ),  baseColor: Colors.greenAccent,
-                    highlightColor: Colors.red,
-                      period: const Duration(milliseconds: 3000)
-                  )
-              ),
+                          tileMode: TileMode.clamp)
+                      .createShader(bound),
+                  child: Shimmer.fromColors(
+                      child: Text(
+                        UIdata.txItemUniversityTitle,
+                        style: UIdata.textTitleStyle,
+                      ),
+                      baseColor: Colors.greenAccent,
+                      highlightColor: Colors.red,
+                      period: const Duration(milliseconds: 3000))),
               leading: ShaderMask(
-                  shaderCallback: (bound) =>
-                      RadialGradient(
+                  shaderCallback: (bound) => RadialGradient(
                           radius: 5.0,
-                          colors: [
-                            Colors.greenAccent,
-                            Colors.blueAccent
-                          ],
+                          colors: [Colors.greenAccent, Colors.blueAccent],
                           center: Alignment.topLeft,
-                          tileMode: TileMode.clamp
-                      ).createShader(bound),
-                  child: Shimmer.fromColors(child: IconButton(
-                    icon: UIdata.backIcon,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),  baseColor: Colors.greenAccent,
+                          tileMode: TileMode.clamp)
+                      .createShader(bound),
+                  child: Shimmer.fromColors(
+                    child: IconButton(
+                      icon: UIdata.backIcon,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    baseColor: Colors.greenAccent,
                     highlightColor: Colors.blueAccent,
                     period: const Duration(milliseconds: 3000),
-                  )
-              ),
+                  )),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -112,8 +112,8 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                         width: 130.0,
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                                image: NetworkImage(
-                                                    snapshot.data),
+                                                image:
+                                                    NetworkImage(snapshot.data),
                                                 fit: BoxFit.fitHeight)),
                                       );
                                     } else {
@@ -133,13 +133,12 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                   width: 10,
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Container(
                                       padding: EdgeInsets.only(top: 5),
                                       width:
-                                      MediaQuery.of(context).size.width / 2,
+                                          MediaQuery.of(context).size.width / 2,
                                       child: AutoSizeText(
                                         _university.universityname,
                                         style: UIdata.textTitleStyle,
@@ -157,16 +156,14 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                           return Row(
                                             children: <Widget>[
                                               Icon(
-                                                  FontAwesomeIcons
-                                                      .userGraduate,
+                                                  FontAwesomeIcons.userGraduate,
                                                   color: Colors.white),
                                               SizedBox(
                                                 width: 10,
                                               ),
                                               Text(
                                                 'รุ่นพี่ ' +
-                                                    snapshot.data
-                                                        .toString() +
+                                                    snapshot.data.toString() +
                                                     ' คน เคยเรียนที่นี่',
                                                 style: UIdata
                                                     .textDashboardSubTitleStyle12White,
@@ -177,8 +174,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                           return Row(
                                             children: <Widget>[
                                               Icon(
-                                                  FontAwesomeIcons
-                                                      .userGraduate,
+                                                  FontAwesomeIcons.userGraduate,
                                                   color: Colors.white),
                                               SizedBox(
                                                 width: 10,
@@ -207,10 +203,12 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.only(
-                                                    topLeft: const Radius
-                                                        .circular(30),
-                                                    topRight: const Radius
-                                                        .circular(30),
+                                                    topLeft:
+                                                        const Radius.circular(
+                                                            30),
+                                                    topRight:
+                                                        const Radius.circular(
+                                                            30),
                                                   ),
                                                 ),
                                               );
@@ -218,7 +216,9 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                       },
                                       child: Container(
                                         height: 40,
-                                        width: MediaQuery.of(context).size.width/3,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                3,
                                         padding: const EdgeInsets.all(9),
                                         decoration: BoxDecoration(
                                             borderRadius:
@@ -226,8 +226,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                             color: Colors.blueAccent),
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Icon(
                                               FontAwesomeIcons.idCard,
@@ -235,8 +234,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                               size: 20,
                                             ),
                                             Text(
-                                              UIdata
-                                                  .txContectUniversityButton,
+                                              UIdata.txContectUniversityButton,
                                               style: UIdata
                                                   .textDashboardSubTitleStyle12White,
                                             )
@@ -251,9 +249,12 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                             SizedBox(
                               height: 10,
                             ),
-                            _university.albumImage.length != 0 ? itemListImage(_university.albumImage): SizedBox( height: 1,),
+                            _university.albumImage.length != 0
+                                ? itemListImage(_university.albumImage)
+                                : SizedBox(
+                                    height: 1,
+                                  ),
                             detailUniversity(_university.universitydetail)
-
                           ],
                         ),
                       ),
@@ -272,9 +273,32 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Text(UIdata.txDeatilUniversityGroupFaculty,style: UIdata.textTitleStyle,),
+                              child: Text(
+                                UIdata.txDeatilUniversityGroupFaculty,
+                                style: UIdata.textTitleStyle,
+                              ),
                             ),
-
+                            StreamBuilder<List<Faculty>>(
+                                stream: FacultyService()
+                                    .getListFacultyByUniversityId(
+                                        widget.universitys.documentID),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Column(
+                                      children: snapshot.data
+                                          .map((faculty) => Text(
+                                                faculty.facultyName,
+                                                style: UIdata.textSubTitleStyle,
+                                              ))
+                                          .toList(),
+                                    );
+                                  } else {
+                                    return Text(
+                                      'not fount',
+                                      style: UIdata.textSubTitleStyle,
+                                    );
+                                  }
+                                })
                           ],
                         ),
                       ),
@@ -286,64 +310,63 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
       ),
     );
   }
-  Widget detailUniversity(String deital){
-    return Container(
-      height: 150,
-      child:Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.only(left: 10,right: 10),
-        width:
-        MediaQuery.of(context).size.width,
-        child: AutoSizeText(
-          deital,
-          style: UIdata.textDashboardTitleStyle15White,
-          minFontSize: 10,
-          maxLines: 10,
-        ),
-      )
-    );
-  }
-  Widget itemListImage(List<dynamic> listImg){
 
+  Widget detailUniversity(String deital) {
+    return Container(
+        height: 150,
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(left: 10, right: 10),
+          width: MediaQuery.of(context).size.width,
+          child: AutoSizeText(
+            deital,
+            style: UIdata.textDashboardTitleStyle15White,
+            minFontSize: 10,
+            maxLines: 10,
+          ),
+        ));
+  }
+
+  Widget itemListImage(List<dynamic> listImg) {
     return FutureBuilder(
       future: GetImageService().getListImage(listImg),
-      builder: (context,snapshot){
-        if(snapshot.hasData){
-
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
           return Container(
-              height: 150,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Swiper(
-                  duration: Duration(milliseconds: 2000).inMilliseconds,
-                  autoplay: true,
-                  itemBuilder: (BuildContext context,int index){
-                    return Container(
-                        decoration: BoxDecoration(
+            height: 150,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Swiper(
+                autoplayDelay: Duration(seconds: 10).inMilliseconds,
+                duration: Duration(seconds: 2).inMilliseconds,
+                autoplay: snapshot.data.length == 1 ? false : true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    snapshot.data[index]),
-                                fit: BoxFit.cover))
-                    );
-                  },
-                  itemCount: snapshot.data.length,
-                  pagination: SwiperPagination(
-                      builder: CustomePaginationBuilder(
-                          activeSize: Size(15, 25),
-                          size: Size(10, 20),
-                          color: Colors.grey.shade300,
-                          activeColor: Colors.green)),
+                          image: DecorationImage(
+                              image: NetworkImage(snapshot.data[index]),
+                              fit: BoxFit.cover)));
+                },
+                itemCount: snapshot.data.length,
+                pagination: SwiperPagination(
+                  builder: CustomePaginationBuilder(
+                      activeSize: Size(15, 25),
+                      size: Size(10, 20),
+                      color: Colors.grey.shade300,
+                      activeColor: Colors.green),
                 ),
-              )
+              ),
+            ),
           );
-        }else{
-          return SizedBox(height: 1,);
+        } else {
+          return SizedBox(
+            height: 1,
+          );
         }
       },
     );
   }
-
 }
 
 Column _buildBottomNavigationMenu(University university) {
