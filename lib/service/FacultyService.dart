@@ -3,7 +3,8 @@ import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
 
 class FacultyService {
-  Stream<List<Faculty>> getListFacultyByUniversityId(String universityId) {
+  Stream<List<DocumentSnapshot>> getListFacultyByUniversityId(
+      String universityId) {
     DocumentReference universityDocument =
         Firestore.instance.collection('University').document(universityId);
 
@@ -16,9 +17,7 @@ class FacultyService {
 
     return facultySnapshot.map((facSnapshot) {
       if (facSnapshot.documents.length == 0) return null;
-      return facSnapshot.documents
-          .map((facDoc) => Faculty.fromJson(facDoc.data))
-          .toList();
+      return facSnapshot.documents.map((facDoc) => facDoc).toList();
     });
   }
 

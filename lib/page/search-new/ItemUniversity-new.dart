@@ -278,14 +278,18 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                 style: UIdata.textTitleStyle,
                               ),
                             ),
-                            StreamBuilder<List<Faculty>>(
+                            StreamBuilder<List<DocumentSnapshot>>(
                                 stream: FacultyService()
                                     .getListFacultyByUniversityId(
                                         widget.universitys.documentID),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
+                                    List<Faculty> listFaculty = snapshot.data
+                                        .map((facultyDoc) =>
+                                            Faculty.fromJson(facultyDoc.data))
+                                        .toList();
                                     return Column(
-                                      children: snapshot.data
+                                      children: listFaculty
                                           .map((faculty) => Text(
                                                 faculty.facultyName,
                                                 style: UIdata.textSubTitleStyle,
