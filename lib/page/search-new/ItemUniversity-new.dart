@@ -289,12 +289,27 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                             Faculty.fromJson(facultyDoc.data))
                                         .toList();
                                     return Column(
-                                      children: listFaculty
-                                          .map((faculty) => Text(
+                                      children: listFaculty.map(
+                                        (faculty) {
+                                          return Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                IconData(
+                                                    int.parse(faculty
+                                                        .facultyIcon.codePoint),
+                                                    fontFamily: faculty
+                                                        .facultyIcon
+                                                        .fontFamily),
+                                                color: Colors.white,
+                                              ),
+                                              Text(
                                                 faculty.facultyName,
                                                 style: UIdata.textSubTitleStyle,
-                                              ))
-                                          .toList(),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ).toList(),
                                     );
                                   } else {
                                     return Text(
