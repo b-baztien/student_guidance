@@ -74,6 +74,12 @@ class UniversityService {
     });
   }
 
+  Stream<List<DocumentSnapshot>> getAllUniversity() {
+    Stream<QuerySnapshot> universitySnapshot =
+        Firestore.instance.collectionGroup('University').snapshots();
+    return universitySnapshot.map((uniSnapShot) => uniSnapShot.documents);
+  }
+
   Future<List<University>> getUniversity() async {
     List<DocumentSnapshot> templist;
     List<University> list = List();

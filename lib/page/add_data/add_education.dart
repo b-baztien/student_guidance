@@ -5,8 +5,12 @@ import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/EntranService.dart';
+import 'package:student_guidance/service/FacultyService.dart';
+import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/service/StudentService.dart';
+import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class AddEducation extends StatefulWidget {
@@ -34,9 +38,9 @@ class _AddEducationState extends State<AddEducation> {
   List<DropdownMenuItem<Round>> _dropdownMenuItem;
 
   Round _selectedRound;
-  DocumentReference _selectedUniversity;
-  var _selectedFaculty;
-  var _selectedMajor;
+  DocumentSnapshot _selectedUniversity;
+  DocumentSnapshot _selectedFaculty;
+  DocumentSnapshot _selectedMajor;
 
   @override
   void initState() {
@@ -164,33 +168,22 @@ class _AddEducationState extends State<AddEducation> {
                         SizedBox(
                           height: 10,
                         ),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
-                              .collection('University')
-                              .snapshots(),
+                        StreamBuilder<List<DocumentSnapshot>>(
+                          stream: UniversityService().getAllUniversity(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return Container(
-                                  width: 100.0,
-                                  child: FlareActor(
-                                    "assets/animates/Loader.flr",
-                                    animation:
-                                        '{"keyframes":{"nodes":{"995":{"framePosY',
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                  ));
+                              return Container();
                             } else {
                               List<DropdownMenuItem> currencyItem = [];
-                              for (int i = 0;
-                                  i < snapshot.data.documents.length;
-                                  i++) {
-                                DocumentSnapshot doc =
-                                    snapshot.data.documents[i];
-
-                                currencyItem.add(DropdownMenuItem(
-                                  child: Text(doc.data['university_name']),
-                                  value: doc.reference,
-                                ));
+                              for (int i = 0; i < snapshot.data.length; i++) {
+                                DocumentSnapshot doc = snapshot.data[i];
+                                University uni = University.fromJson(doc.data);
+                                currencyItem.add(
+                                  DropdownMenuItem(
+                                    child: Text(uni.universityname),
+                                    value: doc,
+                                  ),
+                                );
                               }
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -225,10 +218,8 @@ class _AddEducationState extends State<AddEducation> {
                         SizedBox(
                           height: 10,
                         ),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
-                              .collection('Faculty')
-                              .snapshots(),
+                        StreamBuilder<List<DocumentSnapshot>>(
+                          stream: FacultyService().getAllFaculty(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
                               return Container(
@@ -242,11 +233,8 @@ class _AddEducationState extends State<AddEducation> {
                                   ));
                             } else {
                               List<DropdownMenuItem> currencyItem = [];
-                              for (int i = 0;
-                                  i < snapshot.data.documents.length;
-                                  i++) {
-                                DocumentSnapshot doc =
-                                    snapshot.data.documents[i];
+                              for (int i = 0; i < snapshot.data.length; i++) {
+                                DocumentSnapshot doc = snapshot.data[i];
                                 if (doc['university'] == _selectedUniversity) {
                                   Faculty fct = Faculty.fromJson(doc.data);
                                   currencyItem.add(DropdownMenuItem(
@@ -284,21 +272,16 @@ class _AddEducationState extends State<AddEducation> {
                             }
                           },
                         ),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
-                              .collection('Major')
-                              .snapshots(),
+                        StreamBuilder<List<DocumentSnapshot>>(
+                          stream: MajorService().getAllMajor(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
                               return Container(
                                   width: 100.0, child: Text('data'));
                             } else {
                               List<DropdownMenuItem> currencyItem = [];
-                              for (int i = 0;
-                                  i < snapshot.data.documents.length;
-                                  i++) {
-                                DocumentSnapshot doc =
-                                    snapshot.data.documents[i];
+                              for (int i = 0; i < snapshot.data.length; i++) {
+                                DocumentSnapshot doc = snapshot.data[i];
                                 if (doc['faculty'] == _selectedFaculty) {
                                   Major major = Major.fromJson(doc.data);
                                   currencyItem.add(DropdownMenuItem(
@@ -362,8 +345,14 @@ class _AddEducationState extends State<AddEducation> {
                               EntranceExamResult enExam = EntranceExamResult();
                               enExam.entranceExamName = _selectedRound.name;
                               enExam.round = _selectedRound.id;
-                              enExam.faculty = _selectedFaculty;
-                              enExam.major = _selectedMajor;
+                              enExam.university =
+                                  University.fromJson(_selectedUniversity.data)
+                                      .universityname;
+                              enExam.faculty =
+                                  Faculty.fromJson(_selectedFaculty.data)
+                                      .facultyName;
+                              enExam.major =
+                                  Major.fromJson(_selectedMajor.data).majorName;
                               enExam.year =
                                   (DateTime.now().toLocal().year).toString();
                               EntranService().addEntranceExamResult(enExam);

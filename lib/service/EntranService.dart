@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/ChartData.dart';
 import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/Faculty.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/StudentService.dart';
+import 'package:student_guidance/utils/UIdata.dart';
 
 class EntranService {
   Future<List<EntranceExamResult>> getAllEntranceExamResult() async {
@@ -167,6 +172,19 @@ class EntranService {
   }
 
   addEntranceExamResult(EntranceExamResult enExam) async {
-    Firestore.instance.collection('EntranceExamResult').add(enExam.toMap());
+    SharedPreferences preferences = await UIdata.getPrefs();
+    Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
+    Firestore.instance
+        .collectionGroup('Login')
+        .where('username', isEqualTo: login.username)
+        .getDocuments()
+        .then((loginDoc) async {
+      if (loginDoc.documents[0] == null) return;
+      await loginDoc.documents[0].reference
+          .parent()
+          .parent()
+          .collection('EntranceExamResult')
+          .add(enExam.toMap());
+    });
   }
 }
