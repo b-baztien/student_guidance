@@ -38,9 +38,9 @@ class _AddEducationState extends State<AddEducation> {
   List<DropdownMenuItem<Round>> _dropdownMenuItem;
 
   Round _selectedRound;
-  DocumentSnapshot _selectedUniversity;
-  DocumentSnapshot _selectedFaculty;
-  DocumentSnapshot _selectedMajor;
+  DocumentReference _selectedUniversity;
+  DocumentReference _selectedFaculty;
+  DocumentReference _selectedMajor;
 
   @override
   void initState() {
@@ -181,7 +181,7 @@ class _AddEducationState extends State<AddEducation> {
                                 currencyItem.add(
                                   DropdownMenuItem(
                                     child: Text(uni.universityname),
-                                    value: doc,
+                                    value: doc.reference,
                                   ),
                                 );
                               }
@@ -222,20 +222,13 @@ class _AddEducationState extends State<AddEducation> {
                           stream: FacultyService().getAllFaculty(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return Container(
-                                  width: 100.0,
-                                  child: FlareActor(
-                                    "assets/animates/Loader.flr",
-                                    animation:
-                                        '{"keyframes":{"nodes":{"995":{"framePosY',
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                  ));
+                              return Container();
                             } else {
                               List<DropdownMenuItem> currencyItem = [];
                               for (int i = 0; i < snapshot.data.length; i++) {
                                 DocumentSnapshot doc = snapshot.data[i];
-                                if (doc['university'] == _selectedUniversity) {
+                                if (doc.reference.parent().parent() ==
+                                    _selectedUniversity) {
                                   Faculty fct = Faculty.fromJson(doc.data);
                                   currencyItem.add(DropdownMenuItem(
                                     child: Text(fct.facultyName),
@@ -282,7 +275,8 @@ class _AddEducationState extends State<AddEducation> {
                               List<DropdownMenuItem> currencyItem = [];
                               for (int i = 0; i < snapshot.data.length; i++) {
                                 DocumentSnapshot doc = snapshot.data[i];
-                                if (doc['faculty'] == _selectedFaculty) {
+                                if (doc.reference.parent().parent() ==
+                                    _selectedFaculty) {
                                   Major major = Major.fromJson(doc.data);
                                   currencyItem.add(DropdownMenuItem(
                                     child: Text(major.majorName),
@@ -334,25 +328,18 @@ class _AddEducationState extends State<AddEducation> {
                             ),
                             color: UIdata.themeColor,
                             onPressed: () async {
-                              Student std = Student();
-                              await StudentService()
-                                  .getStudent()
-                                  .then((result) {
-                                std = result;
-                              }).catchError((error) {
-                                throw error;
-                              });
                               EntranceExamResult enExam = EntranceExamResult();
                               enExam.entranceExamName = _selectedRound.name;
                               enExam.round = _selectedRound.id;
-                              enExam.university =
-                                  University.fromJson(_selectedUniversity.data)
-                                      .universityname;
-                              enExam.faculty =
-                                  Faculty.fromJson(_selectedFaculty.data)
-                                      .facultyName;
-                              enExam.major =
-                                  Major.fromJson(_selectedMajor.data).majorName;
+                              enExam.university = University.fromJson(
+                                      ((await _selectedUniversity.get()).data))
+                                  .universityname;
+                              enExam.faculty = Faculty.fromJson(
+                                      (await _selectedFaculty.get()).data)
+                                  .facultyName;
+                              enExam.major = Major.fromJson(
+                                      (await _selectedMajor.get()).data)
+                                  .majorName;
                               enExam.year =
                                   (DateTime.now().toLocal().year).toString();
                               EntranService().addEntranceExamResult(enExam);

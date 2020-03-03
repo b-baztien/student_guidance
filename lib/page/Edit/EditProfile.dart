@@ -25,7 +25,7 @@ class EditProfile extends StatelessWidget {
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/images/edit-img.png"),
-                  fit: BoxFit.fill)),
+                  fit: BoxFit.fitHeight)),
           child: EditStudentProfile(login)),
     );
   }
