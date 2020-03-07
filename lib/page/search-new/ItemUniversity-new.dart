@@ -289,7 +289,10 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                           Faculty faculty =
                                               Faculty.fromJson(facultyDoc.data);
                                           return Padding(
-                                            padding: const EdgeInsets.all(10),
+                                            padding: const EdgeInsets.only(
+                                                right: 10,
+                                                left: 10,
+                                                bottom: 10),
                                             child: InkWell(
                                               onTap: () {},
                                               child: Container(
