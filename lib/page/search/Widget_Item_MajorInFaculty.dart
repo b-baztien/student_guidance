@@ -1,17 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Major.dart';
-import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/search/Widget_item_Major.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MajorInFaculty extends StatefulWidget {
-  final University university;
+  final DocumentSnapshot universityDoc;
   final String faculty;
 
-  const MajorInFaculty({Key key, this.university, this.faculty})
+  const MajorInFaculty({Key key, this.universityDoc, this.faculty})
       : super(key: key);
 
   @override
@@ -26,7 +26,8 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
   void initState() {
     super.initState();
     SearchService()
-        .getFacultyForSearch(widget.faculty, widget.university.universityname)
+        .getFacultyForSearch(
+            widget.faculty, widget.universityDoc['university_name'])
         .then((facultyFromService) {
       SearchService()
           .getListMajor(facultyFromService)
@@ -75,7 +76,7 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                             width: 10,
                           ),
                           Text(
-                            widget.university.universityname,
+                            widget.universityDoc['university_name'],
                             style: TextStyle(
                                 fontFamily: UIdata.fontFamily,
                                 color: Colors.white,
@@ -130,25 +131,27 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                           alignment: Alignment.center,
                           child: Row(
                             children: <Widget>[
-                              Text("เว็บไซต์ : ",
-                                  style:
-                                      TextStyle(fontSize: 18),),
+                              Text(
+                                "เว็บไซต์ : ",
+                                style: TextStyle(fontSize: 18),
+                              ),
                               InkWell(
                                 child: Text(
                                   link,
-                                  style:
-                                      TextStyle(fontSize: 18, color: Colors.blue),
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.blue),
                                 ),
                                 onTap: () => launch(fac.url),
                               ),
                             ],
-                          )
-                          ),
+                          )),
                       Container(
-                      alignment: Alignment.centerLeft,
+                        alignment: Alignment.centerLeft,
                         child: Text(
                           "จำนวนศิษย์เก่าที่เรียนที่นี่",
-                          style: TextStyle(fontSize: 18, ),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -177,29 +180,32 @@ class _MajorInFacultyState extends State<MajorInFaculty> {
                         ),
                       ),
                       Container(
-                        height: (MediaQuery.of(context).size.height /3),
+                        height: (MediaQuery.of(context).size.height / 3),
                         child: Container(
                           child: ListView.builder(
                             itemCount: listMajor.length,
                             itemBuilder: (_, index) {
                               return InkWell(
-                                onTap: (){
-   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => WidgetItemMajor(
-                         university:widget.university,majorName:listMajor[index].majorName)));
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WidgetItemMajor(
+                                              university: widget.universityDoc[
+                                                  'university_name'],
+                                              majorName:
+                                                  listMajor[index].majorName)));
                                 },
                                 child: Container(
-                                child: ListTile(
-                                 trailing: Icon(Icons.keyboard_arrow_right,
-                          color: Colors.black, size: 30.0),
-                                  title: Text(listMajor[index].majorName,
-                                      style: TextStyle(
-                                          fontFamily: UIdata.fontFamily, fontSize: 18.0)),
-                                          
+                                  child: ListTile(
+                                    trailing: Icon(Icons.keyboard_arrow_right,
+                                        color: Colors.black, size: 30.0),
+                                    title: Text(listMajor[index].majorName,
+                                        style: TextStyle(
+                                            fontFamily: UIdata.fontFamily,
+                                            fontSize: 18.0)),
+                                  ),
                                 ),
-                              ),
                               );
                             },
                           ),

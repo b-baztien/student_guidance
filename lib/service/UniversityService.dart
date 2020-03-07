@@ -80,6 +80,23 @@ class UniversityService {
     return universitySnapshot.map((uniSnapShot) => uniSnapShot.documents);
   }
 
+  Future<List<DocumentSnapshot>> getListUniversityByFacultyName(
+      String facultyName) async {
+    Future<QuerySnapshot> facultySnapshot = Firestore.instance
+        .collectionGroup('Faculty')
+        .where('faculty_name', isEqualTo: facultyName)
+        .getDocuments();
+    List<DocumentSnapshot> listUniDoc = new List();
+    await facultySnapshot.then((facDoc) async {
+      for (var item in facDoc.documents) {
+        await item.reference.parent().parent().get().then((onValue) {
+          listUniDoc.add(onValue);
+        });
+      }
+    });
+    return listUniDoc;
+  }
+
   Future<List<University>> getUniversity() async {
     List<DocumentSnapshot> templist;
     List<University> list = List();
