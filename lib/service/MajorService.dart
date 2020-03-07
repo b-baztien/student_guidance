@@ -8,6 +8,12 @@ class MajorService {
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
+  Stream<List<DocumentSnapshot>> getMajorByFacultyReference(DocumentReference facDoc) {
+    Stream<QuerySnapshot> majorSnapshot =
+        Firestore.instance.document(facDoc.path).collection('Major').snapshots();
+    return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
+  }
+
   Future<List<Major>> getListMajor(List<dynamic> major) async {
     List<DocumentReference> list = new List<DocumentReference>();
     for (int i = 0; i < major.length; i++) {

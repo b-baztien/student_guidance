@@ -8,6 +8,7 @@ import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/widgets/swiper_pagination.dart';
@@ -91,7 +92,6 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                     children: <Widget>[
                       Container(
                         width: screenWidth,
-                        height: 500,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.black.withOpacity(0.5),
@@ -263,7 +263,6 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                       ),
                       Container(
                         width: screenWidth,
-                        height: screenHeight / 2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.black.withOpacity(0.5),
@@ -284,60 +283,94 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                         widget.universitys.documentID),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
-                                    List<Faculty> listFaculty = snapshot.data
-                                        .map((facultyDoc) =>
-                                            Faculty.fromJson(facultyDoc.data))
-                                        .toList();
                                     return Column(
-                                      children: listFaculty.map(
-                                        (faculty) {
+                                      children: snapshot.data.map(
+                                        (facultyDoc) {
+                                          Faculty faculty =
+                                              Faculty.fromJson(facultyDoc.data);
                                           return Padding(
-                                            padding: const EdgeInsets.all(5),
+                                            padding: const EdgeInsets.all(10),
                                             child: InkWell(
-                                              onTap: (){
-
-                                              },
+                                              onTap: () {},
                                               child: Container(
-                                                width: MediaQuery.of(context).size.width,
                                                 height: 60,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5),
-                                                  color: Colors.white
-                                                ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: Colors.white),
                                                 child: Container(
                                                   child: ListTile(
-                                            leading: Container(
-                                              width: 40.0,
-                                              height: 40.0,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        80.0),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.orange
-                                                ),
-                                                child: Icon(
-                                                  IconData(
-                                                      int.parse(faculty
-                                                          .facultyIcon
-                                                          .codePoint),
-                                                      fontFamily: faculty
-                                                          .facultyIcon
-                                                          .fontFamily),
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                            title: Text(
-                                            faculty.facultyName,
-                                            style: UIdata.textSubTitleStyleDark,
-                                          ),
-                                           trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.black, size: 30.0),
-                                          ),
+                                                    leading: Container(
+                                                      width: 40.0,
+                                                      height: 40.0,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(80.0),
+                                                      ),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .orange),
+                                                        child: Icon(
+                                                          IconData(
+                                                              int.parse(faculty
+                                                                  .facultyIcon
+                                                                  .codePoint),
+                                                              fontFamily: faculty
+                                                                  .facultyIcon
+                                                                  .fontFamily),
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    title: StreamBuilder<
+                                                            List<
+                                                                DocumentSnapshot>>(
+                                                        stream: MajorService()
+                                                            .getMajorByFacultyReference(
+                                                                facultyDoc
+                                                                    .reference),
+                                                        builder: (context,
+                                                            mjSnapshot) {
+                                                          if (mjSnapshot
+                                                              .hasData) {
+                                                            return Text(
+                                                              faculty.facultyName +
+                                                                  faculty
+                                                                      .facultyName +
+                                                                  (mjSnapshot.data
+                                                                              .length >
+                                                                          0
+                                                                      ? ' (' +
+                                                                          mjSnapshot
+                                                                              .data
+                                                                              .length
+                                                                              .toString() +
+                                                                          ' สาขา)'
+                                                                      : ''),
+                                                              style: UIdata
+                                                                  .textSubTitleStyleDark,
+                                                            );
+                                                          }
+                                                          return Text(
+                                                            faculty.facultyName +
+                                                                faculty
+                                                                    .facultyName,
+                                                            style: UIdata
+                                                                .textSubTitleStyleDark,
+                                                          );
+                                                        }),
+                                                    trailing: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_right,
+                                                        color: Colors.black,
+                                                        size: 30.0),
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -366,18 +399,16 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
 
   Widget detailUniversity(String deital) {
     return Container(
-        height: 150,
-        child: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(left: 10, right: 10),
-          width: MediaQuery.of(context).size.width,
-          child: AutoSizeText(
-            deital,
-            style: UIdata.textDashboardTitleStyle15White,
-            minFontSize: 10,
-            maxLines: 10,
-          ),
-        ));
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.only(left: 10, right: 10),
+        width: MediaQuery.of(context).size.width,
+        child: Text(
+          deital,
+          style: UIdata.textDashboardTitleStyle15White,
+        ),
+      ),
+    );
   }
 
   Widget itemListImage(List<dynamic> listImg) {
