@@ -11,6 +11,7 @@ import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/page/Search/ItemMajor.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
 import 'package:student_guidance/page/search/ItemFaculty.dart';
@@ -18,6 +19,7 @@ import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:shimmer/shimmer.dart';
+
 class SearchWidgetNew extends StatefulWidget {
   @override
   _SearchWidgetNewState createState() => _SearchWidgetNewState();
@@ -237,23 +239,20 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                     elevation: 0,
                     backgroundColor: Colors.transparent,
                     title: ShaderMask(
-                        shaderCallback: (bound) =>
-                            RadialGradient(
+                        shaderCallback: (bound) => RadialGradient(
                                 radius: 5.0,
-                                colors: [
-                                  Colors.greenAccent,
-                                  Colors.blueAccent
-                                ],
+                                colors: [Colors.greenAccent, Colors.blueAccent],
                                 center: Alignment.topLeft,
-                                tileMode: TileMode.clamp
-                            ).createShader(bound),
-                        child: Shimmer.fromColors(child: Text(
-                          UIdata.txSearchWidget,
-                          style: UIdata.textTitleStyle,
-                        ),  baseColor: Colors.greenAccent,
-              highlightColor: Colors.blueAccent,
-                    )
-                    ),
+                                tileMode: TileMode.clamp)
+                            .createShader(bound),
+                        child: Shimmer.fromColors(
+                          child: Text(
+                            UIdata.txSearchWidget,
+                            style: UIdata.textTitleStyle,
+                          ),
+                          baseColor: Colors.greenAccent,
+                          highlightColor: Colors.blueAccent,
+                        )),
                     actions: <Widget>[Container()],
                   ),
                   drawer: MyDrawer(
@@ -270,7 +269,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         children: <Widget>[
                           Column(
                             children: <Widget>[
-
                               SizedBox(
                                 height: 10.0,
                               ),
@@ -320,25 +318,22 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 ShaderMask(
-                                  shaderCallback: (bound) =>
-                                  RadialGradient(
-                                    radius: 5.0,
-                                    colors: [
-                                      Colors.redAccent,
-                                      Colors.blueAccent,
-                                    ],
-                                    center: Alignment.topLeft,
-                                    tileMode: TileMode.mirror
-                                  ).createShader(bound),
-                                  child: Text(
-                                    'พบทั้งหมด ' +
-                                        coutOrder.toString() +
-                                        ' รายการ',
-                                    style: TextStyle(
-                                        color: UIdata.themeColor,
-                                        fontFamily: UIdata.fontFamily)
-                                  )
-                                ),
+                                    shaderCallback: (bound) => RadialGradient(
+                                            radius: 5.0,
+                                            colors: [
+                                              Colors.redAccent,
+                                              Colors.blueAccent,
+                                            ],
+                                            center: Alignment.topLeft,
+                                            tileMode: TileMode.mirror)
+                                        .createShader(bound),
+                                    child: Text(
+                                        'พบทั้งหมด ' +
+                                            coutOrder.toString() +
+                                            ' รายการ',
+                                        style: TextStyle(
+                                            color: UIdata.themeColor,
+                                            fontFamily: UIdata.fontFamily))),
                                 IconButton(
                                   icon: Icon(
                                     Icons.filter_list,
@@ -363,23 +358,17 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                   backgroundColor: Colors.transparent,
                   appBar: AppBar(
                     backgroundColor: Colors.transparent,
-                    title:  ShaderMask(
-
-                        shaderCallback: (bound) =>
-                            RadialGradient(
+                    title: ShaderMask(
+                        shaderCallback: (bound) => RadialGradient(
                                 radius: 5.0,
-                                colors: [
-                                  Colors.greenAccent,
-                                  Colors.blueAccent
-                                ],
+                                colors: [Colors.greenAccent, Colors.blueAccent],
                                 center: Alignment.topLeft,
-                                tileMode: TileMode.clamp
-                            ).createShader(bound),
+                                tileMode: TileMode.clamp)
+                            .createShader(bound),
                         child: Text(
                           UIdata.txSearchWidget,
                           style: UIdata.textTitleStyle,
-                        )
-                    ),
+                        )),
                   ),
                   drawer: Drawer(
                     elevation: 0,
@@ -624,8 +613,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ItemFaculty(
-                                    facultyName: listItem[index].name)));
+                                builder: (context) => ItemMajor(
+                                    majorName: listItem[index].name)));
                       },
                       child: Container(
                           width: MediaQuery.of(context).size.width,

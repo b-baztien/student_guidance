@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/search/Widget_item_Major.dart';
 import 'package:student_guidance/service/SearchService.dart';
+import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class ItemMajor extends StatefulWidget {
@@ -14,19 +16,6 @@ class ItemMajor extends StatefulWidget {
 
 class _ItemMajorState extends State<ItemMajor> {
   final TextEditingController _controller = new TextEditingController();
-  List<University> listUniversity = new List<University>();
-  @override
-  void initState() {
-    super.initState();
-    SearchService()
-        .getListUniversitybyMajor(widget.majorName)
-        .then((listUniversityFromService) {
-      setState(() {
-        listUniversity = listUniversityFromService;
-        print(listUniversityFromService.length);
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,71 +29,80 @@ class _ItemMajorState extends State<ItemMajor> {
           backgroundColor: UIdata.themeColor,
           elevation: 0,
         ),
-        body: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 12, right: 12),
-                      child: Material(
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: TextField(
-                          onChanged: (value) {},
-                          controller: _controller,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: UIdata.themeColor,
-                                size: 25.0,
+        body: FutureBuilder(
+            future: UniversityService()
+                .getListUniversityByMajorName(widget.majorName),
+            builder: (context, snapshot) {
+              List<DocumentSnapshot> listUniversity = new List();
+              if (snapshot.hasData) {
+                listUniversity = snapshot.data;
+              }
+              return Column(
+                children: <Widget>[
+                  Stack(
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 12, right: 12),
+                            child: Material(
+                              elevation: 5,
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: TextField(
+                                onChanged: (value) {},
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    prefixIcon: Icon(
+                                      Icons.search,
+                                      color: UIdata.themeColor,
+                                      size: 25.0,
+                                    ),
+                                    contentPadding:
+                                        EdgeInsets.only(left: 10.0, top: 12.0),
+                                    hintText: 'ค้นหาชื่อมหาวิทยาลัย',
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.clear),
+                                      onPressed: () {
+                                        setState(() {
+                                          _controller.clear();
+                                        });
+                                      },
+                                    )),
                               ),
-                              contentPadding:
-                                  EdgeInsets.only(left: 10.0, top: 12.0),
-                              hintText: 'ค้นหาชื่อมหาวิทยาลัย',
-                              hintStyle: TextStyle(color: Colors.grey),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    _controller.clear();
-                                  });
-                                },
-                              )),
-                        ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(color: Colors.grey[300]),
+                      child: Text(
+                        'พบทั้งหมด ' +
+                            listUniversity.length.toString() +
+                            ' มหาวิทยาลัยที่มีสาขานี้',
+                        style: TextStyle(
+                            color: Colors.grey, fontFamily: UIdata.fontFamily),
                       ),
                     ),
-                  ],
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                height: 40,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(color: Colors.grey[300]),
-                child: Text(
-                  'พบทั้งหมด ' +
-                      listUniversity.length.toString() +
-                      ' มหาวิทยาลัยที่มีสาขานี้',
-                  style: TextStyle(
-                      color: Colors.grey, fontFamily: UIdata.fontFamily),
-                ),
-              ),
-            ),
-            _buildExpended()
-          ],
-        ));
+                  ),
+                  _buildExpended(listUniversity)
+                ],
+              );
+            }));
   }
 
-  Widget _buildExpended() {
+  Widget _buildExpended(List<DocumentSnapshot> listUniversity) {
     return Expanded(
       child: ListView.builder(
         itemCount: listUniversity.length,
@@ -115,7 +113,8 @@ class _ItemMajorState extends State<ItemMajor> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => WidgetItemMajor(
-                          university: listUniversity[index],
+                          university:
+                              University.fromJson(listUniversity[index].data),
                           majorName: widget.majorName)));
             },
             child: Container(
@@ -131,7 +130,8 @@ class _ItemMajorState extends State<ItemMajor> {
                   child: Icon(Icons.school, color: UIdata.themeColor, size: 30),
                 ),
                 title: Text(
-                  listUniversity[index].universityname,
+                  University.fromJson(listUniversity[index].data)
+                      .universityname,
                   style: TextStyle(
                       color: UIdata.themeColor, fontWeight: FontWeight.bold),
                 ),

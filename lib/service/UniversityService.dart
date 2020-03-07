@@ -86,7 +86,7 @@ class UniversityService {
         .collectionGroup('Faculty')
         .where('faculty_name', isEqualTo: facultyName)
         .getDocuments();
-    List<DocumentSnapshot> listUniDoc = new List();
+    Set<DocumentSnapshot> listUniDoc = new Set();
     await facultySnapshot.then((facDoc) async {
       for (var item in facDoc.documents) {
         await item.reference.parent().parent().get().then((onValue) {
@@ -94,7 +94,30 @@ class UniversityService {
         });
       }
     });
-    return listUniDoc;
+    return listUniDoc.toList();
+  }
+
+  Future<List<DocumentSnapshot>> getListUniversityByMajorName(
+      String majorName) async {
+    Future<QuerySnapshot> majorSnapshot = Firestore.instance
+        .collectionGroup('Major')
+        .where('majorName', isEqualTo: majorName)
+        .getDocuments();
+    Set<DocumentSnapshot> listUniDoc = new Set();
+    await majorSnapshot.then((facDoc) async {
+      for (var item in facDoc.documents) {
+        await item.reference
+            .parent()
+            .parent()
+            .parent()
+            .parent()
+            .get()
+            .then((onValue) {
+          listUniDoc.add(onValue);
+        });
+      }
+    });
+    return listUniDoc.toList();
   }
 
   Future<List<University>> getUniversity() async {
