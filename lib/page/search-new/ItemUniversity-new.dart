@@ -291,22 +291,56 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                     return Column(
                                       children: listFaculty.map(
                                         (faculty) {
-                                          return Row(
-                                            children: <Widget>[
-                                              Icon(
-                                                IconData(
-                                                    int.parse(faculty
-                                                        .facultyIcon.codePoint),
-                                                    fontFamily: faculty
-                                                        .facultyIcon
-                                                        .fontFamily),
-                                                color: Colors.white,
+                                          return Padding(
+                                            padding: const EdgeInsets.all(5),
+                                            child: InkWell(
+                                              onTap: (){
+
+                                              },
+                                              child: Container(
+                                                width: MediaQuery.of(context).size.width,
+                                                height: 60,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  color: Colors.white
+                                                ),
+                                                child: Container(
+                                                  child: ListTile(
+                                            leading: Container(
+                                              width: 40.0,
+                                              height: 40.0,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        80.0),
                                               ),
-                                              Text(
-                                                faculty.facultyName,
-                                                style: UIdata.textSubTitleStyle,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.orange
+                                                ),
+                                                child: Icon(
+                                                  IconData(
+                                                      int.parse(faculty
+                                                          .facultyIcon
+                                                          .codePoint),
+                                                      fontFamily: faculty
+                                                          .facultyIcon
+                                                          .fontFamily),
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            ],
+                                            ),
+                                            title: Text(
+                                            faculty.facultyName,
+                                            style: UIdata.textSubTitleStyleDark,
+                                          ),
+                                           trailing: Icon(Icons.keyboard_arrow_right,
+                                color: Colors.black, size: 30.0),
+                                          ),
+                                                ),
+                                              ),
+                                            ),
                                           );
                                         },
                                       ).toList(),
