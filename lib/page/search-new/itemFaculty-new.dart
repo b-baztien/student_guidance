@@ -8,6 +8,7 @@ import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/page/search-new/itemMajor-new.dart';
 import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemFacultyNew extends StatefulWidget {
   final Faculty facultys;
@@ -141,7 +142,9 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                               ),
                               SizedBox(height: 10),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  launch(widget.facultys.url);
+                                },
                                 child: Container(
                                   height: 40,
                                   width:
@@ -190,65 +193,63 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Column(
-                                      
-                                      children: snapshot.data.map(
-                                        (majorDoc) {
-                                        Major major = Major.fromJson(majorDoc.data);
+                                      children: snapshot.data.map((majorDoc) {
+                                        Major major =
+                                            Major.fromJson(majorDoc.data);
                                         return InkWell(
-                                          onTap: (){
-                                                 Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ItemMajorNew(
-                                                              universityName: widget.universityName,
-                                                              facultyName: widget.facultys.facultyName,
-                                                              major: majorDoc,
-                                                                  )));
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ItemMajorNew(
+                                                          universityName: widget
+                                                              .universityName,
+                                                          facultyName: widget
+                                                              .facultys
+                                                              .facultyName,
+                                                          major: majorDoc,
+                                                        )));
                                           },
-                                          child:  Container(
-                                                height: 60,
-                                                decoration: BoxDecoration(
+                                          child: Container(
+                                            height: 60,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                color: Colors.white),
+                                            child: Container(
+                                              child: ListTile(
+                                                leading: Container(
+                                                  width: 40.0,
+                                                  height: 40.0,
+                                                  decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5),
-                                                    color: Colors.white),
-                                                child: Container(
-                                                  child: ListTile(
-                                                    leading: Container(
-                                                      width: 40.0,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(80.0),
-                                                      ),
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Colors
-                                                                    .orange),
-                                                        child: Icon(
-                                                          FontAwesomeIcons.graduationCap,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
+                                                            80.0),
+                                                  ),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: Colors.orange),
+                                                    child: Icon(
+                                                      FontAwesomeIcons
+                                                          .graduationCap,
+                                                      color: Colors.white,
                                                     ),
-                                                    title: Text(
-                                                           major.majorName,
-                                                            style: UIdata
-                                                                .textSubTitleStyleDark,
-                                                          ),
-                                                    trailing: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_right,
-                                                        color: Colors.black,
-                                                        size: 30.0),
                                                   ),
                                                 ),
+                                                title: Text(
+                                                  major.majorName,
+                                                  style: UIdata
+                                                      .textSubTitleStyleDark,
+                                                ),
+                                                trailing: Icon(
+                                                    Icons.keyboard_arrow_right,
+                                                    color: Colors.black,
+                                                    size: 30.0),
                                               ),
+                                            ),
+                                          ),
                                         );
                                       }).toList(),
                                     );

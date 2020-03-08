@@ -13,6 +13,7 @@ import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/widgets/swiper_pagination.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemUniversityNew extends StatefulWidget {
   final DocumentSnapshot universitys;
@@ -305,8 +306,8 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                                 universityName:
                                                                     _university
                                                                         .universityname,
-                                                                        docFac: facultyDoc.reference
-                                                                  )));
+                                                                docFac: facultyDoc
+                                                                    .reference)));
                                               },
                                               child: Container(
                                                 height: 60,
@@ -471,10 +472,12 @@ Column _buildBottomNavigationMenu(University university) {
   return Column(
     children: <Widget>[
       ListTile(
+        onTap: () => launch('tel:' + university.phoneNO),
         leading: Icon(Icons.phone),
         title: Text(university.phoneNO),
       ),
       ListTile(
+        onTap: () => launch(university.url),
         leading: Icon(Icons.http),
         title: Text(university.url),
       ),
