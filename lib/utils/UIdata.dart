@@ -45,7 +45,7 @@ class UIdata {
   static Color themeColor = Colors.blue[400];
   static MaterialColor themeMaterialColor = Colors.blue;
   static Color fontColor = Colors.white;
-
+  
   /*String Text*/
   static String txSearchWidget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
   static String txTeacherWidget = 'ข้อมูลติดต่อครู';
@@ -64,6 +64,8 @@ class UIdata {
   static String txCancel = 'ยกเลิก';
   static String txEditProfileTitle = 'แก้ไขข้อมูลส่วนตัว';
   static String txItemUniversityTitle = 'ข้อมูลมหาวิทยาลัย';
+  static String txItemFacultyTitle = 'ข้อมูลคณะ';
+  static String txItemMajorTitle = 'ข้อมูลสาขา';
   static String txEditSubtitle = 'แก้ไขข้อมูล';
   static String txContectUniversityButton = 'ข้อมูลติดต่อ';
   static String txDashboardStudentAll = 'นักเรียนทั้งหมด';
@@ -73,6 +75,7 @@ class UIdata {
 
 
   static String txDeatilUniversityGroupFaculty = 'กลุ่มคณะ';
+  static String txMajorGroup = 'สาขา';
   static String txDashnoardUniversityPop = 'มหาวิทยาลัยยอดนิยม';
   static String imgDashnoardUniversityPop = 'assets/images/Group.png';
   static String txDashnoardFacultyPop = 'คณะยอดนิยม';
@@ -81,7 +84,7 @@ class UIdata {
   static String imgDashnoardMajorPop = 'assets/images/Group-Major.png';
 
   static String txTitleDetailNews = 'รายละเอียดข่าว';
-
+  static String txWebside = 'เว็บไซต์';
   static String txNewsNotfound = 'ไม่พบข่าวสำหรับวันนี้';
 
   static TextStyle textTitleStyle =
@@ -90,6 +93,13 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Colors.white);
   static TextStyle textTitleStyleDark =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
+        static TextStyle textTitleStyleDarkUninersity =
+      TextStyle(fontFamily: 'Kanit', fontSize: 17, color: Color(0xff545663));
+      static TextStyle textTitleStyleDarkBold27 = TextStyle(
+      fontFamily: 'Kanit',
+      fontSize: 27,
+      color: Colors.black,
+      fontWeight: FontWeight.bold);
   static TextStyle textTitleStyleDarkBold = TextStyle(
       fontFamily: 'Kanit',
       fontSize: 20,

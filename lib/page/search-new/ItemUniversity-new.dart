@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/page/search-new/itemFaculty-new.dart';
 import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/MajorService.dart';
@@ -37,7 +38,6 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Material(
@@ -294,7 +294,20 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                 left: 10,
                                                 bottom: 10),
                                             child: InkWell(
-                                              onTap: () {},
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ItemFacultyNew(
+                                                                facultys:
+                                                                    faculty,
+                                                                universityName:
+                                                                    _university
+                                                                        .universityname,
+                                                                        docFac: facultyDoc.reference
+                                                                  )));
+                                              },
                                               child: Container(
                                                 height: 60,
                                                 decoration: BoxDecoration(
@@ -344,8 +357,6 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                               .hasData) {
                                                             return Text(
                                                               faculty.facultyName +
-                                                                  faculty
-                                                                      .facultyName +
                                                                   (mjSnapshot.data
                                                                               .length >
                                                                           0

@@ -11,6 +11,7 @@ class MajorService {
   Stream<List<DocumentSnapshot>> getMajorByFacultyReference(DocumentReference facDoc) {
     Stream<QuerySnapshot> majorSnapshot =
         Firestore.instance.document(facDoc.path).collection('Major').snapshots();
+        
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
