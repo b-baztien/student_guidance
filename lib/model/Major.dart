@@ -23,6 +23,7 @@ class Major {
   String url;
   List<Tcas> tcasEntranceRound;
   String certificate;
+  List<String> listCareerName;
   String courseDuration;
   String tuitionFee;
 
@@ -30,16 +31,21 @@ class Major {
     this.majorName,
     this.url,
     this.tcasEntranceRound,
+    this.listCareerName,
     this.certificate,
     this.courseDuration,
     this.tuitionFee,
   });
 
   factory Major.fromJson(Map<String, dynamic> json) {
+    print(json['listCareerName'] as List);
     return Major(
         majorName: json['majorName'] as String,
         tcasEntranceRound: (json['tcasEntranceRound'] as List)
             .map((tcas) => Tcas.fromJson(tcas))
+            .toList(),
+        listCareerName: (json['listCareerName'] as List)
+            .map((data) => data as String)
             .toList(),
         url: json['url'] as String,
         certificate: json['certificate'] as String,

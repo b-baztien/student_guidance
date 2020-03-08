@@ -344,6 +344,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             Tcas tcas = itemMajor.tcasEntranceRound.firstWhere(
                                 (tcas) => tcas.round == round,
                                 orElse: () => null);
+
                             return tcas != null
                                 ? Column(
                                     children: tcas.examReference
