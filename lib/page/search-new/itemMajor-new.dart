@@ -23,27 +23,29 @@ class ItemMajorNew extends StatefulWidget {
 class _ItemMajorNewState extends State<ItemMajorNew>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-   List<Widget> con = [
-      Container(
-        color: Colors.deepOrange,
-      ),
-       Container(
-        color: Colors.white,
-      ),
-       Container(
-        color: Colors.blue,
-      ),
-       Container(
-        color: Colors.green,
-      ),
-       Container(
-        color: Colors.yellow,
-      ),
-    ];
+  List<String> tabData;
+  List<Widget> con = [
+    Container(
+      color: Colors.deepOrange,
+    ),
+    Container(
+      color: Colors.white,
+    ),
+    Container(
+      color: Colors.blue,
+    ),
+    Container(
+      color: Colors.green,
+    ),
+    Container(
+      color: Colors.yellow,
+    ),
+  ];
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 5);
+    tabData = ['1', '2', '3', '4', '5'];
   }
 
   @override
@@ -326,37 +328,35 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         labelColor: Color(0xffFF9211),
                         unselectedLabelColor: Color(0xff939191),
                         isScrollable: true,
-                        tabs: <Widget>[
-                          Tab(
-                            text: 'รอบ 1',
-                          ),
-                          Tab(
-                            text: 'รอบ 2',
-                          ),
-                          Tab(
-                            text: 'รอบ 3',
-                          ),
-                          Tab(
-                            text: 'รอบ 4',
-                          ),
-                          Tab(
-                            text: 'รอบ 5',
-                          ),
-                        ],
+                        tabs: tabData
+                            .map((round) => Tab(
+                                  text: 'รอบ ' + round,
+                                ))
+                            .toList(),
                       ),
                     ),
                     Container(
-                       height: 200.0,
-                       child: TabBarView(
-                          controller: _tabController,
-                          children: itemMajor.tcasEntranceRound.map((tcas){
-                            return Column(
-                              children: <Widget>[
-                                tcas.description != null ?Text(tcas.description) : Text('ยังไม่เปิดรับสมัคร')
-                              ],
-                            );
-                          }).toList(),
-                       ),
+                      height: 200.0,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: tabData.map(
+                          (round) {
+                            Tcas tcas = itemMajor.tcasEntranceRound.firstWhere(
+                                (tcas) => tcas.round == round,
+                                orElse: () => null);
+                            return tcas != null
+                                ? Column(
+                                    children: tcas.examReference
+                                        .map((data) => Text(data))
+                                        .toList())
+                                : Column(
+                                    children: <Widget>[
+                                      Text('ยังไม่เปิดรับสมัคร')
+                                    ],
+                                  );
+                          },
+                        ).toList(),
+                      ),
                     )
                   ],
                 ),
