@@ -3,15 +3,18 @@ import 'dart:collection';
 class Tcas {
   String round;
   String description;
-  dynamic examReference;
+  List<String> examReference;
 
   Tcas({this.round, this.description, this.examReference});
 
   factory Tcas.fromJson(LinkedHashMap json) {
     return Tcas(
-        round: json['round'] as String,
-        description: json['description'] as String,
-        examReference: json['examReference'] as dynamic);
+      round: json['round'] as String,
+      description: json['description'] as String,
+      examReference: (json['examReference'] as List)
+          .map((data) => data as String)
+          .toList(),
+    );
   }
 }
 
