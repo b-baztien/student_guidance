@@ -487,6 +487,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                           fadeDuration: const Duration(milliseconds: 300),
                           sizeDuration: const Duration(milliseconds: 600),
                         ),
+                        Divider(),
                       ]),
                     ),
                     StreamBuilder<List<News>>(
@@ -557,11 +558,8 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                           return SliverList(
                             delegate: SliverChildListDelegate(<Widget>[
                               Center(
-                                child: Text(
-                                  UIdata.txNewsNotfound,
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.brown),
-                                ),
+                                child: Image.asset(
+                                    'assets/images/not-found-news.png'),
                               ),
                             ]),
                           );
