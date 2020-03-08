@@ -38,7 +38,6 @@ class Major {
   });
 
   factory Major.fromJson(Map<String, dynamic> json) {
-    print(json['listCareerName'] as List);
     return Major(
         majorName: json['majorName'] as String,
         tcasEntranceRound: (json['tcasEntranceRound'] as List)
