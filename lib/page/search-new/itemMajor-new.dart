@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/utils/UIdata.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ItemMajorNew extends StatefulWidget {
   final String universityName;
@@ -97,7 +98,7 @@ class _ItemMajorNewState extends State<ItemMajorNew> {
                           height: 40,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.red),
+                              border: Border.all(color: Colors.red, width: 2),
                               color: Colors.white),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,8 +113,10 @@ class _ItemMajorNewState extends State<ItemMajorNew> {
                               ),
                               Text(
                                 'ติดตามสาขา',
-                                style:
-                                    TextStyle(fontSize: 14, color: Colors.red),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w600),
                               )
                             ],
                           ),
@@ -255,10 +258,13 @@ class _ItemMajorNewState extends State<ItemMajorNew> {
                           ],
                         ),
                         SizedBox(width: 110),
-                        Text(
-                          'ดูเพิ่มเติมเกี่ยวกับสาขา',
-                          style:
-                              TextStyle(color: Color(0xff939191), fontSize: 13),
+                        InkWell(
+                          onTap: () => launch(itemMajor.url),
+                          child: Text(
+                            'ดูเพิ่มเติมเกี่ยวกับสาขา',
+                            style: TextStyle(
+                                color: Color(0xff939191), fontSize: 13),
+                          ),
                         )
                       ],
                     ),
