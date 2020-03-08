@@ -20,10 +20,36 @@ class ItemMajorNew extends StatefulWidget {
   _ItemMajorNewState createState() => _ItemMajorNewState();
 }
 
-class _ItemMajorNewState extends State<ItemMajorNew> {
+class _ItemMajorNewState extends State<ItemMajorNew>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+   List<Widget> con = [
+      Container(
+        color: Colors.deepOrange,
+      ),
+       Container(
+        color: Colors.white,
+      ),
+       Container(
+        color: Colors.blue,
+      ),
+       Container(
+        color: Colors.green,
+      ),
+       Container(
+        color: Colors.yellow,
+      ),
+    ];
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(vsync: this, length: 5);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Major itemMajor = Major.fromJson(widget.major.data);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -64,6 +90,7 @@ class _ItemMajorNewState extends State<ItemMajorNew> {
         ),
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
@@ -278,6 +305,61 @@ class _ItemMajorNewState extends State<ItemMajorNew> {
                 width: MediaQuery.of(context).size.width,
                 height: 7,
                 decoration: BoxDecoration(color: Color(0xffEBEBEB)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, top: 8, bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'การรับสมัคร',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff939191),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      child: TabBar(
+                        controller: _tabController,
+                        indicatorColor: Color(0xffFF9211),
+                        labelColor: Color(0xffFF9211),
+                        unselectedLabelColor: Color(0xff939191),
+                        isScrollable: true,
+                        tabs: <Widget>[
+                          Tab(
+                            text: 'รอบ 1',
+                          ),
+                          Tab(
+                            text: 'รอบ 2',
+                          ),
+                          Tab(
+                            text: 'รอบ 3',
+                          ),
+                          Tab(
+                            text: 'รอบ 4',
+                          ),
+                          Tab(
+                            text: 'รอบ 5',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                       height: 200.0,
+                       child: TabBarView(
+                          controller: _tabController,
+                          children: itemMajor.tcasEntranceRound.map((tcas){
+                            return Column(
+                              children: <Widget>[
+                                tcas.description != null ?Text(tcas.description) : Text('ยังไม่เปิดรับสมัคร')
+                              ],
+                            );
+                          }).toList(),
+                       ),
+                    )
+                  ],
+                ),
               )
             ],
           ),
