@@ -1,15 +1,17 @@
+import 'dart:collection';
+
 class Tcas {
   String round;
   String description;
-  List<String> examReference;
+  dynamic examReference;
 
   Tcas({this.round, this.description, this.examReference});
 
-  factory Tcas.fromJson(Map<String, dynamic> json) {
+  factory Tcas.fromJson(LinkedHashMap json) {
     return Tcas(
         round: json['round'] as String,
         description: json['description'] as String,
-        examReference: json['examReference'] as List<String>);
+        examReference: json['examReference'] as dynamic);
   }
 }
 
@@ -33,11 +35,12 @@ class Major {
   factory Major.fromJson(Map<String, dynamic> json) {
     return Major(
         majorName: json['majorName'] as String,
-        // tcasEntranceRound: (json['tcasEntranceRound'] as List<Map>)
-        //     .map((tcas) => Tcas.fromJson(tcas)),
+        tcasEntranceRound: (json['tcasEntranceRound'] as List)
+            .map((tcas) => Tcas.fromJson(tcas))
+            .toList(),
         url: json['url'] as String,
         certificate: json['certificate'] as String,
         courseDuration: json['courseDuration'] as String,
-        tuitionFee: json['courseDuration'] as String);
+        tuitionFee: json['tuitionFee'] as String);
   }
 }

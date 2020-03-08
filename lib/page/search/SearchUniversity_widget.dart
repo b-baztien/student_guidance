@@ -3,7 +3,6 @@ import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
-
 class SearchUniversityWidget extends StatefulWidget {
   SearchUniversityWidget() : super();
   @override
@@ -93,7 +92,8 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
               decoration: BoxDecoration(color: Colors.grey[300]),
               child: Text(
                 'พบทั้งหมด ' + items.length.toString() + ' มหาวิทยาลัย',
-                style: TextStyle(color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
+                style: TextStyle(
+                    color: UIdata.themeColor, fontFamily: UIdata.fontFamily),
               ),
             ),
           ),
@@ -113,13 +113,11 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
             padding: EdgeInsets.all(5),
             child: InkWell(
               onTap: () {
-                
-               
                 // Navigator.push(
                 //     context,
-                    // MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         ItemUniversity(universitys: items[index])));
+                // MaterialPageRoute(
+                //     builder: (context) =>
+                //         ItemUniversity(universitys: items[index])));
                 // print(items[index].universityname);
               },
               child: Stack(
@@ -131,7 +129,8 @@ class _SearchUniversityWidgetState extends State<SearchUniversityWidget>
                     width: 350,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: UIdata.themeColor, //                   <--- border color
+                          color: UIdata
+                              .themeColor, //                   <--- border color
                           width: 3.0,
                         ),
                         shape: BoxShape.rectangle,
