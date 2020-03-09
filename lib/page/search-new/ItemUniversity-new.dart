@@ -297,17 +297,18 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                             child: InkWell(
                                               onTap: () {
                                                 Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            ItemFacultyNew(
-                                                                facultys:
-                                                                    faculty,
-                                                                universityName:
-                                                                    _university
-                                                                        .universityname,
-                                                                docFac: facultyDoc
-                                                                    .reference)));
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ItemFacultyNew(
+                                                            facultys: faculty,
+                                                            universityName:
+                                                                _university
+                                                                    .universityname,
+                                                            docFac: facultyDoc
+                                                                .reference),
+                                                  ),
+                                                );
                                               },
                                               child: Container(
                                                 height: 60,

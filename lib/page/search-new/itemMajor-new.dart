@@ -107,7 +107,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                               minFontSize: 8,
                               maxLines: 1,
                             ),
-
                           ],
                         ),
                         SizedBox(
@@ -338,26 +337,30 @@ class _ItemMajorNewState extends State<ItemMajorNew>
 
                             if (tcas != null) {
                               return SingleChildScrollView(
-                                child: Column(children: <Widget>[
-                                  Text(tcas.description,  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xff4F4F4F),
-                                      fontWeight: FontWeight.bold)),
-                                Column(
-                                children: tcas.examReference
-                                    .map((data) => Text(data))
-                                  .toList())
-                                ],),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(tcas.description,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xff4F4F4F),
+                                            fontWeight: FontWeight.bold)),
+                                    Column(
+                                        children: tcas.examReference
+                                            .map((data) => Text(data))
+                                            .toList())
+                                  ],
+                                ),
                               );
                             } else {
                               return Column(
-                                    children: <Widget>[
-                                      Text('ยังไม่เปิดรับสมัคร'  ,style: TextStyle(
-                                  fontSize: 18,
-                                  color: Color(0xff4F4F4F),
-                                  fontWeight: FontWeight.bold))
-                                    ],
-                                  );
+                                children: <Widget>[
+                                  Text('ยังไม่เปิดรับสมัคร',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xff4F4F4F),
+                                          fontWeight: FontWeight.bold))
+                                ],
+                              );
                             }
                           },
                         ).toList(),
@@ -379,25 +382,27 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   children: <Widget>[
                     Align(
                       alignment: Alignment.center,
-                      child: Text('อาชีพที่น่าสนใจในสาขานี้'  ,style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff4F4F4F),
-                          fontWeight: FontWeight.bold)),
+                      child: Text('อาชีพที่น่าสนใจในสาขานี้',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xff4F4F4F),
+                              fontWeight: FontWeight.bold)),
                     ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: itemMajor.listCareerName.map((career){
+                        children: itemMajor.listCareerName.map((career) {
                           return FutureBuilder<DocumentSnapshot>(
-                            future: CareerService().getCareerByCarrerName(career),
-                            builder: (context,snapshot){
-                              if(snapshot.hasData){
-                                Career  itemCareer = Career.fromJson(snapshot.data.data);
-                                return careerItem(itemCareer,snapshot.data);
-                              }else{
-
-                                return  Text(' - ไม่พบอาชีพที่เกี่ยวข้อง');
+                            future:
+                                CareerService().getCareerByCarrerName(career),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                Career itemCareer =
+                                    Career.fromJson(snapshot.data.data);
+                                return careerItem(itemCareer, snapshot.data);
+                              } else {
+                                return Text(' - ไม่พบอาชีพที่เกี่ยวข้อง');
                               }
                             },
                           );
@@ -406,7 +411,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     )
                   ],
                 ),
-
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -418,12 +422,12 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     left: 16, right: 16, top: 8, bottom: 8),
                 child: Column(
                   children: <Widget>[
-                    Text('รายละเอียดโรงเรียน'  ,style: TextStyle(
-                        fontSize: 18,
-                        color: Color(0xff4F4F4F),
-                        fontWeight: FontWeight.bold))
+                    Text('รายละเอียดโรงเรียน',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Color(0xff4F4F4F),
+                            fontWeight: FontWeight.bold))
                   ],
-
                 ),
               )
             ],
@@ -432,33 +436,39 @@ class _ItemMajorNewState extends State<ItemMajorNew>
       ),
     );
   }
-  Widget careerItem(Career career,DocumentSnapshot docCareer){
-    return  GestureDetector(
-      onTap: (){
+
+  Widget careerItem(Career career, DocumentSnapshot docCareer) {
+    return GestureDetector(
+      onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ItemCarrerNew(
-                      career:docCareer
-                    )));
+                builder: (context) => ItemCarrerNew(career: docCareer)));
       },
       child: Container(
         padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle
-        ),
+        decoration: BoxDecoration(shape: BoxShape.circle),
         child: FutureBuilder(
             future: GetImageService().getImage(career.image),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return CircleAvatar(
-                  backgroundImage: NetworkImage(snapshot.data),
-                  radius: 40,
+                return Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(snapshot.data),
+                      radius: 40,
+                    ),
+                    Text(career.careerName),
+                  ],
                 );
               } else {
-                return CircleAvatar(
-                  radius: 40,
+                return Column(
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 40,
+                    ),
+                    Text(career.careerName),
+                  ],
                 );
               }
             }),
@@ -467,12 +477,12 @@ class _ItemMajorNewState extends State<ItemMajorNew>
   }
 
   Widget roundTcas(bool isOpen, String number) {
-    int index = int.parse(number) ;
+    int index = int.parse(number);
     return GestureDetector(
-      onTap: (){
-          setState(() {
-        _tabController.index = index-1;
-          });
+      onTap: () {
+        setState(() {
+          _tabController.index = index - 1;
+        });
       },
       child: Container(
         alignment: Alignment.center,
@@ -484,7 +494,8 @@ class _ItemMajorNewState extends State<ItemMajorNew>
         child: Text(
           number,
           style: TextStyle(
-              color: isOpen == true ? Colors.white : Colors.black, fontSize: 14),
+              color: isOpen == true ? Colors.white : Colors.black,
+              fontSize: 14),
         ),
       ),
     );
