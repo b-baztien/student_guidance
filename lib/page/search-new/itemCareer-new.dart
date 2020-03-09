@@ -151,17 +151,23 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                         StreamBuilder<List<String>>(
                           stream: MajorService()
                               .getListMajorNameByCareerName(_career.careerName),
-                          initialData: List(),
                           builder: (BuildContext context,
                               AsyncSnapshot<List<String>> snapshot) {
-                            return Column(
-                              children: snapshot.data
-                                  .map((majorName) => Text(
-                                        majorName,
-                                        style: UIdata.textTitleStyle,
-                                      ))
-                                  .toList(),
-                            );
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: snapshot.data
+                                    .map((majorName) => Text(
+                                          majorName,
+                                          style: UIdata.textTitleStyle,
+                                        ))
+                                    .toList(),
+                              );
+                            } else {
+                              Text(
+                                'ไม่พบสาขา',
+                                style: UIdata.textTitleStyle,
+                              );
+                            }
                           },
                         ),
                       ],
