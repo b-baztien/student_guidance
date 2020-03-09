@@ -8,26 +8,24 @@ class MajorService {
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
-  Stream<List<DocumentSnapshot>> getMajorByFacultyReference(DocumentReference facDoc) {
-    Stream<QuerySnapshot> majorSnapshot =
-        Firestore.instance.document(facDoc.path).collection('Major').snapshots();
-        
+  Stream<List<DocumentSnapshot>> getMajorByFacultyReference(
+      DocumentReference facDoc) {
+    Stream<QuerySnapshot> majorSnapshot = Firestore.instance
+        .document(facDoc.path)
+        .collection('Major')
+        .snapshots();
+
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
-  Future<List<Major>> getListMajor(List<dynamic> major) async {
-    List<DocumentReference> list = new List<DocumentReference>();
-    for (int i = 0; i < major.length; i++) {
-      list.add(major[i]);
-    }
-    List<Major> listmajor = new List<Major>();
-    for (DocumentReference df in list) {
-      DocumentReference refQuery = df;
-      Major mj = await refQuery.get().then((major) async {
-        return Major.fromJson(major.data);
-      });
-      listmajor.add(mj);
-    }
-    return listmajor;
+  Stream<List<String>> getListMajorNameByCareerName(String careerName) {
+    Stream<QuerySnapshot> majorSnapshot = Firestore.instance
+        .collectionGroup('Major')
+        .where('listCareerName', arrayContains: careerName).orderBy('majorName')
+        .snapshots();
+    return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents
+        .map((doc) => Major.fromJson(doc.data).majorName)
+        .toSet()
+        .toList());
   }
 }
