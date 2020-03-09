@@ -8,6 +8,7 @@ import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:student_guidance/utils/UIdata.dart';
+import 'package:student_guidance/widgets/Dialogs.dart';
 
 class MyDrawer extends StatefulWidget {
   final String schoolId;
@@ -46,11 +47,8 @@ class _MyDrawerState extends State<MyDrawer> {
                         color: Colors.grey.shade800,
                       ),
                       onPressed: () {
-                        LoginService().clearLoginData();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            UIdata.loginPageTag,
-                            ModalRoute.withName(UIdata.loginPageTag));
+                        _alertDialog(context);
+
                       }),
                 ),
                 Container(
@@ -151,6 +149,14 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
         ),
       ),
+    );
+  }
+
+  _alertDialog(BuildContext context){
+    showDialog(context: context,
+    builder: (BuildContext context){
+      return Dialogs();
+    }
     );
   }
 

@@ -1,9 +1,14 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
+import 'package:student_guidance/page/search-new/itemCareer-new.dart';
+import 'package:student_guidance/service/CareerService.dart';
+import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,23 +29,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<String> tabData;
-  List<Widget> con = [
-    Container(
-      color: Colors.deepOrange,
-    ),
-    Container(
-      color: Colors.white,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
-    Container(
-      color: Colors.green,
-    ),
-    Container(
-      color: Colors.yellow,
-    ),
-  ];
   @override
   void initState() {
     super.initState();
@@ -113,10 +101,13 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                               widget.facultyName,
                               style: UIdata.textTitleStyleDark,
                             ),
-                            Text(
+                            AutoSizeText(
                               widget.universityName,
                               style: UIdata.textTitleStyleDarkUninersity,
-                            )
+                              minFontSize: 8,
+                              maxLines: 1,
+                            ),
+
                           ],
                         ),
                         SizedBox(
@@ -336,7 +327,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                       ),
                     ),
                     Container(
-                      height: 200.0,
+                      height: 150.0,
                       child: TabBarView(
                         controller: _tabController,
                         children: tabData.map(
@@ -345,21 +336,94 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                 (tcas) => tcas.round == round,
                                 orElse: () => null);
 
-                            return tcas != null
-                                ? Column(
-                                    children: tcas.examReference
-                                        .map((data) => Text(data))
-                                        .toList())
-                                : Column(
+                            if (tcas != null) {
+                              return SingleChildScrollView(
+                                child: Column(children: <Widget>[
+                                  Text(tcas.description,  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xff4F4F4F),
+                                      fontWeight: FontWeight.bold)),
+                                Column(
+                                children: tcas.examReference
+                                    .map((data) => Text(data))
+                                  .toList())
+                                ],),
+                              );
+                            } else {
+                              return Column(
                                     children: <Widget>[
-                                      Text('ยังไม่เปิดรับสมัคร')
+                                      Text('ยังไม่เปิดรับสมัคร'  ,style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xff4F4F4F),
+                                  fontWeight: FontWeight.bold))
                                     ],
                                   );
+                            }
                           },
                         ).toList(),
                       ),
                     )
                   ],
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 7,
+                decoration: BoxDecoration(color: Color(0xffEBEBEB)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, top: 8, bottom: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text('อาชีพที่น่าสนใจในสาขานี้'  ,style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff4F4F4F),
+                          fontWeight: FontWeight.bold)),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: itemMajor.listCareerName.map((career){
+                          return FutureBuilder<DocumentSnapshot>(
+                            future: CareerService().getCareerByCarrerName(career),
+                            builder: (context,snapshot){
+                              if(snapshot.hasData){
+                                Career  itemCareer = Career.fromJson(snapshot.data.data);
+                                return careerItem(itemCareer,snapshot.data);
+                              }else{
+
+                                return  Text(' - ไม่พบอาชีพที่เกี่ยวข้อง');
+                              }
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    )
+                  ],
+                ),
+
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 7,
+                decoration: BoxDecoration(color: Color(0xffEBEBEB)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, top: 8, bottom: 8),
+                child: Column(
+                  children: <Widget>[
+                    Text('รายละเอียดโรงเรียน'  ,style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xff4F4F4F),
+                        fontWeight: FontWeight.bold))
+                  ],
+
                 ),
               )
             ],
@@ -368,19 +432,60 @@ class _ItemMajorNewState extends State<ItemMajorNew>
       ),
     );
   }
+  Widget careerItem(Career career,DocumentSnapshot docCareer){
+    return  GestureDetector(
+      onTap: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ItemCarrerNew(
+                      career:docCareer
+                    )));
+      },
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle
+        ),
+        child: FutureBuilder(
+            future: GetImageService().getImage(career.image),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return CircleAvatar(
+                  backgroundImage: NetworkImage(snapshot.data),
+                  radius: 40,
+                );
+              } else {
+                return CircleAvatar(
+                  radius: 40,
+                );
+              }
+            }),
+      ),
+    );
+  }
 
   Widget roundTcas(bool isOpen, String number) {
-    return Container(
-      alignment: Alignment.center,
-      width: 30,
-      height: 30,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3)),
-      child: Text(
-        number,
-        style: TextStyle(
-            color: isOpen == true ? Colors.white : Colors.black, fontSize: 14),
+    int index = int.parse(number) ;
+    return GestureDetector(
+      onTap: (){
+          setState(() {
+        _tabController.index = index-1;
+          });
+      },
+      child: Container(
+        alignment: Alignment.center,
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3)),
+        child: Text(
+          number,
+          style: TextStyle(
+              color: isOpen == true ? Colors.white : Colors.black, fontSize: 14),
+        ),
       ),
     );
   }

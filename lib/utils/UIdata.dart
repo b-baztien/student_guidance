@@ -64,6 +64,7 @@ class UIdata {
   static String txCancel = 'ยกเลิก';
   static String txEditProfileTitle = 'แก้ไขข้อมูลส่วนตัว';
   static String txItemUniversityTitle = 'ข้อมูลมหาวิทยาลัย';
+  static String txItemCareerTitle = 'ข้อมูลอาชีพ';
   static String txItemFacultyTitle = 'ข้อมูลคณะ';
   static String txItemMajorTitle = 'ข้อมูลสาขา';
   static String txEditSubtitle = 'แก้ไขข้อมูล';
