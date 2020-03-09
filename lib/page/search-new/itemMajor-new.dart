@@ -438,7 +438,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
   }
 
   Widget careerItem(Career career, DocumentSnapshot docCareer) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
             context,
