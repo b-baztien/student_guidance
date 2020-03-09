@@ -163,7 +163,7 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                                     .toList(),
                               );
                             } else {
-                              Text(
+                              return Text(
                                 'ไม่พบสาขา',
                                 style: UIdata.textTitleStyle,
                               );
