@@ -25,12 +25,7 @@ class ItemUniversityNew extends StatefulWidget {
 
 class _ItemUniversityNewState extends State<ItemUniversityNew> {
   University _university = new University();
-  List<Color> list = [
-    Colors.white,
-    Colors.black,
-    Colors.blue,
-    Colors.deepOrange
-  ];
+
   @override
   void initState() {
     super.initState();
