@@ -31,6 +31,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   int coutOrder = 0;
   int _curentRadio = 1;
   int groupRadio = 1;
+  TextEditingController _searchTextController = new TextEditingController();
+  String _searchText = '';
   List<Color> list = [
     Colors.green,
     Colors.black,
@@ -279,24 +281,35 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                   elevation: 5.0,
                                   borderRadius: BorderRadius.circular(10.0),
                                   child: TextField(
-                                    onChanged: (value) {},
+                                    controller: _searchTextController,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _searchText = value;
+                                      });
+                                    },
                                     //  controller: _controller,
                                     decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        prefixIcon: Icon(
-                                          Icons.search,
-                                          color: UIdata.themeColor,
-                                          size: 25.0,
-                                        ),
-                                        contentPadding: EdgeInsets.only(
-                                            left: 10.0, top: 12.0),
-                                        hintText: UIdata.txSearchBox,
-                                        hintStyle:
-                                            TextStyle(color: Colors.grey),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(Icons.clear),
-                                          onPressed: () {},
-                                        )),
+                                      border: InputBorder.none,
+                                      prefixIcon: Icon(
+                                        Icons.search,
+                                        color: UIdata.themeColor,
+                                        size: 25.0,
+                                      ),
+                                      contentPadding: EdgeInsets.only(
+                                          left: 10.0, top: 12.0),
+                                      hintText: UIdata.txSearchBox,
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(Icons.clear),
+                                        onPressed: () {
+                                          setState(() {
+                                            _searchTextController.clear();
+                                            _searchText =
+                                                _searchTextController.text;
+                                          });
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               )
@@ -392,15 +405,18 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
             List<FilterSeachItems> listItem = new List<FilterSeachItems>();
             for (FilterSeachItems f in list) {
               if (f.type == type) {
-                listItem.add(f);
+                if (f.name.contains(_searchText)) {
+                  listItem.add(f);
+                }
               }
             }
             coutOrder = listItem.length;
             if (type == 'University') {
               List<University> listUniversity = new List<University>();
               for (FilterSeachItems filterSeachItems in listItem) {
-                listUniversity.add(University.fromJson(
-                    filterSeachItems.documentSnapshot.data));
+                University university =
+                    University.fromJson(filterSeachItems.documentSnapshot.data);
+                listUniversity.add(university);
               }
               return ListView.builder(
                 itemCount: listItem.length,
