@@ -285,6 +285,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                     onChanged: (value) {
                                       setState(() {
                                         _searchText = value;
+                                        _searchText = _searchText.trim();
                                       });
                                     },
                                     //  controller: _controller,
