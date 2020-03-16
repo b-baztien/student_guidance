@@ -41,11 +41,14 @@ class _AddEducationState extends State<AddEducation> {
   DocumentReference _selectedUniversity;
   DocumentReference _selectedFaculty;
   DocumentReference _selectedMajor;
+  String _schoolName = '';
 
   @override
   void initState() {
     _dropdownMenuItem = buildDropDownMenuItem(_round);
-
+    UIdata.getPrefs().then((data) {
+      _schoolName = data.getString('schoolId');
+    });
     super.initState();
   }
 
@@ -340,6 +343,7 @@ class _AddEducationState extends State<AddEducation> {
                               enExam.major = Major.fromJson(
                                       (await _selectedMajor.get()).data)
                                   .majorName;
+                              enExam.schoolName = _schoolName;
                               enExam.year =
                                   (DateTime.now().toLocal().year).toString();
                               EntranService().addEntranceExamResult(enExam);

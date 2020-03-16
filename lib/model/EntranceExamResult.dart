@@ -5,13 +5,15 @@ class EntranceExamResult {
   String university;
   String faculty;
   String major;
+  String schoolName;
   EntranceExamResult(
       {this.entranceExamName,
       this.round,
       this.year,
       this.university,
       this.faculty,
-      this.major,});
+      this.major,
+      this.schoolName});
   Map toMap() {
     var map = Map<String, dynamic>();
     map['entrance_exam_name'] = entranceExamName;
@@ -19,6 +21,7 @@ class EntranceExamResult {
     map['university'] = university;
     map['faculty'] = faculty;
     map['major'] = major;
+    map['schoolName'] = schoolName;
     return map;
   }
 
@@ -29,6 +32,7 @@ class EntranceExamResult {
       university: json['university'] as String,
       faculty: json['faculty'] as String,
       major: json['major'] as String,
+      schoolName: json['schoolName'] as String,
     );
   }
 }
