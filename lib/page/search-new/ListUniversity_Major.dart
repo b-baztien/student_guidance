@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/University.dart';
@@ -18,8 +19,12 @@ class ListUniversityMajor extends StatefulWidget {
 
 class _ListUniversityMajorState extends State<ListUniversityMajor> {
   final TextEditingController _controller = new TextEditingController();
+  ProgressDialog _progressDialog;
   @override
   Widget build(BuildContext context) {
+    _progressDialog = new ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    _progressDialog.style(message: 'กรุณารอสักครู่....');
     return SafeArea(
       child: Material(
         child: Container(
@@ -159,6 +164,7 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
             ),
             child: InkWell(
               onTap: () {
+                _progressDialog.show();
                 String uname =
                     new University.fromJson(listUniversity[index].data)
                         .universityname;
@@ -169,6 +175,7 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
                       .getMajorByMajorNameAndUniRef(
                           widget.majorName, fa.reference)
                       .then((majorSnap) {
+                    _progressDialog.hide();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
