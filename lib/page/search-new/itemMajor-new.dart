@@ -478,7 +478,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
 
   Widget roundTcas(bool isOpen, String number) {
     int index = int.parse(number);
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         setState(() {
           _tabController.index = index - 1;
