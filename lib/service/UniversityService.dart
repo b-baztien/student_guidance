@@ -16,34 +16,9 @@ class UniversityService {
     Stream<QuerySnapshot> majorSnapshot =
         Firestore.instance.collectionGroup('Major').snapshots();
 
-    //Map<UniversityName, Map<FacultyName, List<MajorName>>>
-    // return universitySnapshot.map((uniSnapshot) {
-    //   Map<String, Map<String, List<String>>> mapUniversity = Map();
-    //   for (var uniDoc in uniSnapshot.documents) {
-    //     uniDoc.reference.collection('Faculty').snapshots().map((facSnapshot) {
-    //       Map<String, List<String>> mapFaculty = Map();
-    //       for (var facDoc in facSnapshot.documents) {
-    //         facDoc.reference
-    //             .collection('Major')
-    //             .snapshots()
-    //             .map((majorSnapshot) {
-    //           List<String> majorList = majorSnapshot.documents
-    //               .map((majorDoc) => Major.fromJson(majorDoc.data).majorName)
-    //               .toList();
-    //           mapFaculty[Faculty.fromJson(facDoc.data).facultyName] = majorList;
-    //         });
-    //       }
-    //       mapUniversity[University.fromJson(uniDoc.data).universityname] =
-    //           mapFaculty;
-    //     });
-    //   }
-    //   return mapUniversity;
-    // });
-
     return Rx.combineLatest3(universitySnapshot, facultySnapshot, majorSnapshot,
         (QuerySnapshot uniData, QuerySnapshot facData,
             QuerySnapshot majorData) {
-      //Map<UniversityName, Map<FacultyName, List<MajorName>>>
       Map<String, Map<String, List<String>>> mapUniversity = Map();
 
       for (var uniDoc in uniData.documents) {
@@ -53,7 +28,6 @@ class UniversityService {
           for (var majorDoc in majorData.documents) {
             if (facDoc.documentID ==
                 majorDoc.reference.parent().parent().documentID) {
-              // listMajor.add(Major.fromJson(majorDoc.data).majorName);
               listMajor.add(Major.fromJson(majorDoc.data).majorName);
               break;
             }
