@@ -8,8 +8,6 @@ class FacultyService {
     DocumentReference universityDocument =
         Firestore.instance.collection('University').document(universityId);
 
-    print(universityDocument.path);
-
     Stream<QuerySnapshot> facultySnapshot = Firestore.instance
         .document(universityDocument.path)
         .collection('Faculty')
@@ -19,6 +17,16 @@ class FacultyService {
       if (facSnapshot.documents.length == 0) return null;
       return facSnapshot.documents.map((facDoc) => facDoc).toList();
     });
+  }
+
+  Stream<DocumentSnapshot> getFacultyByFacNameAndUniRef(
+      String facName, DocumentReference uniRef) {
+    Stream<QuerySnapshot> facultySnapshot = Firestore.instance
+        .document(uniRef.path)
+        .collection('Faculty')
+        .where('faculty_name', isEqualTo: facName)
+        .snapshots();
+    return facultySnapshot.map((facSnapShot) => facSnapShot.documents.first);
   }
 
   Stream<List<DocumentSnapshot>> getAllFaculty() {
