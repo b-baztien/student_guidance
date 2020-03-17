@@ -45,7 +45,7 @@ class UIdata {
   static Color themeColor = Colors.blue[400];
   static MaterialColor themeMaterialColor = Colors.blue;
   static Color fontColor = Colors.white;
-  
+
   /*String Text*/
   static String txSearchWidget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
   static String txTeacherWidget = 'ข้อมูลติดต่อครู';
@@ -74,7 +74,6 @@ class UIdata {
   static String txDashboardStudentNoneUniversity = 'ไม่ศึกษาต่อ';
   static String txDashboardStudentOther = 'อื่นๆ ';
 
-
   static String txDeatilUniversityGroupFaculty = 'กลุ่มคณะ';
   static String txMajorGroup = 'สาขา';
   static String txDashnoardUniversityPop = 'มหาวิทยาลัยยอดนิยม';
@@ -94,9 +93,9 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Colors.white);
   static TextStyle textTitleStyleDark =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
-        static TextStyle textTitleStyleDarkUninersity =
+  static TextStyle textTitleStyleDarkUninersity =
       TextStyle(fontFamily: 'Kanit', fontSize: 17, color: Color(0xff545663));
-      static TextStyle textTitleStyleDarkBold27 = TextStyle(
+  static TextStyle textTitleStyleDarkBold27 = TextStyle(
       fontFamily: 'Kanit',
       fontSize: 27,
       color: Colors.black,
@@ -120,9 +119,9 @@ class UIdata {
   static TextStyle textSubTitleStyle_12 =
       TextStyle(fontFamily: 'Kanit', fontSize: 12);
   static TextStyle textDetailSubTitleStyle_12 =
-  TextStyle(fontFamily: 'Kanit', fontSize: 12,color: Colors.white);
-  static TextStyle textDashboardTitleStyle15Pink =
-      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xffFFADAD));
+      TextStyle(fontFamily: 'Kanit', fontSize: 12, color: Colors.white);
+  static TextStyle textDashboardTitleStylePink =
+      TextStyle(fontFamily: 'Kanit', color: Color(0xffFFADAD));
 
   static TextStyle textSearchTitleStyle24Blue =
       TextStyle(fontFamily: 'Kanit', fontSize: 24, color: Color(0xff005BC7));
@@ -135,15 +134,15 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.red);
   static TextStyle textSearchSubTitleStyle13Black =
       TextStyle(fontFamily: 'Kanit', fontSize: 13, color: Colors.black);
-  static TextStyle textDashboardTitleStyle15Dark =
-      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.black87);
+  static TextStyle textDashboardTitleStyleDark =
+      TextStyle(fontFamily: 'Kanit', color: Colors.black87);
 
   static TextStyle textSearchTitleStyle20Orange =
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Color(0xffFF9211));
-  static TextStyle textDashboardTitleStyle15White =
-      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
-  static TextStyle textDashboardSubTitleStyle12White =
-      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Colors.white);
+  static TextStyle textDashboardTitleStyleWhite =
+      TextStyle(fontFamily: 'Kanit', color: Colors.white);
+  static TextStyle textDashboardSubTitleStyleWhite =
+      TextStyle(fontFamily: 'Kanit', color: Colors.white);
 
   static successSnackBar(String message) {
     return SnackBar(

@@ -162,7 +162,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                     snapshot.data.toString() +
                                                     ' คน เคยเรียนที่นี่',
                                                 style: UIdata
-                                                    .textDashboardSubTitleStyle12White,
+                                                    .textDashboardSubTitleStyleWhite,
                                               ),
                                             ],
                                           );
@@ -178,7 +178,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                               Text(
                                                 'กำลังโหลด...',
                                                 style: UIdata
-                                                    .textDashboardSubTitleStyle12White,
+                                                    .textDashboardSubTitleStyleWhite,
                                               ),
                                             ],
                                           );
@@ -232,7 +232,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                             Text(
                                               UIdata.txContectUniversityButton,
                                               style: UIdata
-                                                  .textDashboardSubTitleStyle12White,
+                                                  .textDashboardSubTitleStyleWhite,
                                             )
                                           ],
                                         ),
@@ -416,7 +416,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
         width: MediaQuery.of(context).size.width,
         child: Text(
           deital,
-          style: UIdata.textDashboardTitleStyle15White,
+          style: UIdata.textDashboardTitleStyleWhite,
         ),
       ),
     );

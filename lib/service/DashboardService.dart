@@ -44,7 +44,8 @@ class DashboardService {
           }
         }
 
-        dashboardAlumni = DashboardAlumni(year, total, studying, working, other);
+        dashboardAlumni =
+            DashboardAlumni(year, total, studying, working, other);
         listDashboardAlumni.add(dashboardAlumni);
       }
 
