@@ -19,14 +19,20 @@ class FacultyService {
     });
   }
 
-  Stream<DocumentSnapshot> getFacultyByFacNameAndUniRef(
-      String facName, DocumentReference uniRef) {
-    Stream<QuerySnapshot> facultySnapshot = Firestore.instance
-        .document(uniRef.path)
-        .collection('Faculty')
-        .where('faculty_name', isEqualTo: facName)
-        .snapshots();
-    return facultySnapshot.map((facSnapShot) => facSnapShot.documents.first);
+  Future<DocumentSnapshot> getFacultyByFacNameAndUniRef(
+      String facName, DocumentReference uniRef) async {
+    try {
+      Query query = Firestore.instance
+          .document(uniRef.path)
+          .collection('Faculty')
+          .where('faculty_name', isEqualTo: facName);
+      DocumentSnapshot faculty = await query.getDocuments().then((doc) async {
+        return doc.documents.first;
+      });
+      return faculty;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Stream<List<DocumentSnapshot>> getAllFaculty() {
