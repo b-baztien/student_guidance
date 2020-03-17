@@ -18,10 +18,28 @@ class MajorService {
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
+  Future<DocumentSnapshot> getMajorByMajorNameAndUniRef(
+      String majorName, DocumentReference facRef) async {
+    try {
+      Query query = Firestore.instance
+          .document(facRef.path)
+          .collection('Major')
+          .where('majorName', isEqualTo: majorName);
+      DocumentSnapshot major = await query.getDocuments().then((doc) async {
+        return doc.documents.first;
+      });
+      print(major.data);
+      return major;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Stream<List<String>> getListMajorNameByCareerName(String careerName) {
     Stream<QuerySnapshot> majorSnapshot = Firestore.instance
         .collectionGroup('Major')
-        .where('listCareerName', arrayContains: careerName).orderBy('majorName')
+        .where('listCareerName', arrayContains: careerName)
+        .orderBy('majorName')
         .snapshots();
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents
         .map((doc) => Major.fromJson(doc.data).majorName)
