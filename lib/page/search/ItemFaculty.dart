@@ -98,7 +98,9 @@ class _ItemFacultyState extends State<ItemFaculty> {
                   _buildExpended(listUniversity)
                 ],
               );
-            }));
+            }
+            )
+            );
   }
 
   Widget _buildExpended(List<DocumentSnapshot> listUniversity) {

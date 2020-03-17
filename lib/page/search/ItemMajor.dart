@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/search/Widget_item_Major.dart';
-import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/service/UniversityService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 

@@ -7,6 +7,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Career.dart';
+import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
@@ -14,6 +15,8 @@ import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/Search/ItemMajor.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
+import 'package:student_guidance/page/search-new/ListUniversity_Faculty.dart';
+import 'package:student_guidance/page/search-new/ListUniversity_Major.dart';
 import 'package:student_guidance/page/search/ItemFaculty.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
@@ -134,6 +137,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                             });
                           } else {
                             setState(() {
+                          
                               type = 'Career';
                             });
                           }
@@ -578,8 +582,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ItemFaculty(
-                                    facultyName: listItem[index].name)));
+                                builder: (context) => ListUniversityFaculty(
+                                  facultys: listItem[index].name,
+                                   )));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -630,7 +635,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ItemMajor(
+                                builder: (context) => ListUniversityMajor(
                                     majorName: listItem[index].name)));
                       },
                       child: Container(
