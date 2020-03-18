@@ -474,10 +474,11 @@ class _ItemMajorNewState extends State<ItemMajorNew>
     return Container(
       width: 30,
       height: 30,
-      child: FloatingActionButton(
-        elevation: 0,
-        mini: true,
-        backgroundColor: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3),
+      child: RaisedButton(
+        padding: EdgeInsets.all(0),
+        shape: StadiumBorder(),
+        textColor: isOpen == true ? Colors.white : Colors.black,
+        color: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3),
         onPressed: () {
           setState(() {
             _tabController.index = index - 1;
@@ -485,9 +486,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
         },
         child: Text(
           number,
-          style: TextStyle(
-              color: isOpen == true ? Colors.white : Colors.black,
-              fontSize: 14),
         ),
       ),
     );
