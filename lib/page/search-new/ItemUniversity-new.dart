@@ -186,9 +186,28 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                       },
                                     ),
                                     SizedBox(height: 10),
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
+                                    Container(
+                                      height: 40,
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
+                                      child: FlatButton.icon(
+                                        padding: EdgeInsets.all(0),
+                                        icon: Icon(
+                                          FontAwesomeIcons.idCard,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                        label: Text(
+                                          UIdata.txContectUniversityButton,
+                                          style: UIdata
+                                              .textDashboardSubTitleStyleWhite,
+                                        ),
+                                        color: Colors.blueAccent,
+                                        shape: new RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(8.0)),
+                                        onPressed: () {
+                                          showModalBottomSheet(
                                             context: context,
                                             builder: (context) {
                                               return Container(
@@ -208,34 +227,9 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                   ),
                                                 ),
                                               );
-                                            });
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                3,
-                                        padding: const EdgeInsets.all(9),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: Colors.blueAccent),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Icon(
-                                              FontAwesomeIcons.idCard,
-                                              color: Colors.white,
-                                              size: 20,
-                                            ),
-                                            Text(
-                                              UIdata.txContectUniversityButton,
-                                              style: UIdata
-                                                  .textDashboardSubTitleStyleWhite,
-                                            )
-                                          ],
-                                        ),
+                                            },
+                                          );
+                                        },
                                       ),
                                     )
                                   ],

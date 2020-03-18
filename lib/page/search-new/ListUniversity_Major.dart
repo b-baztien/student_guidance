@@ -154,65 +154,68 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
     List<DocumentSnapshot> listUniversity,
   ) {
     return Expanded(
-      child: ListView.builder(
-        itemCount: listUniversity.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.black.withOpacity(0.5),
-            ),
-            child: InkWell(
-              onTap: () {
-                _progressDialog.show();
-                String uname =
-                    new University.fromJson(listUniversity[index].data)
-                        .universityname;
-                FacultyService()
-                    .getFacultyByUniNameAndMajorName(uname, widget.majorName)
-                    .then((fa) async {
-                  await MajorService()
-                      .getMajorByMajorNameAndUniRef(
-                          widget.majorName, fa.reference)
-                      .then((majorSnap) {
-                    _progressDialog.hide();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ItemMajorNew(
-                                  universityName: uname,
-                                  facultyName:
-                                      Faculty.fromJson(fa.data).facultyName,
-                                  major: majorSnap,
-                                )));
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: listUniversity.length,
+          itemBuilder: (context, index) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.black.withOpacity(0.5),
+              ),
+              child: InkWell(
+                onTap: () {
+                  _progressDialog.show();
+                  String uname =
+                      new University.fromJson(listUniversity[index].data)
+                          .universityname;
+                  FacultyService()
+                      .getFacultyByUniNameAndMajorName(uname, widget.majorName)
+                      .then((fa) async {
+                    await MajorService()
+                        .getMajorByMajorNameAndUniRef(
+                            widget.majorName, fa.reference)
+                        .then((majorSnap) {
+                      _progressDialog.hide();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ItemMajorNew(
+                                    universityName: uname,
+                                    facultyName:
+                                        Faculty.fromJson(fa.data).facultyName,
+                                    major: majorSnap,
+                                  )));
+                    });
                   });
-                });
-              },
-              child: Container(
-                child: ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  leading: Container(
-                    padding: EdgeInsets.only(right: 5, left: 10),
-                    decoration: new BoxDecoration(
-                        border: new Border(
-                            right:
-                                new BorderSide(width: 2, color: Colors.white))),
-                    child: Icon(Icons.airport_shuttle, color: Colors.white),
+                },
+                child: Container(
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 5, left: 10),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right:
+                                  new BorderSide(width: 2, color: Colors.white))),
+                      child: Icon(Icons.airport_shuttle, color: Colors.white),
+                    ),
+                    title: Text(
+                      new University.fromJson(listUniversity[index].data)
+                          .universityname,
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right,
+                        color: Colors.white, size: 30),
                   ),
-                  title: Text(
-                    new University.fromJson(listUniversity[index].data)
-                        .universityname,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  trailing: Icon(Icons.keyboard_arrow_right,
-                      color: Colors.white, size: 30),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

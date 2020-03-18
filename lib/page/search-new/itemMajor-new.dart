@@ -112,33 +112,26 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         SizedBox(
                           width: 50,
                         ),
-                        Container(
-                          width: 130,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.red, width: 2),
-                              color: Colors.white),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                FontAwesomeIcons.heart,
-                                color: Colors.red,
-                                size: 25,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                'ติดตามสาขา',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            ],
+                        OutlineButton.icon(
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 2,
                           ),
+                          shape: StadiumBorder(),
+                          color: Colors.red,
+                          icon: Icon(
+                            FontAwesomeIcons.heart,
+                            color: Colors.red,
+                            size: 25,
+                          ),
+                          label: Text(
+                            'ติดตามสาขา',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {},
                         )
                       ],
                     ),
@@ -478,19 +471,18 @@ class _ItemMajorNewState extends State<ItemMajorNew>
 
   Widget roundTcas(bool isOpen, String number) {
     int index = int.parse(number);
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _tabController.index = index - 1;
-        });
-      },
-      child: Container(
-        alignment: Alignment.center,
-        width: 30,
-        height: 30,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3)),
+    return Container(
+      width: 30,
+      height: 30,
+      child: FloatingActionButton(
+        elevation: 0,
+        mini: true,
+        backgroundColor: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3),
+        onPressed: () {
+          setState(() {
+            _tabController.index = index - 1;
+          });
+        },
         child: Text(
           number,
           style: TextStyle(

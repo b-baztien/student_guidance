@@ -141,34 +141,26 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              InkWell(
-                                onTap: () {
-                                  launch(widget.facultys.url);
-                                },
-                                child: Container(
-                                  height: 40,
-                                  width:
-                                      MediaQuery.of(context).size.width / 3.5,
-                                  padding: const EdgeInsets.all(9),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: Color(0xff27AE60)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        FontAwesomeIcons.globeAsia,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        UIdata.txWebside,
-                                        style: TextStyle(color: Colors.white),
-                                      )
-                                    ],
+                              Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width / 3.5,
+                                child: FlatButton.icon(
+                                  padding: EdgeInsets.all(0),
+                                  icon: Icon(
+                                    FontAwesomeIcons.globeAsia,
+                                    color: Colors.white,
                                   ),
+                                  label: Text(
+                                    UIdata.txWebside,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Color(0xff27AE60),
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(8.0)),
+                                  onPressed: () {
+                                    launch(widget.facultys.url);
+                                  },
                                 ),
                               )
                             ],
@@ -199,17 +191,18 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                         return InkWell(
                                           onTap: () {
                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ItemMajorNew(
-                                                          universityName: widget
-                                                              .universityName,
-                                                          facultyName: widget
-                                                              .facultys
-                                                              .facultyName,
-                                                          major: majorDoc,
-                                                        )));
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ItemMajorNew(
+                                                  universityName:
+                                                      widget.universityName,
+                                                  facultyName: widget
+                                                      .facultys.facultyName,
+                                                  major: majorDoc,
+                                                ),
+                                              ),
+                                            );
                                           },
                                           child: Container(
                                             height: 60,
