@@ -63,6 +63,12 @@ class UIdata {
   static String txFilterItemCareer = 'อาชีพ';
   static String txCancel = 'ยกเลิก';
   static String txEditProfileTitle = 'แก้ไขข้อมูลส่วนตัว';
+  static String txEducation = 'เพิ่มข้อมูลการสอบติด';
+  static String txEntrance = 'เพิ่มข้อมูลการศึกษาต่อ';
+  static String txRecommend = 'สนใจมหาวิทยาลัยไหนเป็นพิเศษอยู่หรือป่าว ?';
+  static String txRecommendCarrer = 'อาชีพที่สนใจ';
+  static String txChangePassword = 'เปลี่ยนรหัสผ่าน';
+  static String txListFavorite = 'สาขาที่ติดตาม';
   static String txItemUniversityTitle = 'ข้อมูลมหาวิทยาลัย';
   static String txItemCareerTitle = 'ข้อมูลอาชีพ';
   static String txItemFacultyTitle = 'ข้อมูลคณะ';

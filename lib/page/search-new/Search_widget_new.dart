@@ -17,6 +17,7 @@ import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
 import 'package:student_guidance/page/search-new/ListUniversity_Faculty.dart';
 import 'package:student_guidance/page/search-new/ListUniversity_Major.dart';
+import 'package:student_guidance/page/search-new/itemCareer-new.dart';
 import 'package:student_guidance/page/search/ItemFaculty.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
@@ -690,8 +691,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ItemFaculty(
-                                    facultyName: listItem[index].name)));
+                                builder: (context) => ItemCarrerNew(
+                                  career: listItem[index].documentSnapshot,
+                                    )));
                       },
                       child: Container(
                           width: MediaQuery.of(context).size.width,

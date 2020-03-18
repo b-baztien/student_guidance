@@ -4,6 +4,8 @@ import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/add_data/add_education.dart';
+import 'package:student_guidance/page/add_data/add_education_new.dart';
+import 'package:student_guidance/page/add_data/add_entrance_major.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
@@ -117,15 +119,13 @@ class _MyDrawerState extends State<MyDrawer> {
                         Icons.add_to_photos,
                         "เพิ่มข้อมูลการสอบ TCAS",
                         Colors.green,
-                        (context) => AddEducation(),
+                        (context) => AddEducationNew(),
                       )
                     : _buildRow(
                         Icons.add_to_photos,
                         "เพิ่มข้อมูลหลังการจบการศึกษา",
                         Colors.green,
-                        (context) => EditProfile(
-                          login: widget.login,
-                        ),
+                        (context) => AddEntranceMajor(),
                       ),
                 _buildDivider(),
                 _buildRow(
