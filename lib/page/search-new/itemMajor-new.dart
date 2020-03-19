@@ -29,11 +29,13 @@ class _ItemMajorNewState extends State<ItemMajorNew>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<String> tabData;
+  bool ckFavorite;
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 5);
     tabData = ['1', '2', '3', '4', '5'];
+    ckFavorite = true;
   }
 
   @override
@@ -114,24 +116,28 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         ),
                         OutlineButton.icon(
                           borderSide: BorderSide(
-                            color: Colors.red,
+                            color:Colors.red,
                             width: 2,
                           ),
                           shape: StadiumBorder(),
                           color: Colors.red,
                           icon: Icon(
-                            FontAwesomeIcons.heart,
+                           ckFavorite == true ? FontAwesomeIcons.heart : FontAwesomeIcons.solidHeart ,
                             color: Colors.red,
                             size: 25,
                           ),
                           label: Text(
-                            'ติดตามสาขา',
+                           ckFavorite == true ?  'ติดตามสาขา':'กำลังติดตาม',
                             style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.red,
                                 fontWeight: FontWeight.w600),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              ckFavorite = !ckFavorite; 
+                            });
+                          },
                         )
                       ],
                     ),

@@ -7,13 +7,18 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  
+  final GlobalKey<FormState> _globalKeyChangePassword = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    
+    Size _screenSize = MediaQuery.of(context).size;
+
     return Material(
       child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/edit-img.png"),
+                  image: AssetImage("assets/images/change-password.png"),
                   fit: BoxFit.fitHeight)),
             child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -40,11 +45,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                       padding:  const EdgeInsets.all(8.0),
                       child: SingleChildScrollView(
                         child: Container(
-                          child: Column(
-                            children: <Widget>[
-                         
-                            ],
-                          ),
+                          child:Form(
+                            key: _globalKeyChangePassword,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: <Widget>[
+                          SizedBox(height: _screenSize.height / 50),
+                                ],
+                              ),
+                            ),
+                          )
                         ),
                       ),
                 ),

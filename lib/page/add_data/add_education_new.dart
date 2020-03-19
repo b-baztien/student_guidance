@@ -6,6 +6,7 @@ class AddEducationNew extends StatefulWidget {
   @override
   _AddEducationNewState createState() => _AddEducationNewState();
 }
+
 class Round {
   String id;
   String name = '';
@@ -22,7 +23,7 @@ class Round {
 }
 
 class _AddEducationNewState extends State<AddEducationNew> {
-    List<Round> _round = Round.getRound();
+  List<Round> _round = Round.getRound();
   List<DropdownMenuItem<Round>> _dropdownMenuItem;
 
   Round _selectedRound;
@@ -51,79 +52,89 @@ class _AddEducationNewState extends State<AddEducationNew> {
     }
     return items;
   }
-  
+
   onChangeDropdownItem(Round selectRound) {
     setState(() {
       _selectedRound = selectRound;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/edit-img.png"),
-                  fit: BoxFit.fitHeight)),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  UIdata.txEducation,
-                  style: UIdata.textTitleStyle,
-                ),
-                leading: IconButton(
-                  icon: UIdata.backIcon,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/add-education-img.png"),
+                fit: BoxFit.fitHeight)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Text(
+              UIdata.txEducation,
+              style: UIdata.textTitleStyle,
+            ),
+            leading: IconButton(
+              icon: UIdata.backIcon,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black.withOpacity(0.5),
+                  border: Border.all(width: 2, color: Colors.white)),
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black.withOpacity(0.5),
-                      border: Border.all(width: 2, color: Colors.white)),
-                      padding:  const EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'รอบการสมัคร',
-                              style: TextStyle(
-                                  fontFamily: UIdata.fontFamily,
-                                  fontSize: 18,
-                                  color: Colors.black45),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'รอบการสมัคร',
+                            style: TextStyle(
+                                fontFamily: UIdata.fontFamily,
+                                fontSize: 18,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Theme(
+                            data: Theme.of(context).copyWith(
+                              canvasColor: Colors.black,
                             ),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            DropdownButton(
+                            child: DropdownButton(
                               value: _selectedRound,
                               items: _dropdownMenuItem,
                               onChanged: onChangeDropdownItem,
-                              hint: Text('เลือกรอบการสอบ'),
+                              style: TextStyle(decorationColor: Colors.white),
+                              hint: Text('เลือกรอบการสอบ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  )),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        ),
-                            ],
                           ),
-                        ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
+        ),
+      ),
     );
   }
 }

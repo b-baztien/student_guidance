@@ -13,7 +13,7 @@ class _ListFavoriteState extends State<ListFavorite> {
       child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/images/edit-img.png"),
+                  image: AssetImage("assets/images/list-favorite.png"),
                   fit: BoxFit.fitHeight)),
             child: Scaffold(
               backgroundColor: Colors.transparent,
