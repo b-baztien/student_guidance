@@ -171,20 +171,25 @@ class EntranService {
     });
   }
 
-  addEntranceExamResult(EntranceExamResult enExam) async {
-    SharedPreferences preferences = await UIdata.getPrefs();
-    Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
-    Firestore.instance
-        .collectionGroup('Login')
-        .where('username', isEqualTo: login.username)
-        .getDocuments()
-        .then((loginDoc) async {
-      if (loginDoc.documents[0] == null) return;
-      await loginDoc.documents[0].reference
-          .parent()
-          .parent()
-          .collection('EntranceExamResult')
-          .add(enExam.toMap());
-    });
+  Future<bool> addEntranceExamResult(EntranceExamResult enExam) async {
+    try {
+      SharedPreferences preferences = await UIdata.getPrefs();
+      Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
+      return Firestore.instance
+          .collectionGroup('Login')
+          .where('username', isEqualTo: login.username)
+          .getDocuments()
+          .then((loginDoc) async {
+        if (loginDoc.documents[0] == null) return false;
+        await loginDoc.documents[0].reference
+            .parent()
+            .parent()
+            .collection('EntranceExamResult')
+            .add(enExam.toMap());
+        return true;
+      });
+    } catch (error) {
+      rethrow;
+    }
   }
 }
