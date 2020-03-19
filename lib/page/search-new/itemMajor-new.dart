@@ -164,7 +164,8 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                       .addStudentFavorite(favorite)
                                   : StudentFavoriteService()
                                       .deleteStudentFavorite(favorite);
-                            });
+                            }
+                            );
                           },
                         )
                       ],

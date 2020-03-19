@@ -74,6 +74,8 @@ class UIdata {
   static String txItemFacultyTitle = 'ข้อมูลคณะ';
   static String txItemMajorTitle = 'ข้อมูลสาขา';
   static String txEditSubtitle = 'แก้ไขข้อมูล';
+  
+  static String txPassword = 'แก้ไขพาสเวิร์ด';
   static String txContectUniversityButton = 'ข้อมูลติดต่อ';
   static String txDashboardStudentAll = 'นักเรียนทั้งหมด';
   static String txDashboardStudentAddUniversity = 'ศึกษาต่อ';
