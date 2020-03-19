@@ -105,7 +105,7 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
                                               image: AssetImage(
-                                                  'assets/images/career.png'),
+                                                  'assets/images/career.jpg'),
                                               fit: BoxFit.fitHeight)),
                                     );
                                   }
