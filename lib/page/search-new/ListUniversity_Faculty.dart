@@ -166,48 +166,46 @@ class _ListUniversityFacultyState extends State<ListUniversityFaculty> {
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.black.withOpacity(0.5),
               ),
-              child: InkWell(
-                onTap: () {
-                  _progressDialog.show();
-                  String uname =
-                      new University.fromJson(listUniversity[index].data)
-                          .universityname;
-                  FacultyService()
-                      .getFacultyByFacNameAndUniRef(
-                          widget.facultys, listUniversity[index].reference)
-                      .then((fa) {
-                    _progressDialog.hide();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ItemFacultyNew(
-                                  universityName: uname,
-                                  docFac: fa.reference,
-                                  facultys: Faculty.fromJson(fa.data),
-                                )));
-                  });
-                },
-                child: Container(
-                  child: ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    leading: Container(
-                      padding: EdgeInsets.only(right: 5, left: 10),
-                      decoration: new BoxDecoration(
-                          border: new Border(
-                              right:
-                                  new BorderSide(width: 2, color: Colors.white))),
-                      child: Icon(Icons.airport_shuttle, color: Colors.white),
-                    ),
-                    title: Text(
-                      new University.fromJson(listUniversity[index].data)
-                          .universityname,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Colors.white, size: 30),
+              child: Container(
+                child: ListTile(
+                  onTap: () {
+                    _progressDialog.show();
+                    String uname =
+                        new University.fromJson(listUniversity[index].data)
+                            .universityname;
+                    FacultyService()
+                        .getFacultyByFacNameAndUniRef(
+                            widget.facultys, listUniversity[index].reference)
+                        .then((fa) {
+                      _progressDialog.hide();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ItemFacultyNew(
+                                    universityName: uname,
+                                    docFac: fa.reference,
+                                    facultys: Faculty.fromJson(fa.data),
+                                  )));
+                    });
+                  },
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  leading: Container(
+                    padding: EdgeInsets.only(right: 5, left: 10),
+                    decoration: new BoxDecoration(
+                        border: new Border(
+                            right:
+                                new BorderSide(width: 2, color: Colors.white))),
+                    child: Icon(Icons.airport_shuttle, color: Colors.white),
                   ),
+                  title: Text(
+                    new University.fromJson(listUniversity[index].data)
+                        .universityname,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  trailing: Icon(Icons.keyboard_arrow_right,
+                      color: Colors.white, size: 30),
                 ),
               ),
             );

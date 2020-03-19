@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Career.dart';
+import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Major.dart';
+import 'package:student_guidance/model/StudentFavorite.dart';
 import 'package:student_guidance/page/search-new/itemCareer-new.dart';
 import 'package:student_guidance/service/CareerService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/service/StudentFavoriteService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,9 +21,14 @@ class ItemMajorNew extends StatefulWidget {
   final String universityName;
   final String facultyName;
   final DocumentSnapshot major;
+  final List<StudentFavorite> listFavorite;
 
   const ItemMajorNew(
-      {Key key, this.universityName, this.facultyName, this.major})
+      {Key key,
+      this.universityName,
+      this.facultyName,
+      this.major,
+      this.listFavorite})
       : super(key: key);
 
   @override
@@ -29,10 +39,19 @@ class _ItemMajorNewState extends State<ItemMajorNew>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<String> tabData;
+  bool _isFollow;
+
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(vsync: this, length: 5);
+    StudentFavorite favorite = widget.listFavorite.singleWhere(
+        (favorite) =>
+            favorite.university == widget.universityName &&
+            favorite.faculty == widget.facultyName &&
+            favorite.major == Major.fromJson(widget.major.data).majorName,
+        orElse: () => null);
+    _isFollow = favorite != null ? true : false;
     tabData = ['1', '2', '3', '4', '5'];
   }
 
@@ -112,26 +131,44 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         SizedBox(
                           width: 50,
                         ),
-                        OutlineButton.icon(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2,
+                        FlatButton.icon(
+                          shape: StadiumBorder(
+                            side: BorderSide(
+                              color: _isFollow ? Colors.green : Colors.red,
+                              width: 2,
+                            ),
                           ),
-                          shape: StadiumBorder(),
-                          color: Colors.red,
+                          color: _isFollow ? Colors.green : Colors.white,
                           icon: Icon(
-                            FontAwesomeIcons.heart,
+                            _isFollow
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
                             color: Colors.red,
                             size: 25,
                           ),
                           label: Text(
-                            'ติดตามสาขา',
+                            _isFollow ? 'ติดตามแล้ว' : 'ติดตามสาขา',
                             style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.red,
+                                color: _isFollow ? Colors.white : Colors.red,
                                 fontWeight: FontWeight.w600),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              StudentFavorite favorite = StudentFavorite();
+                              favorite.university = widget.universityName;
+                              favorite.faculty = widget.facultyName;
+                              favorite.major =
+                                  Major.fromJson(widget.major.data).majorName;
+
+                              _isFollow = !_isFollow;
+                              _isFollow
+                                  ? StudentFavoriteService()
+                                      .addStudentFavorite(favorite)
+                                  : StudentFavoriteService()
+                                      .deleteStudentFavorite(favorite);
+                            });
+                          },
                         )
                       ],
                     ),
@@ -271,7 +308,11 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         ),
                         SizedBox(width: 110),
                         InkWell(
-                          onTap: () => launch(itemMajor.url),
+                          onTap: () => launch(
+                              itemMajor.url.startsWith('https://') ||
+                                      itemMajor.url.startsWith('http://')
+                                  ? itemMajor.url
+                                  : 'http://${itemMajor.url}'),
                           child: Text(
                             'ดูเพิ่มเติมเกี่ยวกับสาขา',
                             style: TextStyle(
@@ -451,7 +492,10 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                       backgroundImage: NetworkImage(snapshot.data),
                       radius: 40,
                     ),
-                    Text(career.careerName),
+                    AutoSizeText(
+                      career.careerName,
+                      maxLines: 2,
+                    ),
                   ],
                 );
               } else {

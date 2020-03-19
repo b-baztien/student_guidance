@@ -33,10 +33,6 @@ class _MyDrawerState extends State<MyDrawer> {
       child: Drawer(
         child: Container(
           padding: EdgeInsets.only(left: 15, right: 40),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black45)]),
-          width: 300,
           child: SingleChildScrollView(
             padding: EdgeInsets.all(0),
             child: Column(
@@ -46,11 +42,10 @@ class _MyDrawerState extends State<MyDrawer> {
                   child: IconButton(
                       icon: Icon(
                         Icons.power_settings_new,
-                        color: Colors.grey.shade800,
+                        color: Colors.red.shade800,
                       ),
                       onPressed: () {
                         _alertDialog(context);
-
                       }),
                 ),
                 Container(
@@ -152,12 +147,12 @@ class _MyDrawerState extends State<MyDrawer> {
     );
   }
 
-  _alertDialog(BuildContext context){
-    showDialog(context: context,
-    builder: (BuildContext context){
-      return Dialogs();
-    }
-    );
+  _alertDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialogs();
+        });
   }
 
   Divider _buildDivider() {
@@ -170,9 +165,8 @@ class _MyDrawerState extends State<MyDrawer> {
       Function(BuildContext) functionPageBuilder) {
     final TextStyle textStyle =
         TextStyle(color: Colors.black, fontFamily: 'Kanit', fontSize: 15);
-    return FlatButton(
-      padding: EdgeInsets.all(0),
-      onPressed: () async {
+    return ListTile(
+      onTap: () async {
         final String result = await Navigator.push(
           context,
           MaterialPageRoute(builder: functionPageBuilder),
@@ -184,20 +178,10 @@ class _MyDrawerState extends State<MyDrawer> {
           Navigator.pop(context);
         }
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 0),
-        child: Row(
-          children: <Widget>[
-            Icon(icon, color: colors),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              title,
-              style: textStyle,
-            ),
-          ],
-        ),
+      leading: Icon(icon, color: colors),
+      title: Text(
+        title,
+        style: textStyle,
       ),
     );
   }

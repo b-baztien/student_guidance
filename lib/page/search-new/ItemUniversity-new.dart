@@ -251,7 +251,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                       SizedBox(
                         height: 20,
                       ),
-                      Container(
+                      Ink(
                         width: screenWidth,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -283,100 +283,83 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                                 right: 10,
                                                 left: 10,
                                                 bottom: 10),
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ItemFacultyNew(
-                                                            facultys: faculty,
-                                                            universityName:
-                                                                _university
-                                                                    .universityname,
-                                                            docFac: facultyDoc
-                                                                .reference),
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                height: 60,
-                                                decoration: BoxDecoration(
+                                            child: Ink(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: Colors.white),
+                                              child: ListTile(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ItemFacultyNew(
+                                                              facultys: faculty,
+                                                              universityName:
+                                                                  _university
+                                                                      .universityname,
+                                                              docFac: facultyDoc
+                                                                  .reference),
+                                                    ),
+                                                  );
+                                                },
+                                                leading: Container(
+                                                  width: 40.0,
+                                                  height: 40.0,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orange,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5),
-                                                    color: Colors.white),
-                                                child: Container(
-                                                  child: ListTile(
-                                                    leading: Container(
-                                                      width: 40.0,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(80.0),
-                                                      ),
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color: Colors
-                                                                    .orange),
-                                                        child: Icon(
-                                                          IconData(
-                                                              int.parse(faculty
-                                                                  .facultyIcon
-                                                                  .codePoint),
-                                                              fontFamily: faculty
-                                                                  .facultyIcon
-                                                                  .fontFamily),
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    title: StreamBuilder<
-                                                            List<
-                                                                DocumentSnapshot>>(
-                                                        stream: MajorService()
-                                                            .getMajorByFacultyReference(
-                                                                facultyDoc
-                                                                    .reference),
-                                                        builder: (context,
-                                                            mjSnapshot) {
-                                                          if (mjSnapshot
-                                                              .hasData) {
-                                                            return Text(
-                                                              faculty.facultyName +
-                                                                  (mjSnapshot.data
-                                                                              .length >
-                                                                          0
-                                                                      ? ' (' +
-                                                                          mjSnapshot
-                                                                              .data
-                                                                              .length
-                                                                              .toString() +
-                                                                          ' สาขา)'
-                                                                      : ''),
-                                                              style: UIdata
-                                                                  .textSubTitleStyleDark,
-                                                            );
-                                                          }
-                                                          return Text(
-                                                            faculty.facultyName +
-                                                                faculty
-                                                                    .facultyName,
-                                                            style: UIdata
-                                                                .textSubTitleStyleDark,
-                                                          );
-                                                        }),
-                                                    trailing: Icon(
-                                                        Icons
-                                                            .keyboard_arrow_right,
-                                                        color: Colors.black,
-                                                        size: 30.0),
+                                                            80.0),
+                                                  ),
+                                                  child: Icon(
+                                                    IconData(
+                                                        int.parse(faculty
+                                                            .facultyIcon
+                                                            .codePoint),
+                                                        fontFamily: faculty
+                                                            .facultyIcon
+                                                            .fontFamily),
+                                                    color: Colors.white,
                                                   ),
                                                 ),
+                                                title: StreamBuilder<
+                                                        List<DocumentSnapshot>>(
+                                                    stream: MajorService()
+                                                        .getMajorByFacultyReference(
+                                                            facultyDoc
+                                                                .reference),
+                                                    builder:
+                                                        (context, mjSnapshot) {
+                                                      if (mjSnapshot.hasData) {
+                                                        return Text(
+                                                          faculty.facultyName +
+                                                              (mjSnapshot.data
+                                                                          .length >
+                                                                      0
+                                                                  ? ' (' +
+                                                                      mjSnapshot
+                                                                          .data
+                                                                          .length
+                                                                          .toString() +
+                                                                      ' สาขา)'
+                                                                  : ''),
+                                                          style: UIdata
+                                                              .textSubTitleStyleDark,
+                                                        );
+                                                      }
+                                                      return Text(
+                                                        faculty.facultyName +
+                                                            faculty.facultyName,
+                                                        style: UIdata
+                                                            .textSubTitleStyleDark,
+                                                      );
+                                                    }),
+                                                trailing: Icon(
+                                                    Icons.keyboard_arrow_right,
+                                                    color: Colors.black,
+                                                    size: 30.0),
                                               ),
                                             ),
                                           );

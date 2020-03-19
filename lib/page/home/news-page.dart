@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -44,13 +43,10 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _animationController.forward();
   }
 
   void _onVisibleDaysChanged(
-      DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: $last');
-  }
+      DateTime first, DateTime last, CalendarFormat format) {}
 
   void _onDaySelected(DateTime day, List events) {
     print(events);
@@ -339,90 +335,92 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                         ),
                                       ),
                                       child: FutureBuilder(
-                                          future: GetImageService()
-                                              .getImage(snapshot.data.image),
-                                          builder: (_, snap) {
-                                            if (snap.hasData) {
-                                              return Stack(
-                                                children: <Widget>[
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                snap.data),
-                                                            fit: BoxFit.cover)),
+                                        future: GetImageService()
+                                            .getImage(snapshot.data.image),
+                                        builder: (_, snap) {
+                                          if (snap.hasData) {
+                                            return Stack(
+                                              children: <Widget>[
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                            snap.data),
+                                                        fit: BoxFit.cover),
                                                   ),
-                                                  Positioned(
-                                                    bottom: 0,
-                                                    child: Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              10),
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.black
-                                                            .withOpacity(0.5),
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          Text(
-                                                            'ข่าวล่าสุด',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'kanit',
-                                                                fontSize: 13,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Text(
-                                                            snapshot.data.topic,
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'kanit',
-                                                                fontSize: 25,
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Text(
-                                                            '- ' +
-                                                                snapshot.data
-                                                                    .teacherName,
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'kanit',
-                                                                fontSize: 16,
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              );
-                                            } else {
-                                              return Center(
-                                                child: Image.asset(
-                                                  'assets/images/no-photo-available.png',
-                                                  width: size.width,
-                                                  height: size.height,
-                                                  fit: BoxFit.cover,
                                                 ),
-                                              );
-                                            }
-                                          }),
+                                                Positioned(
+                                                  bottom: 0,
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black
+                                                          .withOpacity(0.5),
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'ข่าวล่าสุด',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'kanit',
+                                                              fontSize: 13,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Text(
+                                                          snapshot.data.topic,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'kanit',
+                                                              fontSize: 25,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Text(
+                                                          '- ' +
+                                                              snapshot.data
+                                                                  .teacherName,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'kanit',
+                                                              fontSize: 16,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            );
+                                          } else {
+                                            return Center(
+                                              child: Image.asset(
+                                                'assets/images/no-photo-available.png',
+                                                width: size.width,
+                                                height: size.height,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      ),
                                     );
                                   } else {
                                     return Center(
@@ -459,7 +457,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                   _toDay,
                                   style: TextStyle(fontSize: 18),
                                 ),
-                                visible: _isVisibleDate,
+                                visible: toggle,
                               ),
                               IconButton(
                                 icon: toggle
@@ -481,11 +479,14 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                             ],
                           ),
                         ),
-                        AnimatedSizeAndFade(
-                          vsync: this,
-                          child: toggle ? myCalendarOff : myCalendarOn,
-                          fadeDuration: const Duration(milliseconds: 300),
-                          sizeDuration: const Duration(milliseconds: 600),
+                        AnimatedCrossFade(
+                          sizeCurve: Curves.easeIn,
+                          firstChild: myCalendarOff,
+                          secondChild: myCalendarOn,
+                          duration: const Duration(milliseconds: 500),
+                          crossFadeState: toggle
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
                         ),
                         Divider(),
                       ]),
@@ -500,7 +501,8 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                             delegate: SliverChildBuilderDelegate(
                                 (context, index) => Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
-                                      child: ListTile(
+                                      child: Column(children: <Widget>[
+                                        ListTile(
                                           onTap: () {
                                             Navigator.push(
                                                 context,
@@ -550,7 +552,10 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                                                 );
                                               }
                                             },
-                                          )),
+                                          ),
+                                        ),
+                                        Divider(),
+                                      ]),
                                     ),
                                 childCount: snapshot.data.length),
                           );

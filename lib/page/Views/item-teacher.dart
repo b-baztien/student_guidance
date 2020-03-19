@@ -37,12 +37,11 @@ class _ItemTeacherState extends State<ItemTeacher>
     return Container(
       child: Column(
         children: <Widget>[
-          GestureDetector(
+          InkWell(
             onTap: () {
               setState(() {
                 toggle = !toggle;
               });
-              print(toggle.toString());
             },
             child: Padding(
               padding: EdgeInsets.all(_screenSize.width / 30),
@@ -68,22 +67,19 @@ class _ItemTeacherState extends State<ItemTeacher>
               ),
             ),
           ),
-          AnimatedSizeAndFade(
-            vsync: this,
-            child: toggle
-                ? SizedBox(
-                    key: ValueKey('first'),
-                    height: 1,
-                  )
-                : Container(
-                    height: widget.listTeacher.length * 150.0,
-                    child: Column(
-                      children: widget.listTeacher.map((teacher) {
-                        return cardItem(context, teacher);
-                      }).toList(),
-                    )),
-            fadeDuration: const Duration(milliseconds: 300),
-            sizeDuration: const Duration(milliseconds: 400),
+          AnimatedCrossFade(
+            sizeCurve: Curves.decelerate,
+            firstChild: Container(),
+            secondChild: Container(
+                height: widget.listTeacher.length * 150.0,
+                child: Column(
+                  children: widget.listTeacher.map((teacher) {
+                    return cardItem(context, teacher);
+                  }).toList(),
+                )),
+            duration: const Duration(milliseconds: 400),
+            crossFadeState:
+                toggle ? CrossFadeState.showFirst : CrossFadeState.showSecond,
           ),
         ],
       ),

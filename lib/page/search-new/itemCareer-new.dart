@@ -124,11 +124,15 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                           height: 7,
                           decoration: BoxDecoration(color: Color(0xffEBEBEB)),
                         ),
-                        Text(_career.description,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SelectableText(
+                            _career.description,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.white)),
+                                color: Colors.white),
+                          ),
+                        ),
                       ],
                     ),
                   ),
