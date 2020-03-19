@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Career.dart';
-import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/StudentFavorite.dart';
 import 'package:student_guidance/page/search-new/itemCareer-new.dart';

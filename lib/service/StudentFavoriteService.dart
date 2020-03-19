@@ -28,37 +28,45 @@ class StudentFavoriteService {
   }
 
   addStudentFavorite(StudentFavorite favorite) async {
-    SharedPreferences preferences = await UIdata.getPrefs();
-    Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
-    favorite.username = login.username;
-    Firestore.instance
-        .collectionGroup('Login')
-        .where('username', isEqualTo: login.username)
-        .getDocuments()
-        .then((loginDoc) async {
-      if (loginDoc.documents[0] == null) return;
-      await loginDoc.documents[0].reference
-          .parent()
-          .parent()
-          .collection('StudentFavorite')
-          .add(favorite.toMap());
-    });
+    try {
+      SharedPreferences preferences = await UIdata.getPrefs();
+      Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
+      favorite.username = login.username;
+      Firestore.instance
+          .collectionGroup('Login')
+          .where('username', isEqualTo: login.username)
+          .getDocuments()
+          .then((loginDoc) async {
+        if (loginDoc.documents[0] == null) return;
+        await loginDoc.documents[0].reference
+            .parent()
+            .parent()
+            .collection('StudentFavorite')
+            .add(favorite.toMap());
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   deleteStudentFavorite(StudentFavorite favorite) async {
-    SharedPreferences preferences = await UIdata.getPrefs();
-    Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
-    favorite.username = login.username;
-    Firestore.instance
-        .collectionGroup('StudentFavorite')
-        .where('university', isEqualTo: favorite.university)
-        .where('faculty', isEqualTo: favorite.faculty)
-        .where('major', isEqualTo: favorite.major)
-        .where('username', isEqualTo: login.username)
-        .getDocuments()
-        .then((favoriteDoc) async {
-      if (favoriteDoc.documents[0] == null) return;
-      await favoriteDoc.documents[0].reference.delete();
-    });
+    try {
+      SharedPreferences preferences = await UIdata.getPrefs();
+      Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
+      favorite.username = login.username;
+      Firestore.instance
+          .collectionGroup('StudentFavorite')
+          .where('university', isEqualTo: favorite.university)
+          .where('faculty', isEqualTo: favorite.faculty)
+          .where('major', isEqualTo: favorite.major)
+          .where('username', isEqualTo: login.username)
+          .getDocuments()
+          .then((favoriteDoc) async {
+        if (favoriteDoc.documents[0] == null) return;
+        await favoriteDoc.documents[0].reference.delete();
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 }
