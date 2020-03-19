@@ -6,23 +6,29 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Career.dart';
-import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
-import 'package:student_guidance/page/Search/ItemMajor.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
 import 'package:student_guidance/page/search-new/ListUniversity_Faculty.dart';
 import 'package:student_guidance/page/search-new/ListUniversity_Major.dart';
 import 'package:student_guidance/page/search-new/itemCareer-new.dart';
-import 'package:student_guidance/page/search/ItemFaculty.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-import 'package:shimmer/shimmer.dart';
+
+class RecommendMajor {
+  String university;
+  String faculty;
+  String major;
+  String img;
+
+  RecommendMajor(this.university, this.faculty, this.major, this.img);
+}
 
 class SearchWidgetNew extends StatefulWidget {
   @override
@@ -37,11 +43,12 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   int groupRadio = 1;
   TextEditingController _searchTextController = new TextEditingController();
   String _searchText = '';
-  List<Color> list = [
-    Colors.green,
-    Colors.black,
-    Colors.blue,
-    Colors.deepOrange
+
+  List<RecommendMajor> list = [
+    RecommendMajor('มหาวิทยาลัยแม่โจ้', 'วิทยาศาสตร์', 'เทคโนโลยีสารสนเทศ',
+        'https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/university%2F%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B9%82%E0%B8%88%E0%B9%89_edit.png?alt=media&token=07d6d8e1-6210-486f-add0-909763e710b6'),
+    RecommendMajor('มหาวิทยาลัยแม่โจ้', 'บริหารธุรกิจ', 'การตลาด',
+        'https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/university%2F%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B9%82%E0%B8%88%E0%B9%89_edit.png?alt=media&token=07d6d8e1-6210-486f-add0-909763e710b6'),
   ];
   List<University> setListSize = new List<University>();
 
@@ -67,7 +74,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       padding: const EdgeInsets.only(left: 16, right: 16),
       decoration: BoxDecoration(
           color: Colors.white, boxShadow: [BoxShadow(color: Colors.black45)]),
-      width: 300,
       child: SafeArea(
         child: Column(
           children: <Widget>[
@@ -206,10 +212,119 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Swiper(
+                autoplayDelay: Duration(seconds: 5).inMilliseconds,
                 autoplay: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(color: list[index]),
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 5.0,
+                            spreadRadius: 1.0,
+                            offset: Offset(
+                              1.0,
+                              1.0,
+                            ),
+                          )
+                        ],
+                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: 150,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(5),
+                        shadowColor: Colors.red,
+                        color: Colors.white,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Ink(
+                            padding: const EdgeInsets.all(10),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(right: 10.0),
+                                  decoration: new BoxDecoration(
+                                      border: new Border(
+                                          right: new BorderSide(
+                                              width: 2.0,
+                                              color: Color(0xff005BC7)))),
+                                  child: Container(
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(list[index].img),
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.only(top: 5),
+                                        child: AutoSizeText(
+                                          list[index].university,
+                                          style: TextStyle(
+                                              fontFamily: 'Kanit',
+                                              color: Color(0xff005BC7)),
+                                          minFontSize: 22,
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.school,
+                                            color: Color(0xff005BC7),
+                                            size: 15,
+                                          ),
+                                          SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text(
+                                            list[index].faculty,
+                                            style: TextStyle(
+                                              fontFamily: 'Kanit',
+                                              fontSize: 20,
+                                              color: Color(0xff005BC7),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Icon(
+                                            FontAwesomeIcons.userGraduate,
+                                            color: Color(0xff005BC7),
+                                            size: 13,
+                                          ),
+                                          SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text(
+                                            list[index].major,
+                                            style: TextStyle(
+                                                fontFamily: 'Kanit',
+                                                fontSize: 18,
+                                                color: Colors.green),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 },
                 itemCount: list.length,
