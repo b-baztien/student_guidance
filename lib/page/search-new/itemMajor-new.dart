@@ -53,6 +53,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
         orElse: () => null);
     _isFollow = favorite != null ? true : false;
     tabData = ['1', '2', '3', '4', '5'];
+    ckFavorite = true;
   }
 
   @override
@@ -147,7 +148,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             size: 25,
                           ),
                           label: Text(
-                            _isFollow ? 'ติดตามแล้ว' : 'ติดตามสาขา',
+                            _isFollow ? 'กำลังติดตาม' : 'ติดตามสาขา',
                             style: TextStyle(
                                 fontSize: 14,
                                 color: _isFollow ? Colors.white : Colors.red,
