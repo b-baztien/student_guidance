@@ -53,7 +53,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
         orElse: () => null);
     _isFollow = favorite != null ? true : false;
     tabData = ['1', '2', '3', '4', '5'];
-    ckFavorite = true;
   }
 
   @override
