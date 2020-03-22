@@ -408,6 +408,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                   color: UIdata.themeColor,
                                   onPressed: () async {
                                     try {
+                                      _progressDialog.show();
                                       EntranceExamResult enExam =
                                           EntranceExamResult();
                                       enExam.entranceExamName =
@@ -428,7 +429,6 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                       enExam.year =
                                           (DateTime.now().toLocal().year)
                                               .toString();
-                                      _progressDialog.show();
                                       EntranService()
                                           .addEntranceExamResult(enExam)
                                           .then((result) {
