@@ -57,10 +57,13 @@ class _AddEducationNewState extends State<AddEducationNew> {
       _schoolName = data.getString('schoolId');
     });
 
+    _selectedUniversity = null;
+    _selectedFaculty = null;
+    _selectedMajor = null;
+
     _progressDialog = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
     _progressDialog.style(message: 'กำลังเพิ่มข้อมูล...');
-
     super.initState();
   }
 
@@ -86,6 +89,10 @@ class _AddEducationNewState extends State<AddEducationNew> {
   onChangeUniversityDropdownItem(DocumentReference selectUniversity) {
     setState(() {
       _selectedUniversity = selectUniversity;
+      _dropdownFacultyMenuItem = null;
+      _dropdownMajorMenuItem = null;
+      _selectedFaculty = null;
+      _selectedMajor = null;
     });
   }
 
@@ -208,7 +215,9 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                       ),
                                     );
                                   }
-                                  _dropdownUniversityMenuItem = currencyItem;
+                                  if (_dropdownUniversityMenuItem == null) {
+                                    _dropdownUniversityMenuItem = currencyItem;
+                                  }
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -253,7 +262,8 @@ class _AddEducationNewState extends State<AddEducationNew> {
                             StreamBuilder<List<DocumentSnapshot>>(
                               stream: FacultyService().getAllFaculty(),
                               builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
+                                if (!snapshot.hasData ||
+                                    _selectedUniversity == null) {
                                   return Container();
                                 } else {
                                   List<DropdownMenuItem<DocumentReference>>
@@ -262,8 +272,12 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                       i < snapshot.data.length;
                                       i++) {
                                     DocumentSnapshot doc = snapshot.data[i];
-                                    if (doc.reference.parent().parent() ==
-                                        _selectedUniversity) {
+                                    print(_selectedUniversity);
+                                    if (doc.reference
+                                            .parent()
+                                            .parent()
+                                            .documentID ==
+                                        _selectedUniversity.documentID) {
                                       Faculty fct = Faculty.fromJson(doc.data);
                                       currencyItem.add(DropdownMenuItem(
                                         child: Text(fct.facultyName),
@@ -271,7 +285,9 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                       ));
                                     }
                                   }
-                                  _dropdownFacultyMenuItem = currencyItem;
+                                  if (_dropdownFacultyMenuItem == null) {
+                                    _dropdownFacultyMenuItem = currencyItem;
+                                  }
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
@@ -313,7 +329,8 @@ class _AddEducationNewState extends State<AddEducationNew> {
                             StreamBuilder<List<DocumentSnapshot>>(
                               stream: MajorService().getAllMajor(),
                               builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
+                                if (!snapshot.hasData ||
+                                    _selectedFaculty == null) {
                                   return Container();
                                 } else {
                                   List<DropdownMenuItem<DocumentReference>>
@@ -322,8 +339,11 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                       i < snapshot.data.length;
                                       i++) {
                                     DocumentSnapshot doc = snapshot.data[i];
-                                    if (doc.reference.parent().parent() ==
-                                        _selectedFaculty) {
+                                    if (doc.reference
+                                            .parent()
+                                            .parent()
+                                            .documentID ==
+                                        _selectedFaculty.documentID) {
                                       Major major = Major.fromJson(doc.data);
                                       currencyItem.add(DropdownMenuItem(
                                         child: Text(major.majorName),
@@ -331,7 +351,9 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                       ));
                                     }
                                   }
-                                  _dropdownMajorMenuItem = currencyItem;
+                                  if (_dropdownMajorMenuItem == null) {
+                                    _dropdownMajorMenuItem = currencyItem;
+                                  }
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
