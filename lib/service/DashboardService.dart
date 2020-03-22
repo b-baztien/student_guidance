@@ -49,7 +49,7 @@ class DashboardService {
         listDashboardAlumni.add(dashboardAlumni);
       }
 
-      return listDashboardAlumni;
+      return listDashboardAlumni.take(5).toList();
     });
   }
 }
