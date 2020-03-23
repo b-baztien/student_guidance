@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
@@ -19,15 +20,14 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard>
-    with SingleTickerProviderStateMixin {
+class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   TabController _tabController;
   List<String> tabData;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-        final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: FutureBuilder(
           future: UIdata.getPrefs(),
@@ -68,120 +68,152 @@ class _DashboardState extends State<Dashboard>
                           UIdata.txDashboardTitle,
                           style: UIdata.textTitleStyleDark,
                         ),
-                        FutureBuilder(
-                             future: DashboardService().getDashboardYear(
-                              futureSnapshot.data.getString('schoolId')),
-                          builder: (context, snap){
-                             if (snap.hasData) {
-                              _tabController = new TabController(
-                                  vsync: this, length: snap.data.length);
-                              tabData = snap.data;
-                             return  Column(
-                               children: <Widget>[
-                                 Container(
-                                   child: TabBar(
-                                controller: _tabController,
-                                indicatorColor: Colors.green,
-                                labelColor: Colors.green,
-                                unselectedLabelColor: Color(0xff939191),
-                                isScrollable: true,
-                                tabs: tabData
-                                      .map((year) => Tab(
-                                            text: 'ปีการศึกษา ' + year,
-                                          ))
-                                      .toList(),
-                              ),
-                                 ),
-                            Container(
-                               height: screenHeight,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: tabData.map(
-                          (year) {
-                            return Column(
-                              children: <Widget>[
-                                StreamBuilder(
+                        StreamBuilder(
                           stream: DashboardService().getAlumniDashboard(
-                              futureSnapshot.data.getString('schoolId'),year),
-                          builder: (BuildContext context,AsyncSnapshot<DashboardAlumni> snapshot) {
+                            futureSnapshot.data.getString('schoolId'),
+                          ),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<DashboardAlumni>> snapshot) {
                             if (snapshot.hasData) {
-                              return cardDashboradYear(snapshot.data);
-                            } else {
-                              return cardDashboradYear(
-                                DashboardAlumni(
-                                    (DateTime.parse(DateFormat(
-                                                        'yyyy-MM-dd', 'th_TH')
-                                                    .format(DateTime.now()))
-                                                .year +
-                                            543)
-                                        .toString(),
-                                    0,
-                                    0,
-                                    0,
-                                    0),
+                              return FutureBuilder(
+                                future: DashboardService().getDashboardYear(
+                                    futureSnapshot.data.getString('schoolId')),
+                                builder: (context, snap) {
+                                  if (snap.hasData) {
+                                    _tabController = new TabController(
+                                        vsync: this, length: snap.data.length);
+                                    tabData = snap.data;
+                                    return Column(
+                                      children: <Widget>[
+                                        Container(
+                                          child: TabBar(
+                                            controller: _tabController,
+                                            indicatorColor: Colors.green,
+                                            labelColor: Colors.green,
+                                            unselectedLabelColor:
+                                                Color(0xff939191),
+                                            isScrollable: true,
+                                            tabs: tabData
+                                                .map((year) => Tab(
+                                                      text:
+                                                          'ปีการศึกษา ' + year,
+                                                    ))
+                                                .toList(),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: screenHeight,
+                                          child: TabBarView(
+                                            controller: _tabController,
+                                            children: tabData.map(
+                                              (year) {
+                                                return Column(
+                                                  children: <Widget>[
+                                                    Column(
+                                                      children: snapshot.data
+                                                          .map(
+                                                            (dashboardAlumni) => dashboardAlumni
+                                                                        .graduateYear ==
+                                                                    year
+                                                                ? cardDashboradYear(
+                                                                    dashboardAlumni)
+                                                                : SizedBox
+                                                                    .shrink(),
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: <Widget>[
+                                                          _buildCardTop5(
+                                                              Colors.black87,
+                                                              screenWidth / 2.1,
+                                                              UIdata
+                                                                  .txDashnoardUniversityPop,
+                                                              [
+                                                                'มหาวิทยาลัยแม่โจ้',
+                                                                'มหาวิทยาลัยแม่โจ้'
+                                                              ],
+                                                              UIdata
+                                                                  .textDashboardTitleStylePink,
+                                                              UIdata
+                                                                  .imgDashnoardUniversityPop,
+                                                              40,
+                                                              27),
+                                                          _buildCardTop5(
+                                                              Color(0xffF08201),
+                                                              screenWidth / 2.5,
+                                                              UIdata
+                                                                  .txDashnoardFacultyPop,
+                                                              ['วิทยาศาสตร์'],
+                                                              UIdata
+                                                                  .textDashboardTitleStyleDark,
+                                                              UIdata
+                                                                  .imgDashnoardFacultyPop,
+                                                              30,
+                                                              30)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15,
+                                                              bottom: 15),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: <Widget>[
+                                                          _buildCardTop5(
+                                                              Color(0xff006A82),
+                                                              screenWidth - 37,
+                                                              UIdata
+                                                                  .txDashnoardMajorPop,
+                                                              [
+                                                                'เทคโนโลยีสารสนเทศ'
+                                                              ],
+                                                              UIdata
+                                                                  .textDashboardTitleStyleWhite,
+                                                              UIdata
+                                                                  .imgDashnoardMajorPop,
+                                                              30,
+                                                              30),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ).toList(),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  } else {
+                                    return SizedBox(
+                                      height: 1,
+                                    );
+                                  }
+                                },
                               );
-                            }
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _buildCardTop5(
-                                  Colors.black87,
-                                  screenWidth / 2.1,
-                                  UIdata.txDashnoardUniversityPop,
-                                  ['มหาวิทยาลัยแม่โจ้', 'มหาวิทยาลัยแม่โจ้'],
-                                  UIdata.textDashboardTitleStylePink,
-                                  UIdata.imgDashnoardUniversityPop,
-                                  40,
-                                  27),
-                              _buildCardTop5(
-                                  Color(0xffF08201),
-                                  screenWidth / 2.5,
-                                  UIdata.txDashnoardFacultyPop,
-                                  ['วิทยาศาสตร์'],
-                                  UIdata.textDashboardTitleStyleDark,
-                                  UIdata.imgDashnoardFacultyPop,
-                                  30,
-                                  30)
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15, bottom: 15),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              _buildCardTop5(
-                                  Color(0xff006A82),
-                                  screenWidth - 37,
-                                  UIdata.txDashnoardMajorPop,
-                                  ['เทคโนโลยีสารสนเทศ'],
-                                  UIdata.textDashboardTitleStyleWhite,
-                                  UIdata.imgDashnoardMajorPop,
-                                  30,
-                                  30),
-                            ],
-                          ),
-                        ),
-                              ],
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    )
-                               ],
-                             );
                             } else {
-                              return SizedBox(height: 1,);
+                              return SizedBox();
                             }
-                          }
-                        ),
-                        
+                          },
+                        )
                       ],
                     ),
                   ),
