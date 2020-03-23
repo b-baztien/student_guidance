@@ -75,15 +75,30 @@ class _AddRecommendState extends State<AddRecommend> {
                           ),
                         ),
                       ),
-                       SizedBox(
-                        height: 10,
-                      ),
                       Padding(
                            padding: const EdgeInsets.all(8.0),
                            child: Row(
                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                              children: <Widget>[
-                              
+                             IconButton(icon: Icon(FontAwesomeIcons.exclamationCircle,color: Colors.white,),
+                              onPressed: (){
+
+                              }),
+                              FlatButton.icon(
+                                 shape: StadiumBorder(
+                            side: BorderSide(
+                              color:Colors.white,
+                              width: 2,
+                            ),
+                          ),
+                                onPressed: (){
+                                },
+                                 icon: Icon(
+                        FontAwesomeIcons.save,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                                 label: Text('บันทึก',style: TextStyle(color: Colors.white),))
                              ],
                            ),
                       )
