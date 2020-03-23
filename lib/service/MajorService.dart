@@ -9,8 +9,7 @@ class MajorService {
   }
 
   Future<List<String>> getAllMajorName() async {
-    CollectionReference majorSnapshot =
-        Firestore.instance.collectionGroup('Major');
+    Query majorSnapshot = Firestore.instance.collectionGroup('Major');
     return await majorSnapshot.getDocuments().then((snapshot) => snapshot
         .documents
         .map((doc) => Major.fromJson(doc.data).majorName)
