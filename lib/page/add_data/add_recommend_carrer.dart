@@ -55,8 +55,7 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
             UIdata.dangerSnackBar('กรุณาเลือกสาขาอย่างน้อย 1 สาขา'));
         return;
       }
-      // _progressDialog.show();
-      _stdRcm = StudentRecommend();
+      _progressDialog.show();
       _stdRcm.careerName = tmpArray;
       await StudentRecommendService()
           .addEditStudentRecommend(_stdRcm)

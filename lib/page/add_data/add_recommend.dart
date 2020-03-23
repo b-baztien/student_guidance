@@ -55,7 +55,6 @@ class _AddRecommendState extends State<AddRecommend> {
         return;
       }
       _progressDialog.show();
-      _stdRcm = StudentRecommend();
       _stdRcm.majorName = tmpArray;
       await StudentRecommendService()
           .addEditStudentRecommend(_stdRcm)
