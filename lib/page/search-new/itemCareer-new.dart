@@ -127,7 +127,9 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SelectableText(
-                            _career.description,
+                            _career.description != null
+                                ? _career.description
+                                : 'ไม่มีรายละเอียด',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
