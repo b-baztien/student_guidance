@@ -139,28 +139,37 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                               screenWidth / 2.1,
                                                               UIdata
                                                                   .txDashnoardUniversityPop,
-                                                              [
-                                                                'มหาวิทยาลัยแม่โจ้',
-                                                                'มหาวิทยาลัยแม่โจ้'
-                                                              ],
                                                               UIdata
                                                                   .textDashboardTitleStylePink,
                                                               UIdata
                                                                   .imgDashnoardUniversityPop,
                                                               40,
-                                                              27),
+                                                              27,
+                                                              DashboardService()
+                                                                  .getDashboardUniversity(
+                                                                      futureSnapshot
+                                                                          .data
+                                                                          .getString(
+                                                                              'schoolId'),
+                                                                      year)),
                                                           _buildCardTop5(
                                                               Color(0xffF08201),
                                                               screenWidth / 2.5,
                                                               UIdata
                                                                   .txDashnoardFacultyPop,
-                                                              ['วิทยาศาสตร์'],
                                                               UIdata
                                                                   .textDashboardTitleStyleDark,
                                                               UIdata
                                                                   .imgDashnoardFacultyPop,
                                                               30,
-                                                              30)
+                                                              30,
+                                                              DashboardService()
+                                                                  .getDashboardFaculty(
+                                                                      futureSnapshot
+                                                                          .data
+                                                                          .getString(
+                                                                              'schoolId'),
+                                                                      year))
                                                         ],
                                                       ),
                                                     ),
@@ -182,15 +191,19 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                               screenWidth - 37,
                                                               UIdata
                                                                   .txDashnoardMajorPop,
-                                                              [
-                                                                'เทคโนโลยีสารสนเทศ'
-                                                              ],
                                                               UIdata
                                                                   .textDashboardTitleStyleWhite,
                                                               UIdata
                                                                   .imgDashnoardMajorPop,
                                                               30,
-                                                              30),
+                                                              30,
+                                                              DashboardService()
+                                                                  .getDashboardMajor(
+                                                                      futureSnapshot
+                                                                          .data
+                                                                          .getString(
+                                                                              'schoolId'),
+                                                                      year)),
                                                         ],
                                                       ),
                                                     ),
@@ -318,61 +331,68 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       Color color,
       double widthLayout,
       String title,
-      List<String> contents,
       TextStyle titleStyle,
       String assetImage,
       double widthImg,
-      double hightImg) {
-    return Container(
-      width: widthLayout,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            AutoSizeText(
-              title,
-              minFontSize: 18,
-              style: titleStyle,
+      double hightImg,
+      Future<List<String>> futureData) {
+    return FutureBuilder<List<String>>(
+        future: futureData,
+        initialData: [],
+        builder: (context, snapshot) {
+          return Container(
+            width: widthLayout,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
-            Container(
-              child: contents.isNotEmpty
-                  ? Column(
-                      children: contents
-                          .map(
-                            (data) => AutoSizeText(
-                              data,
-                              minFontSize: 15,
-                              style: UIdata.textDashboardSubTitleStyleWhite,
-                            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  AutoSizeText(
+                    title,
+                    minFontSize: 18,
+                    style: titleStyle,
+                  ),
+                  Container(
+                    child: snapshot.data.isNotEmpty
+                        ? Column(
+                            children: snapshot.data
+                                .map(
+                                  (data) => AutoSizeText(
+                                    data,
+                                    minFontSize: 15,
+                                    style:
+                                        UIdata.textDashboardSubTitleStyleWhite,
+                                  ),
+                                )
+                                .toList(),
                           )
-                          .toList(),
-                    )
-                  : Text(
-                      'ไม่พบบข้อมูล',
-                      style: UIdata.textDashboardSubTitleStyleWhite,
-                    ),
+                        : Text(
+                            'ไม่พบบข้อมูล',
+                            style: UIdata.textDashboardSubTitleStyleWhite,
+                          ),
+                  ),
+                  Align(
+                    alignment: FractionalOffset.bottomRight,
+                    child: Padding(
+                        padding: const EdgeInsets.only(bottom: 3),
+                        child: Container(
+                          width: widthImg,
+                          height: hightImg,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(assetImage),
+                                fit: BoxFit.fill),
+                          ),
+                        )),
+                  )
+                ],
+              ),
             ),
-            Align(
-              alignment: FractionalOffset.bottomRight,
-              child: Padding(
-                  padding: const EdgeInsets.only(bottom: 3),
-                  child: Container(
-                    width: widthImg,
-                    height: hightImg,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(assetImage), fit: BoxFit.fill),
-                    ),
-                  )),
-            )
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }
