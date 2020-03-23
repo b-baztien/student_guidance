@@ -12,7 +12,8 @@ class CareerService {
   }
 
   Future<List<String>> getAllCareerName() async {
-    Query careerSnapshot = Firestore.instance.collectionGroup('Career');
+    CollectionReference careerSnapshot =
+        Firestore.instance.collection('Career');
     return await careerSnapshot.getDocuments().then((snapshot) => snapshot
         .documents
         .map((doc) => Career.fromJson(doc.data).careerName)

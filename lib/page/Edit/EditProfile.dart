@@ -194,21 +194,23 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
         child: Row(
           children: <Widget>[
             Expanded(
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red),
-                    color: Colors.red,
-                  ),
-                  child: Center(
-                    child: Text(
-                      UIdata.txCancel,
-                      style: TextStyle(
-                        fontFamily: (UIdata.fontFamily),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+              child: Material(
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Ink(
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red),
+                      color: Colors.red,
+                    ),
+                    child: Center(
+                      child: Text(
+                        UIdata.txCancel,
+                        style: TextStyle(
+                          fontFamily: (UIdata.fontFamily),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -217,40 +219,43 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
             ),
             SizedBox(width: 10.0),
             Expanded(
-              child: InkWell(
-                onTap: () async {
-                  final formState = _globalKey.currentState;
-                  if (formState.validate()) {
-                    formState.save();
-                    try {
-                      _progressDialog.show();
-                      await StudentService()
-                          .editStudentProfile(widget._login.username, _student)
-                          .then((result) {
-                        _progressDialog.hide();
-                        Navigator.pop(context, 'แก้ไขข้อมูลสำเร็จ');
-                      });
-                    } catch (e) {
-                      _scaffoldKey.currentState.showSnackBar(
-                          UIdata.dangerSnackBar('แก้ไขข้อมูลล้มเหลว'));
+              child: Material(
+                child: InkWell(
+                  onTap: () async {
+                    final formState = _globalKey.currentState;
+                    if (formState.validate()) {
+                      formState.save();
+                      try {
+                        _progressDialog.show();
+                        await StudentService()
+                            .editStudentProfile(
+                                widget._login.username, _student)
+                            .then((result) {
+                          _progressDialog.hide();
+                          Navigator.pop(context, 'แก้ไขข้อมูลสำเร็จ');
+                        });
+                      } catch (e) {
+                        _scaffoldKey.currentState.showSnackBar(
+                            UIdata.dangerSnackBar('แก้ไขข้อมูลล้มเหลว'));
+                      }
                     }
-                  }
-                },
-                child: Container(
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green),
-                    color: Colors.green,
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        UIdata.txEditSubtitle,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: UIdata.fontFamily,
-                            fontWeight: FontWeight.w600),
+                  },
+                  child: Ink(
+                    height: 40.0,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green),
+                      color: Colors.green,
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(
+                          UIdata.txEditSubtitle,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: UIdata.fontFamily,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
                   ),

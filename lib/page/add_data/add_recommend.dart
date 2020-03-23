@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:student_guidance/model/StudentRecommend.dart';
 import 'package:student_guidance/service/MajorService.dart';
+import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,40 +16,71 @@ class _AddRecommendState extends State<AddRecommend> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Map<String, bool> mapValues = new Map<String, bool>();
   List<String> tmpArray = List();
+  ProgressDialog _progressDialog;
+  StudentRecommend _stdRcm;
+
   @override
   void initState() {
     super.initState();
+    _progressDialog = new ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    _progressDialog.style(message: 'กำลังโหลด...');
+
     MajorService().getAllMajorName().then((majorName) {
-      for (String f in majorName) {
-        setState(() {
-          mapValues[f] = false;
-        });
-      }
+      StudentRecommendService()
+          .getStudentRecommendByUsername()
+          .then((recommend) {
+        for (String f in majorName) {
+          setState(() {
+            mapValues[f] = false;
+          });
+        }
+        _stdRcm = recommend;
+        for (String f in recommend.majorName) {
+          setState(() {
+            tmpArray = recommend.majorName;
+            mapValues[f] = true;
+          });
+        }
+      });
     });
   }
 
-  getCheckbox() {
-    mapValues.forEach((key, value) {
-      if (value == true) {
-        tmpArray.add(key);
+  getCheckbox() async {
+    try {
+      if (tmpArray.isEmpty) {
+        _scaffoldKey.currentState.hideCurrentSnackBar();
+        _scaffoldKey.currentState.showSnackBar(
+            UIdata.dangerSnackBar('กรุณาเลือกสาขาอย่างน้อย 1 สาขา'));
+        return;
       }
-    });
-    print(tmpArray);
-    tmpArray.clear();
+      _progressDialog.show();
+      _stdRcm = StudentRecommend();
+      _stdRcm.majorName = tmpArray;
+      await StudentRecommendService()
+          .addEditStudentRecommend(_stdRcm)
+          .then((result) {
+        _progressDialog.hide();
+        Navigator.pop(context, 'ดำเนินการสำเร็จ');
+      });
+    } catch (e) {
+      _scaffoldKey.currentState
+          .showSnackBar(UIdata.dangerSnackBar('ดำเนินข้อมูลล้มเหลว'));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: Container(
+      child: Material(
+        child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [Colors.black, Color(0xff003471)])),
           child: Scaffold(
+            key: _scaffoldKey,
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Padding(

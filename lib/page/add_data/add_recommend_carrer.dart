@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:student_guidance/model/StudentRecommend.dart';
 import 'package:student_guidance/service/CareerService.dart';
+import 'package:student_guidance/service/MajorService.dart';
+import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class AddRecommendCarrer extends StatefulWidget {
@@ -9,28 +13,65 @@ class AddRecommendCarrer extends StatefulWidget {
 }
 
 class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
-  Map<String,bool> values = new Map<String,bool>();
- var tmpArray = [];
-@override
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Map<String, bool> mapValues = new Map<String, bool>();
+  var tmpArray = [];
+  ProgressDialog _progressDialog;
+  StudentRecommend _stdRcm;
+
+  @override
   void initState() {
     super.initState();
-   CareerService().getAllCareerName().then((carrerName){
-     for(String f in carrerName){
-     setState(() {
-         values[f] = false;
-     });
-     }
-   });
+    _progressDialog = new ProgressDialog(context,
+        type: ProgressDialogType.Normal, isDismissible: false);
+    _progressDialog.style(message: 'กำลังโหลด...');
+
+    CareerService().getAllCareerName().then((careerName) {
+      StudentRecommendService()
+          .getStudentRecommendByUsername()
+          .then((recommend) {
+        for (String c in careerName) {
+          setState(() {
+            mapValues[c] = false;
+          });
+        }
+        _stdRcm = recommend;
+        if (recommend.careerName != null)
+          for (String c in recommend.careerName) {
+            setState(() {
+              tmpArray = recommend.careerName;
+              mapValues[c] = true;
+            });
+          }
+      });
+    });
   }
-getCheckbox(){
-  values.forEach((key,value){
-    if(value == true){
-  tmpArray.add(key);
+
+  getCheckbox() async {
+    try {
+      if (tmpArray.isEmpty) {
+        _scaffoldKey.currentState.hideCurrentSnackBar();
+        _scaffoldKey.currentState.showSnackBar(
+            UIdata.dangerSnackBar('กรุณาเลือกสาขาอย่างน้อย 1 สาขา'));
+        return;
+      }
+      // _progressDialog.show();
+      _stdRcm = StudentRecommend();
+      _stdRcm.careerName = tmpArray;
+      await StudentRecommendService()
+          .addEditStudentRecommend(_stdRcm)
+          .then((result) {
+        _progressDialog.hide();
+        Navigator.pop(context, 'ดำเนินการสำเร็จ');
+      });
+    } catch (e) {
+      _scaffoldKey.currentState.hideCurrentSnackBar();
+      _scaffoldKey.currentState
+          .showSnackBar(UIdata.dangerSnackBar('ดำเนินข้อมูลล้มเหลว'));
+      throw e;
     }
-  });
-   print(tmpArray);
-  tmpArray.clear();
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,6 +83,7 @@ getCheckbox(){
                   end: Alignment.bottomCenter,
                   colors: [Colors.black, Color(0xff003471)])),
           child: Scaffold(
+            key: _scaffoldKey,
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Padding(
@@ -70,51 +112,69 @@ getCheckbox(){
                           child: SingleChildScrollView(
                             child: Container(
                                 child: Column(
-                                    children: values.keys.map((String key){
-                                      return  CheckboxListTile(
-                                      value: values[key],
-                                       onChanged: (bool val){
-                                       setState(() {
-                                           values[key] = val ;
-                                       });
-                                       },
-                                       title: Text(key),
-                                       );
-                                    }).toList()
-                                  )),
+                                    children: mapValues.keys.map((String key) {
+                              return CheckboxListTile(
+                                value: mapValues[key],
+                                onChanged: (bool val) {
+                                  if (val && tmpArray.length >= 3) {
+                                    _scaffoldKey.currentState
+                                        .hideCurrentSnackBar();
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        UIdata.dangerSnackBar(
+                                            'เพิ่มสูงสุดได้ 3 อาชีพ'));
+                                  } else {
+                                    setState(() {
+                                      if (val) {
+                                        mapValues[key] = true;
+                                        tmpArray.add(key);
+                                      } else {
+                                        mapValues[key] = false;
+                                        tmpArray.remove(key);
+                                      }
+                                    });
+                                  }
+                                },
+                                title: Text(key),
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
+                              );
+                            }).toList())),
                           ),
                         ),
                       ),
                       Padding(
-                           padding: const EdgeInsets.all(8.0),
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: <Widget>[
-                             IconButton(icon: Icon(FontAwesomeIcons.exclamationCircle,color: Colors.white,),
-                              onPressed: (){
-
-                              }),
-                              FlatButton.icon(
-                                 shape: StadiumBorder(
-                            side: BorderSide(
-                              color:Colors.white,
-                              width: 2,
-                            ),
-                          ),
-                                onPressed: (){
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(
+                                  FontAwesomeIcons.exclamationCircle,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {}),
+                            FlatButton.icon(
+                                shape: StadiumBorder(
+                                  side: BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                onPressed: () {
                                   getCheckbox();
-                                 
                                 },
-                                 icon: Icon(
-                        FontAwesomeIcons.save,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                                 label: Text('บันทึก',style: TextStyle(color: Colors.white),))
-                             ],
-                           ),
+                                icon: Icon(
+                                  FontAwesomeIcons.save,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                label: Text(
+                                  'บันทึก',
+                                  style: TextStyle(color: Colors.white),
+                                ))
+                          ],
+                        ),
                       )
-
                     ],
                   )),
             ),
