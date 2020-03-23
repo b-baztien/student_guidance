@@ -4,11 +4,12 @@ import 'package:student_guidance/model/Alumni.dart';
 import 'package:student_guidance/model/DashboardAlumni.dart';
 
 class DashboardService {
-  Stream<List<DashboardAlumni>> getAlumniDashboard(String schoolName) {
+  Stream<List<DashboardAlumni>> getAlumniDashboard(
+      String schoolName, String year) {
     Stream<QuerySnapshot> alumniSnapshot = Firestore.instance
         .collectionGroup('Alumni')
         .where('schoolName', isEqualTo: schoolName)
-        .orderBy('graduate_year')
+        .where('graduate_year', isEqualTo: year)
         .snapshots();
     Stream<QuerySnapshot> entranceMajorSnapshot =
         Firestore.instance.collectionGroup('EntranceMajor').snapshots();
