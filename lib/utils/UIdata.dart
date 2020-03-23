@@ -65,7 +65,7 @@ class UIdata {
   static String txEditProfileTitle = 'แก้ไขข้อมูลส่วนตัว';
   static String txEducation = 'เพิ่มข้อมูลการสอบติด';
   static String txEntrance = 'เพิ่มข้อมูลการศึกษาต่อ';
-  static String txRecommend = 'สนใจมหาวิทยาลัยไหนเป็นพิเศษอยู่หรือป่าว ?';
+  static String txRecommend = 'เลือกสาขาที่สนใจเป็นพิเศษ';
   static String txRecommendCarrer = 'อาชีพที่สนใจ';
   static String txChangePassword = 'เปลี่ยนรหัสผ่าน';
   static String txListFavorite = 'สาขาที่ติดตาม';
