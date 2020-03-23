@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:student_guidance/model/Career.dart';
 
 class CareerService {
   Future<DocumentSnapshot> getCareerByCarrerName(String name) async {
@@ -8,5 +9,14 @@ class CareerService {
         .where('career_name', isEqualTo: name)
         .getDocuments();
     return qs.documents.isNotEmpty ? qs.documents[0] : null;
+  }
+
+  Future<List<String>> getAllCareerName() async {
+    Query careerSnapshot = Firestore.instance.collectionGroup('Career');
+    return await careerSnapshot.getDocuments().then((snapshot) => snapshot
+        .documents
+        .map((doc) => Career.fromJson(doc.data).careerName)
+        .toSet()
+        .toList());
   }
 }
