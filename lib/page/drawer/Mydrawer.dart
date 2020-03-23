@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/ChangePassword.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Views/list-favorite.dart';
-import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/add_data/add_education_new.dart';
 import 'package:student_guidance/page/add_data/add_entrance_major.dart';
 import 'package:student_guidance/page/add_data/add_recommend.dart';
 import 'package:student_guidance/page/add_data/add_recommend_carrer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
-import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/widgets/Dialogs.dart';
