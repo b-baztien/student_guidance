@@ -8,6 +8,16 @@ class MajorService {
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
+  Future<List<String>> getAllMajorName() async {
+    CollectionReference majorSnapshot =
+        Firestore.instance.collectionGroup('Major');
+    return await majorSnapshot.getDocuments().then((snapshot) => snapshot
+        .documents
+        .map((doc) => Major.fromJson(doc.data).majorName)
+        .toSet()
+        .toList());
+  }
+
   Stream<List<DocumentSnapshot>> getMajorByFacultyReference(
       DocumentReference facDoc) {
     Stream<QuerySnapshot> majorSnapshot = Firestore.instance
