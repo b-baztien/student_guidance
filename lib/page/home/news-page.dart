@@ -55,135 +55,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
       _toDay = DateFormat('dd MMMM yyyy', 'th').format(day);
     });
   }
-
-  myDrawer(Student student, Login login, String schoolId) {
-    return ClipPath(
-      clipper: OvalRighBorderClipper(),
-      child: Drawer(
-        child: Container(
-          padding: const EdgeInsets.only(left: 16, right: 40),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black45)]),
-          width: 300,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.power_settings_new,
-                          color: Colors.grey.shade800,
-                        ),
-                        onPressed: () {
-                          LoginService().clearLoginData();
-                          Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              UIdata.loginPageTag,
-                              ModalRoute.withName(UIdata.loginPageTag));
-                        }),
-                  ),
-                  Container(
-                      height: 90,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              colors: [Colors.orange, Colors.deepOrange])),
-                      child: FutureBuilder(
-                          future: GetImageService().getImage(student.image),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return CircleAvatar(
-                                backgroundImage: NetworkImage(snapshot.data),
-                                radius: 40,
-                              );
-                            } else {
-                              return CircleAvatar(
-                                radius: 40,
-                              );
-                            }
-                          })),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    student.firstName + ' ' + student.lastName,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    schoolId,
-                    style: TextStyle(color: Colors.blueAccent, fontSize: 15),
-                  ),
-                  Text(
-                    student.status,
-                    style: TextStyle(
-                        color: student.status == 'กำลังศึกษา'
-                            ? Colors.green
-                            : Colors.orange,
-                        fontSize: 15),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  _buildRow(
-                      Icons.account_circle, "แก้ไขข้อมูลส่วนตัว", Colors.blue),
-                  _buildDivider(),
-                  student.status == 'กำลังศึกษา'
-                      ? _buildRow(Icons.add_to_photos, "เพิ่มข้อมูลการสอบ TCAS",
-                          Colors.green)
-                      : _buildRow(Icons.add_to_photos,
-                          "เพิ่มข้อมูลหลังการจบการศึกษา", Colors.green),
-                  _buildDivider(),
-                  _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow),
-                  _buildDivider(),
-                  _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300]),
-                  _buildDivider(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Divider _buildDivider() {
-    return Divider(
-      color: Colors.deepOrange,
-    );
-  }
-
-  Widget _buildRow(IconData icon, String title, Color colors) {
-    final TextStyle textStyle =
-        TextStyle(color: Colors.black, fontFamily: 'kanit', fontSize: 15);
-    return GestureDetector(
-      onTap: () {
-        print(title);
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Row(
-          children: <Widget>[
-            Icon(icon, color: colors),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              title,
-              style: textStyle,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -200,6 +71,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 if (snapshot.hasData) {
                   return TableCalendar(
                     locale: 'th_TH',
+                    
                     calendarController: _calendarController,
                     events: snapshot.data,
                     rowHeight: 50,

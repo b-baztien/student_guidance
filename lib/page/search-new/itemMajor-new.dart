@@ -304,7 +304,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             )
                           ],
                         ),
-                        SizedBox(width: 110),
+                        SizedBox(width: 70),
                         InkWell(
                           onTap: () => launch(
                               itemMajor.url.startsWith('https://') ||
@@ -458,7 +458,8 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         style: TextStyle(
                             fontSize: 18,
                             color: Color(0xff4F4F4F),
-                            fontWeight: FontWeight.bold))
+                            fontWeight: FontWeight.bold)),
+
                   ],
                 ),
               )

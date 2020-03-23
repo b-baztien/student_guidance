@@ -159,7 +159,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                   'รอบการสมัคร',
                                   style: TextStyle(
                                       fontFamily: UIdata.fontFamily,
-                                      fontSize: 18,
+                                      fontSize: 13,
                                       color: Colors.white),
                                 ),
                                 SizedBox(
@@ -205,12 +205,15 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                         University.fromJson(doc.data);
                                     currencyItem.add(
                                       DropdownMenuItem(
-                                        child: Text(
-                                          uni.universityname,
-                                          style: TextStyle(
-                                              decorationColor: Colors.white),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                        child:
+                                        AutoSizeText(
+                                                 uni.universityname,
+                                              style: TextStyle(
+                                              decorationColor: Colors.white,fontSize: 11),
+                                              minFontSize: 8,
+                                              maxLines: 1,
+                                               overflow: TextOverflow.ellipsis,
+                                            ),
                                         value: doc.reference,
                                       ),
                                     );
@@ -219,23 +222,25 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                     _dropdownUniversityMenuItem = currencyItem;
                                   }
                                   return Row(
+                                    mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
                                         'มหาวิทยาลัย',
                                         style: TextStyle(
                                             fontFamily: UIdata.fontFamily,
-                                            fontSize: 18,
+                                            fontSize: 13,
                                             color: Colors.white),
                                       ),
                                       SizedBox(
-                                        width: 30,
+                                        width: 10,
                                       ),
                                       Theme(
                                         data: Theme.of(context).copyWith(
                                           canvasColor: Colors.black,
                                         ),
                                         child: DropdownButton(
+
                                           value: _selectedUniversity,
                                           items: _dropdownUniversityMenuItem,
                                           onChanged:
@@ -295,13 +300,14 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                         'คณะ',
                                         style: TextStyle(
                                             fontFamily: UIdata.fontFamily,
-                                            fontSize: 18,
+                                            fontSize: 13,
                                             color: Colors.white),
                                       ),
                                       SizedBox(
                                         width: 30,
                                       ),
                                       Theme(
+
                                         data: Theme.of(context).copyWith(
                                           canvasColor: Colors.black,
                                         ),
@@ -361,7 +367,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                         'สาขา',
                                         style: TextStyle(
                                             fontFamily: UIdata.fontFamily,
-                                            fontSize: 18,
+                                            fontSize: 13,
                                             color: Colors.white),
                                       ),
                                       SizedBox(
