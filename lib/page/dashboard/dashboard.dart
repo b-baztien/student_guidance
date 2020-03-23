@@ -19,10 +19,15 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  List<String> tabData;
+
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+        final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: FutureBuilder(
           future: UIdata.getPrefs(),
@@ -59,6 +64,65 @@ class _DashboardState extends State<Dashboard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Text(
+                          UIdata.txDashboardTitle,
+                          style: UIdata.textTitleStyleDark,
+                        ),
+                        FutureBuilder(
+                             future: DashboardService().getDashboardYear(
+                              futureSnapshot.data.getString('schoolId')),
+                          builder: (context, snap){
+                             if (snap.hasData) {
+                              _tabController = new TabController(
+                                  vsync: this, length: snap.data.length);
+                              tabData = snap.data;
+                             return  Column(
+                               children: <Widget>[
+                                 Container(
+                                   child: TabBar(
+                                controller: _tabController,
+                                indicatorColor: Colors.green,
+                                labelColor: Colors.green,
+                                unselectedLabelColor: Color(0xff939191),
+                                isScrollable: true,
+                                tabs: tabData
+                                      .map((year) => Tab(
+                                            text: 'ปีการศึกษา ' + year,
+                                          ))
+                                      .toList(),
+                              ),
+                                 ),
+                            Container(
+                               height: screenHeight,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: tabData.map(
+                          (year) {
+                            return Column(
+                              children: <Widget>[
+                                StreamBuilder(
+                          stream: DashboardService().getAlumniDashboard(
+                              futureSnapshot.data.getString('schoolId'),year),
+                          builder: (BuildContext context,AsyncSnapshot<DashboardAlumni> snapshot) {
+                            if (snapshot.hasData) {
+                              return cardDashboradYear(snapshot.data);
+                            } else {
+                              return cardDashboradYear(
+                                DashboardAlumni(
+                                    (DateTime.parse(DateFormat(
+                                                        'yyyy-MM-dd', 'th_TH')
+                                                    .format(DateTime.now()))
+                                                .year +
+                                            543)
+                                        .toString(),
+                                    0,
+                                    0,
+                                    0,
+                                    0),
+                              );
+                            }
+                          },
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 15),
                           child: Row(
@@ -69,7 +133,7 @@ class _DashboardState extends State<Dashboard> {
                                   Colors.black87,
                                   screenWidth / 2.1,
                                   UIdata.txDashnoardUniversityPop,
-                                  ['มหาวิทยาลัยแม่โจ้'],
+                                  ['มหาวิทยาลัยแม่โจ้', 'มหาวิทยาลัยแม่โจ้'],
                                   UIdata.textDashboardTitleStylePink,
                                   UIdata.imgDashnoardUniversityPop,
                                   40,
@@ -104,39 +168,20 @@ class _DashboardState extends State<Dashboard> {
                             ],
                           ),
                         ),
-                        Text(
-                          UIdata.txDashboardTitle,
-                          style: UIdata.textTitleStyleDark,
-                        ),
-                        StreamBuilder(
-                          stream: DashboardService().getAlumniDashboard(
-                              futureSnapshot.data.getString('schoolId')),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<List<DashboardAlumni>> snapshot) {
-                            if (snapshot.hasData) {
-                              return Column(
-                                children: snapshot.data
-                                    .map((DashboardAlumni dashboardAlumni) {
-                                  return cardDashboradYear(dashboardAlumni);
-                                }).toList(),
-                              );
-                            } else {
-                              return cardDashboradYear(
-                                DashboardAlumni(
-                                    (DateTime.parse(DateFormat(
-                                                        'yyyy-MM-dd', 'th_TH')
-                                                    .format(DateTime.now()))
-                                                .year +
-                                            543)
-                                        .toString(),
-                                    0,
-                                    0,
-                                    0,
-                                    0),
-                              );
-                            }
+                              ],
+                            );
                           },
+                        ).toList(),
+                      ),
+                    )
+                               ],
+                             );
+                            } else {
+                              return SizedBox(height: 1,);
+                            }
+                          }
                         ),
+                        
                       ],
                     ),
                   ),
@@ -162,20 +207,6 @@ class _DashboardState extends State<Dashboard> {
     return Card(
         child: ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-      leading: Container(
-        height: 50,
-        padding: EdgeInsets.only(left: 5, right: 12, top: 15),
-        decoration: new BoxDecoration(
-            border: new Border(
-                right: new BorderSide(
-          width: 1.0,
-          color: Colors.black,
-        ))),
-        child: Text(
-          'ปีการศึกษา ' + dashboardAlumni.graduateYear,
-          style: TextStyle(fontSize: 12),
-        ),
-      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -183,66 +214,66 @@ class _DashboardState extends State<Dashboard> {
             children: <Widget>[
               Text(
                 UIdata.txDashboardStudentAll,
-                style: UIdata.textSubTitleStyle_9,
+                style: UIdata.textSubTitleStyle_12,
               ),
               //นักเรียนทั้งหมด
               Text(
                 dashboardAlumni.total.toString(),
                 style: TextStyle(
-                    fontFamily: 'Kanit', fontSize: 12, color: Colors.green),
+                    fontFamily: 'Kanit', fontSize: 15, color: Colors.green),
               )
             ],
           ),
           SizedBox(
-            width: 10,
+            width: 8,
           ),
           Column(
             children: <Widget>[
               Text(
                 UIdata.txDashboardStudentAddUniversity,
-                style: UIdata.textSubTitleStyle_9,
+                style: UIdata.textSubTitleStyle_12,
               ),
               //ศึกษาต่อ
               Text(
                 dashboardAlumni.studying.toString(),
                 style: TextStyle(
-                    fontFamily: 'Kanit', fontSize: 12, color: Colors.lightBlue),
+                    fontFamily: 'Kanit', fontSize: 15, color: Colors.lightBlue),
               )
             ],
           ),
           SizedBox(
-            width: 10,
+            width: 8,
           ),
           Column(
             children: <Widget>[
               Text(
                 UIdata.txDashboardStudentNoneUniversity,
-                style: UIdata.textSubTitleStyle_9,
+                style: UIdata.textSubTitleStyle_12,
               ),
               //ไม่ศึกษาต่อ
               Text(
                 dashboardAlumni.working.toString(),
                 style: TextStyle(
                     fontFamily: 'Kanit',
-                    fontSize: 12,
+                    fontSize: 15,
                     color: Colors.deepOrangeAccent),
               )
             ],
           ),
           SizedBox(
-            width: 10,
+            width: 8,
           ),
           Column(
             children: <Widget>[
               Text(
                 UIdata.txDashboardStudentOther,
-                style: UIdata.textSubTitleStyle_9,
+                style: UIdata.textSubTitleStyle_12,
               ),
               //อื่นๆ
               Text(
                 dashboardAlumni.other.toString(),
                 style: TextStyle(
-                    fontFamily: 'Kanit', fontSize: 12, color: Colors.red),
+                    fontFamily: 'Kanit', fontSize: 15, color: Colors.red),
               )
             ],
           )

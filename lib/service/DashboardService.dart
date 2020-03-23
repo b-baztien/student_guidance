@@ -38,9 +38,7 @@ class DashboardService {
           }
         }
       }
-
       dashboardAlumni = DashboardAlumni(year, total, studying, working, other);
-
       return dashboardAlumni;
     });
   }
