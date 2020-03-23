@@ -3,29 +3,34 @@ import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 class AddRecommend extends StatefulWidget {
   @override
   _AddRecommendState createState() => _AddRecommendState();
 }
 
 class _AddRecommendState extends State<AddRecommend> {
- Map<String,bool> values = new Map<String,bool>();
-@override
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Map<String, bool> mapValues = new Map<String, bool>();
+  List<String> listValue = List();
+  @override
   void initState() {
     super.initState();
-   MajorService().getAllMajorName().then((majorName){
-     for(String f in majorName){
-     setState(() {
-         values[f] = false;
-     });
-     }
-   });
+    MajorService().getAllMajorName().then((majorName) {
+      for (String f in majorName) {
+        setState(() {
+          mapValues[f] = false;
+        });
+      }
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Material(
-        child: Container(
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -60,34 +65,42 @@ class _AddRecommendState extends State<AddRecommend> {
                           child: SingleChildScrollView(
                             child: Container(
                                 child: Column(
-                                    children: values.keys.map((String key){
-                                      return  CheckboxListTile(
-                                      value: values[key],
-                                       onChanged: (bool val){
-                                       setState(() {
-                                           values[key] = val ;
-                                       });
-                                       },
-                                       title: Text(key),
-                                       );
-                                    }).toList()
-                                  )),
+                                    children: mapValues.keys.map((String key) {
+                              return CheckboxListTile(
+                                value: mapValues[key],
+                                onChanged: (bool val) {
+                                  (val && listValue.length >= 3)
+                                      ? _scaffoldKey.currentState.showSnackBar(
+                                          UIdata.dangerSnackBar(
+                                              'เพิ่มสูงสุดได้ 3 สาขา'))
+                                      : setState(() {
+                                          if (val) {
+                                            mapValues[key] = true;
+                                            listValue.add(key);
+                                          } else {
+                                            mapValues[key] = false;
+                                            listValue.remove(key);
+                                          }
+                                        });
+                                },
+                                title: Text(key),
+                                controlAffinity:
+                                    ListTileControlAffinity.trailing,
+                              );
+                            }).toList())),
                           ),
                         ),
                       ),
-                       SizedBox(
+                      SizedBox(
                         height: 10,
                       ),
                       Padding(
-                           padding: const EdgeInsets.all(8.0),
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             children: <Widget>[
-                              
-                             ],
-                           ),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[],
+                        ),
                       )
-
                     ],
                   )),
             ),
