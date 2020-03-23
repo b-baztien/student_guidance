@@ -9,6 +9,7 @@ import 'package:student_guidance/page/add_data/add_education.dart';
 import 'package:student_guidance/page/add_data/add_education_new.dart';
 import 'package:student_guidance/page/add_data/add_entrance_major.dart';
 import 'package:student_guidance/page/add_data/add_recommend.dart';
+import 'package:student_guidance/page/add_data/add_recommend_carrer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
@@ -139,12 +140,20 @@ class _MyDrawerState extends State<MyDrawer> {
                     Colors.red[300],
                     (context) => ListFavorite(
                         )),
+                        
                            _buildDivider(),
                 _buildRow(
                     Icons.favorite,
                     "RECOMMEND",
                     Colors.red[300],
                     (context) => AddRecommend(
+                        )),
+                                 _buildDivider(),
+                _buildRow(
+                    Icons.favorite,
+                    "RECOMMENDCARRER",
+                    Colors.red[300],
+                    (context) => AddRecommendCarrer(
                         )),
               ],
             ),

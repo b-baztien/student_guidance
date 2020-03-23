@@ -12,7 +12,7 @@ class AddRecommend extends StatefulWidget {
 class _AddRecommendState extends State<AddRecommend> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Map<String, bool> mapValues = new Map<String, bool>();
-  List<String> listValue = List();
+  List<String> tmpArray = List();
   @override
   void initState() {
     super.initState();
@@ -23,6 +23,16 @@ class _AddRecommendState extends State<AddRecommend> {
         });
       }
     });
+  }
+
+  getCheckbox() {
+    mapValues.forEach((key, value) {
+      if (value == true) {
+        tmpArray.add(key);
+      }
+    });
+    print(tmpArray);
+    tmpArray.clear();
   }
 
   @override
@@ -69,19 +79,23 @@ class _AddRecommendState extends State<AddRecommend> {
                               return CheckboxListTile(
                                 value: mapValues[key],
                                 onChanged: (bool val) {
-                                  (val && listValue.length >= 3)
-                                      ? _scaffoldKey.currentState.showSnackBar(
-                                          UIdata.dangerSnackBar(
-                                              'เพิ่มสูงสุดได้ 3 สาขา'))
-                                      : setState(() {
-                                          if (val) {
-                                            mapValues[key] = true;
-                                            listValue.add(key);
-                                          } else {
-                                            mapValues[key] = false;
-                                            listValue.remove(key);
-                                          }
-                                        });
+                                  if (val && tmpArray.length >= 3) {
+                                    _scaffoldKey.currentState
+                                        .hideCurrentSnackBar();
+                                    _scaffoldKey.currentState.showSnackBar(
+                                        UIdata.dangerSnackBar(
+                                            'เพิ่มสูงสุดได้ 3 สาขา'));
+                                  } else {
+                                    setState(() {
+                                      if (val) {
+                                        mapValues[key] = true;
+                                        tmpArray.add(key);
+                                      } else {
+                                        mapValues[key] = false;
+                                        tmpArray.remove(key);
+                                      }
+                                    });
+                                  }
                                 },
                                 title: Text(key),
                                 controlAffinity:
@@ -91,14 +105,37 @@ class _AddRecommendState extends State<AddRecommend> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[],
+                          children: <Widget>[
+                            IconButton(
+                                icon: Icon(
+                                  FontAwesomeIcons.exclamationCircle,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {}),
+                            FlatButton.icon(
+                                shape: StadiumBorder(
+                                  side: BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  getCheckbox();
+                                },
+                                icon: Icon(
+                                  FontAwesomeIcons.save,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                label: Text(
+                                  'บันทึก',
+                                  style: TextStyle(color: Colors.white),
+                                ))
+                          ],
                         ),
                       )
                     ],
