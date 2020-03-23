@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:student_guidance/model/FilterSeachItems.dart';
-import 'package:student_guidance/service/SearchService.dart';
+import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class AddRecommend extends StatefulWidget {
   @override
   _AddRecommendState createState() => _AddRecommendState();
@@ -10,7 +10,17 @@ class AddRecommend extends StatefulWidget {
 
 class _AddRecommendState extends State<AddRecommend> {
  Map<String,bool> values = new Map<String,bool>();
-
+@override
+  void initState() {
+    super.initState();
+   MajorService().getAllMajorName().then((majorName){
+     for(String f in majorName){
+     setState(() {
+         values[f] = false;
+     });
+     }
+   });
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +50,6 @@ class _AddRecommendState extends State<AddRecommend> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: 600,
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -50,42 +59,35 @@ class _AddRecommendState extends State<AddRecommend> {
                           padding: const EdgeInsets.all(8.0),
                           child: SingleChildScrollView(
                             child: Container(
-                                child: StreamBuilder(
-                              stream: SearchService().getAllSearchItem(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                     
-                                  List<FilterSeachItems> list = snapshot.data;
-                                  List<FilterSeachItems> listItem =
-                                      new List<FilterSeachItems>();
-                                  for (FilterSeachItems f in list) {
-                                    if (f.type == 'Major') {
-                                      values[f.name] = false;
-                                      listItem.add(f);
-                                    }
-                                  }
-                                  return Column(
+                                child: Column(
                                     children: values.keys.map((String key){
                                       return  CheckboxListTile(
                                       value: values[key],
                                        onChanged: (bool val){
                                        setState(() {
-                                         print(val);
                                            values[key] = val ;
                                        });
                                        },
                                        title: Text(key),
                                        );
                                     }).toList()
-                                  );
-                                } else {
-                                  return SizedBox(height: 1);
-                                }
-                              },
-                            )),
+                                  )),
                           ),
                         ),
                       ),
+                       SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: <Widget>[
+                              
+                             ],
+                           ),
+                      )
+
                     ],
                   )),
             ),
