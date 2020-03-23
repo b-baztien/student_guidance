@@ -216,14 +216,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                       ],
                                     );
                                   } else {
-                                    return SizedBox(
-                                      height: 1,
-                                    );
+                                    return SizedBox.shrink();
                                   }
                                 },
                               );
                             } else {
-                              return SizedBox();
+                              return SizedBox.shrink();
                             }
                           },
                         )
