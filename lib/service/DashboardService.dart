@@ -52,4 +52,19 @@ class DashboardService {
       return listDashboardAlumni.take(5).toList();
     });
   }
+
+  Future<List<String>> getDashboardYear(String schoolName) async {
+    Query alumniSnapshot = Firestore.instance
+        .collectionGroup('Alumni')
+        .where('schoolName', isEqualTo: schoolName)
+        .orderBy('graduate_year');
+
+    return await alumniSnapshot.getDocuments().then((snapshot) {
+      return snapshot.documents
+          .map((doc) => Alumni.fromJson(doc.data).graduateYear)
+          .toSet()
+          .take(5)
+          .toList();
+    });
+  }
 }
