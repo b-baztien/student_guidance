@@ -10,6 +10,7 @@ class AddRecommend extends StatefulWidget {
 
 class _AddRecommendState extends State<AddRecommend> {
  Map<String,bool> values = new Map<String,bool>();
+ var tmpArray = [];
 @override
   void initState() {
     super.initState();
@@ -21,6 +22,15 @@ class _AddRecommendState extends State<AddRecommend> {
      }
    });
   }
+getCheckbox(){
+  values.forEach((key,value){
+    if(value == true){
+  tmpArray.add(key);
+    }
+  });
+   print(tmpArray);
+  tmpArray.clear();
+}
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -92,6 +102,8 @@ class _AddRecommendState extends State<AddRecommend> {
                             ),
                           ),
                                 onPressed: (){
+                                  getCheckbox();
+                                 
                                 },
                                  icon: Icon(
                         FontAwesomeIcons.save,
