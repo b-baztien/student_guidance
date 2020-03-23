@@ -15,7 +15,7 @@ class AddRecommendCarrer extends StatefulWidget {
 class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Map<String, bool> mapValues = new Map<String, bool>();
-  var tmpArray = [];
+  List<String> tmpArray = [];
   ProgressDialog _progressDialog;
   StudentRecommend _stdRcm;
 
