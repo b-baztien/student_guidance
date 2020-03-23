@@ -483,7 +483,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                           sizeCurve: Curves.easeIn,
                           firstChild: myCalendarOff,
                           secondChild: myCalendarOn,
-                          duration: const Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 300),
                           crossFadeState: toggle
                               ? CrossFadeState.showFirst
                               : CrossFadeState.showSecond,
