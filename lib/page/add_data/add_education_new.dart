@@ -99,6 +99,8 @@ class _AddEducationNewState extends State<AddEducationNew> {
   onChangeFacultyDropdownItem(DocumentReference selectFaculty) {
     setState(() {
       _selectedFaculty = selectFaculty;
+      _dropdownMajorMenuItem = null;
+      _selectedMajor = null;
     });
   }
 
@@ -205,15 +207,15 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                         University.fromJson(doc.data);
                                     currencyItem.add(
                                       DropdownMenuItem(
-                                        child:
-                                        AutoSizeText(
-                                                 uni.universityname,
-                                              style: TextStyle(
-                                              decorationColor: Colors.white,fontSize: 11),
-                                              minFontSize: 8,
-                                              maxLines: 1,
-                                               overflow: TextOverflow.ellipsis,
-                                            ),
+                                        child: AutoSizeText(
+                                          uni.universityname,
+                                          style: TextStyle(
+                                              decorationColor: Colors.white,
+                                              fontSize: 11),
+                                          minFontSize: 8,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                         value: doc.reference,
                                       ),
                                     );
@@ -240,7 +242,6 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                           canvasColor: Colors.black,
                                         ),
                                         child: DropdownButton(
-
                                           value: _selectedUniversity,
                                           items: _dropdownUniversityMenuItem,
                                           onChanged:
@@ -307,7 +308,6 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                         width: 30,
                                       ),
                                       Theme(
-
                                         data: Theme.of(context).copyWith(
                                           canvasColor: Colors.black,
                                         ),
