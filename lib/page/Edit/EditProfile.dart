@@ -341,7 +341,6 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
                                       StudentRecommend _stdRcm = snapshot.data;
-
                                       return Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
