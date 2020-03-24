@@ -137,21 +137,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     Colors.red[300],
                     (context) => ListFavorite(
                         )),
-                        
-                           _buildDivider(),
-                _buildRow(
-                    Icons.favorite,
-                    "RECOMMEND",
-                    Colors.red[300],
-                    (context) => AddRecommend(
-                        )),
-                                 _buildDivider(),
-                _buildRow(
-                    Icons.favorite,
-                    "RECOMMENDCARRER",
-                    Colors.red[300],
-                    (context) => AddRecommendCarrer(
-                        )),
+                  
               ],
             ),
           ),
