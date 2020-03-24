@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:student_guidance/model/Faculty.dart';
-import 'package:student_guidance/model/University.dart';
 
 class FacultyService {
   Stream<List<DocumentSnapshot>> getListFacultyByUniversityId(

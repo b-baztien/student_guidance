@@ -2,10 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:student_guidance/model/Alumni.dart';
 import 'package:student_guidance/model/EntranceExamResult.dart';
+import 'package:student_guidance/model/EntranceMajor.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
+import 'package:student_guidance/service/AlumniService.dart';
 import 'package:student_guidance/service/EntranService.dart';
 import 'package:student_guidance/service/FacultyService.dart';
 import 'package:student_guidance/service/MajorService.dart';
@@ -16,6 +19,7 @@ class AddEntranceMajor extends StatefulWidget {
   @override
   _AddEntranceMajorState createState() => _AddEntranceMajorState();
 }
+
 class Round {
   String id;
   String name = '';
@@ -24,14 +28,14 @@ class Round {
     return <Round>[
       Round('1', 'ศึกษาต่อ'),
       Round('2', 'ประกอบอาชีพ'),
-   
     ];
   }
 }
+
 class _AddEntranceMajorState extends State<AddEntranceMajor> {
   final GlobalKey<FormState> _educationKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
- List<Round> _round = Round.getRound();
+  List<Round> _round = Round.getRound();
   List<DropdownMenuItem<Round>> _dropdownRoundMenuItem;
   List<DropdownMenuItem<DocumentReference>> _dropdownUniversityMenuItem;
   List<DropdownMenuItem<DocumentReference>> _dropdownFacultyMenuItem;
@@ -42,9 +46,11 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
   DocumentReference _selectedFaculty;
   DocumentReference _selectedMajor;
   String _schoolName = '';
-  bool ckOpen ;
+  Alumni _alumni;
+  String _job;
+  bool ckOpen;
   ProgressDialog _progressDialog;
-@override
+  @override
   void initState() {
     ckOpen = true;
     _dropdownRoundMenuItem = buildDropDownMenuItem(_round);
@@ -58,9 +64,13 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
     _progressDialog = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
     _progressDialog.style(message: 'กำลังเพิ่มข้อมูล...');
+
+    AlumniService().getCurrentAlumni().then((data) {
+      _alumni = data;
+    });
     super.initState();
   }
-  
+
   List<DropdownMenuItem<Round>> buildDropDownMenuItem(List rounded) {
     List<DropdownMenuItem<Round>> items = List();
     for (Round round in rounded) {
@@ -78,6 +88,11 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
     setState(() {
       ckOpen = false;
       _selectedRound = selectRound;
+      _selectedUniversity = null;
+      _dropdownFacultyMenuItem = null;
+      _dropdownMajorMenuItem = null;
+      _selectedFaculty = null;
+      _selectedMajor = null;
     });
   }
 
@@ -109,38 +124,38 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/add-education-img.png"),
-                  fit: BoxFit.fitHeight)),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  UIdata.txEntrance,
-                  style: UIdata.textTitleStyle,
-                ),
-                leading: IconButton(
-                  icon: UIdata.backIcon,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/add-education-img.png"),
+                fit: BoxFit.fitHeight)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Text(
+              UIdata.txEntrance,
+              style: UIdata.textTitleStyle,
+            ),
+            leading: IconButton(
+              icon: UIdata.backIcon,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black.withOpacity(0.5),
+                  border: Border.all(width: 2, color: Colors.white)),
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black.withOpacity(0.5),
-                      border: Border.all(width: 2, color: Colors.white)),
-                      padding:  const EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                           Form(
+                  child: Column(
+                    children: <Widget>[
+                      Form(
                         key: _educationKey,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -186,92 +201,120 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                             SizedBox(
                               height: 10,
                             ),
-                            ckOpen == true ? SizedBox(height: 1) :
-                            _selectedRound.id == '1'? StreamBuilder<List<DocumentSnapshot>>(
-                              stream: UniversityService().getAllUniversity(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Container();
-                                } else {
-                                  List<DropdownMenuItem<DocumentReference>>
-                                      currencyItem = [];
-                                  for (int i = 0;
-                                      i < snapshot.data.length;
-                                      i++) {
-                                    DocumentSnapshot doc = snapshot.data[i];
-                                    University uni =
-                                        University.fromJson(doc.data);
-                                    currencyItem.add(
-                                      DropdownMenuItem(
-                                        child: AutoSizeText(
-                                          uni.universityname,
-                                          style: TextStyle(
-                                              decorationColor: Colors.white,
-                                              fontSize: 11),
-                                          minFontSize: 8,
+                            ckOpen == true
+                                ? SizedBox(height: 1)
+                                : _selectedRound.id == '1'
+                                    ? StreamBuilder<List<DocumentSnapshot>>(
+                                        stream: UniversityService()
+                                            .getAllUniversity(),
+                                        builder: (context, snapshot) {
+                                          if (!snapshot.hasData) {
+                                            return Container();
+                                          } else {
+                                            List<
+                                                    DropdownMenuItem<
+                                                        DocumentReference>>
+                                                currencyItem = [];
+                                            for (int i = 0;
+                                                i < snapshot.data.length;
+                                                i++) {
+                                              DocumentSnapshot doc =
+                                                  snapshot.data[i];
+                                              University uni =
+                                                  University.fromJson(doc.data);
+                                              currencyItem.add(
+                                                DropdownMenuItem(
+                                                  child: AutoSizeText(
+                                                    uni.universityname,
+                                                    style: TextStyle(
+                                                        decorationColor:
+                                                            Colors.white,
+                                                        fontSize: 11),
+                                                    minFontSize: 8,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  value: doc.reference,
+                                                ),
+                                              );
+                                            }
+                                            if (_dropdownUniversityMenuItem ==
+                                                null) {
+                                              _dropdownUniversityMenuItem =
+                                                  currencyItem;
+                                            }
+                                            return Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                  'มหาวิทยาลัย',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          UIdata.fontFamily,
+                                                      fontSize: 13,
+                                                      color: Colors.white),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Theme(
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                    canvasColor: Colors.black,
+                                                  ),
+                                                  child: DropdownButton(
+                                                    value: _selectedUniversity,
+                                                    items:
+                                                        _dropdownUniversityMenuItem,
+                                                    onChanged:
+                                                        onChangeUniversityDropdownItem,
+                                                    style: TextStyle(
+                                                        decorationColor:
+                                                            Colors.white),
+                                                    hint: Text(
+                                                        'เลือกมหาวิทยาลัย',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        )),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                        },
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
                                           maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        value: doc.reference,
-                                      ),
-                                    );
-                                  }
-                                  if (_dropdownUniversityMenuItem == null) {
-                                    _dropdownUniversityMenuItem = currencyItem;
-                                  }
-                                  return Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        'มหาวิทยาลัย',
-                                        style: TextStyle(
-                                            fontFamily: UIdata.fontFamily,
-                                            fontSize: 13,
-                                            color: Colors.white),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Theme(
-                                        data: Theme.of(context).copyWith(
-                                          canvasColor: Colors.black,
-                                        ),
-                                        child: DropdownButton(
-                                          value: _selectedUniversity,
-                                          items: _dropdownUniversityMenuItem,
-                                          onChanged:
-                                              onChangeUniversityDropdownItem,
-                                          style: TextStyle(
-                                              decorationColor: Colors.white),
-                                          hint: Text('เลือกมหาวิทยาลัย',
-                                              style: TextStyle(
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _job = value;
+                                            });
+                                          },
+                                          decoration: InputDecoration(
+                                            labelText: 'อาชีพที่ทำ',
+                                            hintText: 'อาชีพ',
+                                            hintStyle: TextStyle(
+                                                fontFamily: UIdata.fontFamily,
                                                 color: Colors.white,
-                                              )),
+                                                fontSize: 13),
+                                            labelStyle: TextStyle(
+                                                fontFamily: UIdata.fontFamily,
+                                                color: Colors.white,
+                                                fontSize: 13),
+                                          ),
+                                          style: TextStyle(
+                                              fontFamily: UIdata.fontFamily,
+                                              color: Colors.white),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  );
-                                }
-                              },
-                            ) : Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                               maxLines: 1,
-                                   decoration: InputDecoration(
-                                     labelText: 'อาชีพที่ทำ',
-                    hintText: 'อาชีพ',
-            hintStyle:
-                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white,fontSize: 13),
-            labelStyle:
-                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white,fontSize: 13),
-          ),
-          style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
-                              ),
-                            ),
                             SizedBox(
                               height: 10,
                             ),
@@ -423,49 +466,9 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                                   ),
                                   color: UIdata.themeColor,
                                   onPressed: () async {
-                                    try {
-                                      _progressDialog.show();
-                                      EntranceExamResult enExam =
-                                          EntranceExamResult();
-                                      enExam.entranceExamName =
-                                          _selectedRound.name;
-                                      enExam.round = _selectedRound.id;
-                                      enExam.university = University.fromJson(
-                                              ((await _selectedUniversity.get())
-                                                  .data))
-                                          .universityname;
-                                      enExam.faculty = Faculty.fromJson(
-                                              (await _selectedFaculty.get())
-                                                  .data)
-                                          .facultyName;
-                                      enExam.major = Major.fromJson(
-                                              (await _selectedMajor.get()).data)
-                                          .majorName;
-                                      enExam.schoolName = _schoolName;
-                                      enExam.year =
-                                          (DateTime.now().toLocal().year)
-                                              .toString();
-                                      EntranService()
-                                          .addEntranceExamResult(enExam)
-                                          .then((result) {
-                                        _progressDialog.hide();
-                                        if (result) {
-                                          Navigator.pop(
-                                              context, 'เพิ่มข้อมูลสำเร็จ');
-                                        } else {
-                                          _progressDialog.hide();
-                                          _scaffoldKey.currentState
-                                              .showSnackBar(
-                                                  UIdata.dangerSnackBar(
-                                                      'เพิ่มข้อมูลล้มเหลว'));
-                                        }
-                                      });
-                                    } catch (e) {
-                                      _progressDialog.hide();
-                                      _scaffoldKey.currentState.showSnackBar(
-                                          UIdata.dangerSnackBar(
-                                              'เพิ่มข้อมูลล้มเหลว'));
-                                    }
+                                    _selectedRound.id == '1'
+                                        ? addDataInStudyStatus()
+                                        : addDataInCareerStatus();
                                   }),
                             ),
                             SizedBox(
@@ -474,14 +477,67 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                           ],
                         ),
                       ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
+        ),
+      ),
     );
+  }
+
+  addDataInStudyStatus() async {
+    try {
+      _progressDialog.show();
+      EntranceMajor enMajor = EntranceMajor();
+      _alumni.status = _selectedRound.name;
+      _alumni.job = 'นักศึกษา';
+      enMajor.universityName =
+          University.fromJson(((await _selectedUniversity.get()).data))
+              .universityname;
+      enMajor.facultyName =
+          Faculty.fromJson((await _selectedFaculty.get()).data).facultyName;
+      enMajor.majorName =
+          Major.fromJson((await _selectedMajor.get()).data).majorName;
+      enMajor.schoolName = _schoolName;
+      EntranService().addEntranceMajor(enMajor).then((result) {
+        _progressDialog.hide();
+        if (result) {
+          Navigator.pop(context, 'เพิ่มข้อมูลสำเร็จ');
+        } else {
+          _progressDialog.hide();
+          _scaffoldKey.currentState
+              .showSnackBar(UIdata.dangerSnackBar('เพิ่มข้อมูลล้มเหลว'));
+        }
+      });
+    } catch (e) {
+      _progressDialog.hide();
+      _scaffoldKey.currentState
+          .showSnackBar(UIdata.dangerSnackBar('เพิ่มข้อมูลล้มเหลว'));
+    }
+  }
+
+  addDataInCareerStatus() {
+    try {
+      _progressDialog.show();
+      _alumni.status = _selectedRound.name;
+      _alumni.job = _job;
+      AlumniService().addEditStudentRecommend(_alumni).then((result) {
+        _progressDialog.hide();
+        if (result) {
+          Navigator.pop(context, 'เพิ่มข้อมูลสำเร็จ');
+        } else {
+          _progressDialog.hide();
+          _scaffoldKey.currentState
+              .showSnackBar(UIdata.dangerSnackBar('เพิ่มข้อมูลล้มเหลว'));
+        }
+      });
+    } catch (e) {
+      _progressDialog.hide();
+      _scaffoldKey.currentState
+          .showSnackBar(UIdata.dangerSnackBar('เพิ่มข้อมูลล้มเหลว'));
+    }
   }
 }

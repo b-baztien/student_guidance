@@ -164,8 +164,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                       .addStudentFavorite(favorite)
                                   : StudentFavoriteService()
                                       .deleteStudentFavorite(favorite);
-                            }
-                            );
+                            });
                           },
                         )
                       ],
@@ -459,7 +458,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             fontSize: 18,
                             color: Color(0xff4F4F4F),
                             fontWeight: FontWeight.bold)),
-
                   ],
                 ),
               )
@@ -501,6 +499,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                 return Column(
                   children: <Widget>[
                     CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/career.jpg'),
                       radius: 40,
                     ),
                     Text(career.careerName),

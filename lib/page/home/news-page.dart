@@ -38,11 +38,11 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
     _calendarController = CalendarController();
     toggle = true;
     _isVisibleDate = true;
-
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+    _animationController.forward();
   }
 
   void _onVisibleDaysChanged(
@@ -55,6 +55,7 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
       _toDay = DateFormat('dd MMMM yyyy', 'th').format(day);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,7 +72,6 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                 if (snapshot.hasData) {
                   return TableCalendar(
                     locale: 'th_TH',
-                    
                     calendarController: _calendarController,
                     events: snapshot.data,
                     rowHeight: 50,
@@ -156,12 +156,12 @@ class _NewsPageState extends State<NewsPage> with TickerProviderStateMixin {
                     onVisibleDaysChanged: _onVisibleDaysChanged,
                   );
                 } else {
-                  return Text('');
+                  return SizedBox.shrink();
                 }
               },
             );
           } else {
-            return Text('');
+            return SizedBox.shrink();
           }
         });
 
