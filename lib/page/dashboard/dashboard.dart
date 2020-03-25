@@ -355,7 +355,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     style: titleStyle,
                   ),
                   Container(
-                    child: snapshot.data.isNotEmpty
+                    child: snapshot.data != null
                         ? Column(
                             children: snapshot.data
                                 .map(
