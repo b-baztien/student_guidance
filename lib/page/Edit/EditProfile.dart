@@ -354,12 +354,11 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                               InkWell(
                                                 onTap: () {
                                                   Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                            AddRecommend()
-                                                        ),
-                                                      );
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddRecommend()),
+                                                  );
                                                 },
                                                 child: Text(
                                                   'แก้ไข',
@@ -391,13 +390,12 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                                   style: UIdata.textTitleStyle),
                                               InkWell(
                                                 onTap: () {
-                                                   Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                            AddRecommendCarrer()
-                                                        ),
-                                                      );
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AddRecommendCarrer()),
+                                                  );
                                                 },
                                                 child: Text(
                                                   'แก้ไข',
@@ -423,7 +421,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                         ],
                                       );
                                     } else {
-                                      return SizedBox(height: 30.0);
+                                      return SizedBox.shrink();
                                     }
                                   },
                                 ),

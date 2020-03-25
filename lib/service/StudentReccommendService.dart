@@ -19,7 +19,7 @@ class StudentRecommendService {
       StudentRecommend reccommend =
           await query.getDocuments().then((doc) async {
         return doc.documents.isEmpty
-            ? StudentRecommend()
+            ? null
             : StudentRecommend.fromJson(doc.documents[0].data);
       });
       return reccommend;
