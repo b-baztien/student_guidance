@@ -10,6 +10,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/model/RecommendMajor.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
@@ -19,16 +20,8 @@ import 'package:student_guidance/page/search-new/ListUniversity_Major.dart';
 import 'package:student_guidance/page/search-new/itemCareer-new.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
+import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
-
-class RecommendMajor {
-  String university;
-  String faculty;
-  String major;
-  String img;
-
-  RecommendMajor(this.university, this.faculty, this.major, this.img);
-}
 
 class SearchWidgetNew extends StatefulWidget {
   @override
@@ -44,12 +37,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   TextEditingController _searchTextController = new TextEditingController();
   String _searchText = '';
 
-  List<RecommendMajor> list = [
-    RecommendMajor('มหาวิทยาลัยแม่โจ้', 'วิทยาศาสตร์', 'เทคโนโลยีสารสนเทศ',
-        'https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/university%2F%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B9%82%E0%B8%88%E0%B9%89_edit.png?alt=media&token=07d6d8e1-6210-486f-add0-909763e710b6'),
-    RecommendMajor('มหาวิทยาลัยแม่โจ้', 'บริหารธุรกิจ', 'การตลาด',
-        'https://firebasestorage.googleapis.com/v0/b/studentguidance-1565684067738.appspot.com/o/university%2F%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%81%E0%B8%A1%E0%B9%88%E0%B9%82%E0%B8%88%E0%B9%89_edit.png?alt=media&token=07d6d8e1-6210-486f-add0-909763e710b6'),
-  ];
+  List<RecommendMajor> list = [];
   List<University> setListSize = new List<University>();
 
   @override
@@ -66,6 +54,12 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       setState(() {
         coutOrder = listItem.length;
       });
+    });
+
+    StudentRecommendService().getRecommendMajor().then((listRecommend) {
+      if (listRecommend != null) {
+        list = listRecommend;
+      }
     });
   }
 
@@ -250,15 +244,24 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                           right: new BorderSide(
                                               width: 2.0,
                                               color: Color(0xff005BC7)))),
-                                  child: Container(
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(list[index].img),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                  ),
+                                  child: FutureBuilder<String>(
+                                      future: GetImageService()
+                                          .getImage(list[index].img),
+                                      initialData: null,
+                                      builder: (context, snapshot) {
+                                        return Container(
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: snapshot.hasData
+                                                  ? NetworkImage(snapshot.data)
+                                                  : AssetImage(
+                                                      'assets/images/University-Icon.png'),
+                                              fit: BoxFit.fitHeight,
+                                            ),
+                                          ),
+                                        );
+                                      }),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),

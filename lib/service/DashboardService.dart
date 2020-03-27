@@ -98,10 +98,12 @@ class DashboardService {
           }
         }
 
-        return mapUniName.keys.toList(growable: false)
+        return mapUniName.isEmpty
+            ? List<String>()
+            : mapUniName.keys.toList(growable: false)
           ..sort((k1, k2) => mapUniName[k1].compareTo(mapUniName[k2]));
       });
-    });
+    }).catchError((error) => null);
   }
 
   Future<List<String>> getDashboardFaculty(
@@ -133,10 +135,12 @@ class DashboardService {
           }
         }
 
-        return mapFacName.keys.toList(growable: false)
+        return mapFacName.isEmpty
+            ? List<String>()
+            : mapFacName.keys.toList(growable: false)
           ..sort((k1, k2) => mapFacName[k1].compareTo(mapFacName[k2]));
       });
-    });
+    }).catchError((error) => null);
   }
 
   Future<List<String>> getDashboardMajor(String schoolName, String year) async {
@@ -167,9 +171,11 @@ class DashboardService {
           }
         }
 
-        return mapMajorName.keys.toList(growable: false)
+        return mapMajorName.isEmpty
+            ? List<String>()
+            : mapMajorName.keys.toList(growable: false)
           ..sort((k1, k2) => mapMajorName[k1].compareTo(mapMajorName[k2]));
       });
-    });
+    }).catchError((error) => null);
   }
 }
