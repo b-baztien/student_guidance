@@ -240,10 +240,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                 Container(
                                   padding: EdgeInsets.only(right: 10.0),
                                   decoration: new BoxDecoration(
-                                      border: new Border(
-                                          right: new BorderSide(
-                                              width: 2.0,
-                                              color: Color(0xff005BC7)))),
+                                    border: new Border(
+                                      right: new BorderSide(
+                                          width: 2.0, color: Color(0xff005BC7)),
+                                    ),
+                                  ),
                                   child: FutureBuilder<String>(
                                       future: GetImageService()
                                           .getImage(list[index].img),
