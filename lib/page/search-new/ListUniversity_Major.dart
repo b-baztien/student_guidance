@@ -172,62 +172,69 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
         child: ListView.builder(
           itemCount: listUniversity.length,
           itemBuilder: (context, index) {
-            return Material(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.black.withOpacity(0.5),
-              child: ListTile(
-                onTap: () {
-                  _progressDialog.show();
-                  String uname =
-                      new University.fromJson(listUniversity[index].data)
-                          .universityname;
-                  FacultyService()
-                      .getFacultyByUniNameAndMajorName(uname, widget.majorName)
-                      .then((fa) async {
-                    await MajorService()
-                        .getMajorByMajorNameAndUniRef(
-                            widget.majorName, fa.reference)
-                        .then((majorSnap) async {
-                      await StudentFavoriteService()
-                          .getStudentFavoriteByUsername(Login.fromJson(
-                                  jsonDecode(pref.getString('login')))
-                              .username)
-                          .then((listFavorite) {
-                        _progressDialog.hide();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ItemMajorNew(
-                              universityName: uname,
-                              facultyName:
-                                  Faculty.fromJson(fa.data).facultyName,
-                              major: majorSnap,
-                              listFavorite: listFavorite,
-                            ),
-                          ),
-                        );
+            return Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Container(
+               decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                child: Container(
+                  child: ListTile(
+                    onTap: () {
+                      _progressDialog.show();
+                      String uname =
+                          new University.fromJson(listUniversity[index].data)
+                              .universityname;
+                      FacultyService()
+                          .getFacultyByUniNameAndMajorName(uname, widget.majorName)
+                          .then((fa) async {
+                        await MajorService()
+                            .getMajorByMajorNameAndUniRef(
+                                widget.majorName, fa.reference)
+                            .then((majorSnap) async {
+                          await StudentFavoriteService()
+                              .getStudentFavoriteByUsername(Login.fromJson(
+                                      jsonDecode(pref.getString('login')))
+                                  .username)
+                              .then((listFavorite) {
+                            _progressDialog.hide();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemMajorNew(
+                                  universityName: uname,
+                                  facultyName:
+                                      Faculty.fromJson(fa.data).facultyName,
+                                  major: majorSnap,
+                                  listFavorite: listFavorite,
+                                ),
+                              ),
+                            );
+                          });
+                        });
                       });
-                    });
-                  });
-                },
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                leading: Container(
-                  padding: EdgeInsets.only(right: 5, left: 10),
-                  decoration: new BoxDecoration(
-                      border: new Border(
-                          right:
-                              new BorderSide(width: 2, color: Colors.white))),
-                  child: Icon(Icons.airport_shuttle, color: Colors.white),
+                    },
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    leading: Container(
+                      padding: EdgeInsets.only(right: 5, left: 10),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right:
+                                  new BorderSide(width: 2, color: Colors.white))),
+                      child: Icon(Icons.airport_shuttle, color: Colors.white),
+                    ),
+                    title: Text(
+                      new University.fromJson(listUniversity[index].data)
+                          .universityname,
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    trailing: Icon(Icons.keyboard_arrow_right,
+                        color: Colors.white, size: 30),
+                  ),
                 ),
-                title: Text(
-                  new University.fromJson(listUniversity[index].data)
-                      .universityname,
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                trailing: Icon(Icons.keyboard_arrow_right,
-                    color: Colors.white, size: 30),
               ),
             );
           },

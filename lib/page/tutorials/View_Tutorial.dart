@@ -60,7 +60,8 @@ class _TutorialsState extends State<Tutorials> {
                       activeSize: Size(15, 25),
                       size: Size(10, 20),
                       color: Colors.grey.shade300,
-                      activeColor: Colors.green)),
+                      activeColor: Colors.green)
+                      ),
               itemBuilder: (BuildContext context, int index) {
                 return ItemTutorial(
                   title: titles[index],

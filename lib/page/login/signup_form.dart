@@ -34,7 +34,7 @@ class SignupForm extends StatelessWidget {
             const SizedBox(height: 10.0),
             TextField(
               decoration: InputDecoration(
-                  labelText: "ไอดีผู้ใช้", hasFloatingPlaceholder: true),
+                  labelText: "ไอดีผู้ใช้(รหัสนักเรียน)", hasFloatingPlaceholder: true),
             ),
             const SizedBox(height: 10.0),
             TextField(
