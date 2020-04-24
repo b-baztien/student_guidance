@@ -37,7 +37,7 @@ class _ItemUniversityState extends State<ItemUniversity> {
                 .getListImage(_university.albumImage)
                 .then((listUrl) {
               setState(() {
-                print("1" + listUrl.length.toString());
+              
                 _university.albumImage = listUrl;
 
                 _university.image = url;
