@@ -29,7 +29,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/change-password.png"),
+                image: AssetImage("assets/images/bg_school.png"),
                 fit: BoxFit.fitHeight)),
         child: Scaffold(
           backgroundColor: Colors.transparent,

@@ -116,7 +116,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/add-education-img.png"),
+                image: AssetImage("assets/images/bg_school.png"),
                 fit: BoxFit.fitHeight)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -405,13 +405,14 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                   vertical: 0.0, horizontal: 30.0),
                               width: double.infinity,
                               child: RaisedButton(
+
                                   padding: EdgeInsets.all(15.0),
                                   shape: StadiumBorder(),
                                   child: Text(
                                     'เพิ่มข้อมูล',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  color: UIdata.themeColor,
+                                  color: Colors.green,
                                   onPressed: () async {
                                     try {
                                       _progressDialog.show();

@@ -26,10 +26,7 @@ class EditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/edit-img.png"),
-                  fit: BoxFit.fitHeight)),
+        color: Colors.white,
           child: EditStudentProfile(login)),
     );
   }

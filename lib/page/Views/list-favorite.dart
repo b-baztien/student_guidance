@@ -27,10 +27,7 @@ class _ListFavoriteState extends State<ListFavorite> {
     _progressDialog.style(message: 'กรุณารอสักครู่....');
     return Material(
       child: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/list-favorite.png"),
-                fit: BoxFit.fitHeight)),
+        color: Colors.white,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
