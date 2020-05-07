@@ -40,9 +40,6 @@ class Major {
   factory Major.fromJson(Map<String, dynamic> json) {
     return Major(
         majorName: json['majorName'] as String,
-        tcasEntranceRound: (json['tcasEntranceRound'] as List)
-            .map((tcas) => Tcas.fromJson(tcas))
-            .toList(),
         listCareerName: (json['listCareerName'] as List)
             .map((data) => data as String)
             .toList(),

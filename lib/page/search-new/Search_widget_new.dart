@@ -23,6 +23,7 @@ import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:student_guidance/widgets/swiper_pagination.dart';
+
 class SearchWidgetNew extends StatefulWidget {
   @override
   _SearchWidgetNewState createState() => _SearchWidgetNewState();
@@ -54,7 +55,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         coutOrder = listItem.length;
       });
     });
-      
   }
 
   Widget myFilterDrawer() {
@@ -198,312 +198,332 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: FutureBuilder(
-                future: StudentRecommendService().getRecommendMajor(),
-                builder: (context,snapshot){
-                 if(snapshot.hasData){
-          List<RecommendMajor> list = snapshot.data;
-                   return list.length == 1 ? 
-                   Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: new BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                            spreadRadius: 1.0,
-                            offset: Offset(
-                              1.0,
-                              1.0,
-                            ),
-                          )
-                        ],
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      height: 150,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(5),
-                        shadowColor: Colors.red,
-                        color: Colors.white,
-                        child: InkWell(
-                          onTap: () {
-                          
-                          },
-                          child: Ink(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.only(right: 10.0),
-                                
-                                  decoration: new BoxDecoration(
-                                      border: new Border(
-                                          right: new BorderSide(
-                                              width: 2.0,
-                                              color: Color(0xff005BC7)
-                                              ))),
-                                  child: FutureBuilder<String>(
-                                      future: GetImageService()
-                                          .getImage(list[0].img),
-                                      initialData: null,
-                                      builder: (context, snapshot) {
-                                        return Container(
-                                          width: 110,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: snapshot.hasData
-                                                  ? NetworkImage(snapshot.data)
-                                                  : AssetImage(
-                                                      'assets/images/University-Icon.png'),
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        );
-                                      }),
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: FutureBuilder(
+                  future: StudentRecommendService().getRecommendMajor(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<RecommendMajor> list = snapshot.data;
+                      return list.length == 1
+                          ? Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                decoration: new BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 5.0,
+                                      spreadRadius: 1.0,
+                                      offset: Offset(
+                                        1.0,
+                                        1.0,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Column(
-
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(top: 5),
-                                        child: AutoSizeText(
-                                          list[0].university,
-                                          style: TextStyle(
-                                              fontFamily: 'Kanit',
-                                              color: Color(0xff005BC7)),
-                                          minFontSize: 15,
-                                          maxLines: 2,
-                                        ),
-                                      ),
-                                      Row(
+                                width: MediaQuery.of(context).size.width,
+                                height: 150,
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(5),
+                                  shadowColor: Colors.red,
+                                  color: Colors.white,
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Ink(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Row(
                                         children: <Widget>[
-                                          Icon(
-                                            Icons.school,
-                                            color: Color(0xff005BC7),
-                                            size: 15,
+                                          Container(
+                                            padding:
+                                                EdgeInsets.only(right: 10.0),
+                                            decoration: new BoxDecoration(
+                                                border: new Border(
+                                                    right: new BorderSide(
+                                                        width: 2.0,
+                                                        color: Color(
+                                                            0xff005BC7)))),
+                                            child: FutureBuilder<String>(
+                                                future: GetImageService()
+                                                    .getImage(list[0].img),
+                                                initialData: null,
+                                                builder: (context, snapshot) {
+                                                  return Container(
+                                                    width: 110,
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: snapshot.hasData
+                                                            ? NetworkImage(
+                                                                snapshot.data)
+                                                            : AssetImage(
+                                                                'assets/images/University-Icon.png'),
+                                                        fit: BoxFit.fitHeight,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }),
                                           ),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            list[0].faculty,
-                                            style: TextStyle(
-                                              fontFamily: 'Kanit',
-                                              fontSize: 13,
-                                              color: Color(0xff005BC7),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Container(
+                                                  padding:
+                                                      EdgeInsets.only(top: 5),
+                                                  child: AutoSizeText(
+                                                    list[0].university,
+                                                    style: TextStyle(
+                                                        fontFamily: 'Kanit',
+                                                        color:
+                                                            Color(0xff005BC7)),
+                                                    minFontSize: 15,
+                                                    maxLines: 2,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      Icons.school,
+                                                      color: Color(0xff005BC7),
+                                                      size: 15,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Text(
+                                                      list[0].faculty,
+                                                      style: TextStyle(
+                                                        fontFamily: 'Kanit',
+                                                        fontSize: 13,
+                                                        color:
+                                                            Color(0xff005BC7),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      FontAwesomeIcons
+                                                          .userGraduate,
+                                                      color: Color(0xff005BC7),
+                                                      size: 13,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Text(
+                                                      list[0].major,
+                                                      style: TextStyle(
+                                                          fontFamily: 'Kanit',
+                                                          fontSize: 13,
+                                                          color: Colors.green),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                          ),
+                                          )
                                         ],
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            FontAwesomeIcons.userGraduate,
-                                            color: Color(0xff005BC7),
-                                            size: 13,
-                                          ),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            list[0].major,
-                                            style: TextStyle(
-                                                fontFamily: 'Kanit',
-                                                fontSize: 13,
-                                                color: Colors.green),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                   : Swiper(
-                autoplayDelay: Duration(seconds: 5).inMilliseconds,
-                autoplay: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: new BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                            spreadRadius: 1.0,
-                            offset: Offset(
-                              1.0,
-                              1.0,
-                            ),
-                          )
-                        ],
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      height: 150,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(5),
-                        shadowColor: Colors.red,
-                        color: Colors.white,
-                        child: InkWell(
-                          onTap: () {
-                          
-                          },
-                          child: Ink(
-                            padding: const EdgeInsets.all(10),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.only(right: 10.0),
-                                  decoration: new BoxDecoration(
-                                    border: new Border(
-                                      right: new BorderSide(
-                                          width: 2.0, color: Color(0xff005BC7)),
                                     ),
                                   ),
-                                  child: FutureBuilder<String>(
-                                      future: GetImageService()
-                                          .getImage(list[index].img),
-                                      initialData: null,
-                                      builder: (context, snapshot) {
-                                        return Container(
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: snapshot.hasData
-                                                  ? NetworkImage(snapshot.data)
-                                                  : AssetImage(
-                                                      'assets/images/University-Icon.png'),
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        );
-                                      }),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        padding: EdgeInsets.only(top: 5),
-                                        child: AutoSizeText(
-                                          list[index].university,
-                                          style: TextStyle(
-                                              fontFamily: 'Kanit',
-                                              color: Color(0xff005BC7)),
-                                          minFontSize: 15,
-                                          maxLines: 2,
+                              ),
+                            )
+                          : Swiper(
+                              autoplayDelay:
+                                  Duration(seconds: 5).inMilliseconds,
+                              autoplay: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Container(
+                                    decoration: new BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 5.0,
+                                          spreadRadius: 1.0,
+                                          offset: Offset(
+                                            1.0,
+                                            1.0,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 150,
+                                    child: Material(
+                                      borderRadius: BorderRadius.circular(5),
+                                      shadowColor: Colors.red,
+                                      color: Colors.white,
+                                      child: InkWell(
+                                        onTap: () {},
+                                        child: Ink(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    right: 10.0),
+                                                decoration: new BoxDecoration(
+                                                  border: new Border(
+                                                    right: new BorderSide(
+                                                        width: 2.0,
+                                                        color:
+                                                            Color(0xff005BC7)),
+                                                  ),
+                                                ),
+                                                child: FutureBuilder<String>(
+                                                    future: GetImageService()
+                                                        .getImage(
+                                                            list[index].img),
+                                                    initialData: null,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      return Container(
+                                                        width: 100,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          image:
+                                                              DecorationImage(
+                                                            image: snapshot
+                                                                    .hasData
+                                                                ? NetworkImage(
+                                                                    snapshot
+                                                                        .data)
+                                                                : AssetImage(
+                                                                    'assets/images/University-Icon.png'),
+                                                            fit: BoxFit
+                                                                .fitHeight,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Container(
+                                                      padding: EdgeInsets.only(
+                                                          top: 5),
+                                                      child: AutoSizeText(
+                                                        list[index].university,
+                                                        style: TextStyle(
+                                                            fontFamily: 'Kanit',
+                                                            color: Color(
+                                                                0xff005BC7)),
+                                                        minFontSize: 15,
+                                                        maxLines: 2,
+                                                      ),
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.school,
+                                                          color:
+                                                              Color(0xff005BC7),
+                                                          size: 15,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          list[index].faculty,
+                                                          style: TextStyle(
+                                                            fontFamily: 'Kanit',
+                                                            fontSize: 13,
+                                                            color: Color(
+                                                                0xff005BC7),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          FontAwesomeIcons
+                                                              .userGraduate,
+                                                          color:
+                                                              Color(0xff005BC7),
+                                                          size: 13,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 3,
+                                                        ),
+                                                        Text(
+                                                          list[index].major,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Kanit',
+                                                              fontSize: 13,
+                                                              color:
+                                                                  Colors.green),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.school,
-                                            color: Color(0xff005BC7),
-                                            size: 15,
-                                          ),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            list[index].faculty,
-                                            style: TextStyle(
-                                              fontFamily: 'Kanit',
-                                              fontSize: 13,
-                                              color: Color(0xff005BC7),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            FontAwesomeIcons.userGraduate,
-                                            color: Color(0xff005BC7),
-                                            size: 13,
-                                          ),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            list[index].major,
-                                            style: TextStyle(
-                                                fontFamily: 'Kanit',
-                                                fontSize: 13,
-                                                color: Colors.green),
-                                          ),
-                                        ],
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
+                                );
+                              },
+                              itemCount: list.length,
+                              pagination: SwiperPagination(
+                                  builder: CustomePaginationBuilder(
+                                      activeSize: Size(15, 25),
+                                      size: Size(10, 20),
+                                      color: Colors.grey.shade300,
+                                      activeColor: Colors.green)),
+                            );
+                    } else {
+                      return Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Container(
+                          decoration: new BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                blurRadius: 5.0,
+                                spreadRadius: 1.0,
+                                offset: Offset(
+                                  1.0,
+                                  1.0,
+                                ),
+                              )
+                            ],
                           ),
+                          width: MediaQuery.of(context).size.width,
+                          height: 150,
+                          child: Material(
+                              borderRadius: BorderRadius.circular(5),
+                              shadowColor: Colors.red,
+                              color: Colors.white,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Text('ไม่พบข้อมูลที่ตรงกัน !'),
+                              )),
                         ),
-                      ),
-                    ),
-                  );
-                },
-                itemCount: list.length,
-                pagination:SwiperPagination(
-                  builder: CustomePaginationBuilder(
-                      activeSize: Size(15, 25),
-                      size: Size(10, 20),
-                      color: Colors.grey.shade300,
-                      activeColor: Colors.green)
-                      ),
-              );
-                 }else{
-                   return   Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      decoration: new BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 5.0,
-                            spreadRadius: 1.0,
-                            offset: Offset(
-                              1.0,
-                              1.0,
-                            ),
-                          )
-                        ],
-                      ),
-                      width: MediaQuery.of(context).size.width,
-                      height: 150,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(5),
-                        shadowColor: Colors.red,
-                        color: Colors.white,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text('ไม่พบข้อมูลที่ตรงกัน !'),
-                        )
-                      ),
-                    ),
-                  );
-
-                 }
-                },
-              )
-            )
+                      );
+                    }
+                  },
+                ))
           ],
         ));
   }

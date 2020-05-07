@@ -27,4 +27,13 @@ class Faculty {
       url: json['url'] as String,
     );
   }
+
+  Map toMap() {
+    var map = Map<String, dynamic>();
+    map['facultyIcon'] = facultyIcon;
+    map['faculty_name'] = facultyName;
+    map['url'] = url;
+
+    return map;
+  }
 }
