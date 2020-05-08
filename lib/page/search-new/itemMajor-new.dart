@@ -18,6 +18,7 @@ class ItemMajorNew extends StatefulWidget {
   final String universityName;
   final String facultyName;
   final DocumentSnapshot major;
+  final DocumentSnapshot listTcas;
   final List<StudentFavorite> listFavorite;
 
   const ItemMajorNew(
@@ -25,6 +26,7 @@ class ItemMajorNew extends StatefulWidget {
       this.universityName,
       this.facultyName,
       this.major,
+      this.listTcas,
       this.listFavorite})
       : super(key: key);
 
@@ -182,56 +184,56 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         SizedBox(
                           width: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: roundTcas(
-                                  itemMajor.tcasEntranceRound.firstWhere(
-                                          (tcas) => tcas.round == '1',
-                                          orElse: () => null) !=
-                                      null,
-                                  '1'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: roundTcas(
-                                  itemMajor.tcasEntranceRound.firstWhere(
-                                          (tcas) => tcas.round == '2',
-                                          orElse: () => null) !=
-                                      null,
-                                  '2'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: roundTcas(
-                                  itemMajor.tcasEntranceRound.firstWhere(
-                                          (tcas) => tcas.round == '3',
-                                          orElse: () => null) !=
-                                      null,
-                                  '3'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: roundTcas(
-                                  itemMajor.tcasEntranceRound.firstWhere(
-                                          (tcas) => tcas.round == '4',
-                                          orElse: () => null) !=
-                                      null,
-                                  '4'),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5),
-                              child: roundTcas(
-                                  itemMajor.tcasEntranceRound.firstWhere(
-                                          (tcas) => tcas.round == '5',
-                                          orElse: () => null) !=
-                                      null,
-                                  '5'),
-                            ),
-                          ],
-                        )
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: <Widget>[
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(right: 5),
+                        //       child: roundTcas(
+                        //           itemMajor.tcasEntranceRound.firstWhere(
+                        //                   (tcas) => tcas.round == '1',
+                        //                   orElse: () => null) !=
+                        //               null,
+                        //           '1'),
+                        //     ),
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(right: 5),
+                        //       child: roundTcas(
+                        //           itemMajor.tcasEntranceRound.firstWhere(
+                        //                   (tcas) => tcas.round == '2',
+                        //                   orElse: () => null) !=
+                        //               null,
+                        //           '2'),
+                        //     ),
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(right: 5),
+                        //       child: roundTcas(
+                        //           itemMajor.tcasEntranceRound.firstWhere(
+                        //                   (tcas) => tcas.round == '3',
+                        //                   orElse: () => null) !=
+                        //               null,
+                        //           '3'),
+                        //     ),
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(right: 5),
+                        //       child: roundTcas(
+                        //           itemMajor.tcasEntranceRound.firstWhere(
+                        //                   (tcas) => tcas.round == '4',
+                        //                   orElse: () => null) !=
+                        //               null,
+                        //           '4'),
+                        //     ),
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(right: 5),
+                        //       child: roundTcas(
+                        //           itemMajor.tcasEntranceRound.firstWhere(
+                        //                   (tcas) => tcas.round == '5',
+                        //                   orElse: () => null) !=
+                        //               null,
+                        //           '5'),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -356,47 +358,47 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             .toList(),
                       ),
                     ),
-                    Container(
-                      height: 150.0,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: tabData.map(
-                          (round) {
-                            Tcas tcas = itemMajor.tcasEntranceRound.firstWhere(
-                                (tcas) => tcas.round == round,
-                                orElse: () => null);
+                    // Container(
+                    //   height: 150.0,
+                    //   child: TabBarView(
+                    //     controller: _tabController,
+                    //     children: tabData.map(
+                    //       (round) {
+                    //         Tcas tcas = itemMajor.tcasEntranceRound.firstWhere(
+                    //             (tcas) => tcas.round == round,
+                    //             orElse: () => null);
 
-                            if (tcas != null) {
-                              return SingleChildScrollView(
-                                child: Column(
-                                  children: <Widget>[
-                                    Text(tcas.description,
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xff4F4F4F),
-                                            fontWeight: FontWeight.bold)),
-                                    Column(
-                                        children: tcas.examReference
-                                            .map((data) => Text(data))
-                                            .toList())
-                                  ],
-                                ),
-                              );
-                            } else {
-                              return Column(
-                                children: <Widget>[
-                                  Text('ยังไม่เปิดรับสมัคร',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xff4F4F4F),
-                                          fontWeight: FontWeight.bold))
-                                ],
-                              );
-                            }
-                          },
-                        ).toList(),
-                      ),
-                    )
+                    //         if (tcas != null) {
+                    //           return SingleChildScrollView(
+                    //             child: Column(
+                    //               children: <Widget>[
+                    //                 Text(tcas.description,
+                    //                     style: TextStyle(
+                    //                         fontSize: 18,
+                    //                         color: Color(0xff4F4F4F),
+                    //                         fontWeight: FontWeight.bold)),
+                    //                 Column(
+                    //                     children: tcas.examReference
+                    //                         .map((data) => Text(data))
+                    //                         .toList())
+                    //               ],
+                    //             ),
+                    //           );
+                    //         } else {
+                    //           return Column(
+                    //             children: <Widget>[
+                    //               Text('ยังไม่เปิดรับสมัคร',
+                    //                   style: TextStyle(
+                    //                       fontSize: 18,
+                    //                       color: Color(0xff4F4F4F),
+                    //                       fontWeight: FontWeight.bold))
+                    //             ],
+                    //           );
+                    //         }
+                    //       },
+                    //     ).toList(),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
