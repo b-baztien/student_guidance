@@ -7,10 +7,12 @@ import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/StudentFavorite.dart';
+import 'package:student_guidance/model/Tcas.dart';
 import 'package:student_guidance/page/search-new/itemCareer-new.dart';
 import 'package:student_guidance/service/CareerService.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/StudentFavoriteService.dart';
+import 'package:student_guidance/service/TcasService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -358,47 +360,67 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             .toList(),
                       ),
                     ),
-                    // Container(
-                    //   height: 150.0,
-                    //   child: TabBarView(
-                    //     controller: _tabController,
-                    //     children: tabData.map(
-                    //       (round) {
-                    //         Tcas tcas = itemMajor.tcasEntranceRound.firstWhere(
-                    //             (tcas) => tcas.round == round,
-                    //             orElse: () => null);
+                    FutureBuilder<List<DocumentSnapshot>>(
+                        future: TcasService()
+                            .getListTcasByMajorRef(widget.major.reference),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            List<Tcas> listTcas = snapshot.data
+                                .map((snap) => Tcas.fromJson(snap.data))
+                                .toList();
+                            return Container(
+                              height: 150.0,
+                              child: TabBarView(
+                                controller: _tabController,
+                                children: tabData.map(
+                                  (round) {
+                                    Tcas tcas = listTcas.firstWhere(
+                                        (tcas) => tcas.round == round,
+                                        orElse: () => null);
 
-                    //         if (tcas != null) {
-                    //           return SingleChildScrollView(
-                    //             child: Column(
-                    //               children: <Widget>[
-                    //                 Text(tcas.description,
-                    //                     style: TextStyle(
-                    //                         fontSize: 18,
-                    //                         color: Color(0xff4F4F4F),
-                    //                         fontWeight: FontWeight.bold)),
-                    //                 Column(
-                    //                     children: tcas.examReference
-                    //                         .map((data) => Text(data))
-                    //                         .toList())
-                    //               ],
-                    //             ),
-                    //           );
-                    //         } else {
-                    //           return Column(
-                    //             children: <Widget>[
-                    //               Text('ยังไม่เปิดรับสมัคร',
-                    //                   style: TextStyle(
-                    //                       fontSize: 18,
-                    //                       color: Color(0xff4F4F4F),
-                    //                       fontWeight: FontWeight.bold))
-                    //             ],
-                    //           );
-                    //         }
-                    //       },
-                    //     ).toList(),
-                    //   ),
-                    // )
+                                    if (tcas != null) {
+                                      return SingleChildScrollView(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Text(tcas.registerPropertie,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Color(0xff4F4F4F),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Column(
+                                                //เทสเฉยๆ
+                                                children: List.generate(
+                                                        5,
+                                                        (index) =>
+                                                            index.toString())
+                                                    .map((index) => Text(index))
+                                                    .toList()),
+                                            // children: tcas.examReference
+                                            //     .map((data) => Text(data))
+                                            //     .toList())
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      return Column(
+                                        children: <Widget>[
+                                          Text('ยังไม่เปิดรับสมัคร',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color(0xff4F4F4F),
+                                                  fontWeight: FontWeight.bold))
+                                        ],
+                                      );
+                                    }
+                                  },
+                                ).toList(),
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        })
                   ],
                 ),
               ),
