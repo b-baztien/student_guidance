@@ -40,6 +40,10 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   Login _login;
   List<University> setListSize = new List<University>();
 
+  String _dropdownZoneValue;
+  String _dropdownProvinceValue;
+  List _dropdownProvinceData = UIdata.provinceData;
+
   @override
   void initState() {
     super.initState();
@@ -583,7 +587,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         height: 10.0,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 12.0, right: 12.0),
+                        padding: EdgeInsets.only(
+                            left: 12.0, right: 12.0, bottom: 10.0),
                         child: Material(
                           elevation: 5.0,
                           borderRadius: BorderRadius.circular(10.0),
@@ -620,8 +625,90 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           ),
                         ),
                       ),
+                      Visibility(
+                        visible: _curentRadio == 1,
+                        child: Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.only(
+                                left: 26, top: 5, bottom: 5, right: 5),
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(color: Colors.white),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                DropdownButton<String>(
+                                  value: _dropdownZoneValue,
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _dropdownZoneValue = newValue;
+                                      _dropdownProvinceValue = null;
+                                    });
+                                  },
+                                  hint: DropdownMenuItem<String>(
+                                    value: null,
+                                    child: Text('ทุกภาค'),
+                                  ),
+                                  items: _dropdownProvinceData
+                                      .map((provinceData) =>
+                                          provinceData['zone'] as String)
+                                      .toSet()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                                DropdownButton<String>(
+                                  value: _dropdownProvinceValue,
+                                  elevation: 16,
+                                  style: TextStyle(color: Colors.deepPurple),
+                                  underline: Container(
+                                    height: 2,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      _dropdownProvinceValue = newValue;
+                                    });
+                                  },
+                                  hint: DropdownMenuItem<String>(
+                                    value: null,
+                                    child: Text('ทุกจังหวัด'),
+                                  ),
+                                  items: _dropdownProvinceData
+                                      .map((provinceData) {
+                                        if (_dropdownZoneValue == null) {
+                                          return provinceData['province_name']
+                                              as String;
+                                        }
+                                        if (provinceData['zone'] ==
+                                            _dropdownZoneValue) {
+                                          return provinceData['province_name']
+                                              as String;
+                                        }
+                                        return null;
+                                      })
+                                      .where((provinceName) =>
+                                          provinceName != null)
+                                      .toList()
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      })
+                                      .toList(),
+                                ),
+                              ],
+                            )),
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
+                        padding: EdgeInsets.only(bottom: 10),
                         child: Container(
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(
@@ -713,9 +800,24 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                 }
               }
             }
+
             coutOrder = listItem.length;
             if (type == 'University') {
               List<University> listUniversity = new List<University>();
+              //filter zone
+              if (_dropdownZoneValue != null) {
+                listItem = listItem
+                    .where((fItem) => fItem.uZone == _dropdownZoneValue)
+                    .toList();
+                coutOrder = listItem.length;
+              }
+              //filter province
+              if (_dropdownProvinceValue != null) {
+                listItem = listItem
+                    .where((fItem) => fItem.uProvince == _dropdownProvinceValue)
+                    .toList();
+                coutOrder = listItem.length;
+              }
               for (FilterSeachItems filterSeachItems in listItem) {
                 University university =
                     University.fromJson(filterSeachItems.documentSnapshot.data);

@@ -48,6 +48,8 @@ class SearchService {
           FilterSeachItems filterSeachItems = FilterSeachItems();
           University university = University.fromJson(uniSnapshot.data);
           filterSeachItems.name = university.universityname;
+          filterSeachItems.uProvince = university.province;
+          filterSeachItems.uZone = university.zone;
           filterSeachItems.type = 'University';
           filterSeachItems.documentSnapshot = uniSnapshot;
           listItem.add(filterSeachItems);
