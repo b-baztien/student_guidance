@@ -54,6 +54,19 @@ class UniversityService {
     return universitySnapshot.map((uniSnapShot) => uniSnapShot.documents);
   }
 
+  Future<List<DocumentSnapshot>> getListUniversityByProvince(
+      String province) async {
+    Future<QuerySnapshot> facultySnapshot = Firestore.instance
+        .collectionGroup('University')
+        .where('province', isEqualTo: province)
+        .getDocuments();
+    Set<DocumentSnapshot> listUniDoc = new Set();
+    await facultySnapshot.then((uniDoc) async {
+      listUniDoc = uniDoc.documents.map((docSnap) => docSnap);
+    });
+    return listUniDoc.toList();
+  }
+
   Future<List<DocumentSnapshot>> getListUniversityByFacultyName(
       String facultyName) async {
     Future<QuerySnapshot> facultySnapshot = Firestore.instance
