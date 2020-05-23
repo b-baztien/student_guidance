@@ -22,7 +22,7 @@ class _SignupFormState extends State<SignupForm> {
   String _dropdownSchoolValue;
   List<DocumentSnapshot> _dropdownSchoolData;
 
-  String _firstName, _lastName, _email, _province, _username, _password;
+  String _firstName, _lastName, _email, _username, _password;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _SignupFormState extends State<SignupForm> {
           student.firstName = _firstName;
           student.lastName = _lastName;
           student.email = _email;
-          student.province = _province;
+          student.province = _dropdownProvinceValue;
           student.status = 'กำลังศึกษา';
 
           Login login = new Login();
