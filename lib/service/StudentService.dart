@@ -44,22 +44,6 @@ class StudentService {
     return result;
   }
 
-//not use
-  Future<Student> getStudent() async {
-    final prefs = await SharedPreferences.getInstance();
-    try {
-      Map<String, dynamic> jsonLogin = jsonDecode(prefs.get('login'));
-      Login login = Login.fromJson(jsonLogin);
-      DocumentReference refQuery = ref.document(login.username);
-      Student student = await refQuery.get().then((doc) async {
-        return Student.fromJson(doc.data);
-      });
-      return student;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   Future<DocumentReference> getStudentReference() async {
     try {
       final prefs = await SharedPreferences.getInstance();

@@ -37,7 +37,6 @@ class MajorService {
       DocumentSnapshot major = await query.getDocuments().then((doc) async {
         return doc.documents.first;
       });
-      print(major.data);
       return major;
     } catch (e) {
       rethrow;

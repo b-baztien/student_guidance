@@ -3,8 +3,6 @@ import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/School.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/service/NewsService.dart';
-import 'package:student_guidance/service/SchoolService.dart';
-import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class BodyNews extends StatefulWidget {
@@ -21,15 +19,6 @@ class _BodyNewsState extends State<BodyNews> {
   @override
   void initState() {
     super.initState();
-    StudentService().getStudent().then((studentFromService) {
-      SchoolService()
-          .getSchool()
-          .then((schoolFromService) {
-        setState(() {
-          shcoolName = schoolFromService.schoolName;
-        });
-      });
-    });
   }
 
   @override
@@ -94,7 +83,7 @@ class _BodyNewsState extends State<BodyNews> {
               ],
             ),
           ),
-     /*     Padding(
+          /*     Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
               height: 275.0,

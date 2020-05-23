@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Student {
   String studentID;
   String firstName;
@@ -7,6 +5,7 @@ class Student {
   String email;
   String gender;
   String entryYear;
+  String province;
   String image;
   String juniorSchool;
   String phone;
@@ -20,6 +19,7 @@ class Student {
     this.email,
     this.entryYear,
     this.gender,
+    this.province,
     this.image,
     this.juniorSchool,
     this.phone,
@@ -34,6 +34,7 @@ class Student {
       email: json['email'] as String,
       gender: json['gender'] as String,
       entryYear: json['entry_year'] as String,
+      province: json['province'] as String,
       image: json['image'] as String,
       juniorSchool: json['junior_school'] as String,
       phone: json['phone_no'] as String,
@@ -50,6 +51,7 @@ class Student {
       'email': email,
       'gender': gender,
       'entry_year': entryYear,
+      'province': province,
       'image': image,
       'junior_school': juniorSchool,
       'phone_no': phone,

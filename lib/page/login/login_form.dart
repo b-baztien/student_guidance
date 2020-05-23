@@ -20,7 +20,6 @@ class _LoginFormState extends State<LoginForm> {
 
     Future<void> signIn() async {
       final formState = _globalKey.currentState;
-      print(formState.validate());
       if (formState.validate()) {
         formState.save();
         try {
@@ -60,7 +59,8 @@ class _LoginFormState extends State<LoginForm> {
               },
               onSaved: (input) => _username = input,
               decoration: InputDecoration(
-                  labelText: "ไอดีผู้ใช้", hasFloatingPlaceholder: true),
+                  labelText: "ไอดีผู้ใช้",
+                  floatingLabelBehavior: FloatingLabelBehavior.auto),
             ),
             const SizedBox(height: 10.0),
             TextFormField(
@@ -73,7 +73,8 @@ class _LoginFormState extends State<LoginForm> {
               },
               onSaved: (input) => _password = input,
               decoration: InputDecoration(
-                  labelText: "รหัสผ่าน", hasFloatingPlaceholder: true),
+                  labelText: "รหัสผ่าน",
+                  floatingLabelBehavior: FloatingLabelBehavior.auto),
             ),
             const SizedBox(height: 10.0),
             RaisedButton(
