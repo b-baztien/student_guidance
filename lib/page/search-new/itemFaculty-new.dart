@@ -202,66 +202,69 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                                 snapshot.data.map((majorDoc) {
                                               Major major =
                                                   Major.fromJson(majorDoc.data);
-                                              return Ink(
-                                                height: 60,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    color: Colors.white),
-                                                child: ListTile(
-                                                  onTap: () {
-                                                    StudentFavoriteService()
-                                                        .getStudentFavoriteByUsername(
-                                                            Login.fromJson(jsonDecode(pref
-                                                                    .data
-                                                                    .getString(
-                                                                        'login')))
-                                                                .username)
-                                                        .then((listFavorite) {
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ItemMajorNew(
-                                                            universityName: widget
-                                                                .universityName,
-                                                            facultyName: widget
-                                                                .facultys
-                                                                .facultyName,
-                                                            major: majorDoc,
-                                                            listFavorite:
-                                                                listFavorite,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    });
-                                                  },
-                                                  leading: Container(
-                                                    width: 40.0,
-                                                    height: 40.0,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.orange,
+                                              return Container(
+                                                margin: EdgeInsets.only(top: 4.0),
+                                                child: Ink(
+                                                  height: 60,
+                                                  decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              80.0),
+                                                              5),
+                                                      color: Colors.white),
+                                                  child: ListTile(
+                                                    onTap: () {
+                                                      StudentFavoriteService()
+                                                          .getStudentFavoriteByUsername(
+                                                              Login.fromJson(jsonDecode(pref
+                                                                      .data
+                                                                      .getString(
+                                                                          'login')))
+                                                                  .username)
+                                                          .then((listFavorite) {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ItemMajorNew(
+                                                              universityName: widget
+                                                                  .universityName,
+                                                              facultyName: widget
+                                                                  .facultys
+                                                                  .facultyName,
+                                                              major: majorDoc,
+                                                              listFavorite:
+                                                                  listFavorite,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      });
+                                                    },
+                                                    leading: Container(
+                                                      width: 40.0,
+                                                      height: 40.0,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.orange,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                80.0),
+                                                      ),
+                                                      child: Icon(
+                                                        FontAwesomeIcons
+                                                            .graduationCap,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
-                                                    child: Icon(
-                                                      FontAwesomeIcons
-                                                          .graduationCap,
-                                                      color: Colors.white,
+                                                    title: Text(
+                                                      major.majorName,
+                                                      style: UIdata
+                                                          .textSubTitleStyleDark,
                                                     ),
+                                                    trailing: Icon(
+                                                        Icons
+                                                            .keyboard_arrow_right,
+                                                        color: Colors.black,
+                                                        size: 30.0),
                                                   ),
-                                                  title: Text(
-                                                    major.majorName,
-                                                    style: UIdata
-                                                        .textSubTitleStyleDark,
-                                                  ),
-                                                  trailing: Icon(
-                                                      Icons
-                                                          .keyboard_arrow_right,
-                                                      color: Colors.black,
-                                                      size: 30.0),
                                                 ),
                                               );
                                             }).toList(),

@@ -71,45 +71,48 @@ class _ViewNewsPage extends State<ViewNewsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(formattedDate
-                              .format(widget.news.startTime.toDate())),
-                          IconButton(
-                            icon: Icon(Icons.share),
-                            onPressed: () {},
-                          )
-                        ],
+                      Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(formattedDate
+                                .format(widget.news.startTime.toDate())),
+//                            IconButton(
+//                              icon: Icon(Icons.share),
+//                              onPressed: () {},
+//                            )
+                          ],
+                        ),
                       ),
                       Text(
                         widget.news.topic,
                         style: UIdata.textTitleStyleDarkBold,
                       ),
-                      Divider(
-                        color: Colors.red,
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: <Widget>[
-                          Icon(FontAwesomeIcons.home),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          widget.news.listUniversityName.isNotEmpty
-                              ? SingleChildScrollView(
-                                  child: Row(
-                                      children: widget.news.listUniversityName
-                                          .map((univer) {
-                                    return Text(univer + " ");
-                                  }).toList()),
-                                )
-                              : Text('ไม่มีมหาวิทยาลัยเกี่ยวข้อง')
-                        ],
-                      ),
-                      Divider(
-                        color: Colors.red,
-                      ),
+//                      Divider(
+//                        color: Colors.red,
+//                      ),
+//                      SizedBox(height: 10),
+//                      Row(
+//                        children: <Widget>[
+//                          Icon(FontAwesomeIcons.home),
+//                          SizedBox(
+//                            width: 10,
+//                          ),
+//                          widget.news.listUniversityName.isNotEmpty
+//                              ? SingleChildScrollView(
+//                                  child: Row(
+//                                      children: widget.news.listUniversityName
+//                                          .map((univer) {
+//                                    return Text(univer + " ");
+//                                  }).toList()),
+//                                )
+//                              : Text('ไม่มีมหาวิทยาลัยเกี่ยวข้อง')
+//                        ],
+//                      ),
+//                      Divider(
+//                        color: Colors.red,
+//                      ),
                       SizedBox(
                         width: 10,
                       ),

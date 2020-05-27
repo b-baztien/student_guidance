@@ -130,14 +130,14 @@ class _MyDrawerState extends State<MyDrawer> {
                     Colors.yellow,
                     (context) => ChangePassword(
                         )),
-                _buildDivider(),
-                _buildRow(
-                    Icons.favorite,
-                    "สาขาที่ติดตาม",
-                    Colors.red[300],
-                    (context) => ListFavorite(
-                        )),
-                  
+//                _buildDivider(),
+//                _buildRow(
+//                    Icons.favorite,
+//                    "สาขาที่ติดตาม",
+//                    Colors.red[300],
+//                    (context) => ListFavorite(
+//                        )),
+//
               ],
             ),
           ),

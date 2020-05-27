@@ -132,45 +132,45 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         SizedBox(
                           width: 50,
                         ),
-                        FlatButton.icon(
-                          shape: StadiumBorder(
-                            side: BorderSide(
-                              color: _isFollow ? Colors.green : Colors.red,
-                              width: 2,
-                            ),
-                          ),
-                          color: _isFollow ? Colors.green : Colors.white,
-                          icon: Icon(
-                            _isFollow
-                                ? FontAwesomeIcons.solidHeart
-                                : FontAwesomeIcons.heart,
-                            color: Colors.red,
-                            size: 25,
-                          ),
-                          label: Text(
-                            _isFollow ? 'กำลังติดตาม' : 'ติดตามสาขา',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: _isFollow ? Colors.white : Colors.red,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              StudentFavorite favorite = StudentFavorite();
-                              favorite.university = widget.universityName;
-                              favorite.faculty = widget.facultyName;
-                              favorite.major =
-                                  Major.fromJson(widget.major.data).majorName;
-
-                              _isFollow = !_isFollow;
-                              _isFollow
-                                  ? StudentFavoriteService()
-                                      .addStudentFavorite(favorite)
-                                  : StudentFavoriteService()
-                                      .deleteStudentFavorite(favorite);
-                            });
-                          },
-                        )
+//                        FlatButton.icon(
+//                          shape: StadiumBorder(
+//                            side: BorderSide(
+//                              color: _isFollow ? Colors.green : Colors.red,
+//                              width: 2,
+//                            ),
+//                          ),
+//                          color: _isFollow ? Colors.green : Colors.white,
+//                          icon: Icon(
+//                            _isFollow
+//                                ? FontAwesomeIcons.solidHeart
+//                                : FontAwesomeIcons.heart,
+//                            color: Colors.red,
+//                            size: 25,
+//                          ),
+//                          label: Text(
+//                            _isFollow ? 'กำลังติดตาม' : 'ติดตามสาขา',
+//                            style: TextStyle(
+//                                fontSize: 14,
+//                                color: _isFollow ? Colors.white : Colors.red,
+//                                fontWeight: FontWeight.w600),
+//                          ),
+//                          onPressed: () {
+//                            setState(() {
+//                              StudentFavorite favorite = StudentFavorite();
+//                              favorite.university = widget.universityName;
+//                              favorite.faculty = widget.facultyName;
+//                              favorite.major =
+//                                  Major.fromJson(widget.major.data).majorName;
+//
+//                              _isFollow = !_isFollow;
+//                              _isFollow
+//                                  ? StudentFavoriteService()
+//                                      .addStudentFavorite(favorite)
+//                                  : StudentFavoriteService()
+//                                      .deleteStudentFavorite(favorite);
+//                            });
+//                          },
+//                        )
                       ],
                     ),
                     SizedBox(
@@ -178,11 +178,12 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     ),
                     Row(
                       children: <Widget>[
-                        Text(
-                          'รอบที่เปิดรับ',
-                          style:
-                              TextStyle(color: Color(0xffFF9211), fontSize: 15),
-                        ),
+
+//                        Text(
+//                          'รอบที่เปิดรับ',
+//                          style:
+//                              TextStyle(color: Color(0xffFF9211), fontSize: 15),
+//                        ),
                         SizedBox(
                           width: 10,
                         ),
@@ -477,7 +478,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     left: 16, right: 16, top: 8, bottom: 8),
                 child: Column(
                   children: <Widget>[
-                    Text('รายละเอียดโรงเรียน',
+                    Text('รายการแนะนำ',
                         style: TextStyle(
                             fontSize: 18,
                             color: Color(0xff4F4F4F),

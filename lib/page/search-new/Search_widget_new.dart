@@ -93,17 +93,17 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
             SizedBox(
               height: 40,
             ),
-            Text(
-              UIdata.txFilterRecommend,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            itemRecommend(),
+//            Text(
+//              UIdata.txFilterRecommend,
+//              style: TextStyle(
+//                  color: Colors.black,
+//                  fontSize: 18,
+//                  fontWeight: FontWeight.w600),
+//            ),
+//            SizedBox(
+//              height: 20,
+//            ),
+//            itemRecommend(),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
