@@ -61,6 +61,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
   @override
   Widget build(BuildContext context) {
     final Major itemMajor = Major.fromJson(widget.major.data);
+    final formattedDate = DateFormat('dd MMMM yyyy', 'th');
 
     return SafeArea(
       child: Scaffold(
@@ -180,7 +181,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     ),
                     Row(
                       children: <Widget>[
-
 //                        Text(
 //                          'รอบที่เปิดรับ',
 //                          style:
@@ -241,12 +241,11 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         // )
                       ],
                     ),
-                    itemMajor.albumImage.length != 0 ?
-                    itemListImage(itemMajor.albumImage)
-                        :
-                    SizedBox(
-                      height: 1,
-                    ),
+                    itemMajor.albumImage.length != 0
+                        ? itemListImage(itemMajor.albumImage)
+                        : SizedBox(
+                            height: 1,
+                          ),
                     SizedBox(
                       height: 15,
                     ),
@@ -390,24 +389,77 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                     if (tcas != null) {
                                       return SingleChildScrollView(
                                         child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Text(tcas.registerPropertie,
+                                            Text('ข้อมูลการรับเข้า',
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     color: Color(0xff4F4F4F),
                                                     fontWeight:
                                                         FontWeight.bold)),
-                                            Column(
-                                                //เทสเฉยๆ
-                                                children: List.generate(
-                                                        5,
-                                                        (index) =>
-                                                            index.toString())
-                                                    .map((index) => Text(index))
-                                                    .toList()),
-                                            // children: tcas.examReference
-                                            //     .map((data) => Text(data))
-                                            //     .toList())
+                                            Text(
+                                              'เริ่มรับสมัคร ' +
+                                                  DateFormat('dd MMMM', 'th')
+                                                      .format(tcas.startDate
+                                                          .toDate()) +
+                                                  ' - ' +
+                                                  DateFormat(
+                                                          'dd MMMM yyyy', 'th')
+                                                      .format(
+                                                    tcas.endDate.toDate(),
+                                                  ),
+                                            ),
+                                            Divider(),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: <Widget>[
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text('รับสมัคร'),
+                                                    Text(
+                                                      DateFormat('dd MMM', 'th')
+                                                              .format(tcas
+                                                                  .startDate
+                                                                  .toDate()) +
+                                                          ' - ' +
+                                                          DateFormat(
+                                                                  'dd MMM yyyy',
+                                                                  'th')
+                                                              .format(tcas
+                                                                  .endDate
+                                                                  .toDate()),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text('จำนวนที่รับ'),
+                                                    Text(tcas.entranceAmount
+                                                            .toString() +
+                                                        ' ที่นั่ง'),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            Divider(),
+                                            Text('ค่าใช้จ่ายในการสมัครสอบ'),
+                                            Text('' +
+                                                tcas.entranceAmount.toString() +
+                                                ' บาท'),
+                                            Text('คนที่สามารถสมัครได้'),
+                                            Text(tcas.registerPropertie == null
+                                                ? 'รออัพเดทขอมูลเร็วๆ นี้'
+                                                : tcas.registerPropertie),
+                                            Text('หมายเหตุ'),
+                                            Text(tcas.remark == null
+                                                ? 'รออัพเดทขอมูลเร็วๆ นี้'
+                                                : tcas.remark),
                                           ],
                                         ),
                                       );
@@ -565,6 +617,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
       ),
     );
   }
+
   Widget itemListImage(List<dynamic> listImg) {
     return FutureBuilder(
       future: GetImageService().getListImage(listImg),

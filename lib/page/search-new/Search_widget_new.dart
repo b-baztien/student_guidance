@@ -795,8 +795,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
             int present = 0;
             int perPage = 15;
             List<FilterSeachItems> listItem = new List<FilterSeachItems>();
-            var item =  List<FilterSeachItems>();
-          for (FilterSeachItems f in list) {
+            var item = List<FilterSeachItems>();
+            for (FilterSeachItems f in list) {
               if (f.type == type) {
                 if (f.name.contains(_searchText)) {
                   listItem.add(f);

@@ -23,14 +23,12 @@ class Tcas {
     return Tcas(
       startDate: json['startDate'] as Timestamp,
       endDate: json['endDate'] as Timestamp,
-      round: json['round'] == null ? '' : json['round'] as String,
+      round: json['round'] as String,
       entranceAmount:
           json['entranceAmount'] == null ? 0 : json['entranceAmount'] as int,
       examFee: json['examFee'] == null ? 0 : json['examFee'] as int,
-      registerPropertie: json['registerPropertie'] == null
-          ? ''
-          : json['registerPropertie'] as String,
-      remark: json['remark'] == null ? '' : json['remark'] as String,
+      registerPropertie: json['registerPropertie'] as String,
+      remark: json['remark'] as String,
     );
   }
 }
