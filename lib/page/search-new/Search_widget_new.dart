@@ -103,7 +103,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 //            SizedBox(
 //              height: 20,
 //            ),
-//            itemRecommend(),
+   //        itemRecommend(),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
@@ -792,11 +792,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<FilterSeachItems> list = snapshot.data;
-            int present = 0;
-            int perPage = 15;
             List<FilterSeachItems> listItem = new List<FilterSeachItems>();
-            var item = List<FilterSeachItems>();
-            for (FilterSeachItems f in list) {
+          for (FilterSeachItems f in list) {
               if (f.type == type) {
                 if (f.name.contains(_searchText)) {
                   listItem.add(f);
