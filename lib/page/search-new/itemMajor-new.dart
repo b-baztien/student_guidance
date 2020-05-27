@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -14,6 +15,7 @@ import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/StudentFavoriteService.dart';
 import 'package:student_guidance/service/TcasService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
+import 'package:student_guidance/widgets/swiper_pagination.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ItemMajorNew extends StatefulWidget {
@@ -238,6 +240,12 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         //   ],
                         // )
                       ],
+                    ),
+                    itemMajor.albumImage.length != 0 ?
+                    itemListImage(itemMajor.albumImage)
+                        :
+                    SizedBox(
+                      height: 1,
                     ),
                     SizedBox(
                       height: 15,
@@ -555,6 +563,46 @@ class _ItemMajorNewState extends State<ItemMajorNew>
           number,
         ),
       ),
+    );
+  }
+  Widget itemListImage(List<dynamic> listImg) {
+    return FutureBuilder(
+      future: GetImageService().getListImage(listImg),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            height: 150,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Swiper(
+                autoplayDelay: Duration(seconds: 10).inMilliseconds,
+                duration: Duration(seconds: 2).inMilliseconds,
+                autoplay: snapshot.data.length == 1 ? false : true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          image: DecorationImage(
+                              image: NetworkImage(snapshot.data[index]),
+                              fit: BoxFit.cover)));
+                },
+                itemCount: snapshot.data.length,
+                pagination: SwiperPagination(
+                  builder: CustomePaginationBuilder(
+                      activeSize: Size(15, 25),
+                      size: Size(10, 20),
+                      color: Colors.grey.shade300,
+                      activeColor: Colors.green),
+                ),
+              ),
+            ),
+          );
+        } else {
+          return SizedBox(
+            height: 1,
+          );
+        }
+      },
     );
   }
 }

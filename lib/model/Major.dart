@@ -6,6 +6,7 @@ class Major {
   String courseDuration;
   String tuitionFee;
 
+  List<dynamic> albumImage;
   Major({
     this.majorName,
     this.url,
@@ -13,6 +14,7 @@ class Major {
     this.certificate,
     this.courseDuration,
     this.tuitionFee,
+    this.albumImage
   });
 
   factory Major.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Major {
             .toList(),
         url: json['url'] as String,
         certificate: json['certificate'] as String,
+        albumImage: json['albumImage'] as  List<dynamic>,
         courseDuration: json['courseDuration'] as String,
         tuitionFee: json['tuitionFee'] as String);
   }
