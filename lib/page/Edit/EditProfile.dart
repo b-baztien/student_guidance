@@ -178,11 +178,11 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
             hintText: hintText,
             labelText: labelText,
             hintStyle:
-                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.black),
             labelStyle:
-                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.black),
           ),
-          style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
+          style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.black),
           onSaved: onSaveFunction,
         ),
       );
@@ -249,7 +249,7 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                     ),
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           UIdata.txEditSubtitle,
                           style: TextStyle(
@@ -291,44 +291,39 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
               ),
               body: Padding(
                 padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.black.withOpacity(0.5),
-                      border: Border.all(width: 2, color: Colors.white)),
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key: _globalKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(height: _screenSize.height / 50),
-                          _buildProfileImage(),
-                          Column(
-                            children: <Widget>[
-                              _buildDetailInfo(
-                                  UIdata.txEditSubtitle, UIdata.textTitleStyle),
-                              _buildSeparator(_screenSize),
-                              _buildInputText(
-                                  _student.firstName,
-                                  'ชื่อ',
-                                  'กรุณากรอกชื่อ',
-                                  (value) => _student.firstName = value),
-                              _buildInputText(
-                                  _student.lastName,
-                                  'นามสกุล',
-                                  'กรุณากรอกนามสกุล',
-                                  (value) => _student.lastName = value),
-                              _buildInputText(
-                                  _student.phone,
-                                  'เบอร์โทรศัพท์',
-                                  'กรุณากรอกเบอร์โทรศัพท์',
-                                  (value) => _student.phone = value),
-                              _buildInputText(
-                                  _student.email,
-                                  'อีเมล์',
-                                  'กรุณากรอกอีเมล์',
-                                  (value) => _student.email = value),
+                child: Form(
+                  key: _globalKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: _screenSize.height / 50),
+                        _buildProfileImage(),
+                        Column(
+                          children: <Widget>[
+                            _buildDetailInfo(
+                                UIdata.txEditSubtitle, TextStyle(color: Colors.black,fontSize: 20)),
+                            _buildSeparator(_screenSize),
+                            _buildInputText(
+                                _student.firstName,
+                                'ชื่อ',
+                                'กรุณากรอกชื่อ',
+                                (value) => _student.firstName = value),
+                            _buildInputText(
+
+                                _student.lastName,
+                                'นามสกุล',
+                                'กรุณากรอกนามสกุล',
+                                (value) => _student.lastName = value),
+                            _buildInputText(
+                                _student.phone,
+                                'เบอร์โทรศัพท์',
+                                'กรุณากรอกเบอร์โทรศัพท์',
+                                (value) => _student.phone = value),
+                            _buildInputText(
+                                _student.email,
+                                'อีเมล์',
+                                'กรุณากรอกอีเมล์',
+                                (value) => _student.email = value),
 //                              Container(
 //                                padding: EdgeInsets.symmetric(
 //                                    vertical: 10.0, horizontal: 30.0),
@@ -423,12 +418,11 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
 //                                  },
 //                                ),
 //                              )
-                            ],
-                          ),
-                          SizedBox(height: 30.0),
-                          _buildButtons(context, _progressDialog),
-                        ],
-                      ),
+                          ],
+                        ),
+                        SizedBox(height: 30.0),
+                        _buildButtons(context, _progressDialog),
+                      ],
                     ),
                   ),
                 ),
