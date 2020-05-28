@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/SharedPreferences/SharedPref.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/RecommendMajor.dart';
+import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/StudentRecommend.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -65,52 +67,53 @@ class StudentRecommendService {
     }
   }
 
-  Future<List<RecommendMajor>> getRecommendMajor() async {
+  Future<List<RecommendMajor>> getRecommendMajor(String majorName, String universityName) async {
     List<RecommendMajor> listRecommendMajor = List<RecommendMajor>();
+    print(await SharedPref().read('student'));
+    String province =
+        Student.fromJson(await SharedPref().read('student')).province;
     try {
-      StudentRecommend studentRecommend =
-          await this.getStudentRecommendByUsername();
-
-      Query majorSnap = Firestore.instance.collectionGroup('Major');
+      Query majorSnap = Firestore.instance
+          .collectionGroup('Major')
+          .where('majorName', isEqualTo: majorName);
 
       await majorSnap.getDocuments().then((majorSnapshot) async {
-        List<String> listRecMajor = studentRecommend.majorName;
-        List<String> listRecCareer = studentRecommend.careerName;
-
         for (var majorDoc in majorSnapshot.documents) {
-          if (listRecMajor.contains(Major.fromJson(majorDoc.data).majorName)) {
-            for (var careerName
-                in Major.fromJson(majorDoc.data).listCareerName) {
-              if (listRecCareer.contains(careerName)) {
-                RecommendMajor recommendMajor = RecommendMajor();
-                //get Major
-                recommendMajor.major = Major.fromJson(majorDoc.data).majorName;
-                //get Faculty
-                await Firestore.instance
-                    .document(majorDoc.reference.parent().parent().path)
-                    .get()
-                    .then((facDoc) {
-                  recommendMajor.faculty =
-                      Faculty.fromJson(facDoc.data).facultyName;
-                });
-                //get University
-                await Firestore.instance
-                    .document(majorDoc.reference
-                        .parent()
-                        .parent()
-                        .parent()
-                        .parent()
-                        .path)
-                    .get()
-                    .then((uniDoc) {
-                  recommendMajor.university =
-                      University.fromJson(uniDoc.data).universityname;
-                  recommendMajor.img = University.fromJson(uniDoc.data).image;
-                });
-                listRecommendMajor.add(recommendMajor);
-              }
+          await Firestore.instance
+              .document(
+                  majorDoc.reference.parent().parent().parent().parent().path)
+              .get()
+              .then((uniSnap) async {
+                University university = University.fromJson(uniSnap.data);
+            if (university.province == province && university.universityname != universityName) {
+              RecommendMajor recommendMajor = RecommendMajor();
+              //get Major
+              recommendMajor.major = Major.fromJson(majorDoc.data).majorName;
+              //get Faculty
+              await Firestore.instance
+                  .document(majorDoc.reference.parent().parent().path)
+                  .get()
+                  .then((facDoc) {
+                recommendMajor.faculty =
+                    Faculty.fromJson(facDoc.data).facultyName;
+              });
+              //get University
+              await Firestore.instance
+                  .document(majorDoc.reference
+                      .parent()
+                      .parent()
+                      .parent()
+                      .parent()
+                      .path)
+                  .get()
+                  .then((uniDoc) {
+                recommendMajor.university =
+                    University.fromJson(uniDoc.data).universityname;
+                recommendMajor.img = University.fromJson(uniDoc.data).image;
+              });
+              listRecommendMajor.add(recommendMajor);
             }
-          }
+          });
         }
       });
       return listRecommendMajor.isEmpty ? null : listRecommendMajor;
