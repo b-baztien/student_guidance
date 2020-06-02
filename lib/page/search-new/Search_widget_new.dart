@@ -793,10 +793,13 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
               .getSearchItem('University', 'university_name', null, 5),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              List<DocumentSnapshot> _listDocumetSnapshot =
+                  snapshot.data.documents.map((doc) => doc).toList();
               List<University> listUniversity = snapshot.data.documents
                   .map((doc) => University.fromJson(doc.data))
                   .toList();
               return ListView.builder(
+                itemCount: _listDocumetSnapshot.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8),
@@ -808,14 +811,13 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         color: Colors.white,
                         child: InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => ItemUniversityNew(
-                            //         universitys:
-                            //             listItem[index].documentSnapshot),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemUniversityNew(
+                                    universitys: _listDocumetSnapshot[index]),
+                              ),
+                            );
                           },
                           child: Ink(
                             padding: const EdgeInsets.all(10),
