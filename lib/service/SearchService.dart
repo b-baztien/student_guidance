@@ -9,6 +9,21 @@ import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchService {
+  Future<QuerySnapshot> getSearchItem(String collectionName, String orderByName,
+      List lastDocument, int perPage) async {
+    try {
+      Query query = Firestore.instance
+          .collectionGroup(collectionName)
+          .orderBy(orderByName)
+          .limit(perPage);
+      return lastDocument != null
+          ? query.startAfter(lastDocument).getDocuments()
+          : query.getDocuments();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Stream<List<FilterSeachItems>> getAllSearchItem() {
     Stream<QuerySnapshot> universitySnapshot = Firestore.instance
         .collectionGroup('University')

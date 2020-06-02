@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -787,44 +788,15 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
   Widget _buildExpendedSearch(String type) {
     return Expanded(
-      child: StreamBuilder(
-        stream: SearchService().getAllSearchItem(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<FilterSeachItems> list = snapshot.data;
-            List<FilterSeachItems> listItem = new List<FilterSeachItems>();
-            for (FilterSeachItems f in list) {
-              if (f.type == type) {
-                if (f.name.contains(_searchText)) {
-                  listItem.add(f);
-                }
-              }
-            }
-
-            coutOrder = listItem.length;
-            if (type == 'University') {
-              List<University> listUniversity = new List<University>();
-              //filter zone
-              if (_dropdownZoneValue != null) {
-                listItem = listItem
-                    .where((fItem) => fItem.uZone == _dropdownZoneValue)
-                    .toList();
-                coutOrder = listItem.length;
-              }
-              //filter province
-              if (_dropdownProvinceValue != null) {
-                listItem = listItem
-                    .where((fItem) => fItem.uProvince == _dropdownProvinceValue)
-                    .toList();
-                coutOrder = listItem.length;
-              }
-              for (FilterSeachItems filterSeachItems in listItem) {
-                University university =
-                    University.fromJson(filterSeachItems.documentSnapshot.data);
-                listUniversity.add(university);
-              }
+      child: FutureBuilder<QuerySnapshot>(
+          future: SearchService()
+              .getSearchItem('University', 'university_name', null, 5),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<University> listUniversity = snapshot.data.documents
+                  .map((doc) => University.fromJson(doc.data))
+                  .toList();
               return ListView.builder(
-                itemCount: listItem.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(8),
@@ -836,14 +808,14 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         color: Colors.white,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ItemUniversityNew(
-                                    universitys:
-                                        listItem[index].documentSnapshot),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ItemUniversityNew(
+                            //         universitys:
+                            //             listItem[index].documentSnapshot),
+                            //   ),
+                            // );
                           },
                           child: Ink(
                             padding: const EdgeInsets.all(10),
@@ -981,177 +953,375 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                   );
                 },
               );
-            } else if (type == 'Faculty') {
-              return ListView.builder(
-                itemCount: listItem.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ListUniversityFaculty(
-                                        facultys: listItem[index].name,
-                                      )));
-                        },
-                        child: ListTile(
-                          leading: Container(
-                            padding: EdgeInsets.only(right: 10.0),
-                            decoration: new BoxDecoration(
-                                border: new Border(
-                                    right: new BorderSide(
-                                        width: 1.0, color: Colors.black))),
-                            child: Container(
-                              width: 40.0,
-                              height: 40.0,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/icon-faculty.png'),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(80.0),
-                              ),
-                            ),
-                          ),
-                          title: Text(listItem[index].name,
-                              style: UIdata.textSearchSubTitleStyle13Black),
-                          trailing: Icon(Icons.keyboard_arrow_right,
-                              color: Colors.black, size: 30.0),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            } else if (type == 'Major') {
-              return ListView.builder(
-                itemCount: listItem.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Material(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ListUniversityMajor(
-                                        majorName: listItem[index].name)));
-                          },
-                          leading: Container(
-                            padding: EdgeInsets.only(right: 15.0),
-                            decoration: new BoxDecoration(
-                                border: new Border(
-                                    right: new BorderSide(
-                                        width: 1.0, color: Colors.black))),
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/icon-major.png'),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                          ),
-                          title: Text(listItem[index].name,
-                              style: UIdata.textSearchSubTitleStyle13Black),
-                          trailing: Icon(Icons.keyboard_arrow_right,
-                              color: Colors.black, size: 30.0)),
-                    ),
-                  );
-                },
-              );
             } else {
-              List<Career> listCareer = new List<Career>();
-              for (FilterSeachItems filterSeachItems in listItem) {
-                listCareer.add(
-                    Career.fromJson(filterSeachItems.documentSnapshot.data));
-              }
-              return ListView.builder(
-                itemCount: listItem.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Material(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                        child: ListTile(
-                            contentPadding: EdgeInsets.all(20),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ItemCarrerNew(
-                                            career: listItem[index]
-                                                .documentSnapshot,
-                                          )));
-                            },
-                            leading: Container(
-                              padding: EdgeInsets.only(right: 15.0),
-                              decoration: new BoxDecoration(
-                                  border: new Border(
-                                      right: new BorderSide(
-                                          width: 3,
-                                          color: Colors.deepOrange[700]))),
-                              child: FutureBuilder(
-                                  future: GetImageService()
-                                      .getImage(listCareer[index].image),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return Container(
-                                        width: 55,
-                                        height: 55,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(80.0),
-                                          image: DecorationImage(
-                                            image: NetworkImage(snapshot.data),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      return Container(
-                                        width: 55.0,
-                                        height: 55.0,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/career.jpg'),
-                                            fit: BoxFit.cover,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(80.0),
-                                        ),
-                                      );
-                                    }
-                                  }),
-                            ),
-                            title: Text(listItem[index].name,
-                                style: UIdata.textSearchTitleStyle20Orange),
-                            trailing: Icon(Icons.keyboard_arrow_right,
-                                color: Colors.red[900], size: 30.0))),
-                  );
-                },
-              );
+              return Container();
             }
-          } else {
-            return SizedBox(height: 1);
-          }
-        },
-      ),
+          }),
+      // child: StreamBuilder(
+      //   stream: SearchService().getAllSearchItem(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.hasData) {
+      //       List<FilterSeachItems> list = snapshot.data;
+      //       List<FilterSeachItems> listItem = new List<FilterSeachItems>();
+      //       for (FilterSeachItems f in list) {
+      //         if (f.type == type) {
+      //           if (f.name.contains(_searchText)) {
+      //             listItem.add(f);
+      //           }
+      //         }
+      //       }
+
+      //       coutOrder = listItem.length;
+      //       if (type == 'University') {
+      //         List<University> listUniversity = new List<University>();
+      //         //filter zone
+      //         if (_dropdownZoneValue != null) {
+      //           listItem = listItem
+      //               .where((fItem) => fItem.uZone == _dropdownZoneValue)
+      //               .toList();
+      //           coutOrder = listItem.length;
+      //         }
+      //         //filter province
+      //         if (_dropdownProvinceValue != null) {
+      //           listItem = listItem
+      //               .where((fItem) => fItem.uProvince == _dropdownProvinceValue)
+      //               .toList();
+      //           coutOrder = listItem.length;
+      //         }
+      //         for (FilterSeachItems filterSeachItems in listItem) {
+      //           University university =
+      //               University.fromJson(filterSeachItems.documentSnapshot.data);
+      //           listUniversity.add(university);
+      //         }
+      //         return ListView.builder(
+      //           itemCount: listItem.length,
+      //           itemBuilder: (context, index) {
+      //             return Padding(
+      //               padding: const EdgeInsets.all(8),
+      //               child: Container(
+      //                 width: MediaQuery.of(context).size.width,
+      //                 height: 150,
+      //                 child: Material(
+      //                   borderRadius: BorderRadius.circular(5),
+      //                   color: Colors.white,
+      //                   child: InkWell(
+      //                     onTap: () {
+      //                       Navigator.push(
+      //                         context,
+      //                         MaterialPageRoute(
+      //                           builder: (context) => ItemUniversityNew(
+      //                               universitys:
+      //                                   listItem[index].documentSnapshot),
+      //                         ),
+      //                       );
+      //                     },
+      //                     child: Ink(
+      //                       padding: const EdgeInsets.all(10),
+      //                       child: Row(
+      //                         children: <Widget>[
+      //                           Container(
+      //                             padding: EdgeInsets.only(right: 10.0),
+      //                             decoration: new BoxDecoration(
+      //                                 border: new Border(
+      //                                     right: new BorderSide(
+      //                                         width: 2.0,
+      //                                         color: Color(0xff005BC7)))),
+      //                             child: FutureBuilder(
+      //                                 future: GetImageService().getImage(
+      //                                     listUniversity[index].image),
+      //                                 builder: (context, snapshot) {
+      //                                   if (snapshot.hasData) {
+      //                                     return Container(
+      //                                       width: MediaQuery.of(context)
+      //                                               .size
+      //                                               .width /
+      //                                           3.2,
+      //                                       decoration: BoxDecoration(
+      //                                         image: DecorationImage(
+      //                                           image:
+      //                                               NetworkImage(snapshot.data),
+      //                                           fit: BoxFit.fitHeight,
+      //                                         ),
+      //                                       ),
+      //                                     );
+      //                                   } else {
+      //                                     return Container(
+      //                                       width: MediaQuery.of(context)
+      //                                               .size
+      //                                               .width /
+      //                                           3.2,
+      //                                       decoration: BoxDecoration(
+      //                                         image: DecorationImage(
+      //                                           image: AssetImage(
+      //                                               'assets/images/University-Icon.png'),
+      //                                           fit: BoxFit.fill,
+      //                                         ),
+      //                                       ),
+      //                                     );
+      //                                   }
+      //                                 }),
+      //                           ),
+      //                           Padding(
+      //                             padding: const EdgeInsets.only(left: 10),
+      //                             child: Column(
+      //                               crossAxisAlignment:
+      //                                   CrossAxisAlignment.start,
+      //                               children: <Widget>[
+      //                                 Container(
+      //                                   padding: EdgeInsets.only(top: 5),
+      //                                   width:
+      //                                       MediaQuery.of(context).size.width /
+      //                                           2,
+      //                                   child: AutoSizeText(
+      //                                     listUniversity[index].universityname,
+      //                                     style:
+      //                                         UIdata.textSearchTitleStyle24Blue,
+      //                                     minFontSize: 10,
+      //                                     maxLines: 2,
+      //                                   ),
+      //                                 ),
+      //                                 Row(
+      //                                   children: <Widget>[
+      //                                     Icon(
+      //                                       FontAwesomeIcons.mapMarkerAlt,
+      //                                       color: Color(0xff005BC7),
+      //                                       size: 13,
+      //                                     ),
+      //                                     SizedBox(
+      //                                       width: 3,
+      //                                     ),
+      //                                     Text(
+      //                                       "ภาค" +
+      //                                           listUniversity[index].zone +
+      //                                           " จังหวัด" +
+      //                                           listUniversity[index].province,
+      //                                       style: UIdata
+      //                                           .textSearchSubTitleStyle13Blue,
+      //                                     ),
+      //                                   ],
+      //                                 ),
+      //                                 FutureBuilder(
+      //                                   future: SearchService()
+      //                                       .getCountAlumniEntranceMajor(
+      //                                           listUniversity[index]
+      //                                               .universityname),
+      //                                   builder: (BuildContext context,
+      //                                       AsyncSnapshot<int> snapshot) {
+      //                                     if (snapshot.hasData) {
+      //                                       return Row(
+      //                                         children: <Widget>[
+      //                                           Icon(
+      //                                             FontAwesomeIcons.userGraduate,
+      //                                             color: Color(0xff005BC7),
+      //                                             size: 13,
+      //                                           ),
+      //                                           SizedBox(
+      //                                             width: 3,
+      //                                           ),
+      //                                           snapshot.data > 0
+      //                                               ? Text(
+      //                                                   'รุ่นพี่ ' +
+      //                                                       snapshot.data
+      //                                                           .toString() +
+      //                                                       ' คน เคยมาเรียนที่นี่',
+      //                                                   style: UIdata
+      //                                                       .textSearchSubTitleStyle13Green,
+      //                                                 )
+      //                                               : Text(
+      //                                                   'ยังไม่มีรุ่นพี่เคยมาเรียนที่นี่',
+      //                                                   style: UIdata
+      //                                                       .textSearchSubTitleStyle13Red,
+      //                                                 )
+      //                                         ],
+      //                                       );
+      //                                     } else {
+      //                                       return Text('');
+      //                                     }
+      //                                   },
+      //                                 ),
+      //                               ],
+      //                             ),
+      //                           )
+      //                         ],
+      //                       ),
+      //                     ),
+      //                   ),
+      //                 ),
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       } else if (type == 'Faculty') {
+      //         return ListView.builder(
+      //           itemCount: listItem.length,
+      //           itemBuilder: (context, index) {
+      //             return Padding(
+      //               padding: const EdgeInsets.all(5),
+      //               child: Material(
+      //                 borderRadius: BorderRadius.circular(5),
+      //                 color: Colors.white,
+      //                 child: InkWell(
+      //                   onTap: () {
+      //                     Navigator.push(
+      //                         context,
+      //                         MaterialPageRoute(
+      //                             builder: (context) => ListUniversityFaculty(
+      //                                   facultys: listItem[index].name,
+      //                                 )));
+      //                   },
+      //                   child: ListTile(
+      //                     leading: Container(
+      //                       padding: EdgeInsets.only(right: 10.0),
+      //                       decoration: new BoxDecoration(
+      //                           border: new Border(
+      //                               right: new BorderSide(
+      //                                   width: 1.0, color: Colors.black))),
+      //                       child: Container(
+      //                         width: 40.0,
+      //                         height: 40.0,
+      //                         decoration: BoxDecoration(
+      //                           image: DecorationImage(
+      //                             image: AssetImage(
+      //                                 'assets/images/icon-faculty.png'),
+      //                             fit: BoxFit.cover,
+      //                           ),
+      //                           borderRadius: BorderRadius.circular(80.0),
+      //                         ),
+      //                       ),
+      //                     ),
+      //                     title: Text(listItem[index].name,
+      //                         style: UIdata.textSearchSubTitleStyle13Black),
+      //                     trailing: Icon(Icons.keyboard_arrow_right,
+      //                         color: Colors.black, size: 30.0),
+      //                   ),
+      //                 ),
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       } else if (type == 'Major') {
+      //         return ListView.builder(
+      //           itemCount: listItem.length,
+      //           itemBuilder: (context, index) {
+      //             return Padding(
+      //               padding: const EdgeInsets.all(5),
+      //               child: Material(
+      //                 borderRadius: BorderRadius.all(
+      //                   Radius.circular(10),
+      //                 ),
+      //                 child: ListTile(
+      //                     onTap: () {
+      //                       Navigator.push(
+      //                           context,
+      //                           MaterialPageRoute(
+      //                               builder: (context) => ListUniversityMajor(
+      //                                   majorName: listItem[index].name)));
+      //                     },
+      //                     leading: Container(
+      //                       padding: EdgeInsets.only(right: 15.0),
+      //                       decoration: new BoxDecoration(
+      //                           border: new Border(
+      //                               right: new BorderSide(
+      //                                   width: 1.0, color: Colors.black))),
+      //                       child: Container(
+      //                         width: 30,
+      //                         height: 30,
+      //                         decoration: BoxDecoration(
+      //                           image: DecorationImage(
+      //                             image: AssetImage(
+      //                                 'assets/images/icon-major.png'),
+      //                             fit: BoxFit.fill,
+      //                           ),
+      //                         ),
+      //                       ),
+      //                     ),
+      //                     title: Text(listItem[index].name,
+      //                         style: UIdata.textSearchSubTitleStyle13Black),
+      //                     trailing: Icon(Icons.keyboard_arrow_right,
+      //                         color: Colors.black, size: 30.0)),
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       } else {
+      //         List<Career> listCareer = new List<Career>();
+      //         for (FilterSeachItems filterSeachItems in listItem) {
+      //           listCareer.add(
+      //               Career.fromJson(filterSeachItems.documentSnapshot.data));
+      //         }
+      //         return ListView.builder(
+      //           itemCount: listItem.length,
+      //           itemBuilder: (context, index) {
+      //             return Padding(
+      //               padding: const EdgeInsets.all(5),
+      //               child: Material(
+      //                   borderRadius: BorderRadius.circular(5),
+      //                   color: Colors.white,
+      //                   child: ListTile(
+      //                       contentPadding: EdgeInsets.all(20),
+      //                       onTap: () {
+      //                         Navigator.push(
+      //                             context,
+      //                             MaterialPageRoute(
+      //                                 builder: (context) => ItemCarrerNew(
+      //                                       career: listItem[index]
+      //                                           .documentSnapshot,
+      //                                     )));
+      //                       },
+      //                       leading: Container(
+      //                         padding: EdgeInsets.only(right: 15.0),
+      //                         decoration: new BoxDecoration(
+      //                             border: new Border(
+      //                                 right: new BorderSide(
+      //                                     width: 3,
+      //                                     color: Colors.deepOrange[700]))),
+      //                         child: FutureBuilder(
+      //                             future: GetImageService()
+      //                                 .getImage(listCareer[index].image),
+      //                             builder: (context, snapshot) {
+      //                               if (snapshot.hasData) {
+      //                                 return Container(
+      //                                   width: 55,
+      //                                   height: 55,
+      //                                   decoration: BoxDecoration(
+      //                                     borderRadius:
+      //                                         BorderRadius.circular(80.0),
+      //                                     image: DecorationImage(
+      //                                       image: NetworkImage(snapshot.data),
+      //                                       fit: BoxFit.cover,
+      //                                     ),
+      //                                   ),
+      //                                 );
+      //                               } else {
+      //                                 return Container(
+      //                                   width: 55.0,
+      //                                   height: 55.0,
+      //                                   decoration: BoxDecoration(
+      //                                     image: DecorationImage(
+      //                                       image: AssetImage(
+      //                                           'assets/images/career.jpg'),
+      //                                       fit: BoxFit.cover,
+      //                                     ),
+      //                                     borderRadius:
+      //                                         BorderRadius.circular(80.0),
+      //                                   ),
+      //                                 );
+      //                               }
+      //                             }),
+      //                       ),
+      //                       title: Text(listItem[index].name,
+      //                           style: UIdata.textSearchTitleStyle20Orange),
+      //                       trailing: Icon(Icons.keyboard_arrow_right,
+      //                           color: Colors.red[900], size: 30.0))),
+      //             );
+      //           },
+      //         );
+      //       }
+      //     } else {
+      //       return SizedBox(height: 1);
+      //     }
+      //   },
+      // ),
     );
   }
 
