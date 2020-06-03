@@ -9,16 +9,44 @@ import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchService {
-  Future<QuerySnapshot> getSearchItem(String collectionName, String orderByName,
-      DocumentSnapshot lastDocument, int perPage) async {
+  Future<QuerySnapshot> getSearchItem(
+      String collectionName,
+      String orderByName,
+      DocumentSnapshot lastDocument,
+      int perPage,
+      List<String> whereFields,
+      List<String> whereValue) async {
     try {
       Query query = Firestore.instance
           .collectionGroup(collectionName)
-          .orderBy(orderByName)
-          .limit(perPage);
+          .orderBy(orderByName);
+      if (whereFields != null) {
+        for (var i = 0; i < whereFields.length; i++) {
+          query = query.where(whereFields[i], isEqualTo: whereValue[i]);
+        }
+      }
+      query = query.limit(perPage);
       return lastDocument != null
           ? query.startAfterDocument(lastDocument).getDocuments()
           : query.getDocuments();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<int> countSearchItem(String collectionName, String orderByName,
+      List<String> whereFields, List<String> whereValue) async {
+    try {
+      Query query = Firestore.instance
+          .collectionGroup(collectionName)
+          .orderBy(orderByName);
+      if (whereFields != null) {
+        for (var i = 0; i < whereFields.length; i++) {
+          query = query.where(whereFields[i], isEqualTo: whereValue[i]);
+        }
+      }
+      QuerySnapshot queryDocument = await query.getDocuments();
+      return queryDocument.documents.length;
     } catch (e) {
       rethrow;
     }
