@@ -126,8 +126,8 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/bg_school.png"),
-                fit: BoxFit.fitHeight)
+                image: AssetImage("assets/images/thembg.png"),
+                fit: BoxFit.fill)
         ),
         child: Scaffold(
           backgroundColor: Colors.transparent,

@@ -178,11 +178,11 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
             hintText: hintText,
             labelText: labelText,
             hintStyle:
-                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.black),
+                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
             labelStyle:
-                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.black),
+                TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
           ),
-          style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.black),
+          style: TextStyle(fontFamily: UIdata.fontFamily, color: Colors.white),
           onSaved: onSaveFunction,
         ),
       );
@@ -273,57 +273,63 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             _student = snapshot.data;
-            return Scaffold(
-              key: _scaffoldKey,
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-                title: Text(
-                  UIdata.txEditProfileTitle,
-                  style: UIdata.textTitleStyle,
-                ),
-                leading: IconButton(
-                  icon: UIdata.backIcon,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
-                child: Form(
-                  key: _globalKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: _screenSize.height / 50),
-                        _buildProfileImage(),
-                        Column(
+            return Material(
+              child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/thembg.png"),
+                        fit: BoxFit.fill)),
+                child: Scaffold(
+                  key: _scaffoldKey,
+                  backgroundColor: Colors.transparent,
+                  appBar: AppBar(
+                    backgroundColor: Colors.black,
+                    title: Text(
+                      UIdata.txEditProfileTitle,
+                      style: UIdata.textTitleStyle,
+                    ),
+                    leading: IconButton(
+                      icon: UIdata.backIcon,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  body: Padding(
+                    padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+                    child: Form(
+                      key: _globalKey,
+                      child: SingleChildScrollView(
+                        child: Column(
                           children: <Widget>[
-                            _buildDetailInfo(
-                                UIdata.txEditSubtitle, TextStyle(color: Colors.black,fontSize: 20)),
-                            _buildSeparator(_screenSize),
-                            _buildInputText(
-                                _student.firstName,
-                                'ชื่อ',
-                                'กรุณากรอกชื่อ',
-                                (value) => _student.firstName = value),
-                            _buildInputText(
+                            SizedBox(height: _screenSize.height / 50),
+                            _buildProfileImage(),
+                            Column(
+                              children: <Widget>[
+                                _buildDetailInfo(
+                                    UIdata.txEditSubtitle, TextStyle(color: Colors.white,fontSize: 20)),
+                                _buildSeparator(_screenSize),
+                                _buildInputText(
+                                    _student.firstName,
+                                    'ชื่อ',
+                                    'กรุณากรอกชื่อ',
+                                    (value) => _student.firstName = value),
+                                _buildInputText(
 
-                                _student.lastName,
-                                'นามสกุล',
-                                'กรุณากรอกนามสกุล',
-                                (value) => _student.lastName = value),
-                            _buildInputText(
-                                _student.phone,
-                                'เบอร์โทรศัพท์',
-                                'กรุณากรอกเบอร์โทรศัพท์',
-                                (value) => _student.phone = value),
-                            _buildInputText(
-                                _student.email,
-                                'อีเมล์',
-                                'กรุณากรอกอีเมล์',
-                                (value) => _student.email = value),
+                                    _student.lastName,
+                                    'นามสกุล',
+                                    'กรุณากรอกนามสกุล',
+                                    (value) => _student.lastName = value),
+                                _buildInputText(
+                                    _student.phone,
+                                    'เบอร์โทรศัพท์',
+                                    'กรุณากรอกเบอร์โทรศัพท์',
+                                    (value) => _student.phone = value),
+                                _buildInputText(
+                                    _student.email,
+                                    'อีเมล์',
+                                    'กรุณากรอกอีเมล์',
+                                    (value) => _student.email = value),
 //                              Container(
 //                                padding: EdgeInsets.symmetric(
 //                                    vertical: 10.0, horizontal: 30.0),
@@ -418,11 +424,13 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
 //                                  },
 //                                ),
 //                              )
+                              ],
+                            ),
+                            SizedBox(height: 30.0),
+                            _buildButtons(context, _progressDialog),
                           ],
                         ),
-                        SizedBox(height: 30.0),
-                        _buildButtons(context, _progressDialog),
-                      ],
+                      ),
                     ),
                   ),
                 ),
