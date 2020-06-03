@@ -10,21 +10,15 @@ import 'package:student_guidance/utils/UIdata.dart';
 
 class SearchService {
   Future<QuerySnapshot> getSearchItem(
-      String collectionName,
-      String orderByName,
-      DocumentSnapshot lastDocument,
-      int perPage,
-      List<String> whereFields,
-      List<String> whereValue) async {
+    String collectionName,
+    String orderByName,
+    DocumentSnapshot lastDocument,
+    int perPage,
+  ) async {
     try {
       Query query = Firestore.instance
           .collectionGroup(collectionName)
           .orderBy(orderByName);
-      if (whereFields != null) {
-        for (var i = 0; i < whereFields.length; i++) {
-          query = query.where(whereFields[i], isEqualTo: whereValue[i]);
-        }
-      }
       query = query.limit(perPage);
       return lastDocument != null
           ? query.startAfterDocument(lastDocument).getDocuments()
@@ -34,96 +28,46 @@ class SearchService {
     }
   }
 
-  Future<int> countSearchItem(String collectionName, String orderByName,
-      List<String> whereFields, List<String> whereValue) async {
+  Future<QuerySnapshot> getAllSearchItem(
+    String collectionName,
+    String orderByName,
+  ) async {
     try {
       Query query = Firestore.instance
           .collectionGroup(collectionName)
           .orderBy(orderByName);
-      if (whereFields != null) {
-        for (var i = 0; i < whereFields.length; i++) {
-          query = query.where(whereFields[i], isEqualTo: whereValue[i]);
-        }
-      }
-      QuerySnapshot queryDocument = await query.getDocuments();
-      return queryDocument.documents.length;
+      return query.getDocuments();
     } catch (e) {
       rethrow;
     }
   }
 
-  Stream<List<FilterSeachItems>> getAllSearchItem() {
-    Stream<QuerySnapshot> universitySnapshot = Firestore.instance
-        .collectionGroup('University')
-        .orderBy('university_name')
-        .snapshots();
-    Stream<QuerySnapshot> facultySnapshot = Firestore.instance
-        .collectionGroup('Faculty')
-        .orderBy('faculty_name')
-        .snapshots();
-    Stream<QuerySnapshot> majorSnapshot = Firestore.instance
-        .collectionGroup('Major')
-        .orderBy('majorName')
-        .snapshots();
-    Stream<QuerySnapshot> careerSnapshot = Firestore.instance
-        .collectionGroup('Career')
-        .orderBy('career_name')
-        .snapshots();
-
-    return Rx.combineLatest4(
-      universitySnapshot,
-      facultySnapshot,
-      majorSnapshot,
-      careerSnapshot,
-      (QuerySnapshot uniData, QuerySnapshot facData, QuerySnapshot majorData,
-          QuerySnapshot careerData) {
-        List<FilterSeachItems> listItem = List<FilterSeachItems>();
-
-        Set<String> facNameSet = facData.documents
-            .map((doc) => Faculty.fromJson(doc.data).facultyName)
+  Future<int> countSearchItem(String collectionName, String orderByName,
+      List<String> whereFields, List<String> whereValue) async {
+    try {
+      Set<String> setCount = Set();
+      Query query = Firestore.instance
+          .collectionGroup(collectionName)
+          .orderBy(orderByName);
+      QuerySnapshot queryDocument = await query.getDocuments();
+      if (whereFields.isNotEmpty) {
+        for (var i = 0; i < whereFields.length; i++) {
+          for (var doc in queryDocument.documents) {
+            String _fieldValue = doc.data[whereFields[i]].toString();
+            if (_fieldValue.contains(whereValue[i])) {
+              setCount.add(doc.data[orderByName].toString());
+            }
+          }
+        }
+      } else {
+        setCount = queryDocument.documents
+            .map((doc) => doc.data[orderByName].toString())
             .toSet();
-
-        Set<String> majorNameSet = majorData.documents
-            .map((doc) => Major.fromJson(doc.data).majorName)
-            .toSet();
-
-        for (var uniSnapshot in uniData.documents) {
-          FilterSeachItems filterSeachItems = FilterSeachItems();
-          University university = University.fromJson(uniSnapshot.data);
-          filterSeachItems.name = university.universityname;
-          filterSeachItems.uProvince = university.province;
-          filterSeachItems.uZone = university.zone;
-          filterSeachItems.type = 'University';
-          filterSeachItems.documentSnapshot = uniSnapshot;
-          listItem.add(filterSeachItems);
-        }
-
-        for (var facName in facNameSet) {
-          FilterSeachItems filterSeachItems = FilterSeachItems();
-          filterSeachItems.name = facName;
-          filterSeachItems.type = 'Faculty';
-          listItem.add(filterSeachItems);
-        }
-
-        for (var majorName in majorNameSet) {
-          FilterSeachItems filterSeachItems = FilterSeachItems();
-          filterSeachItems.name = majorName;
-          filterSeachItems.type = 'Major';
-          listItem.add(filterSeachItems);
-        }
-
-        for (var careerSnapshot in careerData.documents) {
-          FilterSeachItems filterSeachItems = FilterSeachItems();
-          Career career = Career.fromJson(careerSnapshot.data);
-          filterSeachItems.name = career.careerName;
-          filterSeachItems.type = 'Career';
-          filterSeachItems.documentSnapshot = careerSnapshot;
-          listItem.add(filterSeachItems);
-        }
-
-        return listItem;
-      },
-    );
+      }
+      return setCount.length;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<int> getCountAlumniEntranceMajor(String university) async {

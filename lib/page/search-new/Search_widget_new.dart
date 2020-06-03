@@ -31,6 +31,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   int countOrder = 0;
   int _curentRadio = 1;
   int groupRadio = 1;
+  int _perPage = 5;
   TextEditingController _searchTextController = new TextEditingController();
   String _searchText = '';
   List<University> setListSize = new List<University>();
@@ -51,24 +52,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       setState(() {
         _loadingPage = true;
       });
-      QuerySnapshot querySnapshot = await SearchService().getSearchItem(
-          type, keyType, null, type == 'University' ? 5 : 10, null, null);
-      _listDocumetSnapshot = querySnapshot.documents;
-      if (type == 'University') {
-        listUniversity = querySnapshot.documents
-            .map((doc) => University.fromJson(doc.data))
-            .toList();
-      } else if (type == 'Major') {
-        listMajor = querySnapshot.documents
-            .map((doc) => Major.fromJson(doc.data))
-            .toList();
-      } else {
-        listFaculty = querySnapshot.documents
-            .map((doc) => Faculty.fromJson(doc.data))
-            .toList();
-      }
-
-      _lastDocument = querySnapshot.documents.last;
+      _getMoreItemSearch();
 
       setState(() {
         _loadingPage = false;
@@ -79,57 +63,126 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   }
 
   _getMoreItemSearch() async {
-    QuerySnapshot querySnapshot = await SearchService().getSearchItem(type,
-        keyType, _lastDocument, type == 'University' ? 5 : 10, null, null);
-    _listDocumetSnapshot.addAll(querySnapshot.documents);
+    List<String> _whereFields = [];
+    List<String> _whereValue = [];
+    if (_searchText.trim().isNotEmpty || _searchText.trim() != '') {
+      if (type == 'University') {
+        _whereFields.add('university_name');
+      }
+      _whereValue.add(_searchText);
+    }
+    if (_dropdownZoneValue != null) {
+      _whereFields.add('zone');
+      _whereValue.add(_dropdownZoneValue);
+    }
+    if (_dropdownProvinceValue != null) {
+      _whereFields.add('province');
+      _whereValue.add(_dropdownProvinceValue);
+    }
+
     List<University> listUniversityMore = [];
     List<Major> listMajorMore = [];
     List<Faculty> listFacultyMore = [];
-    if (type == 'University') {
-      listUniversityMore = querySnapshot.documents
-          .map((doc) => University.fromJson(doc.data))
-          .toList();
-    } else if (type == 'Major') {
-      listMajorMore = querySnapshot.documents
-          .map((doc) => Major.fromJson(doc.data))
-          .toList();
-    } else {
-      listFacultyMore = querySnapshot.documents
-          .map((doc) => Faculty.fromJson(doc.data))
-          .toList();
-    }
 
-    if (querySnapshot.documents.isEmpty) {
-      _isScroll = false;
-      return;
-    }
-    setState(() {
+    if (_whereFields.isNotEmpty) {
+      await _getFilterSearchItem(_whereFields, _whereValue);
+      setState(() {
+        if (type == 'University') {
+          listUniversity = _listDocumetSnapshot
+              .map((doc) => University.fromJson(doc.data))
+              .toList();
+        } else if (type == 'Major') {
+          listMajor = _listDocumetSnapshot
+              .map((doc) => Major.fromJson(doc.data))
+              .toList();
+        } else {
+          listFaculty = _listDocumetSnapshot
+              .map((doc) => Faculty.fromJson(doc.data))
+              .toList();
+        }
+      });
+    } else {
+      _perPage = type == 'University' ? 5 : 10;
+      QuerySnapshot querySnapshot = await SearchService()
+          .getSearchItem(type, keyType, _lastDocument, _perPage);
+      _listDocumetSnapshot.addAll(querySnapshot.documents);
+
       if (type == 'University') {
-        listUniversity.addAll(listUniversityMore);
+        listUniversityMore = querySnapshot.documents
+            .map((doc) => University.fromJson(doc.data))
+            .toList();
       } else if (type == 'Major') {
-        listMajor.addAll(listMajorMore);
+        listMajorMore = querySnapshot.documents
+            .map((doc) => Major.fromJson(doc.data))
+            .toList();
       } else {
-        listFaculty.addAll(listFacultyMore);
+        listFacultyMore = querySnapshot.documents
+            .map((doc) => Faculty.fromJson(doc.data))
+            .toList();
       }
 
-      _lastDocument = querySnapshot.documents.last;
-      _isScroll = true;
-    });
+      if (querySnapshot.documents.isEmpty) {
+        _isScroll = false;
+        return;
+      }
+
+      setState(() {
+        if (type == 'University') {
+          listUniversity.addAll(listUniversityMore);
+        } else if (type == 'Major') {
+          listMajor.addAll(listMajorMore);
+        } else {
+          listFaculty.addAll(listFacultyMore);
+        }
+        _lastDocument = querySnapshot.documents.last;
+        _isScroll = true;
+      });
+    }
   }
 
-  _getCountSearchItem() {
-    SearchService().countSearchItem(type, keyType, null, null).then(
-          (countItem) => {
-            setState(() {
-              countOrder = countItem;
-            })
-          },
-        );
+  _getCountSearchItem() async {
+    List<String> _whereFields = [];
+    List<String> _whereValue = [];
+    if (_searchText.trim().isNotEmpty) {
+      if (type == 'University') {
+        _whereFields.add('university_name');
+      }
+      _whereValue.add(_searchText);
+    }
+    if (_dropdownZoneValue != null) {
+      _whereFields.add('zone');
+      _whereValue.add(_dropdownZoneValue);
+    }
+    if (_dropdownProvinceValue != null) {
+      _whereFields.add('province');
+      _whereValue.add(_dropdownProvinceValue);
+    }
+
+    countOrder = await SearchService()
+        .countSearchItem(type, keyType, _whereFields, _whereValue);
+  }
+
+  _getFilterSearchItem(
+      List<String> _whereFields, List<String> _whereValue) async {
+    QuerySnapshot queryDocument =
+        await SearchService().getAllSearchItem(type, keyType);
+    for (var i = 0; i < _whereFields.length; i++) {
+      for (var doc in queryDocument.documents) {
+        String _fieldValue = doc.data[_whereFields[i]].toString();
+        if (_fieldValue.contains(_whereValue[i])) {
+          _listDocumetSnapshot.add(doc);
+        }
+      }
+    }
+    setState(() {
+      _isScroll = false;
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    _getCountSearchItem();
     _getItemSearch();
     _scrollController.addListener(() {
       double maxScroll = _scrollController.position.maxScrollExtent;
@@ -140,13 +193,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         _getMoreItemSearch();
       }
     });
-    SearchService().countSearchItem(type, keyType, null, null).then(
-          (countItem) => {
-            setState(() {
-              countOrder = countItem;
-            })
-          },
-        );
   }
 
   Widget myFilterDrawer() {
@@ -346,9 +392,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           child: TextField(
                             controller: _searchTextController,
                             onChanged: (value) {
-                              setState(() {
-                                _searchText = value;
-                                _searchText = _searchText.trim();
+                              setState(() async {
+                                _searchText = value.trim();
+                                _listDocumetSnapshot = [];
+                                await _getCountSearchItem();
+                                await _getMoreItemSearch();
                               });
                             },
                             //  controller: _controller,
@@ -366,9 +414,12 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               suffixIcon: IconButton(
                                 icon: Icon(Icons.clear),
                                 onPressed: () {
-                                  setState(() {
+                                  setState(() async {
                                     _searchTextController.clear();
                                     _searchText = _searchTextController.text;
+                                    _listDocumetSnapshot = [];
+                                    await _getCountSearchItem();
+                                    await _getMoreItemSearch();
                                   });
                                 },
                               ),
@@ -395,6 +446,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                     setState(() {
                                       _dropdownZoneValue = newValue;
                                       _dropdownProvinceValue = null;
+                                      _listDocumetSnapshot = [];
+                                      _getMoreItemSearch();
+                                      _getCountSearchItem();
                                     });
                                   },
                                   hint: DropdownMenuItem<String>(
@@ -424,6 +478,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                   onChanged: (String newValue) {
                                     setState(() {
                                       _dropdownProvinceValue = newValue;
+                                      _listDocumetSnapshot = [];
+                                      _getMoreItemSearch();
+                                      _getCountSearchItem();
                                     });
                                   },
                                   hint: DropdownMenuItem<String>(
@@ -718,7 +775,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                                       index != countOrder - 1,
                                                   child: Center(
                                                     child: Container(
-                                                      width: 120,
+                                                      width: 100,
                                                       height: 100,
                                                       decoration: BoxDecoration(
                                                         image: DecorationImage(
