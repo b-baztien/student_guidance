@@ -116,8 +116,8 @@ class _AddEducationNewState extends State<AddEducationNew> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/thembg.png"),
-                fit: BoxFit.fill)),
+                image: AssetImage("assets/images/bg_school.png"),
+                fit: BoxFit.fitHeight)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(

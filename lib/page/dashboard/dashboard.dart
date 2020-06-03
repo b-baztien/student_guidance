@@ -29,222 +29,220 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return SafeArea(
-      child: Container(
-        child: FutureBuilder(
-            future: UIdata.getPrefs(),
-            builder: (context, futureSnapshot) {
-              if (futureSnapshot.hasData) {
-                return Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: Colors.black,
-                    title: ShaderMask(
-                        shaderCallback: (bound) => RadialGradient(
-                                radius: 4.0,
-                                colors: [Colors.greenAccent, Colors.white],
-                                center: Alignment.topLeft,
-                                tileMode: TileMode.clamp)
-                            .createShader(bound),
-                        child: Shimmer.fromColors(
-                            child: Text(
-                              UIdata.txDashboardWidget,
-                              style: UIdata.textTitleStyle,
-                            ),
-                            baseColor: Colors.white,
-                            highlightColor: Colors.red,
-                            period: const Duration(milliseconds: 3000))),
-                  ),
-                  drawer: MyDrawer(
-                      login: Login.fromJson(
-                          jsonDecode(futureSnapshot.data.getString('login'))),
-                      student: Student.fromJson(
-                          jsonDecode(futureSnapshot.data.getString('student'))),
-                      schoolId: futureSnapshot.data.getString('schoolId')),
-                  body: SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            UIdata.txDashboardTitle,
-                            style: UIdata.textTitleStyleDark,
+      child: FutureBuilder(
+          future: UIdata.getPrefs(),
+          builder: (context, futureSnapshot) {
+            if (futureSnapshot.hasData) {
+              return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.black,
+                  title: ShaderMask(
+                      shaderCallback: (bound) => RadialGradient(
+                              radius: 4.0,
+                              colors: [Colors.greenAccent, Colors.white],
+                              center: Alignment.topLeft,
+                              tileMode: TileMode.clamp)
+                          .createShader(bound),
+                      child: Shimmer.fromColors(
+                          child: Text(
+                            UIdata.txDashboardWidget,
+                            style: UIdata.textTitleStyle,
                           ),
-                          StreamBuilder(
-                            stream: DashboardService().getAlumniDashboard(
-                              futureSnapshot.data.getString('schoolId'),
-                            ),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<List<DashboardAlumni>> snapshot) {
-                              if (snapshot.hasData) {
-                                return FutureBuilder(
-                                  future: DashboardService().getDashboardYear(
-                                      futureSnapshot.data.getString('schoolId')),
-                                  builder: (context, snap) {
-                                    if (snap.hasData) {
-                                      _tabController = new TabController(
-                                          vsync: this, length: snap.data.length);
-                                      tabData = snap.data;
-                                      return Column(
-                                        children: <Widget>[
-                                          Container(
-                                            child: TabBar(
-                                              controller: _tabController,
-                                              indicatorColor: Colors.green,
-                                              labelColor: Colors.green,
-                                              unselectedLabelColor:
-                                                  Color(0xff939191),
-                                              isScrollable: true,
-                                              tabs: tabData
-                                                  .map((year) => Tab(
-                                                        text:
-                                                            'ปีการศึกษา ' + year,
-                                                      ))
-                                                  .toList(),
-                                            ),
+                          baseColor: Colors.white,
+                          highlightColor: Colors.red,
+                          period: const Duration(milliseconds: 3000))),
+                ),
+                drawer: MyDrawer(
+                    login: Login.fromJson(
+                        jsonDecode(futureSnapshot.data.getString('login'))),
+                    student: Student.fromJson(
+                        jsonDecode(futureSnapshot.data.getString('student'))),
+                    schoolId: futureSnapshot.data.getString('schoolId')),
+                body: SingleChildScrollView(
+                  child: Container(
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          UIdata.txDashboardTitle,
+                          style: UIdata.textTitleStyleDark,
+                        ),
+                        StreamBuilder(
+                          stream: DashboardService().getAlumniDashboard(
+                            futureSnapshot.data.getString('schoolId'),
+                          ),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<DashboardAlumni>> snapshot) {
+                            if (snapshot.hasData) {
+                              return FutureBuilder(
+                                future: DashboardService().getDashboardYear(
+                                    futureSnapshot.data.getString('schoolId')),
+                                builder: (context, snap) {
+                                  if (snap.hasData) {
+                                    _tabController = new TabController(
+                                        vsync: this, length: snap.data.length);
+                                    tabData = snap.data;
+                                    return Column(
+                                      children: <Widget>[
+                                        Container(
+                                          child: TabBar(
+                                            controller: _tabController,
+                                            indicatorColor: Colors.green,
+                                            labelColor: Colors.green,
+                                            unselectedLabelColor:
+                                                Color(0xff939191),
+                                            isScrollable: true,
+                                            tabs: tabData
+                                                .map((year) => Tab(
+                                                      text:
+                                                          'ปีการศึกษา ' + year,
+                                                    ))
+                                                .toList(),
                                           ),
-                                          Container(
-                                            height: screenHeight,
-                                            child: TabBarView(
-                                              controller: _tabController,
-                                              children: tabData.map(
-                                                (year) {
-                                                  return Column(
-                                                    children: <Widget>[
-                                                      Column(
-                                                        children: snapshot.data
-                                                            .map(
-                                                              (dashboardAlumni) => dashboardAlumni
-                                                                          .graduateYear ==
-                                                                      year
-                                                                  ? cardDashboradYear(
-                                                                      dashboardAlumni)
-                                                                  : SizedBox
-                                                                      .shrink(),
-                                                            )
-                                                            .toList(),
+                                        ),
+                                        Container(
+                                          height: screenHeight,
+                                          child: TabBarView(
+                                            controller: _tabController,
+                                            children: tabData.map(
+                                              (year) {
+                                                return Column(
+                                                  children: <Widget>[
+                                                    Column(
+                                                      children: snapshot.data
+                                                          .map(
+                                                            (dashboardAlumni) => dashboardAlumni
+                                                                        .graduateYear ==
+                                                                    year
+                                                                ? cardDashboradYear(
+                                                                    dashboardAlumni)
+                                                                : SizedBox
+                                                                    .shrink(),
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: <Widget>[
+                                                          _buildCardTop5(
+                                                              Colors.black87,
+                                                              screenWidth / 2.1,
+                                                              UIdata
+                                                                  .txDashnoardUniversityPop,
+                                                              UIdata
+                                                                  .textDashboardTitleStylePink,
+                                                              UIdata
+                                                                  .imgDashnoardUniversityPop,
+                                                              40,
+                                                              27,
+                                                              DashboardService()
+                                                                  .getDashboardUniversity(
+                                                                      futureSnapshot
+                                                                          .data
+                                                                          .getString(
+                                                                              'schoolId'),
+                                                                      year)),
+                                                          _buildCardTop5(
+                                                              Color(0xffF08201),
+                                                              screenWidth / 2.5,
+                                                              UIdata
+                                                                  .txDashnoardFacultyPop,
+                                                              UIdata
+                                                                  .textDashboardTitleStyleDark,
+                                                              UIdata
+                                                                  .imgDashnoardFacultyPop,
+                                                              30,
+                                                              30,
+                                                              DashboardService()
+                                                                  .getDashboardFaculty(
+                                                                      futureSnapshot
+                                                                          .data
+                                                                          .getString(
+                                                                              'schoolId'),
+                                                                      year))
+                                                        ],
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                top: 15),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: <Widget>[
-                                                            _buildCardTop5(
-                                                                Colors.black87,
-                                                                screenWidth / 2.1,
-                                                                UIdata
-                                                                    .txDashnoardUniversityPop,
-                                                                UIdata
-                                                                    .textDashboardTitleStylePink,
-                                                                UIdata
-                                                                    .imgDashnoardUniversityPop,
-                                                                40,
-                                                                27,
-                                                                DashboardService()
-                                                                    .getDashboardUniversity(
-                                                                        futureSnapshot
-                                                                            .data
-                                                                            .getString(
-                                                                                'schoolId'),
-                                                                        year)),
-                                                            _buildCardTop5(
-                                                                Color(0xffF08201),
-                                                                screenWidth / 2.5,
-                                                                UIdata
-                                                                    .txDashnoardFacultyPop,
-                                                                UIdata
-                                                                    .textDashboardTitleStyleDark,
-                                                                UIdata
-                                                                    .imgDashnoardFacultyPop,
-                                                                30,
-                                                                30,
-                                                                DashboardService()
-                                                                    .getDashboardFaculty(
-                                                                        futureSnapshot
-                                                                            .data
-                                                                            .getString(
-                                                                                'schoolId'),
-                                                                        year))
-                                                          ],
-                                                        ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 15,
+                                                              bottom: 15),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: <Widget>[
+                                                          _buildCardTop5(
+                                                              Color(0xff006A82),
+                                                              screenWidth - 37,
+                                                              UIdata
+                                                                  .txDashnoardMajorPop,
+                                                              UIdata
+                                                                  .textDashboardTitleStyleWhite,
+                                                              UIdata
+                                                                  .imgDashnoardMajorPop,
+                                                              30,
+                                                              30,
+                                                              DashboardService()
+                                                                  .getDashboardMajor(
+                                                                      futureSnapshot
+                                                                          .data
+                                                                          .getString(
+                                                                              'schoolId'),
+                                                                      year)),
+                                                        ],
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                top: 15,
-                                                                bottom: 15),
-                                                        child: Row(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: <Widget>[
-                                                            _buildCardTop5(
-                                                                Color(0xff006A82),
-                                                                screenWidth - 37,
-                                                                UIdata
-                                                                    .txDashnoardMajorPop,
-                                                                UIdata
-                                                                    .textDashboardTitleStyleWhite,
-                                                                UIdata
-                                                                    .imgDashnoardMajorPop,
-                                                                30,
-                                                                30,
-                                                                DashboardService()
-                                                                    .getDashboardMajor(
-                                                                        futureSnapshot
-                                                                            .data
-                                                                            .getString(
-                                                                                'schoolId'),
-                                                                        year)),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              ).toList(),
-                                            ),
-                                          )
-                                        ],
-                                      );
-                                    } else {
-                                      return SizedBox.shrink();
-                                    }
-                                  },
-                                );
-                              } else {
-                                return SizedBox.shrink();
-                              }
-                            },
-                          )
-                        ],
-                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ).toList(),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  } else {
+                                    return SizedBox.shrink();
+                                  }
+                                },
+                              );
+                            } else {
+                              return SizedBox.shrink();
+                            }
+                          },
+                        )
+                      ],
                     ),
                   ),
-                );
-              } else {
-                return Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: Colors.black,
-                    title: Text(
-                      UIdata.txDashboardWidget,
-                      style: UIdata.textTitleStyle,
-                    ),
+                ),
+              );
+            } else {
+              return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.black,
+                  title: Text(
+                    UIdata.txDashboardWidget,
+                    style: UIdata.textTitleStyle,
                   ),
-                  drawer: MyDrawer(),
-                );
-              }
-            }),
-      ),
+                ),
+                drawer: MyDrawer(),
+              );
+            }
+          }),
     );
   }
 
