@@ -52,17 +52,17 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         _loadingPage = true;
       });
       QuerySnapshot querySnapshot = await SearchService().getSearchItem(
-          type, keyType, null, type == 'University' ? 5:10, null, null);
+          type, keyType, null, type == 'University' ? 5 : 10, null, null);
       _listDocumetSnapshot = querySnapshot.documents;
-      if(type == 'University'){
+      if (type == 'University') {
         listUniversity = querySnapshot.documents
             .map((doc) => University.fromJson(doc.data))
             .toList();
-      }else if (type == 'Major'){
+      } else if (type == 'Major') {
         listMajor = querySnapshot.documents
             .map((doc) => Major.fromJson(doc.data))
             .toList();
-      }else{
+      } else {
         listFaculty = querySnapshot.documents
             .map((doc) => Faculty.fromJson(doc.data))
             .toList();
@@ -79,21 +79,21 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   }
 
   _getMoreItemSearch() async {
-    QuerySnapshot querySnapshot = await SearchService().getSearchItem(
-        type, keyType, _lastDocument,  type == 'University' ? 5:10, null, null);
+    QuerySnapshot querySnapshot = await SearchService().getSearchItem(type,
+        keyType, _lastDocument, type == 'University' ? 5 : 10, null, null);
     _listDocumetSnapshot.addAll(querySnapshot.documents);
     List<University> listUniversityMore = [];
     List<Major> listMajorMore = [];
     List<Faculty> listFacultyMore = [];
-    if(type == 'University'){
-       listUniversityMore = querySnapshot.documents
+    if (type == 'University') {
+      listUniversityMore = querySnapshot.documents
           .map((doc) => University.fromJson(doc.data))
           .toList();
-    }else if (type == 'Major'){
+    } else if (type == 'Major') {
       listMajorMore = querySnapshot.documents
           .map((doc) => Major.fromJson(doc.data))
           .toList();
-    }else{
+    } else {
       listFacultyMore = querySnapshot.documents
           .map((doc) => Faculty.fromJson(doc.data))
           .toList();
@@ -104,11 +104,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       return;
     }
     setState(() {
-      if(type == 'University'){
+      if (type == 'University') {
         listUniversity.addAll(listUniversityMore);
-      }else if (type == 'Major'){
+      } else if (type == 'Major') {
         listMajor.addAll(listMajorMore);
-      }else{
+      } else {
         listFaculty.addAll(listFacultyMore);
       }
 
@@ -116,16 +116,15 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       _isScroll = true;
     });
   }
+
   _getCountSearchItem() {
-    SearchService()
-        .countSearchItem(type, keyType, null, null)
-        .then(
+    SearchService().countSearchItem(type, keyType, null, null).then(
           (countItem) => {
-        setState(() {
-          countOrder = countItem;
-        })
-      },
-    );
+            setState(() {
+              countOrder = countItem;
+            })
+          },
+        );
   }
 
   @override
@@ -141,9 +140,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         _getMoreItemSearch();
       }
     });
-    SearchService()
-        .countSearchItem(type, keyType, null, null)
-        .then(
+    SearchService().countSearchItem(type, keyType, null, null).then(
           (countItem) => {
             setState(() {
               countOrder = countItem;
@@ -197,9 +194,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
+                          setState(() {
+                            _isScroll = true;
+                          });
                           groupRadio = _curentRadio;
                           Navigator.pop(context);
-
                           if (_curentRadio == 1) {
                             setState(() {
                               listUniversity = [];
@@ -507,7 +506,11 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                       _loadingPage == true
                           ? Container(
                               child: Center(
-                              child: Text('กำลังโหลดข้อมูล...',style: TextStyle(fontSize: 20,color: Colors.white),),
+                              child: Text(
+                                'กำลังโหลดข้อมูล...',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
                             ))
                           : _listDocumetSnapshot.length == 0
                               ? Container(
@@ -516,374 +519,415 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                   ),
                                 )
                               : Expanded(
-                                  child:
-                                  type == 'University' ?
-                                  ListView.builder(
-                                  controller: _scrollController,
-                                  itemCount: _listDocumetSnapshot.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Column(children: <Widget>[
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: 150,
-                                          child: Material(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Colors.white,
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ItemUniversityNew(
-                                                            universitys:
-                                                                  _listDocumetSnapshot[
-                                                                    index]),
-                                                  ),
-                                                );
-                                              },
-                                              child: Ink(
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Container(
-                                                      padding: EdgeInsets.only(
-                                                          right: 10.0),
-                                                      decoration: new BoxDecoration(
-                                                          border: new Border(
-                                                              right: new BorderSide(
-                                                                  width: 2.0,
-                                                                  color: Color(
-                                                                      0xff005BC7)))),
-                                                      child: FutureBuilder(
-                                                          future: GetImageService()
-                                                              .getImage(
-                                                                  listUniversity[
-                                                                          index]
-                                                                      .image),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            if (snapshot
-                                                                .hasData) {
-                                                              return Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    3.2,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  image:
-                                                                      DecorationImage(
-                                                                    image: NetworkImage(
-                                                                        snapshot
-                                                                            .data),
-                                                                    fit: BoxFit
-                                                                        .fitHeight,
+                                  child: type == 'University'
+                                      ? ListView.builder(
+                                          controller: _scrollController,
+                                          itemCount:
+                                              _listDocumetSnapshot.length,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: const EdgeInsets.all(8),
+                                              child: Column(children: <Widget>[
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  height: 150,
+                                                  child: Material(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    color: Colors.white,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ItemUniversityNew(
+                                                                    universitys:
+                                                                        _listDocumetSnapshot[
+                                                                            index]),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Ink(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10),
+                                                        child: Row(
+                                                          children: <Widget>[
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      right:
+                                                                          10.0),
+                                                              decoration: new BoxDecoration(
+                                                                  border: new Border(
+                                                                      right: new BorderSide(
+                                                                          width:
+                                                                              2.0,
+                                                                          color:
+                                                                              Color(0xff005BC7)))),
+                                                              child:
+                                                                  FutureBuilder(
+                                                                      future: GetImageService().getImage(
+                                                                          listUniversity[index]
+                                                                              .image),
+                                                                      builder:
+                                                                          (context,
+                                                                              snapshot) {
+                                                                        if (snapshot
+                                                                            .hasData) {
+                                                                          return Container(
+                                                                            width:
+                                                                                MediaQuery.of(context).size.width / 3.2,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              image: DecorationImage(
+                                                                                image: NetworkImage(snapshot.data),
+                                                                                fit: BoxFit.fitHeight,
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        } else {
+                                                                          return Container(
+                                                                            width:
+                                                                                MediaQuery.of(context).size.width / 3.2,
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              image: DecorationImage(
+                                                                                image: AssetImage('assets/images/University-Icon.png'),
+                                                                                fit: BoxFit.fill,
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        }
+                                                                      }),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      left: 10),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Container(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                5),
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        2,
+                                                                    child:
+                                                                        AutoSizeText(
+                                                                      listUniversity[
+                                                                              index]
+                                                                          .universityname,
+                                                                      style: UIdata
+                                                                          .textSearchTitleStyle24Blue,
+                                                                      minFontSize:
+                                                                          10,
+                                                                      maxLines:
+                                                                          2,
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              );
-                                                            } else {
-                                                              return Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    3.2,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  image:
-                                                                      DecorationImage(
-                                                                    image: AssetImage(
-                                                                        'assets/images/University-Icon.png'),
-                                                                    fit: BoxFit
-                                                                        .fill,
+                                                                  Row(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      Icon(
+                                                                        FontAwesomeIcons
+                                                                            .mapMarkerAlt,
+                                                                        color: Color(
+                                                                            0xff005BC7),
+                                                                        size:
+                                                                            13,
+                                                                      ),
+                                                                      SizedBox(
+                                                                        width:
+                                                                            3,
+                                                                      ),
+                                                                      Text(
+                                                                        "ภาค" +
+                                                                            listUniversity[index].zone +
+                                                                            " จังหวัด" +
+                                                                            listUniversity[index].province,
+                                                                        style: UIdata
+                                                                            .textSearchSubTitleStyle13Blue,
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                ),
-                                                              );
-                                                            }
-                                                          }),
+                                                                  FutureBuilder(
+                                                                    future: SearchService()
+                                                                        .getCountAlumniEntranceMajor(
+                                                                            listUniversity[index].universityname),
+                                                                    builder: (BuildContext
+                                                                            context,
+                                                                        AsyncSnapshot<int>
+                                                                            snapshot) {
+                                                                      if (snapshot
+                                                                          .hasData) {
+                                                                        return Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            Icon(
+                                                                              FontAwesomeIcons.userGraduate,
+                                                                              color: Color(0xff005BC7),
+                                                                              size: 13,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 3,
+                                                                            ),
+                                                                            snapshot.data > 0
+                                                                                ? Text(
+                                                                                    'รุ่นพี่ ' + snapshot.data.toString() + ' คน เคยมาเรียนที่นี่',
+                                                                                    style: UIdata.textSearchSubTitleStyle13Green,
+                                                                                  )
+                                                                                : Text(
+                                                                                    'ยังไม่มีรุ่นพี่เคยมาเรียนที่นี่',
+                                                                                    style: UIdata.textSearchSubTitleStyle13Red,
+                                                                                  )
+                                                                          ],
+                                                                        );
+                                                                      } else {
+                                                                        return Text(
+                                                                            '');
+                                                                      }
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
                                                     ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: <Widget>[
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    top: 5),
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2,
-                                                            child: AutoSizeText(
-                                                              listUniversity[
-                                                                      index]
-                                                                  .universityname,
-                                                              style: UIdata
-                                                                  .textSearchTitleStyle24Blue,
-                                                              minFontSize: 10,
-                                                              maxLines: 2,
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: index ==
+                                                          _listDocumetSnapshot
+                                                                  .length -
+                                                              1 &&
+                                                      index != countOrder - 1,
+                                                  child: Center(
+                                                    child: Container(
+                                                      width: 120,
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/images/loading.gif'),
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ]),
+                                            );
+                                          },
+                                        )
+                                      : type == 'Major'
+                                          ? ListView.builder(
+                                              controller: _scrollController,
+                                              itemCount:
+                                                  _listDocumetSnapshot.length,
+                                              itemBuilder: (context, index) {
+                                                return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Material(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  10),
+                                                            ),
+                                                            child: ListTile(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              ListUniversityMajor(majorName: listMajor[index].majorName)));
+                                                                },
+                                                                leading:
+                                                                    Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              15.0),
+                                                                  decoration: new BoxDecoration(
+                                                                      border: new Border(
+                                                                          right: new BorderSide(
+                                                                              width: 1.0,
+                                                                              color: Colors.black))),
+                                                                  child:
+                                                                      Container(
+                                                                    width: 30,
+                                                                    height: 30,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      image:
+                                                                          DecorationImage(
+                                                                        image: AssetImage(
+                                                                            'assets/images/icon-major.png'),
+                                                                        fit: BoxFit
+                                                                            .fill,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                title: Text(
+                                                                    listMajor[index]
+                                                                        .majorName,
+                                                                    style: UIdata
+                                                                        .textSearchSubTitleStyle13Black),
+                                                                trailing: Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_right,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    size:
+                                                                        30.0)),
+                                                          ),
+                                                        ),
+                                                        Visibility(
+                                                          visible: index ==
+                                                                  _listDocumetSnapshot
+                                                                          .length -
+                                                                      1 &&
+                                                              index !=
+                                                                  countOrder -
+                                                                      1,
+                                                          child: Center(
+                                                            child: Container(
+                                                              width: 120,
+                                                              height: 100,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: AssetImage(
+                                                                      'assets/images/loading.gif'),
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
-                                                          Row(
-                                                            children: <Widget>[
-                                                              Icon(
-                                                                FontAwesomeIcons
-                                                                    .mapMarkerAlt,
-                                                                color: Color(
-                                                                    0xff005BC7),
-                                                                size: 13,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 3,
-                                                              ),
-                                                              Text(
-                                                                "ภาค" +
-                                                                    listUniversity[
-                                                                            index]
-                                                                        .zone +
-                                                                    " จังหวัด" +
-                                                                    listUniversity[
-                                                                            index]
-                                                                        .province,
-                                                                style: UIdata
-                                                                    .textSearchSubTitleStyle13Blue,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          FutureBuilder(
-                                                            future: SearchService()
-                                                                .getCountAlumniEntranceMajor(
-                                                                    listUniversity[
-                                                                            index]
-                                                                        .universityname),
-                                                            builder: (BuildContext
-                                                                    context,
-                                                                AsyncSnapshot<
-                                                                        int>
-                                                                    snapshot) {
-                                                              if (snapshot
-                                                                  .hasData) {
-                                                                return Row(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Icon(
-                                                                      FontAwesomeIcons
-                                                                          .userGraduate,
-                                                                      color: Color(
-                                                                          0xff005BC7),
-                                                                      size: 13,
+                                                        ),
+                                                      ],
+                                                    ));
+                                              },
+                                            )
+                                          : ListView.builder(
+                                              controller: _scrollController,
+                                              itemCount:
+                                                  _listDocumetSnapshot.length,
+                                              itemBuilder: (context, index) {
+                                                return Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(5),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Material(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(
+                                                              Radius.circular(
+                                                                  10),
+                                                            ),
+                                                            child: ListTile(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              ListUniversityMajor(majorName: listFaculty[index].facultyName)));
+                                                                },
+                                                                leading:
+                                                                    Container(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              15.0),
+                                                                  decoration: new BoxDecoration(
+                                                                      border: new Border(
+                                                                          right: new BorderSide(
+                                                                              width: 1.0,
+                                                                              color: Colors.black))),
+                                                                  child:
+                                                                      Container(
+                                                                    width: 30,
+                                                                    height: 30,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      image:
+                                                                          DecorationImage(
+                                                                        image: AssetImage(
+                                                                            'assets/images/icon-major.png'),
+                                                                        fit: BoxFit
+                                                                            .fill,
+                                                                      ),
                                                                     ),
-                                                                    SizedBox(
-                                                                      width: 3,
-                                                                    ),
-                                                                    snapshot.data >
-                                                                            0
-                                                                        ? Text(
-                                                                            'รุ่นพี่ ' +
-                                                                                snapshot.data.toString() +
-                                                                                ' คน เคยมาเรียนที่นี่',
-                                                                            style:
-                                                                                UIdata.textSearchSubTitleStyle13Green,
-                                                                          )
-                                                                        : Text(
-                                                                            'ยังไม่มีรุ่นพี่เคยมาเรียนที่นี่',
-                                                                            style:
-                                                                                UIdata.textSearchSubTitleStyle13Red,
-                                                                          )
-                                                                  ],
-                                                                );
-                                                              } else {
-                                                                return Text('');
-                                                              }
-                                                            },
+                                                                  ),
+                                                                ),
+                                                                title: Text(
+                                                                    listFaculty[
+                                                                            index]
+                                                                        .facultyName,
+                                                                    style: UIdata
+                                                                        .textSearchSubTitleStyle13Black),
+                                                                trailing: Icon(
+                                                                    Icons
+                                                                        .keyboard_arrow_right,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    size:
+                                                                        30.0)),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible: index ==
-                                                  _listDocumetSnapshot.length -
-                                                      1 &&
-                                              index != countOrder - 1,
-                                          child: Center(
-                                            child: Container(
-                                              width: 120,
-                                              height: 100,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/images/loading.gif'),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                    );
-                                  },
-                                ):
-                                      type =='Major'?
-                                      ListView.builder(
-                                        controller: _scrollController,
-                                                   itemCount: _listDocumetSnapshot.length,
-                                                   itemBuilder: (context, index) {
-                                                     return Padding(
-                                                       padding: const EdgeInsets.all(5),
-                                                       child: Column(
-                                                         children: <Widget>[
-                                                           Container(
-                                                             child: Material(
-                                                               borderRadius: BorderRadius.all(
-                                                                 Radius.circular(10),
-                                                               ),
-                                                               child: ListTile(
-                                                                   onTap: () {
-                                                                     Navigator.push(
-                                                                         context,
-                                                                         MaterialPageRoute(
-                                                                             builder: (context) => ListUniversityMajor(
-                                                                                 majorName: listMajor[index].majorName)));
-                                                                   },
-                                                                   leading: Container(
-                                                                     padding: EdgeInsets.only(right: 15.0),
-                                                                     decoration: new BoxDecoration(
-                                                                         border: new Border(
-                                                                             right: new BorderSide(
-                                                                                 width: 1.0, color: Colors.black))),
-                                                                     child: Container(
-                                                                       width: 30,
-                                                                       height: 30,
-                                                                       decoration: BoxDecoration(
-                                                                         image: DecorationImage(
-                                                                           image: AssetImage(
-                                                                               'assets/images/icon-major.png'),
-                                                                           fit: BoxFit.fill,
-                                                                         ),
-                                                                       ),
-                                                                     ),
-                                                                   ),
-                                                                   title: Text(listMajor[index].majorName,
-                                                                       style: UIdata.textSearchSubTitleStyle13Black),
-                                                                   trailing: Icon(Icons.keyboard_arrow_right,
-                                                                       color: Colors.black, size: 30.0)
-                                                               ),
-                                                             ),
-                                                           ),
-                                                           Visibility(
-                                                             visible: index ==
-                                                                 _listDocumetSnapshot.length -
-                                                                     1 &&
-                                                                 index != countOrder - 1,
-                                                             child: Center(
-                                                               child: Container(
-                                                                 width: 120,
-                                                                 height: 100,
-                                                                 decoration: BoxDecoration(
-                                                                   image: DecorationImage(
-                                                                     image: AssetImage(
-                                                                         'assets/images/loading.gif'),
-                                                                     fit: BoxFit.fill,
-                                                                   ),
-                                                                 ),
-                                                               ),
-                                                             ),
-                                                           ),
-                                                         ],
-                                                       )
-                                                     );
-                                                   },
-                                                 ) :
-                                      ListView.builder(
-                                        controller: _scrollController,
-                                                   itemCount: _listDocumetSnapshot.length,
-                                                   itemBuilder: (context, index) {
-                                                     return Padding(
-                                                       padding: const EdgeInsets.all(5),
-                                                       child: Column(
-                                                         children: <Widget>[
-                                                           Container(
-                                                             child: Material(
-                                                               borderRadius: BorderRadius.all(
-                                                                 Radius.circular(10),
-                                                               ),
-                                                               child: ListTile(
-                                                                   onTap: () {
-                                                                     Navigator.push(
-                                                                         context,
-                                                                         MaterialPageRoute(
-                                                                             builder: (context) => ListUniversityMajor(
-                                                                                 majorName: listFaculty[index].facultyName)));
-                                                                   },
-                                                                   leading: Container(
-                                                                     padding: EdgeInsets.only(right: 15.0),
-                                                                     decoration: new BoxDecoration(
-                                                                         border: new Border(
-                                                                             right: new BorderSide(
-                                                                                 width: 1.0, color: Colors.black))),
-                                                                     child: Container(
-                                                                       width: 30,
-                                                                       height: 30,
-                                                                       decoration: BoxDecoration(
-                                                                         image: DecorationImage(
-                                                                           image: AssetImage(
-                                                                               'assets/images/icon-major.png'),
-                                                                           fit: BoxFit.fill,
-                                                                         ),
-                                                                       ),
-                                                                     ),
-                                                                   ),
-                                                                   title: Text(listFaculty[index].facultyName,
-                                                                       style: UIdata.textSearchSubTitleStyle13Black),
-                                                                   trailing: Icon(Icons.keyboard_arrow_right,
-                                                                       color: Colors.black, size: 30.0)),
-                                                             ),
-                                                           ),
-                                                           Visibility(
-                                                             visible: index ==
-                                                                 _listDocumetSnapshot.length -
-                                                                     1 &&
-                                                                 index != countOrder - 1,
-                                                             child: Center(
-                                                               child: Container(
-                                                                 width: 120,
-                                                                 height: 100,
-                                                                 decoration: BoxDecoration(
-                                                                   image: DecorationImage(
-                                                                     image: AssetImage(
-                                                                         'assets/images/loading.gif'),
-                                                                     fit: BoxFit.fill,
-                                                                   ),
-                                                                 ),
-                                                               ),
-                                                             ),
-                                                           ),
-                                                         ],
-                                                       )
-                                                     );
-                                                   },
-                                                 )
-
-                      )
+                                                        ),
+                                                        Visibility(
+                                                          visible: index ==
+                                                                  _listDocumetSnapshot
+                                                                          .length -
+                                                                      1 &&
+                                                              index !=
+                                                                  countOrder -
+                                                                      1,
+                                                          child: Center(
+                                                            child: Container(
+                                                              width: 120,
+                                                              height: 100,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: AssetImage(
+                                                                      'assets/images/loading.gif'),
+                                                                  fit: BoxFit
+                                                                      .fill,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ));
+                                              },
+                                            ))
                     ],
                   ),
                 );
