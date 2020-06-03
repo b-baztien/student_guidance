@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
+import 'package:student_guidance/page/search-new/ListUniversity_Major.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
@@ -24,6 +27,7 @@ class SearchWidgetNew extends StatefulWidget {
 class _SearchWidgetNewState extends State<SearchWidgetNew> {
   var _scaffordKey = new GlobalKey<ScaffoldState>();
   String type = 'University';
+  String keyType = 'university_name';
   int countOrder = 0;
   int _curentRadio = 1;
   int groupRadio = 1;
@@ -38,9 +42,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   ScrollController _scrollController = ScrollController();
   DocumentSnapshot _lastDocument;
   bool _loadingPage = true;
-  int perPage = 5;
-
   List<University> listUniversity = [];
+  List<Faculty> listFaculty = [];
+  List<Major> listMajor = [];
   List<DocumentSnapshot> _listDocumetSnapshot = [];
   _getItemSearch() async {
     try {
@@ -48,11 +52,22 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
         _loadingPage = true;
       });
       QuerySnapshot querySnapshot = await SearchService().getSearchItem(
-          'University', 'university_name', null, perPage, null, null);
+          type, keyType, null, type == 'University' ? 5:10, null, null);
       _listDocumetSnapshot = querySnapshot.documents;
-      listUniversity = querySnapshot.documents
-          .map((doc) => University.fromJson(doc.data))
-          .toList();
+      if(type == 'University'){
+        listUniversity = querySnapshot.documents
+            .map((doc) => University.fromJson(doc.data))
+            .toList();
+      }else if (type == 'Major'){
+        listMajor = querySnapshot.documents
+            .map((doc) => Major.fromJson(doc.data))
+            .toList();
+      }else{
+        listFaculty = querySnapshot.documents
+            .map((doc) => Faculty.fromJson(doc.data))
+            .toList();
+      }
+
       _lastDocument = querySnapshot.documents.last;
 
       setState(() {
@@ -65,21 +80,52 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
   _getMoreItemSearch() async {
     QuerySnapshot querySnapshot = await SearchService().getSearchItem(
-        'University', 'university_name', _lastDocument, perPage, null, null);
+        type, keyType, _lastDocument,  type == 'University' ? 5:10, null, null);
     _listDocumetSnapshot.addAll(querySnapshot.documents);
+    List<University> listUniversityMore = [];
+    List<Major> listMajorMore = [];
+    List<Faculty> listFacultyMore = [];
+    if(type == 'University'){
+       listUniversityMore = querySnapshot.documents
+          .map((doc) => University.fromJson(doc.data))
+          .toList();
+    }else if (type == 'Major'){
+      listMajorMore = querySnapshot.documents
+          .map((doc) => Major.fromJson(doc.data))
+          .toList();
+    }else{
+      listFacultyMore = querySnapshot.documents
+          .map((doc) => Faculty.fromJson(doc.data))
+          .toList();
+    }
 
-    List<University> listUniversityMore = querySnapshot.documents
-        .map((doc) => University.fromJson(doc.data))
-        .toList();
     if (querySnapshot.documents.isEmpty) {
       _isScroll = false;
       return;
     }
     setState(() {
-      listUniversity.addAll(listUniversityMore);
+      if(type == 'University'){
+        listUniversity.addAll(listUniversityMore);
+      }else if (type == 'Major'){
+        listMajor.addAll(listMajorMore);
+      }else{
+        listFaculty.addAll(listFacultyMore);
+      }
+
       _lastDocument = querySnapshot.documents.last;
       _isScroll = true;
     });
+  }
+  _getCountSearchItem() {
+    SearchService()
+        .countSearchItem(type, keyType, null, null)
+        .then(
+          (countItem) => {
+        setState(() {
+          countOrder = countItem;
+        })
+      },
+    );
   }
 
   @override
@@ -96,7 +142,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       }
     });
     SearchService()
-        .countSearchItem('University', 'university_name', null, null)
+        .countSearchItem(type, keyType, null, null)
         .then(
           (countItem) => {
             setState(() {
@@ -136,17 +182,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
             SizedBox(
               height: 40,
             ),
-//            Text(
-//              UIdata.txFilterRecommend,
-//              style: TextStyle(
-//                  color: Colors.black,
-//                  fontSize: 18,
-//                  fontWeight: FontWeight.w600),
-//            ),
-//            SizedBox(
-//              height: 20,
-//            ),
-            //        itemRecommend(),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
@@ -167,15 +202,36 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
                           if (_curentRadio == 1) {
                             setState(() {
+                              listUniversity = [];
+                              _listDocumetSnapshot = [];
+                              listMajor = [];
+                              listFaculty = [];
                               type = 'University';
+                              keyType = 'university_name';
+                              _getItemSearch();
+                              _getCountSearchItem();
                             });
                           } else if (_curentRadio == 2) {
                             setState(() {
+                              listUniversity = [];
+                              listMajor = [];
+                              listFaculty = [];
+                              _listDocumetSnapshot = [];
                               type = 'Faculty';
+                              keyType = 'faculty_name';
+                              _getItemSearch();
+                              _getCountSearchItem();
                             });
                           } else {
                             setState(() {
+                              listUniversity = [];
+                              _listDocumetSnapshot = [];
+                              listMajor = [];
+                              listFaculty = [];
                               type = 'Major';
+                              keyType = 'majorName';
+                              _getItemSearch();
+                              _getCountSearchItem();
                             });
                           }
                         },
@@ -451,7 +507,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                       _loadingPage == true
                           ? Container(
                               child: Center(
-                              child: Text('กำลังโหลดข้อมูล...'),
+                              child: Text('กำลังโหลดข้อมูล...',style: TextStyle(fontSize: 20,color: Colors.white),),
                             ))
                           : _listDocumetSnapshot.length == 0
                               ? Container(
@@ -460,7 +516,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                   ),
                                 )
                               : Expanded(
-                                  child: ListView.builder(
+                                  child:
+                                  type == 'University' ?
+                                  ListView.builder(
                                   controller: _scrollController,
                                   itemCount: _listDocumetSnapshot.length,
                                   itemBuilder: (context, index) {
@@ -483,7 +541,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                                     builder: (context) =>
                                                         ItemUniversityNew(
                                                             universitys:
-                                                                _listDocumetSnapshot[
+                                                                  _listDocumetSnapshot[
                                                                     index]),
                                                   ),
                                                 );
@@ -683,7 +741,149 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                       ]),
                                     );
                                   },
-                                ))
+                                ):
+                                      type =='Major'?
+                                      ListView.builder(
+                                        controller: _scrollController,
+                                                   itemCount: _listDocumetSnapshot.length,
+                                                   itemBuilder: (context, index) {
+                                                     return Padding(
+                                                       padding: const EdgeInsets.all(5),
+                                                       child: Column(
+                                                         children: <Widget>[
+                                                           Container(
+                                                             child: Material(
+                                                               borderRadius: BorderRadius.all(
+                                                                 Radius.circular(10),
+                                                               ),
+                                                               child: ListTile(
+                                                                   onTap: () {
+                                                                     Navigator.push(
+                                                                         context,
+                                                                         MaterialPageRoute(
+                                                                             builder: (context) => ListUniversityMajor(
+                                                                                 majorName: listMajor[index].majorName)));
+                                                                   },
+                                                                   leading: Container(
+                                                                     padding: EdgeInsets.only(right: 15.0),
+                                                                     decoration: new BoxDecoration(
+                                                                         border: new Border(
+                                                                             right: new BorderSide(
+                                                                                 width: 1.0, color: Colors.black))),
+                                                                     child: Container(
+                                                                       width: 30,
+                                                                       height: 30,
+                                                                       decoration: BoxDecoration(
+                                                                         image: DecorationImage(
+                                                                           image: AssetImage(
+                                                                               'assets/images/icon-major.png'),
+                                                                           fit: BoxFit.fill,
+                                                                         ),
+                                                                       ),
+                                                                     ),
+                                                                   ),
+                                                                   title: Text(listMajor[index].majorName,
+                                                                       style: UIdata.textSearchSubTitleStyle13Black),
+                                                                   trailing: Icon(Icons.keyboard_arrow_right,
+                                                                       color: Colors.black, size: 30.0)
+                                                               ),
+                                                             ),
+                                                           ),
+                                                           Visibility(
+                                                             visible: index ==
+                                                                 _listDocumetSnapshot.length -
+                                                                     1 &&
+                                                                 index != countOrder - 1,
+                                                             child: Center(
+                                                               child: Container(
+                                                                 width: 120,
+                                                                 height: 100,
+                                                                 decoration: BoxDecoration(
+                                                                   image: DecorationImage(
+                                                                     image: AssetImage(
+                                                                         'assets/images/loading.gif'),
+                                                                     fit: BoxFit.fill,
+                                                                   ),
+                                                                 ),
+                                                               ),
+                                                             ),
+                                                           ),
+                                                         ],
+                                                       )
+                                                     );
+                                                   },
+                                                 ) :
+                                      ListView.builder(
+                                        controller: _scrollController,
+                                                   itemCount: _listDocumetSnapshot.length,
+                                                   itemBuilder: (context, index) {
+                                                     return Padding(
+                                                       padding: const EdgeInsets.all(5),
+                                                       child: Column(
+                                                         children: <Widget>[
+                                                           Container(
+                                                             child: Material(
+                                                               borderRadius: BorderRadius.all(
+                                                                 Radius.circular(10),
+                                                               ),
+                                                               child: ListTile(
+                                                                   onTap: () {
+                                                                     Navigator.push(
+                                                                         context,
+                                                                         MaterialPageRoute(
+                                                                             builder: (context) => ListUniversityMajor(
+                                                                                 majorName: listFaculty[index].facultyName)));
+                                                                   },
+                                                                   leading: Container(
+                                                                     padding: EdgeInsets.only(right: 15.0),
+                                                                     decoration: new BoxDecoration(
+                                                                         border: new Border(
+                                                                             right: new BorderSide(
+                                                                                 width: 1.0, color: Colors.black))),
+                                                                     child: Container(
+                                                                       width: 30,
+                                                                       height: 30,
+                                                                       decoration: BoxDecoration(
+                                                                         image: DecorationImage(
+                                                                           image: AssetImage(
+                                                                               'assets/images/icon-major.png'),
+                                                                           fit: BoxFit.fill,
+                                                                         ),
+                                                                       ),
+                                                                     ),
+                                                                   ),
+                                                                   title: Text(listFaculty[index].facultyName,
+                                                                       style: UIdata.textSearchSubTitleStyle13Black),
+                                                                   trailing: Icon(Icons.keyboard_arrow_right,
+                                                                       color: Colors.black, size: 30.0)),
+                                                             ),
+                                                           ),
+                                                           Visibility(
+                                                             visible: index ==
+                                                                 _listDocumetSnapshot.length -
+                                                                     1 &&
+                                                                 index != countOrder - 1,
+                                                             child: Center(
+                                                               child: Container(
+                                                                 width: 120,
+                                                                 height: 100,
+                                                                 decoration: BoxDecoration(
+                                                                   image: DecorationImage(
+                                                                     image: AssetImage(
+                                                                         'assets/images/loading.gif'),
+                                                                     fit: BoxFit.fill,
+                                                                   ),
+                                                                 ),
+                                                               ),
+                                                             ),
+                                                           ),
+                                                         ],
+                                                       )
+                                                     );
+                                                   },
+                                                 )
+
+                      )
                     ],
                   ),
                 );
