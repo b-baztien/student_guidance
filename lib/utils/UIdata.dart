@@ -152,6 +152,12 @@ class UIdata {
   static TextStyle textDashboardSubTitleStyleWhite =
       TextStyle(fontFamily: 'Kanit', color: Colors.white);
 
+//major detail page
+  static TextStyle textMajorTitleStyle18Orange =
+      TextStyle(fontFamily: 'Kanit', fontSize: 18, color: Color(0xffFF9211));
+  static TextStyle textMajorDetailStyle15Grey =
+      TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xff939191));
+
   static successSnackBar(String message) {
     return SnackBar(
       backgroundColor: Colors.green,

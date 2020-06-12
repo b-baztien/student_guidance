@@ -5,19 +5,14 @@ class Tcas {
   Timestamp endDate;
   String round;
   int entranceAmount;
-  int examFee;
-  // score: TcasScore[] = new Array<TcasScore>();
-  String registerPropertie;
-  String remark;
+  String url;
 
   Tcas(
       {this.startDate,
       this.endDate,
       this.round,
       this.entranceAmount,
-      this.examFee,
-      this.registerPropertie,
-      this.remark});
+      this.url});
 
   factory Tcas.fromJson(Map<String, dynamic> json) {
     return Tcas(
@@ -26,9 +21,7 @@ class Tcas {
       round: json['round'] as String,
       entranceAmount:
           json['entranceAmount'] == null ? 0 : json['entranceAmount'] as int,
-      examFee: json['examFee'] == null ? 0 : json['examFee'] as int,
-      registerPropertie: json['registerPropertie'] as String,
-      remark: json['remark'] as String,
+      url: json['url'] as String,
     );
   }
 }

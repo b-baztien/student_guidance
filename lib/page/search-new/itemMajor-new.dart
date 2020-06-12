@@ -259,15 +259,11 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                           children: <Widget>[
                             Text(
                               'วุฒิการศึกษา',
-                              style: TextStyle(
-                                  color: Color(0xffFF9211), fontSize: 15),
+                              style: UIdata.textMajorTitleStyle18Orange,
                             ),
                             Text(
                               '- ' + itemMajor.certificate,
-                              style: TextStyle(
-                                  color: Color(0xff939191),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                              style: UIdata.textMajorDetailStyle15Grey,
                             )
                           ],
                         ),
@@ -279,15 +275,11 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                           children: <Widget>[
                             Text(
                               'ระยะเวลาหลักสูตร',
-                              style: TextStyle(
-                                  color: Color(0xffFF9211), fontSize: 15),
+                              style: UIdata.textMajorTitleStyle18Orange,
                             ),
                             Text(
                               '- ' + itemMajor.courseDuration + ' ปี',
-                              style: TextStyle(
-                                  color: Color(0xff939191),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                              style: UIdata.textMajorDetailStyle15Grey,
                             )
                           ],
                         )
@@ -302,35 +294,23 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'ค่าเทอม',
-                              style: TextStyle(
-                                  color: Color(0xffFF9211), fontSize: 15),
+                              'เพิ่มเติมเกี่ยวกับสาขา',
+                              style: UIdata.textMajorTitleStyle18Orange,
                             ),
-                            Text(
-                              '- ' +
-                                  NumberFormat().format(
-                                      double.parse(itemMajor.tuitionFee)) +
-                                  ' / ภาคเรียน',
-                              style: TextStyle(
-                                  color: Color(0xff939191),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
+                            InkWell(
+                              onTap: () => launch(
+                                  itemMajor.url.startsWith('https://') ||
+                                          itemMajor.url.startsWith('http://')
+                                      ? itemMajor.url
+                                      : 'http://${itemMajor.url}'),
+                              child: Text(
+                                itemMajor.url,
+                                style: TextStyle(
+                                    color: Color(0xff939191), fontSize: 13),
+                              ),
                             )
                           ],
                         ),
-                        SizedBox(width: 70),
-                        InkWell(
-                          onTap: () => launch(
-                              itemMajor.url.startsWith('https://') ||
-                                      itemMajor.url.startsWith('http://')
-                                  ? itemMajor.url
-                                  : 'http://${itemMajor.url}'),
-                          child: Text(
-                            'ดูเพิ่มเติมเกี่ยวกับสาขา',
-                            style: TextStyle(
-                                color: Color(0xff939191), fontSize: 13),
-                          ),
-                        )
                       ],
                     ),
                   ],
@@ -380,7 +360,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                 .map((snap) => Tcas.fromJson(snap.data))
                                 .toList();
                             return Container(
-                              height: 150.0,
+                              height: 200.0,
                               child: TabBarView(
                                 controller: _tabController,
                                 children: tabData.map(
@@ -390,90 +370,129 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                         orElse: () => null);
 
                                     if (tcas != null) {
-                                      return SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text('ข้อมูลการรับเข้า',
-                                                style: TextStyle(
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Text('ข้อมูลการรับเข้า',
+                                                  style: TextStyle(
                                                     fontSize: 18,
-                                                    color: Color(0xff4F4F4F),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                            Text(
-                                              'เริ่มรับสมัคร ' +
-                                                  DateFormat('dd MMMM', 'th')
-                                                      .format(tcas.startDate
-                                                          .toDate()) +
-                                                  ' - ' +
-                                                  DateFormat(
-                                                          'dd MMMM yyyy', 'th')
-                                                      .format(
-                                                    tcas.endDate.toDate(),
-                                                  ),
-                                            ),
-                                            Divider(),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: <Widget>[
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text('รับสมัคร'),
-                                                    Text(
-                                                      DateFormat('dd MMM', 'th')
-                                                              .format(tcas
-                                                                  .startDate
-                                                                  .toDate()) +
-                                                          ' - ' +
-                                                          DateFormat(
-                                                                  'dd MMM yyyy',
-                                                                  'th')
-                                                              .format(tcas
-                                                                  .endDate
-                                                                  .toDate()),
+                                                    color: Color(0xffFF9211),
+                                                  )),
+                                              Text(
+                                                'เริ่มรับสมัคร ' +
+                                                    DateFormat('dd MMMM', 'th')
+                                                        .format(tcas.startDate
+                                                            .toDate()) +
+                                                    ' - ' +
+                                                    DateFormat('dd MMMM yyyy',
+                                                            'th')
+                                                        .format(
+                                                      tcas.endDate.toDate(),
                                                     ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text('จำนวนที่รับ'),
-                                                    Text(tcas.entranceAmount
-                                                            .toString() +
-                                                        ' ที่นั่ง'),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(),
-                                            Text('ค่าใช้จ่ายในการสมัครสอบ'),
-                                            Text('' +
-                                                tcas.entranceAmount.toString() +
-                                                ' บาท'),
-                                            Text('คนที่สามารถสมัครได้'),
-                                            Text(tcas.registerPropertie == null
-                                                ? 'รออัพเดทขอมูลเร็วๆ นี้'
-                                                : tcas.registerPropertie),
-                                            Text('หมายเหตุ'),
-                                            Text(tcas.remark == null
-                                                ? 'รออัพเดทขอมูลเร็วๆ นี้'
-                                                : tcas.remark),
-                                          ],
+                                                style: UIdata
+                                                    .textMajorDetailStyle15Grey,
+                                              ),
+                                              Divider(),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: <Widget>[
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'รับสมัคร',
+                                                        style: UIdata
+                                                            .textMajorTitleStyle18Orange,
+                                                      ),
+                                                      Text(
+                                                          DateFormat('dd MMM',
+                                                                      'th')
+                                                                  .format(tcas
+                                                                      .startDate
+                                                                      .toDate()) +
+                                                              ' - ' +
+                                                              DateFormat(
+                                                                      'dd MMM yyyy',
+                                                                      'th')
+                                                                  .format(tcas
+                                                                      .endDate
+                                                                      .toDate()),
+                                                          style: UIdata
+                                                              .textMajorDetailStyle15Grey),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'จำนวนที่รับ',
+                                                        style: UIdata
+                                                            .textMajorTitleStyle18Orange,
+                                                      ),
+                                                      Text(
+                                                          tcas.entranceAmount
+                                                                  .toString() +
+                                                              ' ที่นั่ง',
+                                                          style: UIdata
+                                                              .textMajorDetailStyle15Grey),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              Divider(),
+                                              Text(
+                                                'ข้อมูลเพิ่มเติม',
+                                                style: UIdata
+                                                    .textMajorTitleStyle18Orange,
+                                              ),
+                                              tcas.url == null
+                                                  ? Text(
+                                                      'รออัพเดทขอมูลเร็วๆ นี้',
+                                                      style: UIdata
+                                                          .textMajorDetailStyle15Grey,
+                                                    )
+                                                  : InkWell(
+                                                      onTap: () => launch(tcas
+                                                                  .url
+                                                                  .startsWith(
+                                                                      'https://') ||
+                                                              tcas.url
+                                                                  .startsWith(
+                                                                      'http://')
+                                                          ? tcas.url
+                                                          : 'http://${tcas.url}'),
+                                                      child: Text(tcas.url,
+                                                          style: UIdata
+                                                              .textMajorDetailStyle15Grey),
+                                                    )
+                                            ],
+                                          ),
                                         ),
                                       );
                                     } else {
                                       return Column(
                                         children: <Widget>[
-                                          Text('ยังไม่เปิดรับสมัคร',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Color(0xff4F4F4F),
-                                                  fontWeight: FontWeight.bold))
+                                          Image.asset(
+                                            'assets/images/tcas-not-found.png',
+                                            fit: BoxFit.cover,
+                                            width: 160,
+                                            height: 160,
+                                          ),
+                                          Text(
+                                            'ยังไม่เปิดรับสมัคร',
+                                            style: UIdata
+                                                .textMajorTitleStyle18Orange,
+                                          ),
                                         ],
                                       );
                                     }
