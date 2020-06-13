@@ -1,32 +1,32 @@
 class Major {
   String majorName;
   String url;
+  String detail;
   String certificate;
+  String degree;
   List<String> listCareerName;
-  String courseDuration;
-  String tuitionFee;
 
   List<dynamic> albumImage;
-  Major({
-    this.majorName,
-    this.url,
-    this.listCareerName,
-    this.certificate,
-    this.courseDuration,
-    this.tuitionFee,
-    this.albumImage
-  });
+  Major(
+      {this.majorName,
+      this.url,
+      this.detail,
+      this.listCareerName,
+      this.certificate,
+      this.degree,
+      this.albumImage});
 
   factory Major.fromJson(Map<String, dynamic> json) {
     return Major(
-        majorName: json['majorName'] as String,
-        listCareerName: (json['listCareerName'] as List)
-            .map((data) => data as String)
-            .toList(),
-        url: json['url'] as String,
-        certificate: json['certificate'] as String,
-        albumImage: json['albumImage'] as  List<dynamic>,
-        courseDuration: json['courseDuration'] as String,
-        tuitionFee: json['tuitionFee'] as String);
+      majorName: json['majorName'] as String,
+      listCareerName: (json['listCareerName'] as List)
+          .map((data) => data as String)
+          .toList(),
+      url: json['url'] as String, 
+      detail: json['detail'] as String,
+      certificate: json['certificate'] as String,
+      degree: json['degree'] as String,
+      albumImage: json['albumImage'] as List<dynamic>,
+    );
   }
 }

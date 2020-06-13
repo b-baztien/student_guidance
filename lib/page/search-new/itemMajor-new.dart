@@ -64,7 +64,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
   @override
   Widget build(BuildContext context) {
     final Major itemMajor = Major.fromJson(widget.major.data);
-    final formattedDate = DateFormat('dd MMMM yyyy', 'th');
 
     return SafeArea(
       child: Scaffold(
@@ -116,7 +115,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   children: <Widget>[
                     Text(
                       itemMajor.majorName,
-                      style: UIdata.textTitleStyleDarkBold27,
+                      style: UIdata.textTitleStyleDark27,
                     ),
                     Row(
                       children: <Widget>[
@@ -138,45 +137,46 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                         SizedBox(
                           width: 50,
                         ),
-//                        FlatButton.icon(
-//                          shape: StadiumBorder(
-//                            side: BorderSide(
-//                              color: _isFollow ? Colors.green : Colors.red,
-//                              width: 2,
-//                            ),
-//                          ),
-//                          color: _isFollow ? Colors.green : Colors.white,
-//                          icon: Icon(
-//                            _isFollow
-//                                ? FontAwesomeIcons.solidHeart
-//                                : FontAwesomeIcons.heart,
-//                            color: Colors.red,
-//                            size: 25,
-//                          ),
-//                          label: Text(
-//                            _isFollow ? 'กำลังติดตาม' : 'ติดตามสาขา',
-//                            style: TextStyle(
-//                                fontSize: 14,
-//                                color: _isFollow ? Colors.white : Colors.red,
-//                                fontWeight: FontWeight.w600),
-//                          ),
-//                          onPressed: () {
-//                            setState(() {
-//                              StudentFavorite favorite = StudentFavorite();
-//                              favorite.university = widget.universityName;
-//                              favorite.faculty = widget.facultyName;
-//                              favorite.major =
-//                                  Major.fromJson(widget.major.data).majorName;
-//
-//                              _isFollow = !_isFollow;
-//                              _isFollow
-//                                  ? StudentFavoriteService()
-//                                      .addStudentFavorite(favorite)
-//                                  : StudentFavoriteService()
-//                                      .deleteStudentFavorite(favorite);
-//                            });
-//                          },
-//                        )
+                        //Favorite button
+                        FlatButton.icon(
+                          shape: StadiumBorder(
+                            side: BorderSide(
+                              color: _isFollow ? Colors.green : Colors.red,
+                              width: 2,
+                            ),
+                          ),
+                          color: _isFollow ? Colors.green : Colors.white,
+                          icon: Icon(
+                            _isFollow
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
+                            color: Colors.red,
+                            size: 25,
+                          ),
+                          label: Text(
+                            _isFollow ? 'กำลังติดตาม' : 'ติดตามสาขา',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: _isFollow ? Colors.white : Colors.red,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              StudentFavorite favorite = StudentFavorite();
+                              favorite.university = widget.universityName;
+                              favorite.faculty = widget.facultyName;
+                              favorite.major =
+                                  Major.fromJson(widget.major.data).majorName;
+
+                              _isFollow = !_isFollow;
+                              _isFollow
+                                  ? StudentFavoriteService()
+                                      .addStudentFavorite(favorite)
+                                  : StudentFavoriteService()
+                                      .deleteStudentFavorite(favorite);
+                            });
+                          },
+                        )
                       ],
                     ),
                     SizedBox(
@@ -252,8 +252,36 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     SizedBox(
                       height: 15,
                     ),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        Text(
+                          'รายละเอียดสาขา',
+                          style: UIdata.textMajorTitleStyle18Orange,
+                        ),
+                        Text(
+                          itemMajor.detail,
+                          style: UIdata.textMajorDetailStyle15Grey,
+                        )
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'ระดับปริญญา',
+                              style: UIdata.textMajorTitleStyle18Orange,
+                            ),
+                            Text(
+                              '- ' + itemMajor.degree,
+                              style: UIdata.textMajorDetailStyle15Grey,
+                            )
+                          ],
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -267,28 +295,11 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             )
                           ],
                         ),
-                        SizedBox(
-                          width: 80,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'ระยะเวลาหลักสูตร',
-                              style: UIdata.textMajorTitleStyle18Orange,
-                            ),
-                            Text(
-                              '- ' + itemMajor.courseDuration + ' ปี',
-                              style: UIdata.textMajorDetailStyle15Grey,
-                            )
-                          ],
-                        )
                       ],
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    Divider(),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,13 +327,9 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   ],
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 7,
-                decoration: BoxDecoration(color: Color(0xffEBEBEB)),
+              Divider(
+                color: Color(0xffEBEBEB),
+                thickness: 7,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -332,10 +339,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   children: <Widget>[
                     Text(
                       'การรับสมัคร',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xff939191),
-                          fontWeight: FontWeight.bold),
+                      style: UIdata.textMajorTitleStyle18Dark,
                     ),
                     Container(
                       child: TabBar(
@@ -360,145 +364,153 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                 .map((snap) => Tcas.fromJson(snap.data))
                                 .toList();
                             return Container(
+                              width: MediaQuery.of(context).size.width,
                               height: 200.0,
                               child: TabBarView(
-                                controller: _tabController,
-                                children: tabData.map(
-                                  (round) {
-                                    Tcas tcas = listTcas.firstWhere(
-                                        (tcas) => tcas.round == round,
-                                        orElse: () => null);
+                                  controller: _tabController,
+                                  children: tabData.map(
+                                    (round) {
+                                      Tcas tcas = listTcas.firstWhere(
+                                          (tcas) => tcas.round == round,
+                                          orElse: () => null);
 
-                                    if (tcas != null) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text('ข้อมูลการรับเข้า',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Color(0xffFF9211),
-                                                  )),
-                                              Text(
-                                                'เริ่มรับสมัคร ' +
-                                                    DateFormat('dd MMMM', 'th')
-                                                        .format(tcas.startDate
-                                                            .toDate()) +
-                                                    ' - ' +
-                                                    DateFormat('dd MMMM yyyy',
-                                                            'th')
-                                                        .format(
-                                                      tcas.endDate.toDate(),
+                                      if (tcas != null) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text('ข้อมูลการรับเข้า',
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Color(0xffFF9211),
+                                                    )),
+                                                Text(
+                                                  'เริ่มรับสมัคร ' +
+                                                      DateFormat(
+                                                              'dd MMMM', 'th')
+                                                          .format(tcas.startDate
+                                                              .toDate()) +
+                                                      ' - ' +
+                                                      DateFormat('dd MMMM yyyy',
+                                                              'th')
+                                                          .format(
+                                                        tcas.endDate.toDate(),
+                                                      ),
+                                                  style: UIdata
+                                                      .textMajorDetailStyle15Grey,
+                                                ),
+                                                Divider(),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: <Widget>[
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'รับสมัคร',
+                                                          style: UIdata
+                                                              .textMajorTitleStyle18Orange,
+                                                        ),
+                                                        Text(
+                                                            DateFormat('dd MMM',
+                                                                        'th')
+                                                                    .format(tcas
+                                                                        .startDate
+                                                                        .toDate()) +
+                                                                ' - ' +
+                                                                DateFormat(
+                                                                        'dd MMM yyyy',
+                                                                        'th')
+                                                                    .format(tcas
+                                                                        .endDate
+                                                                        .toDate()),
+                                                            style: UIdata
+                                                                .textMajorDetailStyle15Grey),
+                                                      ],
                                                     ),
-                                                style: UIdata
-                                                    .textMajorDetailStyle15Grey,
-                                              ),
-                                              Divider(),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: <Widget>[
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'รับสมัคร',
+                                                    Container(
+                                                      width: 1,
+                                                      height: 50,
+                                                      decoration: BoxDecoration(
+                                                          color: Color(
+                                                              0xffEBEBEB)),
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          'จำนวนที่รับ',
+                                                          style: UIdata
+                                                              .textMajorTitleStyle18Orange,
+                                                        ),
+                                                        Text(
+                                                            tcas.entranceAmount
+                                                                    .toString() +
+                                                                ' ที่นั่ง',
+                                                            style: UIdata
+                                                                .textMajorDetailStyle15Grey),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Divider(),
+                                                Text(
+                                                  'ข้อมูลเพิ่มเติม',
+                                                  style: UIdata
+                                                      .textMajorTitleStyle18Orange,
+                                                ),
+                                                tcas.url == null
+                                                    ? Text(
+                                                        'รออัพเดทขอมูลเร็วๆ นี้',
                                                         style: UIdata
-                                                            .textMajorTitleStyle18Orange,
-                                                      ),
-                                                      Text(
-                                                          DateFormat('dd MMM',
-                                                                      'th')
-                                                                  .format(tcas
-                                                                      .startDate
-                                                                      .toDate()) +
-                                                              ' - ' +
-                                                              DateFormat(
-                                                                      'dd MMM yyyy',
-                                                                      'th')
-                                                                  .format(tcas
-                                                                      .endDate
-                                                                      .toDate()),
-                                                          style: UIdata
-                                                              .textMajorDetailStyle15Grey),
-                                                    ],
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'จำนวนที่รับ',
-                                                        style: UIdata
-                                                            .textMajorTitleStyle18Orange,
-                                                      ),
-                                                      Text(
-                                                          tcas.entranceAmount
-                                                                  .toString() +
-                                                              ' ที่นั่ง',
-                                                          style: UIdata
-                                                              .textMajorDetailStyle15Grey),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              Divider(),
-                                              Text(
-                                                'ข้อมูลเพิ่มเติม',
-                                                style: UIdata
-                                                    .textMajorTitleStyle18Orange,
-                                              ),
-                                              tcas.url == null
-                                                  ? Text(
-                                                      'รออัพเดทขอมูลเร็วๆ นี้',
-                                                      style: UIdata
-                                                          .textMajorDetailStyle15Grey,
-                                                    )
-                                                  : InkWell(
-                                                      onTap: () => launch(tcas
-                                                                  .url
-                                                                  .startsWith(
-                                                                      'https://') ||
-                                                              tcas.url
-                                                                  .startsWith(
-                                                                      'http://')
-                                                          ? tcas.url
-                                                          : 'http://${tcas.url}'),
-                                                      child: Text(tcas.url,
-                                                          style: UIdata
-                                                              .textMajorDetailStyle15Grey),
-                                                    )
-                                            ],
+                                                            .textMajorDetailStyle15Grey,
+                                                      )
+                                                    : InkWell(
+                                                        onTap: () => launch(tcas
+                                                                    .url
+                                                                    .startsWith(
+                                                                        'https://') ||
+                                                                tcas.url
+                                                                    .startsWith(
+                                                                        'http://')
+                                                            ? tcas.url
+                                                            : 'http://${tcas.url}'),
+                                                        child: Text(tcas.url,
+                                                            style: UIdata
+                                                                .textMajorDetailStyle15Grey),
+                                                      )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    } else {
-                                      return Column(
-                                        children: <Widget>[
-                                          Image.asset(
-                                            'assets/images/tcas-not-found.png',
-                                            fit: BoxFit.cover,
-                                            width: 160,
-                                            height: 160,
-                                          ),
-                                          Text(
-                                            'ยังไม่เปิดรับสมัคร',
-                                            style: UIdata
-                                                .textMajorTitleStyle18Orange,
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                  },
-                                ).toList(),
-                              ),
+                                        );
+                                      } else {
+                                        return Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              'ยังไม่เปิดรับสมัคร',
+                                              style: UIdata
+                                                  .textMajorTitleStyle18Red,
+                                            ),
+                                            Image.asset(
+                                              'assets/images/tcas-not-found.png',
+                                              fit: BoxFit.cover,
+                                              height: 130,
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    },
+                                  ).toList()),
                             );
                           } else {
                             return Container();
@@ -507,10 +519,9 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   ],
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 7,
-                decoration: BoxDecoration(color: Color(0xffEBEBEB)),
+              Divider(
+                color: Color(0xffEBEBEB),
+                thickness: 7,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -520,11 +531,13 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   children: <Widget>[
                     Align(
                       alignment: Alignment.center,
-                      child: Text('อาชีพที่น่าสนใจในสาขานี้',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xff4F4F4F),
-                              fontWeight: FontWeight.bold)),
+                      child: Text(
+                        'อาชีพที่น่าสนใจในสาขานี้',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff4F4F4F),
+                        ),
+                      ),
                     ),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -550,10 +563,9 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   ],
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 7,
-                decoration: BoxDecoration(color: Color(0xffEBEBEB)),
+              Divider(
+                color: Color(0xffEBEBEB),
+                thickness: 7,
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -561,11 +573,8 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                 child: Column(
                   children: <Widget>[
                     Text('รายการแนะนำ',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Color(0xff4F4F4F),
-                            fontWeight: FontWeight.bold)),
-                    itemRecommend(itemMajor, null)
+                        style: UIdata.textMajorTitleStyle18Dark),
+                    itemRecommend(itemMajor, widget.universityName)
                   ],
                 ),
               )
@@ -1010,13 +1019,25 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                           width: MediaQuery.of(context).size.width,
                           height: 150,
                           child: Material(
-                              borderRadius: BorderRadius.circular(5),
-                              shadowColor: Colors.red,
-                              color: Colors.white,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text('ไม่พบข้อมูลที่ตรงกัน !'),
-                              )),
+                            borderRadius: BorderRadius.circular(5),
+                            shadowColor: Colors.red,
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/images/uni-not-found.png',
+                                  fit: BoxFit.cover,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text('ไม่พบข้อมูลที่ตรงกัน !'),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     }

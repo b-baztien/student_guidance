@@ -103,11 +103,11 @@ class UIdata {
       TextStyle(fontFamily: 'Kanit', fontSize: 20, color: Colors.black);
   static TextStyle textTitleStyleDarkUninersity =
       TextStyle(fontFamily: 'Kanit', fontSize: 17, color: Color(0xff545663));
-  static TextStyle textTitleStyleDarkBold27 = TextStyle(
-      fontFamily: 'Kanit',
-      fontSize: 27,
-      color: Colors.black,
-      fontWeight: FontWeight.bold);
+  static TextStyle textTitleStyleDark27 = TextStyle(
+    fontFamily: 'Kanit',
+    fontSize: 27,
+    color: Colors.black,
+  );
   static TextStyle textTitleStyleDarkBold = TextStyle(
       fontFamily: 'Kanit',
       fontSize: 20,
@@ -155,6 +155,10 @@ class UIdata {
 //major detail page
   static TextStyle textMajorTitleStyle18Orange =
       TextStyle(fontFamily: 'Kanit', fontSize: 18, color: Color(0xffFF9211));
+  static TextStyle textMajorTitleStyle18Red =
+      TextStyle(fontFamily: 'Kanit', fontSize: 18, color: Colors.red);
+  static TextStyle textMajorTitleStyle18Dark =
+      TextStyle(fontFamily: 'Kanit', fontSize: 18, color: Color(0xff4F4F4F));
   static TextStyle textMajorDetailStyle15Grey =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xff939191));
 
