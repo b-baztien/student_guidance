@@ -7,7 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Faculty.dart';
-import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/Student.dart';
@@ -654,7 +653,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                                                             decoration:
                                                                                 BoxDecoration(
                                                                               image: DecorationImage(
-                                                                                image: AssetImage('assets/images/University-Icon.png'),
+                                                                                image: AssetImage('assets/images/university-icon.png'),
                                                                                 fit: BoxFit.fill,
                                                                               ),
                                                                             ),
@@ -1016,8 +1015,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       ],
     );
   }
-
-  Widget _buildExpendedSearch(String type) {}
 
   Future<SharedPreferences> _getPrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
