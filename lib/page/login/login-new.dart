@@ -101,7 +101,6 @@ class _LoginPagesState extends State<LoginPages> {
                           formVisible = true;
                           _formsIndex = 2;
                         });
-                        print("22");
                       },
                     ),
                   ),

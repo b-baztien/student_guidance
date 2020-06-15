@@ -494,7 +494,8 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                         );
                                       } else {
                                         return Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
                                               'ยังไม่เปิดรับสมัคร',
@@ -762,7 +763,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                                             ? NetworkImage(
                                                                 snapshot.data)
                                                             : AssetImage(
-                                                                'assets/images/University-Icon.png'),
+                                                                'assets/images/university-icon.png'),
                                                         fit: BoxFit.fitHeight,
                                                       ),
                                                     ),
@@ -905,7 +906,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                                                     snapshot
                                                                         .data)
                                                                 : AssetImage(
-                                                                    'assets/images/University-Icon.png'),
+                                                                    'assets/images/university-icon.png'),
                                                             fit: BoxFit
                                                                 .fitHeight,
                                                           ),

@@ -119,7 +119,7 @@ class _ItemUniversityNewState extends State<ItemUniversityNew> {
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: AssetImage(
-                                                    'assets/images/University-Icon.png'),
+                                                    'assets/images/university-icon.png'),
                                                 fit: BoxFit.cover)),
                                       );
                                     }
