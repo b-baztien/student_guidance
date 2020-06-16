@@ -27,9 +27,7 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
   ProgressDialog _progressDialog;
   @override
   Widget build(BuildContext context) {
-    _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กรุณารอสักครู่....');
+    _progressDialog = UIdata.buildLoadingProgressDialog(context,'กำลังโหลด...');
     return FutureBuilder<SharedPreferences>(
         future: UIdata.getPrefs(),
         builder: (context, pref) {
@@ -175,7 +173,7 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
             return Padding(
               padding: const EdgeInsets.all(3.0),
               child: Container(
-               decoration: BoxDecoration(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.black.withOpacity(0.5),
                 ),
@@ -187,7 +185,8 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
                           new University.fromJson(listUniversity[index].data)
                               .universityname;
                       FacultyService()
-                          .getFacultyByUniNameAndMajorName(uname, widget.majorName)
+                          .getFacultyByUniNameAndMajorName(
+                              uname, widget.majorName)
                           .then((fa) async {
                         await MajorService()
                             .getMajorByMajorNameAndUniRef(
@@ -221,8 +220,8 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
                       padding: EdgeInsets.only(right: 5, left: 10),
                       decoration: new BoxDecoration(
                           border: new Border(
-                              right:
-                                  new BorderSide(width: 2, color: Colors.white))),
+                              right: new BorderSide(
+                                  width: 2, color: Colors.white))),
                       child: Icon(Icons.airport_shuttle, color: Colors.white),
                     ),
                     title: Text(

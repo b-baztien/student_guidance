@@ -1,14 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_guidance/model/Faculty.dart';
-import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/StudentFavorite.dart';
-import 'package:student_guidance/page/search-new/itemMajor-new.dart';
-import 'package:student_guidance/service/FacultyService.dart';
-import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/service/StudentFavoriteService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -18,13 +10,9 @@ class ListFavorite extends StatefulWidget {
 }
 
 class _ListFavoriteState extends State<ListFavorite> {
-  ProgressDialog _progressDialog;
   SharedPreferences pref;
   @override
   Widget build(BuildContext context) {
-      _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กรุณารอสักครู่....');
     return Material(
       child: Container(
         color: Colors.white,
@@ -63,9 +51,7 @@ class _ListFavoriteState extends State<ListFavorite> {
                           itemCount: list.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              onTap: () {
-                             
-                              },
+                              onTap: () {},
                               title: Text(
                                 list[index].major,
                                 style: UIdata.textTitleStyle,

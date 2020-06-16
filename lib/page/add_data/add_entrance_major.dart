@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Alumni.dart';
-import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/EntranceMajor.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Major.dart';
@@ -61,9 +60,8 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
     _selectedUniversity = null;
     _selectedFaculty = null;
     _selectedMajor = null;
-    _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กำลังเพิ่มข้อมูล...');
+    _progressDialog =
+        UIdata.buildLoadingProgressDialog(context, 'กำลังเพิ่มข้อมูล...');
 
     AlumniService().getCurrentAlumni().then((data) {
       _alumni = data;
@@ -127,8 +125,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/thembg.png"),
-                fit: BoxFit.fill)
-        ),
+                fit: BoxFit.fill)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(

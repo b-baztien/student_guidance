@@ -63,7 +63,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
 
     _progressDialog = new ProgressDialog(context,
         type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กำลังเพิ่มข้อมูล...');
+    _progressDialog.style(progressWidget: Image.asset('assets/images/loading.gif'),message: 'กำลังเพิ่มข้อมูล...');
     super.initState();
   }
 

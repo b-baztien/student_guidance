@@ -22,9 +22,7 @@ class _AddRecommendState extends State<AddRecommend> {
   @override
   void initState() {
     super.initState();
-    _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กำลังโหลด...');
+    _progressDialog = UIdata.buildLoadingProgressDialog(context,'กำลังโหลด...');
 
     MajorService().getAllMajorName().then((majorName) {
       StudentRecommendService()

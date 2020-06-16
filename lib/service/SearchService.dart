@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Faculty.dart';
-import 'package:student_guidance/model/FilterSeachItems.dart';
 import 'package:student_guidance/model/Major.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/utils/UIdata.dart';

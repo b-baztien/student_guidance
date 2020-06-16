@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -91,7 +90,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             validator: (val) => val.length < 6
                                 ? 'รหัสผ่านมากกว่า 6 ตัว.'
                                 : null,
-                                    obscureText: true,
+                            obscureText: true,
                           ),
                         ),
                         Container(
@@ -120,12 +119,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 ? 'รหัสผ่านมากกว่า 6 ตัว.'
                                 : null,
                             onSaved: (val) => _password = val,
-                             obscureText: true,
+                            obscureText: true,
                           ),
-                       
-                          
                         ),
-                            _buildButtons(context),
+                        _buildButtons(context),
                       ],
                     ),
                   ),
@@ -137,64 +134,64 @@ class _ChangePasswordState extends State<ChangePassword> {
       ),
     );
   }
+
   Widget _buildButtons(BuildContext context) {
-     
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.red),
-                    color: Colors.red,
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.red),
+                  color: Colors.red,
+                ),
+                child: Center(
+                  child: Text(
+                    UIdata.txCancel,
+                    style: TextStyle(
+                      fontFamily: (UIdata.fontFamily),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  child: Center(
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10.0),
+          Expanded(
+            child: InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                height: 40.0,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.green),
+                  color: Colors.green,
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: Text(
-                      UIdata.txCancel,
+                      UIdata.txPassword,
                       style: TextStyle(
-                        fontFamily: (UIdata.fontFamily),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                          color: Colors.white,
+                          fontFamily: UIdata.fontFamily,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 10.0),
-              Expanded(
-              child: InkWell(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.green),
-                    color: Colors.green,
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        UIdata.txPassword,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: UIdata.fontFamily,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDetailInfo(String detail, TextStyle textStyle) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),

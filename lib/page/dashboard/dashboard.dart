@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/DashboardAlumni.dart';
 import 'package:student_guidance/model/Login.dart';
@@ -60,7 +59,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           jsonDecode(futureSnapshot.data.getString('student'))),
                       schoolId: futureSnapshot.data.getString('schoolId')),
                   body: SingleChildScrollView(
-                    child: Container(
+                    child: Padding(
                       padding: const EdgeInsets.all(18),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,11 +77,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               if (snapshot.hasData) {
                                 return FutureBuilder(
                                   future: DashboardService().getDashboardYear(
-                                      futureSnapshot.data.getString('schoolId')),
+                                      futureSnapshot.data
+                                          .getString('schoolId')),
                                   builder: (context, snap) {
                                     if (snap.hasData) {
                                       _tabController = new TabController(
-                                          vsync: this, length: snap.data.length);
+                                          vsync: this,
+                                          length: snap.data.length);
                                       tabData = snap.data;
                                       return Column(
                                         children: <Widget>[
@@ -96,8 +97,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                               isScrollable: true,
                                               tabs: tabData
                                                   .map((year) => Tab(
-                                                        text:
-                                                            'ปีการศึกษา ' + year,
+                                                        text: 'ปีการศึกษา ' +
+                                                            year,
                                                       ))
                                                   .toList(),
                                             ),
@@ -125,8 +126,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
-                                                                top: 15),
+                                                            const EdgeInsets
+                                                                .only(top: 15),
                                                         child: Row(
                                                           crossAxisAlignment:
                                                               CrossAxisAlignment
@@ -137,7 +138,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                           children: <Widget>[
                                                             _buildCardTop5(
                                                                 Colors.black87,
-                                                                screenWidth / 2.1,
+                                                                screenWidth /
+                                                                    2.1,
                                                                 UIdata
                                                                     .txDashnoardUniversityPop,
                                                                 UIdata
@@ -146,16 +148,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                                     .imgDashnoardUniversityPop,
                                                                 40,
                                                                 27,
-                                                                DashboardService()
-                                                                    .getDashboardUniversity(
-                                                                        futureSnapshot
-                                                                            .data
-                                                                            .getString(
-                                                                                'schoolId'),
-                                                                        year)),
+                                                                DashboardService().getDashboardUniversity(
+                                                                    futureSnapshot
+                                                                        .data
+                                                                        .getString(
+                                                                            'schoolId'),
+                                                                    year)),
                                                             _buildCardTop5(
-                                                                Color(0xffF08201),
-                                                                screenWidth / 2.5,
+                                                                Color(
+                                                                    0xffF08201),
+                                                                screenWidth /
+                                                                    2.5,
                                                                 UIdata
                                                                     .txDashnoardFacultyPop,
                                                                 UIdata
@@ -164,19 +167,19 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                                     .imgDashnoardFacultyPop,
                                                                 30,
                                                                 30,
-                                                                DashboardService()
-                                                                    .getDashboardFaculty(
-                                                                        futureSnapshot
-                                                                            .data
-                                                                            .getString(
-                                                                                'schoolId'),
-                                                                        year))
+                                                                DashboardService().getDashboardFaculty(
+                                                                    futureSnapshot
+                                                                        .data
+                                                                        .getString(
+                                                                            'schoolId'),
+                                                                    year))
                                                           ],
                                                         ),
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
+                                                            const EdgeInsets
+                                                                    .only(
                                                                 top: 15,
                                                                 bottom: 15),
                                                         child: Row(
@@ -188,8 +191,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                                   .spaceBetween,
                                                           children: <Widget>[
                                                             _buildCardTop5(
-                                                                Color(0xff006A82),
-                                                                screenWidth - 37,
+                                                                Color(
+                                                                    0xff006A82),
+                                                                screenWidth -
+                                                                    37,
                                                                 UIdata
                                                                     .txDashnoardMajorPop,
                                                                 UIdata
@@ -198,13 +203,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                                     .imgDashnoardMajorPop,
                                                                 30,
                                                                 30,
-                                                                DashboardService()
-                                                                    .getDashboardMajor(
-                                                                        futureSnapshot
-                                                                            .data
-                                                                            .getString(
-                                                                                'schoolId'),
-                                                                        year)),
+                                                                DashboardService().getDashboardMajor(
+                                                                    futureSnapshot
+                                                                        .data
+                                                                        .getString(
+                                                                            'schoolId'),
+                                                                    year)),
                                                           ],
                                                         ),
                                                       ),

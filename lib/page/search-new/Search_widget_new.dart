@@ -55,8 +55,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
   _getItemSearch() async {
     try {
-      _getMoreItemSearch();
-
+      await _getMoreItemSearch();
       setState(() {
         _loadingPage = false;
       });
@@ -79,7 +78,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       _listDocumetSnapshot.addAll(querySnapshot.documents);
     }
 
-    if (_currentPage * _perPage > countOrder) {
+    if (!_loadingPage && _currentPage * _perPage > countOrder) {
       currentEndRecord = countOrder;
     }
 
@@ -143,9 +142,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       listMajor = [];
       listFaculty = [];
     });
-    _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กำลังโหลด...');
+    _progressDialog =
+        UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
     _getCountSearchItem();
     _getItemSearch();
   }
@@ -285,7 +283,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ItemUniversityNew(
-                          universitys: _listDocumetSnapshot[index]),
+                          universitys: _listDocumetSnapshot.firstWhere((doc) =>
+                              doc.data[keyType] ==
+                              listUniversity[index].universityname)),
                     ),
                   );
                 },
@@ -776,19 +776,50 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               )),
                         ),
                         _loadingPage == true
-                            ? Container(
-                                child: Center(
-                                  child: Text(
-                                    'กำลังโหลดข้อมูล...',
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.white),
-                                  ),
+                            ? Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/loading.gif',
+                                      height: 200,
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      'กำลังโหลด...',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Kanit',
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )
                             : _listDocumetSnapshot.length == 0
-                                ? Container(
-                                    child: Center(
-                                      child: Text('ไม่พบข้อมูล...'),
+                                ? Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset(
+                                          'assets/images/not-found.gif',
+                                          height: 200,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          'ไม่พบข้อมูล',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Kanit',
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 : Expanded(

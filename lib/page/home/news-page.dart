@@ -9,9 +9,7 @@ import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/News/view_news.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
-import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/service/NewsService.dart';
-import 'package:student_guidance/utils/OvalRighBorberClipper.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 import 'package:table_calendar/table_calendar.dart';
 

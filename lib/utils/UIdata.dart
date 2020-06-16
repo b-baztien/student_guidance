@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
-import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Tutorials/View_Tutorial.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
@@ -198,6 +198,19 @@ class UIdata {
         ],
       ),
     );
+  }
+
+  static buildLoadingProgressDialog(BuildContext context, String message) {
+    ProgressDialog _progressDialog = ProgressDialog(
+      context,
+      type: ProgressDialogType.Normal,
+      isDismissible: false,
+    );
+    _progressDialog.style(
+        progressWidget: Image.asset('assets/images/loading.gif'),
+        message: 'กำลังโหลด...');
+
+    return _progressDialog;
   }
 
   static List provinceData = [

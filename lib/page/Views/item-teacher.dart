@@ -1,4 +1,3 @@
-import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
 import 'package:student_guidance/model/Teacher.dart';
 import 'package:student_guidance/service/GetImageService.dart';

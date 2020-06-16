@@ -27,8 +27,7 @@ class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     ProgressDialog _progressDialog =
-        new ProgressDialog(context, type: ProgressDialogType.Normal);
-    _progressDialog.style(message: 'กำลังโหลด...');
+        UIdata.buildLoadingProgressDialog(context,'กำลังโหลด...');
 
     Future<void> register() async {
       final formState = _globalKey.currentState;

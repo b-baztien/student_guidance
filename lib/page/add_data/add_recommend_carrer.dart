@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/StudentRecommend.dart';
 import 'package:student_guidance/service/CareerService.dart';
-import 'package:student_guidance/service/MajorService.dart';
 import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -22,9 +21,8 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   @override
   void initState() {
     super.initState();
-    _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กำลังโหลด...');
+    _progressDialog =
+        UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
 
     CareerService().getAllCareerName().then((careerName) {
       StudentRecommendService()

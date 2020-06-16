@@ -6,11 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
-import 'package:student_guidance/model/StudentRecommend.dart';
-import 'package:student_guidance/page/add_data/add_recommend.dart';
-import 'package:student_guidance/page/add_data/add_recommend_carrer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
-import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -25,9 +21,7 @@ class EditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        color: Colors.white,
-          child: EditStudentProfile(login)),
+      child: Container(color: Colors.white, child: EditStudentProfile(login)),
     );
   }
 }
@@ -64,7 +58,9 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
         StorageReference firebaseStorageRef =
             FirebaseStorage.instance.ref().child('student').child(fileName);
         StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-        _progressDialog.style(message: 'กำลังอัพโหลดรูปภาพ...');
+        _progressDialog.style(
+            progressWidget: Image.asset('assets/images/loading.gif'),
+            message: 'กำลังอัพโหลดรูปภาพ...');
         _progressDialog.show();
         StorageTaskSnapshot taskSnapshot =
             await uploadTask.onComplete.then((onValue) {
@@ -189,7 +185,9 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
     }
 
     Widget _buildButtons(BuildContext context, ProgressDialog _progressDialog) {
-      _progressDialog.style(message: 'กำลังโหลด...');
+      _progressDialog.style(
+          progressWidget: Image.asset('assets/images/loading.gif'),
+          message: 'กำลังโหลด...');
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Row(
@@ -296,7 +294,8 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                     ),
                   ),
                   body: Padding(
-                    padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+                    padding:
+                        const EdgeInsets.only(top: 15.0, right: 8, left: 8),
                     child: Form(
                       key: _globalKey,
                       child: SingleChildScrollView(
@@ -307,7 +306,9 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                             Column(
                               children: <Widget>[
                                 _buildDetailInfo(
-                                    UIdata.txEditSubtitle, TextStyle(color: Colors.white,fontSize: 20)),
+                                    UIdata.txEditSubtitle,
+                                    TextStyle(
+                                        color: Colors.white, fontSize: 20)),
                                 _buildSeparator(_screenSize),
                                 _buildInputText(
                                     _student.firstName,
@@ -315,7 +316,6 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                     'กรุณากรอกชื่อ',
                                     (value) => _student.firstName = value),
                                 _buildInputText(
-
                                     _student.lastName,
                                     'นามสกุล',
                                     'กรุณากรอกนามสกุล',

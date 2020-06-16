@@ -24,9 +24,7 @@ class _ListUniversityFacultyState extends State<ListUniversityFaculty> {
   final TextEditingController _controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
-    _progressDialog = new ProgressDialog(context,
-        type: ProgressDialogType.Normal, isDismissible: false);
-    _progressDialog.style(message: 'กรุณารอสักครู่....');
+    _progressDialog = UIdata.buildLoadingProgressDialog(context,'กำลังโหลด...');
     return SafeArea(
       child: Material(
         child: Container(
@@ -196,8 +194,8 @@ class _ListUniversityFacultyState extends State<ListUniversityFaculty> {
                       padding: EdgeInsets.only(right: 5, left: 10),
                       decoration: new BoxDecoration(
                           border: new Border(
-                              right:
-                                  new BorderSide(width: 2, color: Colors.white))),
+                              right: new BorderSide(
+                                  width: 2, color: Colors.white))),
                       child: Icon(Icons.airport_shuttle, color: Colors.white),
                     ),
                     title: Text(
