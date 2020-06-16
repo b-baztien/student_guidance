@@ -105,7 +105,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
       _whereValue.add(_dropdownZoneValue);
     }
 
-    if (_whereFields.isNotEmpty) {
+    if (_whereFields.isNotEmpty && _listDocumetSnapshot.isEmpty) {
       _listDocumetSnapshot = await SearchService()
           .getFilterSearchItem(type, keyType, _whereFields, _whereValue);
       countOrder = _listDocumetSnapshot.length;
