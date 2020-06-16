@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Faculty.dart';
@@ -28,6 +29,14 @@ class ItemFacultyNew extends StatefulWidget {
 }
 
 class _ItemFacultyNewState extends State<ItemFacultyNew> {
+  ProgressDialog _progressDialog;
+
+  @override
+  void initState() {
+    super.initState();
+    _progressDialog = UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด');
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -203,7 +212,8 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                               Major major =
                                                   Major.fromJson(majorDoc.data);
                                               return Container(
-                                                margin: EdgeInsets.only(top: 4.0),
+                                                margin:
+                                                    EdgeInsets.only(top: 4.0),
                                                 child: Ink(
                                                   height: 60,
                                                   decoration: BoxDecoration(
@@ -213,6 +223,9 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                                       color: Colors.white),
                                                   child: ListTile(
                                                     onTap: () {
+                                                      setState(() {
+                                                        _progressDialog.show();
+                                                      });
                                                       StudentFavoriteService()
                                                           .getStudentFavoriteByUsername(
                                                               Login.fromJson(jsonDecode(pref
@@ -221,6 +234,10 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                                                           'login')))
                                                                   .username)
                                                           .then((listFavorite) {
+                                                        setState(() {
+                                                          _progressDialog
+                                                              .hide();
+                                                        });
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
@@ -245,8 +262,8 @@ class _ItemFacultyNewState extends State<ItemFacultyNew> {
                                                       decoration: BoxDecoration(
                                                         color: Colors.orange,
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                80.0),
+                                                            BorderRadius
+                                                                .circular(80.0),
                                                       ),
                                                       child: Icon(
                                                         FontAwesomeIcons
