@@ -94,6 +94,10 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
     if (_searchText.trim().isNotEmpty) {
       if (type == 'University') {
         _whereFields.add('university_name');
+      } else if (type == 'Major') {
+        _whereFields.add('majorName');
+      } else {
+        _whereFields.add('faculty_name');
       }
       _whereValue.add(_searchText);
     }
@@ -160,6 +164,10 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
     if (_searchText.trim().isNotEmpty) {
       if (type == 'University') {
         _whereFields.add('university_name');
+      } else if (type == 'Major') {
+        _whereFields.add('majorName');
+      } else {
+        _whereFields.add('faculty_name');
       }
       _whereValue.add(_searchText);
     }
