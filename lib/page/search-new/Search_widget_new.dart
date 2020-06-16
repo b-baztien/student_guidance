@@ -202,6 +202,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                             listFaculty = [];
                             _allPage = 1;
                             _currentPage = 1;
+                            _loadingPage = true;
                             if (_curentRadio == 1) {
                               type = 'University';
                               keyType = 'university_name';
@@ -212,8 +213,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               type = 'Major';
                               keyType = 'majorName';
                             }
-                            _getItemSearch();
                             _getCountSearchItem();
+                            _getItemSearch();
                           });
                         },
                       ),
