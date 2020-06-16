@@ -53,8 +53,20 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
   ProgressDialog _progressDialog;
 
-  _getItemSearch() async {
+  _initItemSearch() async {
     try {
+      setState(() {
+        listUniversity = [];
+        listMajor = [];
+        listFaculty = [];
+        _allPage = 1;
+        _currentPage = 1;
+        countOrder = 0;
+        _loadingPage = true;
+        _listDocumetSnapshot = [];
+        _lastDocument = null;
+      });
+      await _getCountSearchItem();
       await _getMoreItemSearch();
       setState(() {
         _loadingPage = false;
@@ -64,42 +76,74 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
     }
   }
 
+  _clearFilter() {
+    _searchText = '';
+    _searchTextController.clear();
+    _dropdownZoneValue = null;
+    _dropdownProvinceValue = null;
+  }
+
   _getMoreItemSearch() async {
     _perPage = type == 'University' ? 5 : 10;
     int currentStartRecord = (_currentPage * _perPage) - (_perPage);
     int currentEndRecord = _currentPage * _perPage;
 
-    if (currentEndRecord > _listDocumetSnapshot.length) {
-      setState(() {
-        _progressDialog.show();
-      });
-      QuerySnapshot querySnapshot = await SearchService()
-          .getSearchItem(type, keyType, _lastDocument, _perPage);
-      _listDocumetSnapshot.addAll(querySnapshot.documents);
+    //Filter Item
+    List<String> _whereFields = [];
+    List<String> _whereValue = [];
+    if (_searchText.trim().isNotEmpty) {
+      if (type == 'University') {
+        _whereFields.add('university_name');
+      }
+      _whereValue.add(_searchText);
+    }
+    if (_dropdownProvinceValue != null) {
+      _whereFields.add('province');
+      _whereValue.add(_dropdownProvinceValue);
+    } else if (_dropdownZoneValue != null) {
+      _whereFields.add('zone');
+      _whereValue.add(_dropdownZoneValue);
     }
 
-    if (!_loadingPage && _currentPage * _perPage > countOrder) {
+    if (_whereFields.isNotEmpty) {
+      _listDocumetSnapshot = await SearchService()
+          .getFilterSearchItem(type, keyType, _whereFields, _whereValue);
+      countOrder = _listDocumetSnapshot.length;
+    } else {
+      if (currentEndRecord > _listDocumetSnapshot.length) {
+        setState(() {
+          _progressDialog.show();
+        });
+        QuerySnapshot querySnapshot = await SearchService()
+            .getSearchItem(type, keyType, _lastDocument, _perPage);
+        _listDocumetSnapshot.addAll(querySnapshot.documents);
+      }
+    }
+
+    if (_currentPage * _perPage > countOrder) {
       currentEndRecord = countOrder;
     }
 
     setState(() {
-      if (type == 'University') {
-        listUniversity = _listDocumetSnapshot
-            .sublist(currentStartRecord, currentEndRecord)
-            .map((doc) => University.fromJson(doc.data))
-            .toList();
-      } else if (type == 'Major') {
-        listMajor = _listDocumetSnapshot
-            .sublist(currentStartRecord, currentEndRecord)
-            .map((doc) => Major.fromJson(doc.data))
-            .toList();
-      } else {
-        listFaculty = _listDocumetSnapshot
-            .sublist(currentStartRecord, currentEndRecord)
-            .map((doc) => Faculty.fromJson(doc.data))
-            .toList();
+      if (_listDocumetSnapshot.isNotEmpty) {
+        if (type == 'University') {
+          listUniversity = _listDocumetSnapshot
+              .sublist(currentStartRecord, currentEndRecord)
+              .map((doc) => University.fromJson(doc.data))
+              .toList();
+        } else if (type == 'Major') {
+          listMajor = _listDocumetSnapshot
+              .sublist(currentStartRecord, currentEndRecord)
+              .map((doc) => Major.fromJson(doc.data))
+              .toList();
+        } else {
+          listFaculty = _listDocumetSnapshot
+              .sublist(currentStartRecord, currentEndRecord)
+              .map((doc) => Faculty.fromJson(doc.data))
+              .toList();
+        }
+        _lastDocument = _listDocumetSnapshot.last;
       }
-      _lastDocument = _listDocumetSnapshot.last;
       _progressDialog.hide();
     });
 
@@ -136,16 +180,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      listUniversity = [];
-      _listDocumetSnapshot = [];
-      listMajor = [];
-      listFaculty = [];
-    });
     _progressDialog =
         UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
-    _getCountSearchItem();
-    _getItemSearch();
+    _initItemSearch();
   }
 
   Widget myFilterDrawer() {
@@ -196,13 +233,6 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           groupRadio = _curentRadio;
                           Navigator.pop(context);
                           setState(() {
-                            listUniversity = [];
-                            _listDocumetSnapshot = [];
-                            listMajor = [];
-                            listFaculty = [];
-                            _allPage = 1;
-                            _currentPage = 1;
-                            _loadingPage = true;
                             if (_curentRadio == 1) {
                               type = 'University';
                               keyType = 'university_name';
@@ -213,8 +243,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                               type = 'Major';
                               keyType = 'majorName';
                             }
-                            _getCountSearchItem();
-                            _getItemSearch();
+                            _clearFilter();
+                            _initItemSearch();
                           });
                         },
                       ),
@@ -523,9 +553,12 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
     text = 'รายการที่ ';
 
-    if (firstItem != lastItem) {
+    if (firstItem != lastItem && firstItem > 0) {
       text += firstItem.toString() + ' - ' + lastItem.toString();
     } else {
+      if (firstItem < 0) {
+        firstItem = 0;
+      }
       text += firstItem.toString();
     }
 
@@ -624,9 +657,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                 setState(() async {
                                   Timer(Duration(milliseconds: 800), () async {
                                     _searchText = value.trim();
-                                    _listDocumetSnapshot = [];
-                                    await _getCountSearchItem();
-                                    await _getMoreItemSearch();
+                                    await _initItemSearch();
                                   });
                                 });
                               },
@@ -648,9 +679,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                     setState(() async {
                                       _searchTextController.clear();
                                       _searchText = _searchTextController.text;
-                                      _listDocumetSnapshot = [];
-                                      await _getCountSearchItem();
-                                      await _getMoreItemSearch();
+                                      await _initItemSearch();
                                     });
                                   },
                                 ),
@@ -671,15 +700,15 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
+                                  //Zone dropdown
                                   DropdownButton<String>(
                                     value: _dropdownZoneValue,
                                     onChanged: (String newValue) {
                                       setState(() {
                                         _dropdownZoneValue = newValue;
                                         _dropdownProvinceValue = null;
-                                        _listDocumetSnapshot = [];
-                                        _getMoreItemSearch();
-                                        _getCountSearchItem();
+
+                                        _initItemSearch();
                                       });
                                     },
                                     hint: DropdownMenuItem<String>(
@@ -698,6 +727,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                       );
                                     }).toList(),
                                   ),
+                                  //Province dropdown
                                   DropdownButton<String>(
                                     value: _dropdownProvinceValue,
                                     elevation: 16,
@@ -709,9 +739,8 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                                     onChanged: (String newValue) {
                                       setState(() {
                                         _dropdownProvinceValue = newValue;
-                                        _listDocumetSnapshot = [];
-                                        _getMoreItemSearch();
-                                        _getCountSearchItem();
+
+                                        _initItemSearch();
                                       });
                                     },
                                     hint: DropdownMenuItem<String>(

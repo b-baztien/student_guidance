@@ -40,6 +40,46 @@ class SearchService {
     }
   }
 
+  Future<List<DocumentSnapshot>> getFilterSearchItem(
+      String collectionName,
+      String orderByName,
+      List<String> whereFields,
+      List<String> whereValue) async {
+    try {
+      Set<String> setCount = Set();
+      List<DocumentSnapshot> listDocument = [];
+      Query query = Firestore.instance
+          .collectionGroup(collectionName)
+          .orderBy(orderByName);
+      QuerySnapshot queryDocument = await query.getDocuments();
+
+      if (whereFields.isNotEmpty) {
+        bool isAdd;
+        for (var doc in queryDocument.documents) {
+          isAdd = false;
+          for (var i = 0; i < whereFields.length; i++) {
+            String _fieldValue = doc.data[whereFields[i]].toString();
+            if (_fieldValue.contains(whereValue[i])) {
+              isAdd = true;
+            } else {
+              isAdd = false;
+              break;
+            }
+          }
+          if (isAdd && !setCount.contains(doc.data[orderByName].toString())) {
+            setCount.add(doc.data[orderByName].toString());
+            listDocument.add(doc);
+          }
+        }
+      } else {
+        listDocument = queryDocument.documents;
+      }
+      return listDocument;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<int> countSearchItem(String collectionName, String orderByName,
       List<String> whereFields, List<String> whereValue) async {
     try {
@@ -49,12 +89,20 @@ class SearchService {
           .orderBy(orderByName);
       QuerySnapshot queryDocument = await query.getDocuments();
       if (whereFields.isNotEmpty) {
-        for (var i = 0; i < whereFields.length; i++) {
-          for (var doc in queryDocument.documents) {
+        bool isAdd;
+        for (var doc in queryDocument.documents) {
+          isAdd = false;
+          for (var i = 0; i < whereFields.length; i++) {
             String _fieldValue = doc.data[whereFields[i]].toString();
             if (_fieldValue.contains(whereValue[i])) {
-              setCount.add(doc.data[orderByName].toString());
+              isAdd = true;
+            } else {
+              isAdd = false;
+              break;
             }
+          }
+          if (isAdd && !setCount.contains(doc.data[orderByName].toString())) {
+            setCount.add(doc.data[orderByName].toString());
           }
         }
       } else {
