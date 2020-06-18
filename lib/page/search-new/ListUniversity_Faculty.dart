@@ -22,9 +22,16 @@ class _ListUniversityFacultyState extends State<ListUniversityFaculty> {
   ProgressDialog _progressDialog;
 
   final TextEditingController _controller = new TextEditingController();
+
+  @override
+  void initState() {
+    _progressDialog =
+        UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _progressDialog = UIdata.buildLoadingProgressDialog(context,'กำลังโหลด...');
     return SafeArea(
       child: Material(
         child: Container(
@@ -129,18 +136,41 @@ class _ListUniversityFacultyState extends State<ListUniversityFaculty> {
                           padding: EdgeInsets.all(10),
                           height: 40,
                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(color: Colors.grey[300]),
+                          decoration: BoxDecoration(color: Colors.white),
                           child: Text(
                             'พบทั้งหมด ' +
                                 listUniversity.length.toString() +
                                 ' มหาวิทยาลัย',
                             style: TextStyle(
-                                color: Colors.grey,
+                                color: Colors.grey[600],
                                 fontFamily: UIdata.fontFamily),
                           ),
                         ),
                       ),
-                      _buildExpended(listUniversity)
+                      snapshot.hasData
+                          ? _buildExpended(listUniversity)
+                          : Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'assets/images/loading.gif',
+                                      width: 300,
+                                    ),
+                                    Text(
+                                      'กำลังโหลด...',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Kanit',
+                                        fontSize: 20,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
                     ],
                   );
                 }),

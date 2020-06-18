@@ -50,25 +50,21 @@ class _ListTeacherState extends State<ListTeacher>
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
-                      title:ShaderMask(
-                          shaderCallback: (bound) =>
-                              RadialGradient(
+                      title: ShaderMask(
+                          shaderCallback: (bound) => RadialGradient(
                                   radius: 4.0,
-                                  colors: [
-                                    Colors.lightBlue,
-                                    Colors.white
-                                  ],
+                                  colors: [Colors.lightBlue, Colors.white],
                                   center: Alignment.topLeft,
-                                  tileMode: TileMode.clamp
-                              ).createShader(bound),
-                          child: Shimmer.fromColors(child: Text(
-                            UIdata.txTeacherWidget,
-                            style: UIdata.textTitleStyle,
-                          ),  baseColor: Colors.white,
+                                  tileMode: TileMode.clamp)
+                              .createShader(bound),
+                          child: Shimmer.fromColors(
+                              child: Text(
+                                UIdata.txTeacherWidget,
+                                style: UIdata.textTitleStyle,
+                              ),
+                              baseColor: Colors.white,
                               highlightColor: Colors.limeAccent,
-                              period: const Duration(milliseconds: 3000)
-                          )
-                      ),
+                              period: const Duration(milliseconds: 3000))),
                     ),
                     drawer: MyDrawer(
                         student: Student.fromJson(jsonDecode(
@@ -101,24 +97,20 @@ class _ListTeacherState extends State<ListTeacher>
                     appBar: AppBar(
                       backgroundColor: Colors.transparent,
                       title: ShaderMask(
-                          shaderCallback: (bound) =>
-                              RadialGradient(
+                          shaderCallback: (bound) => RadialGradient(
                                   radius: 4.0,
-                                  colors: [
-                                    Colors.lightBlue,
-                                    Colors.white
-                                  ],
+                                  colors: [Colors.lightBlue, Colors.white],
                                   center: Alignment.topLeft,
-                                  tileMode: TileMode.clamp
-                              ).createShader(bound),
-                          child: Shimmer.fromColors(child: Text(
-                            UIdata.txTeacherWidget,
-                            style: UIdata.textTitleStyle,
-                          ),  baseColor: Colors.white,
+                                  tileMode: TileMode.clamp)
+                              .createShader(bound),
+                          child: Shimmer.fromColors(
+                              child: Text(
+                                UIdata.txTeacherWidget,
+                                style: UIdata.textTitleStyle,
+                              ),
+                              baseColor: Colors.white,
                               highlightColor: Colors.limeAccent,
-                              period: const Duration(milliseconds: 3000)
-                          )
-                      ),
+                              period: const Duration(milliseconds: 3000))),
                     ),
                     drawer: MyDrawer(),
                   );

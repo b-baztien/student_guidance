@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:student_guidance/model/Faculty.dart';
@@ -15,6 +16,7 @@ import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/model/University.dart';
 import 'package:student_guidance/page/drawer/Mydrawer.dart';
 import 'package:student_guidance/page/search-new/ItemUniversity-new.dart';
+import 'package:student_guidance/page/search-new/ListUniversity_Faculty.dart';
 import 'package:student_guidance/page/search-new/ListUniversity_Major.dart';
 import 'package:student_guidance/service/GetImageService.dart';
 import 'package:student_guidance/service/SearchService.dart';
@@ -40,6 +42,9 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
 
   int _allPage = 1;
   int _currentPage = 1;
+
+  FocusNode myFocusNode;
+  Timer _debounce;
 
   String _dropdownZoneValue;
   String _dropdownProvinceValue;
@@ -190,6 +195,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
     super.initState();
     _progressDialog =
         UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
+    myFocusNode = FocusNode();
     _initItemSearch();
   }
 
@@ -514,27 +520,34 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                 ),
                 child: ListTile(
                     onTap: () {
+                      print(listFaculty[index].facultyName);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ListUniversityMajor(
-                                  majorName: listFaculty[index].facultyName)));
+                              builder: (context) => ListUniversityFaculty(
+                                  facultys: listFaculty[index].facultyName)));
                     },
                     leading: Container(
-                      padding: EdgeInsets.only(right: 15.0),
+                      padding: EdgeInsets.only(right: 10.0),
                       decoration: new BoxDecoration(
                           border: new Border(
                               right: new BorderSide(
                                   width: 1.0, color: Colors.black))),
                       child: Container(
-                        width: 30,
-                        height: 30,
+                        width: 35,
+                        height: 35,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/icon-major.png'),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                            color: Colors.orange,
+                            border: Border.all(color: Colors.orange, width: 5),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: Icon(
+                            IconData(
+                                int.parse(
+                                    listFaculty[index].facultyIcon.codePoint),
+                                fontFamily:
+                                    listFaculty[index].facultyIcon.fontFamily),
+                            color: Colors.white),
                       ),
                     ),
                     title: Text(listFaculty[index].facultyName,
@@ -661,15 +674,19 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                             borderRadius: BorderRadius.circular(10.0),
                             child: TextField(
                               controller: _searchTextController,
+                              focusNode: myFocusNode,
                               onChanged: (value) {
                                 setState(() async {
-                                  Timer(Duration(milliseconds: 800), () async {
+                                  if (_debounce?.isActive ?? false) {
+                                    _debounce.cancel();
+                                  }
+                                  _debounce = Timer(Duration(milliseconds: 800),
+                                      () async {
                                     _searchText = value.trim();
                                     await _initItemSearch();
                                   });
                                 });
                               },
-                              //  controller: _controller,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 prefixIcon: Icon(
