@@ -6,7 +6,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
+import 'package:student_guidance/model/StudentRecommend.dart';
+import 'package:student_guidance/page/add_data/add_recommend.dart';
+import 'package:student_guidance/page/add_data/add_recommend_carrer.dart';
 import 'package:student_guidance/service/GetImageService.dart';
+import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/service/StudentService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
@@ -330,100 +334,105 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                     'อีเมล์',
                                     'กรุณากรอกอีเมล์',
                                     (value) => _student.email = value),
-//                              Container(
-//                                padding: EdgeInsets.symmetric(
-//                                    vertical: 10.0, horizontal: 30.0),
-//                                child: FutureBuilder(
-//                                  future: StudentRecommendService()
-//                                      .getStudentRecommendByUsername(),
-//                                  builder: (context, snapshot) {
-//                                    if (snapshot.hasData) {
-//                                      StudentRecommend _stdRcm = snapshot.data;
-//                                      return Column(
-//                                        crossAxisAlignment:
-//                                            CrossAxisAlignment.start,
-//                                        children: <Widget>[
-//                                          Row(
-//                                            mainAxisAlignment:
-//                                                MainAxisAlignment.spaceBetween,
-//                                            children: <Widget>[
-//                                              Text('สาขาที่สนใจ',
-//                                                  style: UIdata.textTitleStyle),
-//                                              InkWell(
-//                                                onTap: () {
-//                                                  Navigator.push(
-//                                                    context,
-//                                                    MaterialPageRoute(
-//                                                        builder: (context) =>
-//                                                            AddRecommend()),
-//                                                  );
-//                                                },
-//                                                child: Text(
-//                                                  'แก้ไข',
-//                                                  style: TextStyle(
-//                                                      color: Colors.orange,
-//                                                      fontSize: 15),
-//                                                ),
-//                                              )
-//                                            ],
-//                                          ),
-////                                          Column(
-////                                              crossAxisAlignment:
-////                                                  CrossAxisAlignment.start,
-////                                              children: _stdRcm.majorName
-////                                                  .map((major) {
-////                                                return Text(
-////                                                  "- " + major,
-////                                                  style: TextStyle(
-////                                                      fontFamily:
-////                                                          UIdata.fontFamily,
-////                                                      color: Colors.white),
-////                                                );
-////                                              }).toList()),
-////                                          Row(
-////                                            mainAxisAlignment:
-////                                                MainAxisAlignment.spaceBetween,
-////                                            children: <Widget>[
-////                                              Text('อาชีพที่สนใจ',
-////                                                  style: UIdata.textTitleStyle),
-////                                              InkWell(
-////                                                onTap: () {
-////                                                  Navigator.push(
-////                                                    context,
-////                                                    MaterialPageRoute(
-////                                                        builder: (context) =>
-////                                                            AddRecommendCarrer()),
-////                                                  );
-////                                                },
-////                                                child: Text(
-////                                                  'แก้ไข',
-////                                                  style: TextStyle(
-////                                                      color: Colors.orange,
-////                                                      fontSize: 15),
-////                                                ),
-////                                              )
-////                                            ],
-////                                          ),
-////                                          Row(
-////                                              crossAxisAlignment:
-////                                                  CrossAxisAlignment.start,
-////                                              children: _stdRcm.careerName
-////                                                  .map((carrer) {
-////                                                return Text(carrer + " ",
-////                                                    style: TextStyle(
-////                                                      fontFamily:
-////                                                          UIdata.fontFamily,
-////                                                      color: Colors.white,
-////                                                    ));
-////                                              }).toList())
-//                                        ],
-//                                      );
-//                                    } else {
-//                                      return SizedBox.shrink();
-//                                    }
-//                                  },
-//                                ),
-//                              )
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10.0, horizontal: 30.0),
+                                  child: FutureBuilder(
+                                    future: StudentRecommendService()
+                                        .getStudentRecommendByUsername(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        StudentRecommend _stdRcm =
+                                            snapshot.data;
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('สาขาที่สนใจ',
+                                                    style:
+                                                        UIdata.textTitleStyle),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddRecommend()),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    'แก้ไข',
+                                                    style: TextStyle(
+                                                        color: Colors.orange,
+                                                        fontSize: 15),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: _stdRcm.majorName
+                                                    .map((major) {
+                                                  return Text(
+                                                    "- " + major,
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            UIdata.fontFamily,
+                                                        color: Colors.white),
+                                                  );
+                                                }).toList()),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text('อาชีพที่สนใจ',
+                                                    style:
+                                                        UIdata.textTitleStyle),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddRecommendCarrer()),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    'แก้ไข',
+                                                    style: TextStyle(
+                                                        color: Colors.orange,
+                                                        fontSize: 15),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: _stdRcm.careerName
+                                                    .map((carrer) {
+                                                  return Text(carrer + " ",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            UIdata.fontFamily,
+                                                        color: Colors.white,
+                                                      ));
+                                                }).toList())
+                                          ],
+                                        );
+                                      } else {
+                                        return SizedBox.shrink();
+                                      }
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                             SizedBox(height: 30.0),
