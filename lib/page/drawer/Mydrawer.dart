@@ -3,6 +3,7 @@ import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/ChangePassword.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
+import 'package:student_guidance/page/Views/list-favorite.dart';
 import 'package:student_guidance/page/add_data/add_education_new.dart';
 import 'package:student_guidance/page/add_data/add_entrance_major.dart';
 import 'package:student_guidance/service/GetImageService.dart';
@@ -121,16 +122,11 @@ class _MyDrawerState extends State<MyDrawer> {
                         (context) => AddEntranceMajor(),
                       ),
                 _buildDivider(),
+                _buildRow(Icons.favorite, "สาขาที่ติดตาม", Colors.red[300],
+                    (context) => ListFavorite(login: widget.login)),
+                _buildDivider(),
                 _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow,
                     (context) => ChangePassword()),
-//                _buildDivider(),
-//                _buildRow(
-//                    Icons.favorite,
-//                    "สาขาที่ติดตาม",
-//                    Colors.red[300],
-//                    (context) => ListFavorite(
-//                        )),
-//
               ],
             ),
           ),

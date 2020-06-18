@@ -763,7 +763,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                                             ? NetworkImage(
                                                                 snapshot.data)
                                                             : AssetImage(
-                                                                'assets/images/university-icon.png'),
+                                                                'assets/images/University-Icon.png'),
                                                         fit: BoxFit.fitHeight,
                                                       ),
                                                     ),
@@ -906,7 +906,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                                                     snapshot
                                                                         .data)
                                                                 : AssetImage(
-                                                                    'assets/images/university-icon.png'),
+                                                                    'assets/images/University-Icon.png'),
                                                             fit: BoxFit
                                                                 .fitHeight,
                                                           ),

@@ -189,7 +189,7 @@ class _ListUniversityMajorState extends State<ListUniversityMajor> {
                               uname, widget.majorName)
                           .then((fa) async {
                         await MajorService()
-                            .getMajorByMajorNameAndUniRef(
+                            .getMajorByMajorNameAndFacultyRef(
                                 widget.majorName, fa.reference)
                             .then((majorSnap) async {
                           await StudentFavoriteService()

@@ -27,7 +27,7 @@ class MajorService {
     return majorSnapshot.map((mjSnapShot) => mjSnapShot.documents);
   }
 
-  Future<DocumentSnapshot> getMajorByMajorNameAndUniRef(
+  Future<DocumentSnapshot> getMajorByMajorNameAndFacultyRef(
       String majorName, DocumentReference facRef) async {
     try {
       Query query = Firestore.instance
@@ -38,6 +38,29 @@ class MajorService {
         return doc.documents.first;
       });
       return major;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<DocumentSnapshot> getMajor(
+      String uniName, String facName, String majorName) async {
+    try {
+      Query query = Firestore.instance
+          .collection('University')
+          .where('university_name', isEqualTo: uniName);
+      return await query.getDocuments().then((uniDoc) async {
+        return await Firestore.instance
+            .document(uniDoc.documents.first.reference.path)
+            .collection('Faculty')
+            .where('faculty_name', isEqualTo: facName)
+            .getDocuments()
+            .then((facDoc) async => (await Firestore.instance
+                .document(facDoc.documents.first.reference.path)
+                .collection('Major')
+                .where('majorName', isEqualTo: majorName)
+                .getDocuments()).documents.first);
+      });
     } catch (e) {
       rethrow;
     }
