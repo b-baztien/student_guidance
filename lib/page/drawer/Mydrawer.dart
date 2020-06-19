@@ -4,6 +4,7 @@ import 'package:student_guidance/model/Student.dart';
 import 'package:student_guidance/page/Edit/ChangePassword.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Views/list-favorite.dart';
+import 'package:student_guidance/page/Views/list-recommend.dart';
 import 'package:student_guidance/page/add_data/add_education_new.dart';
 import 'package:student_guidance/page/add_data/add_entrance_major.dart';
 import 'package:student_guidance/page/add_data/add_recommend.dart';
@@ -130,22 +131,17 @@ class _MyDrawerState extends State<MyDrawer> {
                   Colors.red[300],
                   (context) => ListFavorite(login: widget.login),
                 ),
-                // _buildDivider(),
-                // _buildRow(
-                //   Icons.favorite,
-                //   "RECOMMEND",
-                //   Colors.red[300],
-                //   (context) => AddRecommend(),
-                // ),
-                // _buildDivider(),
-                // _buildRow(
-                //   Icons.favorite,
-                //   "RECOMMENDCARRER",
-                //   Colors.red[300],
-                //   (context) => AddRecommendCarrer(),
-                // ),
                 _buildDivider(),
-                _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow,
+                _buildRow(
+                  Icons.star,
+                  "แนะนำสาขา",
+                  Colors.orange,
+                  (context) => ListRecommend(
+                    login: widget.login,
+                  ),
+                ),
+                _buildDivider(),
+                _buildRow(Icons.vpn_key, "เปลี่ยนพาสเวิร์ด", Colors.yellow[700],
                     (context) => ChangePassword()),
               ],
             ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/SharedPreferences/SharedPref.dart';
+import 'package:student_guidance/model/Career.dart';
 import 'package:student_guidance/model/Faculty.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/model/Major.dart';
@@ -26,7 +27,7 @@ class StudentRecommendService {
           await query.getDocuments().then((doc) async {
         return doc.documents.isEmpty
             ? null
-            : StudentRecommend.fromJson(doc.documents[0].data);
+            : StudentRecommend.fromJson(doc.documents.first.data);
       });
       return reccommend;
     } catch (e) {
@@ -67,58 +68,118 @@ class StudentRecommendService {
     }
   }
 
-  Future<List<RecommendMajor>> getRecommendMajor(String majorName, String universityName) async {
-    List<RecommendMajor> listRecommendMajor = List<RecommendMajor>();
-    print(await SharedPref().read('student'));
-    String province =
-        Student.fromJson(await SharedPref().read('student')).province;
+  Future<List<RecommendMajor>> getRecommendMajor() async {
+    StudentRecommend studentRecommend = await getStudentRecommendByUsername();
+    Set<RecommendMajor> setRecommendMajor = Set<RecommendMajor>();
     try {
-      Query majorSnap = Firestore.instance
-          .collectionGroup('Major')
-          .where('majorName', isEqualTo: majorName);
+      for (var careerName in studentRecommend.careerName) {
+        Query careerQuery = Firestore.instance
+            .collectionGroup('Career')
+            .where('career_name', isEqualTo: careerName);
 
-      await majorSnap.getDocuments().then((majorSnapshot) async {
-        for (var majorDoc in majorSnapshot.documents) {
-          await Firestore.instance
-              .document(
-                  majorDoc.reference.parent().parent().parent().parent().path)
-              .get()
-              .then((uniSnap) async {
-                University university = University.fromJson(uniSnap.data);
-            if (university.province == province && university.universityname != universityName) {
-              RecommendMajor recommendMajor = RecommendMajor();
-              //get Major
-              recommendMajor.major = Major.fromJson(majorDoc.data).majorName;
-              //get Faculty
-              await Firestore.instance
-                  .document(majorDoc.reference.parent().parent().path)
-                  .get()
-                  .then((facDoc) {
-                recommendMajor.faculty =
-                    Faculty.fromJson(facDoc.data).facultyName;
-              });
-              //get University
-              await Firestore.instance
-                  .document(majorDoc.reference
-                      .parent()
-                      .parent()
-                      .parent()
-                      .parent()
-                      .path)
-                  .get()
-                  .then((uniDoc) {
-                recommendMajor.university =
-                    University.fromJson(uniDoc.data).universityname;
-                recommendMajor.img = University.fromJson(uniDoc.data).image;
-              });
-              listRecommendMajor.add(recommendMajor);
-            }
-          });
-        }
-      });
-      return listRecommendMajor.isEmpty ? null : listRecommendMajor;
+        await careerQuery.getDocuments().then((careerSnap) async {
+          if (careerSnap.documents.isEmpty) return;
+          List<Career> listCareer = careerSnap.documents
+              .map((doc) => Career.fromJson(doc.data))
+              .toList();
+          for (var career in listCareer) {
+            Query majorQuery = Firestore.instance
+                .collectionGroup('Major')
+                .where('listCareerName', arrayContains: career.careerName);
+
+            await majorQuery.getDocuments().then((majorSnap) async {
+              for (var majorDoc in majorSnap.documents) {
+                RecommendMajor recommendMajor = RecommendMajor();
+                //get Major
+                recommendMajor.major = Major.fromJson(majorDoc.data).majorName;
+                //get Faculty
+                await Firestore.instance
+                    .document(majorDoc.reference.parent().parent().path)
+                    .get()
+                    .then((facDoc) {
+                  recommendMajor.faculty =
+                      Faculty.fromJson(facDoc.data).facultyName;
+                });
+                //get University
+                await Firestore.instance
+                    .document(majorDoc.reference
+                        .parent()
+                        .parent()
+                        .parent()
+                        .parent()
+                        .path)
+                    .get()
+                    .then((uniDoc) {
+                  recommendMajor.university =
+                      University.fromJson(uniDoc.data).universityname;
+                  recommendMajor.img = University.fromJson(uniDoc.data).image;
+                });
+                setRecommendMajor.add(recommendMajor);
+              }
+            });
+          }
+        });
+      }
+      return setRecommendMajor.isEmpty ? null : setRecommendMajor.toList();
     } catch (e) {
       rethrow;
     }
   }
+
+  // Future<List<RecommendMajor>> getRecommendMajor(
+  //     String majorName, String universityName) async {
+  //   List<RecommendMajor> listRecommendMajor = List<RecommendMajor>();
+  //   print(await SharedPref().read('student'));
+  //   String province =
+  //       Student.fromJson(await SharedPref().read('student')).province;
+  //   try {
+  //     Query majorSnap = Firestore.instance
+  //         .collectionGroup('Major')
+  //         .where('majorName', isEqualTo: majorName);
+
+  //     await majorSnap.getDocuments().then((majorSnapshot) async {
+  //       for (var majorDoc in majorSnapshot.documents) {
+  //         await Firestore.instance
+  //             .document(
+  //                 majorDoc.reference.parent().parent().parent().parent().path)
+  //             .get()
+  //             .then((uniSnap) async {
+  //           University university = University.fromJson(uniSnap.data);
+  //           if (university.province == province &&
+  //               university.universityname != universityName) {
+  //             RecommendMajor recommendMajor = RecommendMajor();
+  //             //get Major
+  //             recommendMajor.major = Major.fromJson(majorDoc.data).majorName;
+  //             //get Faculty
+  //             await Firestore.instance
+  //                 .document(majorDoc.reference.parent().parent().path)
+  //                 .get()
+  //                 .then((facDoc) {
+  //               recommendMajor.faculty =
+  //                   Faculty.fromJson(facDoc.data).facultyName;
+  //             });
+  //             //get University
+  //             await Firestore.instance
+  //                 .document(majorDoc.reference
+  //                     .parent()
+  //                     .parent()
+  //                     .parent()
+  //                     .parent()
+  //                     .path)
+  //                 .get()
+  //                 .then((uniDoc) {
+  //               recommendMajor.university =
+  //                   University.fromJson(uniDoc.data).universityname;
+  //               recommendMajor.img = University.fromJson(uniDoc.data).image;
+  //             });
+  //             listRecommendMajor.add(recommendMajor);
+  //           }
+  //         });
+  //       }
+  //     });
+  //     return listRecommendMajor.isEmpty ? null : listRecommendMajor;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 }
