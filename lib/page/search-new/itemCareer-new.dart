@@ -24,9 +24,10 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
           child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage('assets/images/career-bg.png'),
+          image: AssetImage('assets/images/thembg.png'),
           fit: BoxFit.cover,
-        )),
+        )
+        ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -131,7 +132,6 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                                 ? _career.description
                                 : 'ไม่มีรายละเอียด',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
                         ),
@@ -164,7 +164,7 @@ class _ItemCarrerNewState extends State<ItemCarrerNew> {
                                 children: snapshot.data
                                     .map((majorName) => Text(
                                           majorName,
-                                          style: UIdata.textTitleStyle,
+                                          style: TextStyle(fontSize: 14,color: Colors.white),
                                         ))
                                     .toList(),
                               );

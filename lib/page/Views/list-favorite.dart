@@ -33,7 +33,12 @@ class _ListFavoriteState extends State<ListFavorite> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/thembg.png'),
+              fit: BoxFit.cover,
+            )
+        ),
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -50,14 +55,10 @@ class _ListFavoriteState extends State<ListFavorite> {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+            padding: const EdgeInsets.only(top: 5.0, right: 8, left: 8),
             child: Container(
               width: double.infinity,
               height: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.black.withOpacity(0.5),
-                  border: Border.all(width: 2, color: Colors.white)),
               padding: const EdgeInsets.all(8.0),
               child: FutureBuilder(
                   future: StudentFavoriteService()

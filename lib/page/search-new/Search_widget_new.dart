@@ -628,6 +628,7 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                           .createShader(bound),
                       child: _buildCounterItem());
                   return Scaffold(
+                    resizeToAvoidBottomPadding: false,
                     key: _scaffordKey,
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
@@ -832,49 +833,53 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
                         ),
                         _loadingPage == true
                             ? Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image.asset(
-                                      'assets/images/loading.gif',
-                                      height: 200,
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Text(
-                                      'กำลังโหลด...',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Kanit',
-                                        fontSize: 20,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        'assets/images/loading.gif',
+                                        height: 200,
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'กำลังโหลด...',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Kanit',
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               )
                             : _listDocumetSnapshot.length == 0
                                 ? Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Image.asset(
-                                          'assets/images/not-found.gif',
-                                          height: 200,
-                                        ),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          'ไม่พบข้อมูล',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Kanit',
-                                            fontSize: 20,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Image.asset(
+                                            'assets/images/not-found.gif',
+                                            height: 200,
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            'ไม่พบข้อมูล',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Kanit',
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   )
                                 : Expanded(

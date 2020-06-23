@@ -365,7 +365,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                 .toList();
                             return Container(
                               width: MediaQuery.of(context).size.width,
-                              height: 200.0,
+                              height: 250.0,
                               child: TabBarView(
                                   controller: _tabController,
                                   children: tabData.map(
