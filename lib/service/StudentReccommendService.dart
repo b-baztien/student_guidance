@@ -120,7 +120,7 @@ class StudentRecommendService {
           }
         });
       }
-      return setRecommendMajor.isEmpty ? null : setRecommendMajor.toList();
+      return setRecommendMajor.toList();
     } catch (e) {
       rethrow;
     }
