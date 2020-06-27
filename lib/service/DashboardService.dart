@@ -93,15 +93,31 @@ class DashboardService {
           } else {
             mapUniName[uniName] = 1;
           }
-          if (mapUniName.length == 5) {
-            break;
-          }
+        }
+
+        List<String> sortedKeys = mapUniName.keys.toList(growable: false)
+          ..sort((k1, k2) => mapUniName[k2].compareTo(mapUniName[k1]));
+
+        Map sortedMap = Map.fromIterable(sortedKeys,
+            key: (k) => k, value: (k) => mapUniName[k]);
+
+        if (sortedKeys.length > 5) {
+          print(sortedKeys);
+          int _countOther = 0;
+          sortedKeys.skip(5).forEach((key) {
+            _countOther += sortedMap[key];
+            sortedMap.remove(key);
+          });
+          sortedMap['อื่นๆ'] = _countOther;
         }
 
         return mapUniName.isEmpty
             ? List<String>()
-            : mapUniName.keys.toList(growable: false)
-          ..sort((k1, k2) => mapUniName[k1].compareTo(mapUniName[k2]));
+            : sortedMap
+                .map((key, value) =>
+                    MapEntry<String, int>('$key $value คน', value))
+                .keys
+                .toList();
       });
     }).catchError((error) => null);
   }
@@ -130,15 +146,31 @@ class DashboardService {
           } else {
             mapFacName[facName] = 1;
           }
-          if (mapFacName.length == 5) {
-            break;
-          }
+        }
+
+        List<String> sortedKeys = mapFacName.keys.toList(growable: false)
+          ..sort((k1, k2) => mapFacName[k2].compareTo(mapFacName[k1]));
+
+        Map sortedMap = Map.fromIterable(sortedKeys,
+            key: (k) => k, value: (k) => mapFacName[k]);
+
+        if (sortedKeys.length > 5) {
+          print(sortedKeys);
+          int _countOther = 0;
+          sortedKeys.skip(5).forEach((key) {
+            _countOther += sortedMap[key];
+            sortedMap.remove(key);
+          });
+          sortedMap['อื่นๆ'] = _countOther;
         }
 
         return mapFacName.isEmpty
             ? List<String>()
-            : mapFacName.keys.toList(growable: false)
-          ..sort((k1, k2) => mapFacName[k1].compareTo(mapFacName[k2]));
+            : sortedMap
+                .map((key, value) =>
+                    MapEntry<String, int>('$key $value คน', value))
+                .keys
+                .toList();
       });
     }).catchError((error) => null);
   }
@@ -166,15 +198,31 @@ class DashboardService {
           } else {
             mapMajorName[majorName] = 1;
           }
-          if (mapMajorName.length == 5) {
-            break;
-          }
+        }
+
+        List<String> sortedKeys = mapMajorName.keys.toList(growable: false)
+          ..sort((k1, k2) => mapMajorName[k2].compareTo(mapMajorName[k1]));
+
+        Map sortedMap = Map.fromIterable(sortedKeys,
+            key: (k) => k, value: (k) => mapMajorName[k]);
+
+        if (sortedKeys.length > 5) {
+          print(sortedKeys);
+          int _countOther = 0;
+          sortedKeys.skip(5).forEach((key) {
+            _countOther += sortedMap[key];
+            sortedMap.remove(key);
+          });
+          sortedMap['อื่นๆ'] = _countOther;
         }
 
         return mapMajorName.isEmpty
             ? List<String>()
-            : mapMajorName.keys.toList(growable: false)
-          ..sort((k1, k2) => mapMajorName[k1].compareTo(mapMajorName[k2]));
+            : sortedMap
+                .map((key, value) =>
+                    MapEntry<String, int>('$key $value คน', value))
+                .keys
+                .toList();
       });
     }).catchError((error) => null);
   }
