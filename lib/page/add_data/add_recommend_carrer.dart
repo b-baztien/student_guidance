@@ -9,6 +9,8 @@ import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class AddRecommendCarrer extends StatefulWidget {
+  static String tag = 'add-recommend-carrer-page';
+
   @override
   _AddRecommendCarrerState createState() => _AddRecommendCarrerState();
 }
@@ -25,6 +27,8 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   FocusNode myFocusNode;
   Timer _debounce;
 
+  String navigatePageTag;
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +41,6 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   loadData() async {
     setState(() {
       mapValues = new Map<String, bool>();
-      tmpArray = [];
       _stdRcm = null;
       _progressDialog.show();
     });
@@ -52,11 +55,13 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
             }
           });
         }
-        _stdRcm = recommend;
-        if (recommend.careerName != null)
+        _stdRcm = recommend == null ? StudentRecommend() : recommend;
+        if (recommend?.careerName != null)
           for (String c in recommend.careerName) {
             setState(() {
-              tmpArray = recommend.careerName;
+              if (tmpArray.isEmpty) {
+                tmpArray = recommend.careerName;
+              }
               if (mapValues.containsKey(c)) {
                 mapValues[c] = true;
               }
@@ -84,7 +89,15 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
       await StudentRecommendService().addEditStudentRecommend(_stdRcm);
       setState(() {
         _progressDialog.hide();
-        Navigator.pop(context, 'ดำเนินการสำเร็จ');
+        if (navigatePageTag != null) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            navigatePageTag,
+            ModalRoute.withName(navigatePageTag),
+          );
+        } else {
+          Navigator.pop(context, 'ดำเนินการสำเร็จ');
+        }
       });
     } catch (e) {
       _scaffoldKey.currentState.hideCurrentSnackBar();
@@ -96,6 +109,8 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
 
   @override
   Widget build(BuildContext context) {
+    navigatePageTag = ModalRoute.of(context).settings.arguments;
+
     return SafeArea(
       child: Material(
         child: Container(

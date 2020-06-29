@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:student_guidance/model/Login.dart';
+import 'package:student_guidance/model/StudentRecommend.dart';
 import 'package:student_guidance/service/LoginService.dart';
+import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class LoginForm extends StatefulWidget {
@@ -15,7 +17,7 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(context) {
     ProgressDialog _progressDialog =
-        UIdata.buildLoadingProgressDialog(context,'กำลังโหลด...');
+        UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
 
     Future<void> signIn() async {
       final formState = _globalKey.currentState;
@@ -27,6 +29,14 @@ class _LoginFormState extends State<LoginForm> {
           login.password = _password;
           _progressDialog.show();
           await LoginService().login(login);
+          StudentRecommend _stdRec =
+              await StudentRecommendService().getStudentRecommendByUsername();
+          if (_stdRec == null) {
+            await Navigator.pushNamedAndRemoveUntil(
+                context,
+                UIdata.addRecommendCareerTag,
+                ModalRoute.withName(UIdata.addRecommendCareerTag));
+          }
           await Navigator.pushNamedAndRemoveUntil(
               context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
         } catch (e) {

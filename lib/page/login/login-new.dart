@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/StudentRecommend.dart';
 import 'package:student_guidance/page/Login/login_form.dart';
 import 'package:student_guidance/page/Login/signup_form.dart';
+import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
 class LoginPages extends StatefulWidget {
@@ -209,7 +211,18 @@ class _LoginPagesState extends State<LoginPages> {
     final prefs = await SharedPreferences.getInstance();
     try {
       if (prefs.get('login') != null) {
-        await Navigator.pushNamedAndRemoveUntil(
+        StudentRecommend _stdRec =
+            await StudentRecommendService().getStudentRecommendByUsername();
+        if (_stdRec == null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context,
+              UIdata.addRecommendCareerTag,
+              ModalRoute.withName(
+                UIdata.addRecommendCareerTag,
+              ),
+              arguments: UIdata.homeTag);
+        }
+        Navigator.pushNamedAndRemoveUntil(
             context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
       }
     } catch (error) {

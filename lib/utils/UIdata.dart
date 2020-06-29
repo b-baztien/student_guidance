@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/Login.dart';
 import 'package:student_guidance/page/Edit/EditProfile.dart';
 import 'package:student_guidance/page/Tutorials/View_Tutorial.dart';
+import 'package:student_guidance/page/add_data/add_recommend_carrer.dart';
 import 'package:student_guidance/page/dashboard/dashboard.dart';
 import 'package:student_guidance/page/home/home.dart';
 import 'package:student_guidance/page/login/login-new.dart';
@@ -26,6 +27,7 @@ class UIdata {
     EditProfile.tag: (context) => EditProfile(
           login: Login(),
         ),
+    AddRecommendCarrer.tag: (context) => AddRecommendCarrer(),
   };
 
   //SharedPreferences
@@ -41,6 +43,8 @@ class UIdata {
   static String tutorialTag = Tutorials.tag;
   static String dashboardTag = Dashboard.tag;
   static String editProfileTag = EditProfile.tag;
+  static String addRecommendCareerTag = AddRecommendCarrer.tag;
+
   static String fontFamily = 'Kanit';
   static Color themeColor = Colors.blue[400];
   static MaterialColor themeMaterialColor = Colors.blue;
@@ -66,7 +70,7 @@ class UIdata {
   static String txEducation = 'เพิ่มข้อมูลการสอบติด';
   static String txEntrance = 'เพิ่มข้อมูลการศึกษาต่อ';
   static String txRecommend = 'เลือกสาขาที่สนใจเป็นพิเศษ';
-  static String txRecommendCarrer = 'อาชีพที่สนใจ';
+  static String txRecommendCarrer = 'เลือกอาชีพที่สนใจ';
   static String txChangePassword = 'เปลี่ยนรหัสผ่าน';
   static String txListFavorite = 'สาขาที่ติดตาม';
   static String txItemUniversityTitle = 'ข้อมูลมหาวิทยาลัย';
