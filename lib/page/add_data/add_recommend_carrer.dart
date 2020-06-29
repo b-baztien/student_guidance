@@ -18,6 +18,8 @@ class AddRecommendCarrer extends StatefulWidget {
 class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Map<String, bool> mapValues = new Map<String, bool>();
+  List<String> _listCareerName;
+  StudentRecommend _recommend;
   List<String> tmpArray = [];
   ProgressDialog _progressDialog;
   StudentRecommend _stdRcm;
@@ -28,6 +30,10 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   Timer _debounce;
 
   String navigatePageTag;
+
+  int _allPage = 1;
+  int _currentPage = 1;
+  int _perPage = 10;
 
   @override
   void initState() {
@@ -40,37 +46,69 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
 
   loadData() async {
     setState(() {
-      mapValues = new Map<String, bool>();
-      _stdRcm = null;
       _progressDialog.show();
     });
-    await CareerService().getAllCareerName().then((careerName) async {
-      await StudentRecommendService()
-          .getStudentRecommendByUsername()
-          .then((recommend) {
-        for (String c in careerName) {
-          setState(() {
-            if (c.contains(_searchText)) {
-              mapValues[c] = false;
-            }
-          });
-        }
-        _stdRcm = recommend == null ? StudentRecommend() : recommend;
-        if (recommend?.careerName != null)
-          for (String c in recommend.careerName) {
-            setState(() {
-              if (tmpArray.isEmpty) {
-                tmpArray = recommend.careerName;
-              }
-              if (mapValues.containsKey(c)) {
-                mapValues[c] = true;
-              }
-            });
-          }
-      });
-    });
+    _listCareerName = await CareerService().getAllCareerName();
+    _recommend =
+        await StudentRecommendService().getStudentRecommendByUsername();
+
+    _getMoreData();
+
     setState(() {
       _progressDialog.hide();
+    });
+  }
+
+  _getMoreData() {
+    //initial data
+    setState(() {
+      int currentStartRecord = (_currentPage * _perPage) - (_perPage);
+      int currentEndRecord = _currentPage * _perPage;
+
+      List<String> filterCareers = List();
+
+      mapValues = new Map<String, bool>();
+      _stdRcm = null;
+
+      //filter data
+      filterCareers = _listCareerName
+          .where((careerName) => careerName.contains(_searchText))
+          .toList();
+
+      _allPage = (filterCareers.length / _perPage).ceil();
+
+      if (_currentPage * _perPage > filterCareers.length) {
+        currentEndRecord = filterCareers.length;
+      }
+
+      //set data to show per page
+      if (filterCareers.isNotEmpty) {
+        filterCareers =
+            filterCareers.sublist(currentStartRecord, currentEndRecord);
+      }
+
+      //set data to map
+      for (String careerName in filterCareers) {
+        mapValues[careerName] = false;
+      }
+
+      //set checkbox value
+      _stdRcm = _recommend == null ? StudentRecommend() : _recommend;
+      if (_recommend?.careerName != null)
+        for (String careerName in _recommend.careerName) {
+          if (tmpArray.isEmpty) {
+            tmpArray = _recommend.careerName;
+          }
+          if (mapValues.containsKey(careerName)) {
+            mapValues[careerName] = true;
+          }
+        }
+
+      if (mapValues.isEmpty) {
+        _allPage = 0;
+        _currentPage = 0;
+        return;
+      }
     });
   }
 
@@ -149,6 +187,8 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
                           _debounce =
                               Timer(Duration(milliseconds: 1000), () async {
                             _searchText = value.trim();
+                            _allPage = 1;
+                            _currentPage = 1;
                             await loadData();
                           });
                         });
@@ -180,8 +220,7 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 15.0, right: 8, left: 8),
+                      padding: const EdgeInsets.only(right: 8, left: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
@@ -239,6 +278,66 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
                         ],
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 10.0, left: 12.0, right: 12.0, bottom: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: FlatButton(
+                          padding: EdgeInsets.all(12),
+                          disabledColor: Colors.grey,
+                          disabledTextColor: Colors.blueGrey,
+                          textColor: Colors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Icon(
+                                FontAwesomeIcons.chevronLeft,
+                              ),
+                              Text(
+                                'ย้อนกลับ',
+                              ),
+                            ],
+                          ),
+                          color: Color(0xffC70039),
+                          onPressed: _currentPage != 1
+                              ? () {
+                                  _currentPage--;
+                                  _getMoreData();
+                                }
+                              : null,
+                        ),
+                      ),
+                      Expanded(
+                        child: FlatButton(
+                          padding: EdgeInsets.all(12),
+                          disabledColor: Colors.grey,
+                          disabledTextColor: Colors.blueGrey,
+                          textColor: Colors.white,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                'ถัดไป',
+                              ),
+                              Icon(
+                                FontAwesomeIcons.chevronRight,
+                              ),
+                            ],
+                          ),
+                          color: Color(0xff27AE60),
+                          onPressed: _currentPage != _allPage
+                              ? () {
+                                  _currentPage++;
+                                  _getMoreData();
+                                }
+                              : null,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
