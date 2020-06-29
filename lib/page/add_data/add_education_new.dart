@@ -435,7 +435,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                           .majorName;
                                       enExam.schoolName = _schoolName;
                                       enExam.year =
-                                          (DateTime.now().toLocal().year)
+                                          (DateTime.now().toLocal().year + 543)
                                               .toString();
                                       EntranService()
                                           .addEntranceExamResult(enExam)

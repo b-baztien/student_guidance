@@ -500,6 +500,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
       enMajor.majorName =
           Major.fromJson((await _selectedMajor.get()).data).majorName;
       enMajor.schoolName = _schoolName;
+      enMajor.entranceYear = _alumni.graduateYear;
       EntranService().addEntranceMajor(enMajor).then((result) {
         _progressDialog.hide();
         if (result) {

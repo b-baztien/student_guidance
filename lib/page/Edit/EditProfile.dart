@@ -353,56 +353,25 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: <Widget>[
-                                                Text('สาขาที่สนใจ',
-                                                    style:
-                                                        UIdata.textTitleStyle),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              AddRecommend()),
-                                                    );
-                                                  },
-                                                  child: Text(
-                                                    'แก้ไข',
-                                                    style: TextStyle(
-                                                        color: Colors.orange,
-                                                        fontSize: 15),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: _stdRcm.majorName
-                                                    .map((major) {
-                                                  return Text(
-                                                    "- " + major,
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            UIdata.fontFamily,
-                                                        color: Colors.white),
-                                                  );
-                                                }).toList()),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
                                                 Text('อาชีพที่สนใจ',
                                                     style:
                                                         UIdata.textTitleStyle),
                                                 InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
+                                                  onTap: () async {
+                                                    String result =
+                                                        await Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               AddRecommendCarrer()),
                                                     );
+                                                    if (result == null) return;
+                                                    _scaffoldKey.currentState
+                                                        .hideCurrentSnackBar();
+                                                    _scaffoldKey.currentState
+                                                        .showSnackBar(UIdata
+                                                            .successSnackBar(
+                                                                result));
                                                   },
                                                   child: Text(
                                                     'แก้ไข',

@@ -15,7 +15,7 @@ class Alumni {
 
   Map toMap() {
     var map = Map<String, dynamic>();
-    map['graduateYear'] = graduateYear;
+    map['graduate_year'] = graduateYear;
     map['job'] = job;
     map['schoolName'] = schoolName;
     map['status'] = status;

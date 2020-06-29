@@ -162,7 +162,7 @@ class UIdata {
   static TextStyle textMajorDetailStyle15Grey =
       TextStyle(fontFamily: 'Kanit', fontSize: 15, color: Color(0xff939191));
 
-  static successSnackBar(String message) {
+  static SnackBar successSnackBar(String message) {
     return SnackBar(
       backgroundColor: Colors.green,
       content: Wrap(
