@@ -39,12 +39,12 @@ class _SignupFormState extends State<SignupForm> {
           student.lastName = _lastName;
           student.email = _email;
           student.province = _dropdownProvinceValue;
-          student.status = 'กำลังศึกษา';
+          student.status = 'สำเร็จการศึกษา';
 
           Login login = new Login();
           login.username = _username.trim();
           login.password = _password;
-          login.type = 'student';
+          login.type = 'alumni';
 
           _progressDialog.show();
           await RegisterService()
