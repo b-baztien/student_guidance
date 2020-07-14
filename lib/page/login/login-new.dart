@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:student_guidance/model/StudentRecommend.dart';
@@ -34,15 +36,17 @@ class _LoginPagesState extends State<LoginPages> {
           _isLoadlogin = true;
         });
 
-        StudentRecommend _stdRec =
-            await StudentRecommendService().getStudentRecommendByUsername();
-        if (_stdRec == null) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              UIdata.addRecommendCareerTag,
-              ModalRoute.withName(
+        if (jsonDecode(prefs.get('login'))['type'] == 'student') {
+          StudentRecommend _stdRec =
+              await StudentRecommendService().getStudentRecommendByUsername();
+          if (_stdRec == null) {
+            Navigator.of(context).pushNamedAndRemoveUntil(
                 UIdata.addRecommendCareerTag,
-              ),
-              arguments: UIdata.homeTag);
+                ModalRoute.withName(
+                  UIdata.addRecommendCareerTag,
+                ),
+                arguments: UIdata.homeTag);
+          }
         }
         Navigator.of(context).pushNamedAndRemoveUntil(
             UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
