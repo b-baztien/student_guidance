@@ -322,133 +322,174 @@ class _SearchWidgetNewState extends State<SearchWidgetNew> {
             child: Material(
               borderRadius: BorderRadius.circular(5),
               color: Colors.white,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ItemUniversityNew(
-                          universitys: _listDocumetSnapshot.firstWhere((doc) =>
-                              doc.data[keyType] ==
-                              listUniversity[index].universityname)),
-                    ),
-                  );
-                },
-                child: Ink(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 10.0),
-                        decoration: new BoxDecoration(
-                            border: new Border(
-                                right: new BorderSide(
-                                    width: 2.0, color: Color(0xff005BC7)))),
-                        child: FutureBuilder(
-                            future: GetImageService()
-                                .getImage(listUniversity[index].image),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 3.2,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(snapshot.data),
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 3.2,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/University-Icon.png'),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                );
-                              }
-                            }),
+              child: Expanded(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ItemUniversityNew(
+                            universitys: _listDocumetSnapshot.firstWhere(
+                                (doc) =>
+                                    doc.data[keyType] ==
+                                    listUniversity[index].universityname)),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.only(top: 5),
-                              width: MediaQuery.of(context).size.width / 2,
-                              child: AutoSizeText(
-                                listUniversity[index].universityname,
-                                style: UIdata.textSearchTitleStyle24Blue,
-                                minFontSize: 10,
-                                maxLines: 2,
-                              ),
-                            ),
-                            Row(
+                    );
+                  },
+                  child: Ink(
+                    padding: const EdgeInsets.all(10),
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(right: 10.0),
+                          decoration: new BoxDecoration(
+                              border: new Border(
+                                  right: new BorderSide(
+                                      width: 2.0, color: Color(0xff005BC7)))),
+                          child: FutureBuilder(
+                              future: GetImageService()
+                                  .getImage(listUniversity[index].image),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.2,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(snapshot.data),
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.2,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            'assets/images/University-Icon.png'),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Flex(
+                              direction: Axis.vertical,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Icon(
-                                  FontAwesomeIcons.mapMarkerAlt,
-                                  color: Color(0xff005BC7),
-                                  size: 13,
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  child: Container(
+                                    padding: EdgeInsets.only(top: 5),
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    child: AutoSizeText(
+                                      listUniversity[index].universityname,
+                                      style: UIdata.textSearchTitleStyle24Blue,
+                                      minFontSize: 10,
+                                      maxLines: 2,
+                                    ),
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: 3,
+                                Flexible(
+                                  child: Flex(
+                                    direction: Axis.horizontal,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      Flexible(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 3),
+                                          child: Icon(
+                                            FontAwesomeIcons.mapMarkerAlt,
+                                            color: Color(0xff005BC7),
+                                            size: 13,
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 10,
+                                        child: Text(
+                                          "ภาค${listUniversity[index].zone} จังหวัด${listUniversity[index].province}",
+                                          style: UIdata
+                                              .textSearchSubTitleStyle13Blue,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  "ภาค" +
-                                      listUniversity[index].zone +
-                                      " จังหวัด" +
-                                      listUniversity[index].province,
-                                  style: UIdata.textSearchSubTitleStyle13Blue,
+                                Flexible(
+                                  child: FutureBuilder(
+                                    future: SearchService()
+                                        .getCountAlumniEntranceMajor(
+                                            listUniversity[index]
+                                                .universityname),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<int> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Flex(
+                                          direction: Axis.horizontal,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: <Widget>[
+                                            Flexible(
+                                              flex: 1,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 3),
+                                                child: Icon(
+                                                  FontAwesomeIcons.userGraduate,
+                                                  color: Color(0xff005BC7),
+                                                  size: 13,
+                                                ),
+                                              ),
+                                            ),
+                                            Flexible(
+                                              flex: 10,
+                                              child: snapshot.data > 0
+                                                  ? Text(
+                                                      'รุ่นพี่ ' +
+                                                          snapshot.data
+                                                              .toString() +
+                                                          ' คน เคยมาเรียนที่นี่',
+                                                      style: UIdata
+                                                          .textSearchSubTitleStyle13Green,
+                                                    )
+                                                  : Text(
+                                                      'ยังไม่มีรุ่นพี่เคยมาเรียนที่นี่',
+                                                      style: UIdata
+                                                          .textSearchSubTitleStyle13Red,
+                                                    ),
+                                            )
+                                          ],
+                                        );
+                                      } else {
+                                        return Text('');
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
-                            FutureBuilder(
-                              future: SearchService()
-                                  .getCountAlumniEntranceMajor(
-                                      listUniversity[index].universityname),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot<int> snapshot) {
-                                if (snapshot.hasData) {
-                                  return Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        FontAwesomeIcons.userGraduate,
-                                        color: Color(0xff005BC7),
-                                        size: 13,
-                                      ),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      snapshot.data > 0
-                                          ? Text(
-                                              'รุ่นพี่ ' +
-                                                  snapshot.data.toString() +
-                                                  ' คน เคยมาเรียนที่นี่',
-                                              style: UIdata
-                                                  .textSearchSubTitleStyle13Green,
-                                            )
-                                          : Text(
-                                              'ยังไม่มีรุ่นพี่เคยมาเรียนที่นี่',
-                                              style: UIdata
-                                                  .textSearchSubTitleStyle13Red,
-                                            )
-                                    ],
-                                  );
-                                } else {
-                                  return Text('');
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
