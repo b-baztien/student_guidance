@@ -131,13 +131,20 @@ class _MyDrawerState extends State<MyDrawer> {
                   Colors.red[300],
                   (context) => ListFavorite(login: widget.login),
                 ),
-                _buildDivider(),
-                _buildRow(
-                  Icons.star,
-                  "แนะนำสาขา",
-                  Colors.orange,
-                  (context) => ListRecommend(
-                    login: widget.login,
+                Visibility(
+                  visible: widget.student.status == 'กำลังศึกษา',
+                  child: Column(
+                    children: <Widget>[
+                      _buildDivider(),
+                      _buildRow(
+                        Icons.star,
+                        "แนะนำสาขา",
+                        Colors.orange,
+                        (context) => ListRecommend(
+                          login: widget.login,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 _buildDivider(),

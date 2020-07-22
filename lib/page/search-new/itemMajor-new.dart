@@ -184,67 +184,12 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                     ),
                     Row(
                       children: <Widget>[
-//                        Text(
-//                          'รอบที่เปิดรับ',
-//                          style:
-//                              TextStyle(color: Color(0xffFF9211), fontSize: 15),
-//                        ),
                         SizedBox(
                           width: 10,
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: <Widget>[
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 5),
-                        //       child: roundTcas(
-                        //           itemMajor.tcasEntranceRound.firstWhere(
-                        //                   (tcas) => tcas.round == '1',
-                        //                   orElse: () => null) !=
-                        //               null,
-                        //           '1'),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 5),
-                        //       child: roundTcas(
-                        //           itemMajor.tcasEntranceRound.firstWhere(
-                        //                   (tcas) => tcas.round == '2',
-                        //                   orElse: () => null) !=
-                        //               null,
-                        //           '2'),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 5),
-                        //       child: roundTcas(
-                        //           itemMajor.tcasEntranceRound.firstWhere(
-                        //                   (tcas) => tcas.round == '3',
-                        //                   orElse: () => null) !=
-                        //               null,
-                        //           '3'),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 5),
-                        //       child: roundTcas(
-                        //           itemMajor.tcasEntranceRound.firstWhere(
-                        //                   (tcas) => tcas.round == '4',
-                        //                   orElse: () => null) !=
-                        //               null,
-                        //           '4'),
-                        //     ),
-                        //     Padding(
-                        //       padding: const EdgeInsets.only(right: 5),
-                        //       child: roundTcas(
-                        //           itemMajor.tcasEntranceRound.firstWhere(
-                        //                   (tcas) => tcas.round == '5',
-                        //                   orElse: () => null) !=
-                        //               null,
-                        //           '5'),
-                        //     ),
-                        //   ],
-                        // )
                       ],
                     ),
-                    itemMajor.albumImage.length != 0
+                    itemMajor.albumImage != null
                         ? itemListImage(itemMajor.albumImage)
                         : SizedBox(
                             height: 1,
@@ -387,20 +332,28 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                                       fontSize: 18,
                                                       color: Color(0xffFF9211),
                                                     )),
-                                                Text(
-                                                  'เริ่มรับสมัคร ' +
-                                                      DateFormat(
-                                                              'dd MMMM', 'th')
-                                                          .format(tcas.startDate
-                                                              .toDate()) +
-                                                      ' - ' +
-                                                      DateFormat('dd MMMM yyyy',
-                                                              'th')
-                                                          .format(
-                                                        tcas.endDate.toDate(),
-                                                      ),
-                                                  style: UIdata
-                                                      .textMajorDetailStyle15Grey,
+                                                Center(
+                                                  child: Text(
+                                                    tcas.startDate != null
+                                                        ? ('เริ่มรับสมัคร ' +
+                                                            DateFormat(
+                                                                    'dd MMMM',
+                                                                    'th')
+                                                                .format(tcas
+                                                                    .startDate
+                                                                    .toDate()) +
+                                                            ' - ' +
+                                                            DateFormat(
+                                                                    'dd MMMM yyyy',
+                                                                    'th')
+                                                                .format(
+                                                              tcas.endDate
+                                                                  .toDate(),
+                                                            ))
+                                                        : 'เริ่มรับสมัคร : รออัพเดทข้อมูล เร็วๆ นี้',
+                                                    style: UIdata
+                                                        .textMajorDetailStyle15Grey,
+                                                  ),
                                                 ),
                                                 Divider(),
                                                 Row(
@@ -419,18 +372,22 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                                               .textMajorTitleStyle18Orange,
                                                         ),
                                                         Text(
-                                                            DateFormat('dd MMM',
-                                                                        'th')
-                                                                    .format(tcas
-                                                                        .startDate
-                                                                        .toDate()) +
-                                                                ' - ' +
-                                                                DateFormat(
-                                                                        'dd MMM yyyy',
-                                                                        'th')
-                                                                    .format(tcas
-                                                                        .endDate
-                                                                        .toDate()),
+                                                            tcas.startDate !=
+                                                                    null
+                                                                ? DateFormat(
+                                                                            'dd MMM',
+                                                                            'th')
+                                                                        .format(tcas
+                                                                            .startDate
+                                                                            .toDate()) +
+                                                                    ' - ' +
+                                                                    DateFormat(
+                                                                            'dd MMM yyyy',
+                                                                            'th')
+                                                                        .format(tcas
+                                                                            .endDate
+                                                                            .toDate())
+                                                                : 'รออัพเดทข้อมูล เร็วๆ นี้',
                                                             style: UIdata
                                                                 .textMajorDetailStyle15Grey),
                                                       ],

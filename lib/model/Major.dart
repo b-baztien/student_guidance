@@ -22,10 +22,10 @@ class Major {
       listCareerName: (json['listCareerName'] as List)
           .map((data) => data as String)
           .toList(),
-      url: json['url'] as String, 
-      detail: json['detail'] as String,
+      url: json['url'] as String,
+      detail: json['detail'] == null ? 'ไม่ได้ระบุ' : json['detail'] as String,
       certificate: json['certificate'] as String,
-      degree: json['degree'] as String,
+      degree: json['degree'] == null ? 'ไม่ได้ระบุ' : json['degree'] as String,
       albumImage: json['albumImage'] as List<dynamic>,
     );
   }

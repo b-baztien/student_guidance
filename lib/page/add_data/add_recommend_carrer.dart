@@ -41,10 +41,10 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
     _progressDialog =
         UIdata.buildLoadingProgressDialog(context, 'กำลังโหลด...');
     myFocusNode = FocusNode();
-    loadData();
+    _loadData();
   }
 
-  loadData() async {
+  _loadData() async {
     setState(() {
       _progressDialog.show();
     });
@@ -148,7 +148,6 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
   @override
   Widget build(BuildContext context) {
     navigatePageTag = ModalRoute.of(context).settings.arguments;
-
     return SafeArea(
       child: Material(
         child: Container(
@@ -189,7 +188,7 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
                             _searchText = value.trim();
                             _allPage = 1;
                             _currentPage = 1;
-                            await loadData();
+                            await _loadData();
                           });
                         });
                       },
@@ -209,7 +208,7 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
                             setState(() async {
                               _searchTextController.clear();
                               _searchText = _searchTextController.text;
-                              await loadData();
+                              await _loadData();
                             });
                           },
                         ),
@@ -237,7 +236,11 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
                               child: SingleChildScrollView(
                                 child: Container(
                                   child: mapValues.isEmpty
-                                      ? Text('ไม่พบข้อมูล')
+                                      ? Center(
+                                          child: Text(
+                                          'ไม่พบข้อมูล',
+                                          style: TextStyle(fontSize: 16),
+                                        ))
                                       : Column(
                                           children:
                                               mapValues.keys.map((String key) {
