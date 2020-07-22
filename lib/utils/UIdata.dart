@@ -53,8 +53,8 @@ class UIdata {
   /*String Text*/
   static String txSearchWidget = 'สนใจอะไรอยู่ลองค้นหาดูสิ';
   static String txTeacherWidget = 'ข้อมูลติดต่อครู';
-  static String txDashboardWidget = 'แผนภูมิ';
-  static String txDashboardTitle = 'การศึกษาต่อ';
+  static String txDashboardWidget = 'สรุปสถิติการเข้าศึกษาต่อ';
+  static String txDashboardTitle = 'การศึกษาต่อในแต่ละปี';
   static String txSearchBox = 'ค้นหา ?';
   static String txFiltterTitle = 'กรองผลการค้นหา';
   static String txFilterRecommend = 'การค้นหาที่แนะนำ';

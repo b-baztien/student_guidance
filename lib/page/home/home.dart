@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
                 title: new Text('คุณครู')),
             BottomNavigationBarItem(
                 icon: new Icon(FontAwesomeIcons.chartBar, size: 30),
-                title: new Text('แผนภูมิ')),
+                title: new Text('สถิติการศึกษา')),
           ],
           onTap: (int index) {
             setState(() {
