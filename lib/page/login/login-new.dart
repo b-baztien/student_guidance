@@ -19,6 +19,12 @@ class _LoginPagesState extends State<LoginPages> {
   bool formVisible;
   int _formsIndex;
   bool _isLoadlogin = false;
+  callback(newFormVisible) {
+    setState(() {
+      formVisible = newFormVisible;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +33,7 @@ class _LoginPagesState extends State<LoginPages> {
 
     login(context);
   }
+
 
   login(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
@@ -134,21 +141,7 @@ class _LoginPagesState extends State<LoginPages> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Expanded(
-                          child: RaisedButton(
-                            color: Colors.grey.shade700,
-                            textColor: Colors.white,
-                            child: Text("สมัครสมาชิก"),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            onPressed: () {
-                              setState(() {
-                                formVisible = true;
-                                _formsIndex = 2;
-                              });
-                            },
-                          ),
-                        ),
+
                       ],
               ),
             ),
@@ -172,58 +165,6 @@ class _LoginPagesState extends State<LoginPages> {
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                RaisedButton(
-                                  color: _formsIndex == 1
-                                      ? Colors.orange.shade700
-                                      : Colors.white,
-                                  textColor: _formsIndex == 1
-                                      ? Colors.white
-                                      : Colors.black,
-                                  child: Text("ลงชื่อเข้าใช้"),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  onPressed: () {
-                                    setState(() {
-                                      _formsIndex = 1;
-                                    });
-                                  },
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                RaisedButton(
-                                  color: _formsIndex == 2
-                                      ? Colors.orange.shade700
-                                      : Colors.white,
-                                  textColor: _formsIndex == 2
-                                      ? Colors.white
-                                      : Colors.black,
-                                  child: Text("สมัครสมาชิก"),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  onPressed: () {
-                                    setState(() {
-                                      _formsIndex = 2;
-                                    });
-                                  },
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                  color: Colors.white,
-                                  icon: Icon(Icons.clear),
-                                  onPressed: () {
-                                    setState(() {
-                                      formVisible = false;
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
                             Container(
                               child: AnimatedSwitcher(
                                 duration: Duration(milliseconds: 300),
@@ -235,7 +176,7 @@ class _LoginPagesState extends State<LoginPages> {
                                   );
                                 },
                                 child: _formsIndex == 1
-                                    ? LoginForm()
+                                    ? LoginForm(callback)
                                     : SignupForm(),
                               ),
                             )

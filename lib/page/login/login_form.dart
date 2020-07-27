@@ -6,7 +6,10 @@ import 'package:student_guidance/service/LoginService.dart';
 import 'package:student_guidance/service/StudentReccommendService.dart';
 import 'package:student_guidance/utils/UIdata.dart';
 
+// ignore: must_be_immutable
 class LoginForm extends StatefulWidget {
+  Function(bool) callback;
+  LoginForm(this.callback);
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -14,6 +17,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   String _username, _password;
+
   @override
   Widget build(context) {
     ProgressDialog _progressDialog =
@@ -95,6 +99,18 @@ class _LoginFormState extends State<LoginForm> {
               ),
               child: Text("เข้าสู่ระบบ"),
               onPressed: signIn,
+            ),
+            RaisedButton(
+              color: Colors.red,
+              textColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: Text("ยกเลิก"),
+              onPressed: (){
+                widget.callback(false);
+              },
             ),
           ],
         ),
