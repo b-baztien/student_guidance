@@ -352,7 +352,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                                         'คณะ',
                                         style: TextStyle(
                                             fontFamily: UIdata.fontFamily,
-                                            fontSize: 13,
+                                            fontSize: 11,
                                             color: Colors.white),
                                       ),
                                       SizedBox(
@@ -368,10 +368,10 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                                           onChanged:
                                               onChangeFacultyDropdownItem,
                                           style: TextStyle(
-                                              decorationColor: Colors.white),
+                                              decorationColor: Colors.white,fontSize: 11),
                                           hint: Text('เลือกคณะ',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: Colors.white,fontSize: 11
                                               )),
                                         ),
                                       ),

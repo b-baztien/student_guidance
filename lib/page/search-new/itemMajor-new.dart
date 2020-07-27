@@ -135,7 +135,7 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                           ],
                         ),
                         SizedBox(
-                          width: 50,
+                          width: 25,
                         ),
                         //Favorite button
                         FlatButton.icon(

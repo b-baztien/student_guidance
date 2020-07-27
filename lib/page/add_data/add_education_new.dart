@@ -319,10 +319,10 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                           onChanged:
                                               onChangeFacultyDropdownItem,
                                           style: TextStyle(
-                                              decorationColor: Colors.white),
+                                              decorationColor: Colors.white,fontSize: 11),
                                           hint: Text('เลือกคณะ',
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: Colors.white,fontSize: 11
                                               )),
                                         ),
                                       ),
