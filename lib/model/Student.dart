@@ -29,18 +29,37 @@ class Student {
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-      firstName: json['firstname'] as String,
-      lastName: json['lastname'] as String,
-      email: json['email'] as String,
-      gender: json['gender'] as String,
-      entryYear: json['entry_year'] as String,
-      province: json['province'] as String,
-      image: json['image'] as String,
-      juniorSchool: json['junior_school'] as String,
-      phone: json['phone_no'] as String,
-      status: json['student_status'] as String,
-      plan: json['study_plan'] as String,
-      studentID: json['student_id'] as String,
+      firstName: json['firstname'] as String == null
+          ? null
+          : json['firstname'] as String,
+      lastName: json['lastname'] as String == null
+          ? null
+          : json['lastname'] as String,
+      email: json['email'] as String == null ? null : json['email'] as String,
+      gender:
+          json['gender'] as String == null ? null : json['gender'] as String,
+      entryYear: json['entry_year'] as String == null
+          ? null
+          : json['entry_year'] as String,
+      province: json['province'] as String == null
+          ? null
+          : json['province'] as String,
+      image: json['image'] as String == null ? null : json['image'] as String,
+      juniorSchool: json['junior_school'] as String == null
+          ? null
+          : json['junior_school'] as String,
+      phone: json['phone_no'] as String == null
+          ? null
+          : json['phone_no'] as String,
+      status: json['student_status'] as String == null
+          ? null
+          : json['student_status'] as String,
+      plan: json['study_plan'] as String == null
+          ? null
+          : json['study_plan'] as String,
+      studentID: json['student_id'] as String == null
+          ? null
+          : json['student_id'] as String,
     );
   }
 

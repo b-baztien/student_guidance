@@ -48,7 +48,7 @@ class _AddRecommendCarrerState extends State<AddRecommendCarrer> {
     setState(() {
       _progressDialog.show();
     });
-    _listCareerName = await CareerService().getAllCareerName();
+    _listCareerName = await CareerService().getAllCareerNameInMajor();
     _recommend =
         await StudentRecommendService().getStudentRecommendByUsername();
 

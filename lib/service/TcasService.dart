@@ -11,10 +11,8 @@ class TcasService {
       List<DocumentSnapshot> listTcas =
           await query.getDocuments().then((doc) async {
         return doc.documents;
-      }).catchError((onError) {
-        return null;
       });
-      return listTcas;
+      return listTcas.isNotEmpty ? listTcas : null;
     } catch (e) {
       rethrow;
     }

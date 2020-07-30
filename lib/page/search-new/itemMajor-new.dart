@@ -43,14 +43,11 @@ class ItemMajorNew extends StatefulWidget {
 
 class _ItemMajorNewState extends State<ItemMajorNew>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  List<String> tabData;
   bool _isFollow;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: 5);
     StudentFavorite favorite = widget.listFavorite.singleWhere(
         (favorite) =>
             favorite.university == widget.universityName &&
@@ -58,7 +55,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
             favorite.major == Major.fromJson(widget.major.data).majorName,
         orElse: () => null);
     _isFollow = favorite != null ? true : false;
-    tabData = ['1', '2', '3', '4', '5'];
   }
 
   @override
@@ -286,20 +282,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                       'การรับสมัคร',
                       style: UIdata.textMajorTitleStyle18Dark,
                     ),
-                    Container(
-                      child: TabBar(
-                        controller: _tabController,
-                        indicatorColor: Color(0xffFF9211),
-                        labelColor: Color(0xffFF9211),
-                        unselectedLabelColor: Color(0xff939191),
-                        isScrollable: true,
-                        tabs: tabData
-                            .map((round) => Tab(
-                                  text: 'รอบ ' + round,
-                                ))
-                            .toList(),
-                      ),
-                    ),
                     FutureBuilder<List<DocumentSnapshot>>(
                         future: TcasService()
                             .getListTcasByMajorRef(widget.major.reference),
@@ -308,18 +290,30 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                             List<Tcas> listTcas = snapshot.data
                                 .map((snap) => Tcas.fromJson(snap.data))
                                 .toList();
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 250.0,
-                              child: TabBarView(
-                                  controller: _tabController,
-                                  children: tabData.map(
-                                    (round) {
-                                      Tcas tcas = listTcas.firstWhere(
-                                          (tcas) => tcas.round == round,
-                                          orElse: () => null);
 
-                                      if (tcas != null) {
+                            return DefaultTabController(
+                              length: listTcas.length,
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: TabBar(
+                                      indicatorColor: Color(0xffFF9211),
+                                      labelColor: Color(0xffFF9211),
+                                      unselectedLabelColor: Color(0xff939191),
+                                      isScrollable: true,
+                                      tabs: listTcas
+                                          .map((tcas) => Tab(
+                                                text: 'รอบ ${tcas.round}',
+                                              ))
+                                          .toList(),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 250.0,
+                                    child: TabBarView(
+                                        children: listTcas.map(
+                                      (tcas) {
                                         return Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Container(
@@ -449,29 +443,27 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                                             ),
                                           ),
                                         );
-                                      } else {
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              'ยังไม่เปิดรับสมัคร',
-                                              style: UIdata
-                                                  .textMajorTitleStyle18Red,
-                                            ),
-                                            Image.asset(
-                                              'assets/images/tcas-not-found.png',
-                                              fit: BoxFit.cover,
-                                              height: 130,
-                                            ),
-                                          ],
-                                        );
-                                      }
-                                    },
-                                  ).toList()),
+                                      },
+                                    ).toList()),
+                                  ),
+                                ],
+                              ),
                             );
                           } else {
-                            return Container();
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'ยังไม่เปิดรับสมัคร',
+                                  style: UIdata.textMajorTitleStyle18Red,
+                                ),
+                                Image.asset(
+                                  'assets/images/tcas-not-found.png',
+                                  fit: BoxFit.cover,
+                                  height: 130,
+                                ),
+                              ],
+                            );
                           }
                         })
                   ],
@@ -521,21 +513,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
                   ],
                 ),
               ),
-              // Divider(
-              //   color: Color(0xffEBEBEB),
-              //   thickness: 7,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       left: 16, right: 16, top: 8, bottom: 8),
-              //   child: Column(
-              //     children: <Widget>[
-              //       Text('รายการแนะนำ',
-              //           style: UIdata.textMajorTitleStyle18Dark),
-              //       itemRecommend(itemMajor, widget.universityName)
-              //     ],
-              //   ),
-              // )
             ],
           ),
         ),
@@ -586,28 +563,6 @@ class _ItemMajorNewState extends State<ItemMajorNew>
     );
   }
 
-  Widget roundTcas(bool isOpen, String number) {
-    int index = int.parse(number);
-    return Container(
-      width: 30,
-      height: 30,
-      child: RaisedButton(
-        padding: EdgeInsets.all(0),
-        shape: StadiumBorder(),
-        textColor: isOpen == true ? Colors.white : Colors.black,
-        color: isOpen == true ? Color(0xff006A82) : Color(0xff00BAE3),
-        onPressed: () {
-          setState(() {
-            _tabController.index = index - 1;
-          });
-        },
-        child: Text(
-          number,
-        ),
-      ),
-    );
-  }
-
   Widget itemListImage(List<dynamic> listImg) {
     return FutureBuilder(
       future: GetImageService().getListImage(listImg),
@@ -648,360 +603,4 @@ class _ItemMajorNewState extends State<ItemMajorNew>
       },
     );
   }
-
-  // Widget itemRecommend(Major major, String universityName) {
-  //   return Container(
-  //       height: 150,
-  //       child: Stack(
-  //         children: <Widget>[
-  //           ClipPath(
-  //             clipper: DiagonalPathClipperOne(),
-  //             child: Container(
-  //               height: 140,
-  //               color: Colors.deepPurple,
-  //             ),
-  //           ),
-  //           Container(
-  //               padding: EdgeInsets.symmetric(horizontal: 20),
-  //               child: FutureBuilder(
-  //                 future: StudentRecommendService()
-  //                     .getRecommendMajor(major.majorName, universityName),
-  //                 builder: (context, snapshot) {
-  //                   if (snapshot.hasData) {
-  //                     List<RecommendMajor> list = snapshot.data;
-  //                     return list.length == 1
-  //                         ? Padding(
-  //                             padding: const EdgeInsets.all(8),
-  //                             child: Container(
-  //                               decoration: new BoxDecoration(
-  //                                 boxShadow: [
-  //                                   BoxShadow(
-  //                                     color: Colors.grey,
-  //                                     blurRadius: 5.0,
-  //                                     spreadRadius: 1.0,
-  //                                     offset: Offset(
-  //                                       1.0,
-  //                                       1.0,
-  //                                     ),
-  //                                   )
-  //                                 ],
-  //                               ),
-  //                               width: MediaQuery.of(context).size.width,
-  //                               height: 150,
-  //                               child: Material(
-  //                                 borderRadius: BorderRadius.circular(5),
-  //                                 shadowColor: Colors.red,
-  //                                 color: Colors.white,
-  //                                 child: InkWell(
-  //                                   onTap: () {},
-  //                                   child: Ink(
-  //                                     padding: const EdgeInsets.all(10),
-  //                                     child: Row(
-  //                                       children: <Widget>[
-  //                                         Container(
-  //                                           padding:
-  //                                               EdgeInsets.only(right: 10.0),
-  //                                           decoration: new BoxDecoration(
-  //                                               border: new Border(
-  //                                                   right: new BorderSide(
-  //                                                       width: 2.0,
-  //                                                       color: Color(
-  //                                                           0xff005BC7)))),
-  //                                           child: FutureBuilder<String>(
-  //                                               future: GetImageService()
-  //                                                   .getImage(list[0].img),
-  //                                               initialData: null,
-  //                                               builder: (context, snapshot) {
-  //                                                 return Container(
-  //                                                   width: 110,
-  //                                                   decoration: BoxDecoration(
-  //                                                     image: DecorationImage(
-  //                                                       image: snapshot.hasData
-  //                                                           ? NetworkImage(
-  //                                                               snapshot.data)
-  //                                                           : AssetImage(
-  //                                                               'assets/images/University-Icon.png'),
-  //                                                       fit: BoxFit.fitHeight,
-  //                                                     ),
-  //                                                   ),
-  //                                                 );
-  //                                               }),
-  //                                         ),
-  //                                         Padding(
-  //                                           padding:
-  //                                               const EdgeInsets.only(left: 10),
-  //                                           child: Column(
-  //                                             mainAxisAlignment:
-  //                                                 MainAxisAlignment.center,
-  //                                             crossAxisAlignment:
-  //                                                 CrossAxisAlignment.start,
-  //                                             children: <Widget>[
-  //                                               Container(
-  //                                                 padding:
-  //                                                     EdgeInsets.only(top: 5),
-  //                                                 child: AutoSizeText(
-  //                                                   list[0].university,
-  //                                                   style: TextStyle(
-  //                                                       fontFamily: 'Kanit',
-  //                                                       color:
-  //                                                           Color(0xff005BC7)),
-  //                                                   minFontSize: 15,
-  //                                                   maxLines: 2,
-  //                                                 ),
-  //                                               ),
-  //                                               Row(
-  //                                                 children: <Widget>[
-  //                                                   Icon(
-  //                                                     Icons.school,
-  //                                                     color: Color(0xff005BC7),
-  //                                                     size: 15,
-  //                                                   ),
-  //                                                   SizedBox(
-  //                                                     width: 3,
-  //                                                   ),
-  //                                                   Text(
-  //                                                     list[0].faculty,
-  //                                                     style: TextStyle(
-  //                                                       fontFamily: 'Kanit',
-  //                                                       fontSize: 13,
-  //                                                       color:
-  //                                                           Color(0xff005BC7),
-  //                                                     ),
-  //                                                   ),
-  //                                                 ],
-  //                                               ),
-  //                                               Row(
-  //                                                 children: <Widget>[
-  //                                                   Icon(
-  //                                                     FontAwesomeIcons
-  //                                                         .userGraduate,
-  //                                                     color: Color(0xff005BC7),
-  //                                                     size: 13,
-  //                                                   ),
-  //                                                   SizedBox(
-  //                                                     width: 3,
-  //                                                   ),
-  //                                                   Text(
-  //                                                     list[0].major,
-  //                                                     style: TextStyle(
-  //                                                         fontFamily: 'Kanit',
-  //                                                         fontSize: 13,
-  //                                                         color: Colors.green),
-  //                                                   ),
-  //                                                 ],
-  //                                               )
-  //                                             ],
-  //                                           ),
-  //                                         )
-  //                                       ],
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           )
-  //                         : Swiper(
-  //                             autoplayDelay:
-  //                                 Duration(seconds: 5).inMilliseconds,
-  //                             autoplay: true,
-  //                             itemBuilder: (BuildContext context, int index) {
-  //                               return Padding(
-  //                                 padding: const EdgeInsets.all(8),
-  //                                 child: Container(
-  //                                   decoration: new BoxDecoration(
-  //                                     boxShadow: [
-  //                                       BoxShadow(
-  //                                         color: Colors.grey,
-  //                                         blurRadius: 5.0,
-  //                                         spreadRadius: 1.0,
-  //                                         offset: Offset(
-  //                                           1.0,
-  //                                           1.0,
-  //                                         ),
-  //                                       )
-  //                                     ],
-  //                                   ),
-  //                                   width: MediaQuery.of(context).size.width,
-  //                                   height: 150,
-  //                                   child: Material(
-  //                                     borderRadius: BorderRadius.circular(5),
-  //                                     shadowColor: Colors.red,
-  //                                     color: Colors.white,
-  //                                     child: InkWell(
-  //                                       onTap: () {},
-  //                                       child: Ink(
-  //                                         padding: const EdgeInsets.all(10),
-  //                                         child: Row(
-  //                                           children: <Widget>[
-  //                                             Container(
-  //                                               padding: EdgeInsets.only(
-  //                                                   right: 10.0),
-  //                                               decoration: new BoxDecoration(
-  //                                                 border: new Border(
-  //                                                   right: new BorderSide(
-  //                                                       width: 2.0,
-  //                                                       color:
-  //                                                           Color(0xff005BC7)),
-  //                                                 ),
-  //                                               ),
-  //                                               child: FutureBuilder<String>(
-  //                                                   future: GetImageService()
-  //                                                       .getImage(
-  //                                                           list[index].img),
-  //                                                   initialData: null,
-  //                                                   builder:
-  //                                                       (context, snapshot) {
-  //                                                     return Container(
-  //                                                       width: 100,
-  //                                                       decoration:
-  //                                                           BoxDecoration(
-  //                                                         image:
-  //                                                             DecorationImage(
-  //                                                           image: snapshot
-  //                                                                   .hasData
-  //                                                               ? NetworkImage(
-  //                                                                   snapshot
-  //                                                                       .data)
-  //                                                               : AssetImage(
-  //                                                                   'assets/images/University-Icon.png'),
-  //                                                           fit: BoxFit
-  //                                                               .fitHeight,
-  //                                                         ),
-  //                                                       ),
-  //                                                     );
-  //                                                   }),
-  //                                             ),
-  //                                             Padding(
-  //                                               padding: const EdgeInsets.only(
-  //                                                   left: 10),
-  //                                               child: Column(
-  //                                                 mainAxisAlignment:
-  //                                                     MainAxisAlignment.center,
-  //                                                 crossAxisAlignment:
-  //                                                     CrossAxisAlignment.start,
-  //                                                 children: <Widget>[
-  //                                                   Container(
-  //                                                     padding: EdgeInsets.only(
-  //                                                         top: 5),
-  //                                                     child: AutoSizeText(
-  //                                                       list[index].university,
-  //                                                       style: TextStyle(
-  //                                                           fontFamily: 'Kanit',
-  //                                                           color: Color(
-  //                                                               0xff005BC7)),
-  //                                                       minFontSize: 15,
-  //                                                       maxLines: 2,
-  //                                                     ),
-  //                                                   ),
-  //                                                   Row(
-  //                                                     children: <Widget>[
-  //                                                       Icon(
-  //                                                         Icons.school,
-  //                                                         color:
-  //                                                             Color(0xff005BC7),
-  //                                                         size: 15,
-  //                                                       ),
-  //                                                       SizedBox(
-  //                                                         width: 3,
-  //                                                       ),
-  //                                                       Text(
-  //                                                         list[index].faculty,
-  //                                                         style: TextStyle(
-  //                                                           fontFamily: 'Kanit',
-  //                                                           fontSize: 13,
-  //                                                           color: Color(
-  //                                                               0xff005BC7),
-  //                                                         ),
-  //                                                       ),
-  //                                                     ],
-  //                                                   ),
-  //                                                   Row(
-  //                                                     children: <Widget>[
-  //                                                       Icon(
-  //                                                         FontAwesomeIcons
-  //                                                             .userGraduate,
-  //                                                         color:
-  //                                                             Color(0xff005BC7),
-  //                                                         size: 13,
-  //                                                       ),
-  //                                                       SizedBox(
-  //                                                         width: 3,
-  //                                                       ),
-  //                                                       Text(
-  //                                                         list[index].major,
-  //                                                         style: TextStyle(
-  //                                                             fontFamily:
-  //                                                                 'Kanit',
-  //                                                             fontSize: 13,
-  //                                                             color:
-  //                                                                 Colors.green),
-  //                                                       ),
-  //                                                     ],
-  //                                                   )
-  //                                                 ],
-  //                                               ),
-  //                                             )
-  //                                           ],
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               );
-  //                             },
-  //                             itemCount: list.length,
-  //                             pagination: SwiperPagination(
-  //                                 builder: CustomePaginationBuilder(
-  //                                     activeSize: Size(15, 25),
-  //                                     size: Size(10, 20),
-  //                                     color: Colors.grey.shade300,
-  //                                     activeColor: Colors.green)),
-  //                           );
-  //                   } else {
-  //                     return Padding(
-  //                       padding: const EdgeInsets.all(8),
-  //                       child: Container(
-  //                         decoration: new BoxDecoration(
-  //                           boxShadow: [
-  //                             BoxShadow(
-  //                               color: Colors.grey,
-  //                               blurRadius: 5.0,
-  //                               spreadRadius: 1.0,
-  //                               offset: Offset(
-  //                                 1.0,
-  //                                 1.0,
-  //                               ),
-  //                             )
-  //                           ],
-  //                         ),
-  //                         width: MediaQuery.of(context).size.width,
-  //                         height: 150,
-  //                         child: Material(
-  //                           borderRadius: BorderRadius.circular(5),
-  //                           shadowColor: Colors.red,
-  //                           color: Colors.white,
-  //                           child: Row(
-  //                             mainAxisAlignment: MainAxisAlignment.center,
-  //                             children: <Widget>[
-  //                               Image.asset(
-  //                                 'assets/images/uni-not-found.png',
-  //                                 fit: BoxFit.cover,
-  //                                 width: 100,
-  //                                 height: 100,
-  //                               ),
-  //                               Align(
-  //                                 alignment: Alignment.center,
-  //                                 child: Text('ไม่พบข้อมูลที่ตรงกัน !'),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     );
-  //                   }
-  //                 },
-  //               ))
-  //         ],
-  //       ));
-  // }
 }

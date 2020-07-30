@@ -387,12 +387,14 @@ class _EditStudentProfileState extends State<EditStudentProfile> {
                                                     CrossAxisAlignment.start,
                                                 children: _stdRcm.careerName
                                                     .map((carrer) {
-                                                  return Text(carrer + " ",
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            UIdata.fontFamily,
-                                                        color: Colors.white,
-                                                      ));
+                                                  return Flexible(
+                                                    child: Text(carrer + " ",
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              UIdata.fontFamily,
+                                                          color: Colors.white,
+                                                        )),
+                                                  );
                                                 }).toList())
                                           ],
                                         );
