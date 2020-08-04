@@ -194,7 +194,8 @@ class _AddEducationNewState extends State<AddEducationNew> {
                               height: 10,
                             ),
                             StreamBuilder<List<DocumentSnapshot>>(
-                              stream: UniversityService().getAllUniversity(),
+                              stream:
+                                  UniversityService().getAllUniversityByMajor(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
                                   return Container();
@@ -268,7 +269,7 @@ class _AddEducationNewState extends State<AddEducationNew> {
                               height: 10,
                             ),
                             StreamBuilder<List<DocumentSnapshot>>(
-                              stream: FacultyService().getAllFaculty(),
+                              stream: FacultyService().getAllFacultyByMajor(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData ||
                                     _selectedUniversity == null) {
@@ -319,11 +320,12 @@ class _AddEducationNewState extends State<AddEducationNew> {
                                           onChanged:
                                               onChangeFacultyDropdownItem,
                                           style: TextStyle(
-                                              decorationColor: Colors.white,fontSize: 11),
+                                              decorationColor: Colors.white,
+                                              fontSize: 11),
                                           hint: Text('เลือกคณะ',
                                               style: TextStyle(
-                                                color: Colors.white,fontSize: 11
-                                              )),
+                                                  color: Colors.white,
+                                                  fontSize: 11)),
                                         ),
                                       ),
                                       SizedBox(
