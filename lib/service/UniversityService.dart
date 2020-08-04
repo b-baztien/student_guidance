@@ -54,6 +54,32 @@ class UniversityService {
     return universitySnapshot.map((uniSnapShot) => uniSnapShot.documents);
   }
 
+  Stream<List<DocumentSnapshot>> getAllUniversityByMajor() {
+    Stream<QuerySnapshot> universitySnapshot =
+        Firestore.instance.collectionGroup('University').snapshots();
+    Stream<QuerySnapshot> majorSnapshot =
+        Firestore.instance.collectionGroup('Major').snapshots();
+
+    return Rx.combineLatest2(universitySnapshot, majorSnapshot,
+        (QuerySnapshot universityData, QuerySnapshot majorData) {
+      Set<String> setUniversityId = new Set();
+      List<DocumentSnapshot> listUniversityDoc = new List();
+
+      for (var item in majorData.documents) {
+        setUniversityId
+            .add(item.reference.parent().parent().parent().parent().documentID);
+      }
+
+      for (var doc in universityData.documents) {
+        if (setUniversityId.contains(doc.documentID)) {
+          listUniversityDoc.add(doc);
+        }
+      }
+
+      return listUniversityDoc;
+    });
+  }
+
   Future<List<DocumentSnapshot>> getListUniversityByProvince(
       String province) async {
     Future<QuerySnapshot> facultySnapshot = Firestore.instance

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:student_guidance/model/Faculty.dart';
 
 class FacultyService {
@@ -69,6 +70,31 @@ class FacultyService {
     Stream<QuerySnapshot> facultySnapshot =
         Firestore.instance.collectionGroup('Faculty').snapshots();
     return facultySnapshot.map((facSnapShot) => facSnapShot.documents);
+  }
+
+  Stream<List<DocumentSnapshot>> getAllFacultyByMajor() {
+    Stream<QuerySnapshot> facultySnapshot =
+        Firestore.instance.collectionGroup('Faculty').snapshots();
+    Stream<QuerySnapshot> majorSnapshot =
+        Firestore.instance.collectionGroup('Major').snapshots();
+
+    return Rx.combineLatest2(facultySnapshot, majorSnapshot,
+        (QuerySnapshot facultyData, QuerySnapshot majorData) {
+      Set<String> setFacultyId = new Set();
+      List<DocumentSnapshot> listFacultyDoc = new List();
+
+      for (var item in majorData.documents) {
+        setFacultyId.add(item.reference.parent().parent().documentID);
+      }
+
+      for (var doc in facultyData.documents) {
+        if (setFacultyId.contains(doc.documentID)) {
+          listFacultyDoc.add(doc);
+        }
+      }
+
+      return listFacultyDoc;
+    });
   }
 
   Future<List<Faculty>> getFacultyByUniversityId(String uniId) async {

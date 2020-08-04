@@ -204,7 +204,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                                 : _selectedRound.id == '1'
                                     ? StreamBuilder<List<DocumentSnapshot>>(
                                         stream: UniversityService()
-                                            .getAllUniversity(),
+                                            .getAllUniversityByMajor(),
                                         builder: (context, snapshot) {
                                           if (!snapshot.hasData) {
                                             return Container();
@@ -317,7 +317,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                               height: 10,
                             ),
                             StreamBuilder<List<DocumentSnapshot>>(
-                              stream: FacultyService().getAllFaculty(),
+                              stream: FacultyService().getAllFacultyByMajor(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData ||
                                     _selectedUniversity == null) {
