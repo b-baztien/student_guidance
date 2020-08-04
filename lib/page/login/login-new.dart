@@ -34,7 +34,6 @@ class _LoginPagesState extends State<LoginPages> {
     login(context);
   }
 
-
   login(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     try {
@@ -47,7 +46,7 @@ class _LoginPagesState extends State<LoginPages> {
           StudentRecommend _stdRec =
               await StudentRecommendService().getStudentRecommendByUsername();
           if (_stdRec == null) {
-            Navigator.of(context).pushNamedAndRemoveUntil(
+            await Navigator.of(context).pushNamedAndRemoveUntil(
                 UIdata.addRecommendCareerTag,
                 ModalRoute.withName(
                   UIdata.addRecommendCareerTag,
@@ -141,7 +140,6 @@ class _LoginPagesState extends State<LoginPages> {
                         const SizedBox(
                           width: 10,
                         ),
-
                       ],
               ),
             ),

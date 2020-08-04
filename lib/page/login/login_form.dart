@@ -39,7 +39,10 @@ class _LoginFormState extends State<LoginForm> {
             await Navigator.pushNamedAndRemoveUntil(
                 context,
                 UIdata.addRecommendCareerTag,
-                ModalRoute.withName(UIdata.addRecommendCareerTag));
+                ModalRoute.withName(
+                  UIdata.addRecommendCareerTag,
+                ),
+                arguments: UIdata.homeTag);
           }
           await Navigator.pushNamedAndRemoveUntil(
               context, UIdata.homeTag, ModalRoute.withName(UIdata.homeTag));
@@ -108,7 +111,7 @@ class _LoginFormState extends State<LoginForm> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: Text("ยกเลิก"),
-              onPressed: (){
+              onPressed: () {
                 widget.callback(false);
               },
             ),
