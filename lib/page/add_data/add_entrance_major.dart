@@ -368,11 +368,12 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
                                           onChanged:
                                               onChangeFacultyDropdownItem,
                                           style: TextStyle(
-                                              decorationColor: Colors.white,fontSize: 11),
+                                              decorationColor: Colors.white,
+                                              fontSize: 11),
                                           hint: Text('เลือกคณะ',
                                               style: TextStyle(
-                                                color: Colors.white,fontSize: 11
-                                              )),
+                                                  color: Colors.white,
+                                                  fontSize: 11)),
                                         ),
                                       ),
                                       SizedBox(
@@ -501,7 +502,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
           Major.fromJson((await _selectedMajor.get()).data).majorName;
       enMajor.schoolName = _schoolName;
       enMajor.entranceYear = _alumni.graduateYear;
-      EntranService().addEntranceMajor(enMajor).then((result) {
+      EntranService().addEntranceMajor(enMajor, _alumni).then((result) {
         _progressDialog.hide();
         if (result) {
           Navigator.pop(context, 'เพิ่มข้อมูลสำเร็จ');
@@ -523,7 +524,7 @@ class _AddEntranceMajorState extends State<AddEntranceMajor> {
       _progressDialog.show();
       _alumni.status = _selectedRound.name;
       _alumni.job = _job;
-      AlumniService().addEditStudentRecommend(_alumni).then((result) {
+      AlumniService().updateAlumni(_alumni).then((result) {
         _progressDialog.hide();
         if (result) {
           Navigator.pop(context, 'เพิ่มข้อมูลสำเร็จ');

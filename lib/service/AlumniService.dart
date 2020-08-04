@@ -25,6 +25,39 @@ class AlumniService {
     }
   }
 
+  Future<bool> updateAlumni(Alumni alumni) async {
+    try {
+      WriteBatch batch = Firestore.instance.batch();
+      SharedPreferences preferences = await UIdata.getPrefs();
+      Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
+      return Firestore.instance
+          .collectionGroup('Alumni')
+          .where('username', isEqualTo: login.username)
+          .getDocuments()
+          .then((alumniDoc) async {
+        if (alumniDoc.documents.first == null) return false;
+
+        batch.setData(alumniDoc.documents.first.reference, alumni.toMap());
+
+        CollectionReference entranceCollection =
+            alumniDoc.documents.first.reference.collection('EntranceMajor');
+
+        QuerySnapshot entranceSnapshot =
+            await entranceCollection.getDocuments();
+
+        for (var doc in entranceSnapshot.documents) {
+          batch.delete(doc.reference);
+        }
+
+        await batch.commit();
+
+        return true;
+      });
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<bool> addEditStudentRecommend(Alumni alumni) async {
     bool result = true;
     try {

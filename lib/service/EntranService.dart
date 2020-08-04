@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_guidance/model/Alumni.dart';
 import 'package:student_guidance/model/EntranceExamResult.dart';
 import 'package:student_guidance/model/EntranceMajor.dart';
 import 'package:student_guidance/model/Login.dart';
@@ -45,8 +46,9 @@ class EntranService {
     }
   }
 
-  Future<bool> addEntranceMajor(EntranceMajor enMajor) async {
+  Future<bool> addEntranceMajor(EntranceMajor enMajor, Alumni alumni) async {
     try {
+      WriteBatch batch = Firestore.instance.batch();
       SharedPreferences preferences = await UIdata.getPrefs();
       Login login = Login.fromJson(jsonDecode(preferences.getString('login')));
       return Firestore.instance
@@ -54,10 +56,23 @@ class EntranService {
           .where('username', isEqualTo: login.username)
           .getDocuments()
           .then((alumniDoc) async {
-        if (alumniDoc.documents[0] == null) return false;
-        await alumniDoc.documents[0].reference
-            .collection('EntranceMajor')
-            .add(enMajor.toMap());
+        if (alumniDoc.documents.first == null) return false;
+
+        batch.setData(alumniDoc.documents.first.reference, alumni.toMap());
+
+        CollectionReference entranceCollection =
+            alumniDoc.documents.first.reference.collection('EntranceMajor');
+
+        QuerySnapshot entranceSnapshot =
+            await entranceCollection.getDocuments();
+
+        for (var doc in entranceSnapshot.documents) {
+          batch.delete(doc.reference);
+        }
+
+        await batch.commit();
+
+        await entranceCollection.add(enMajor.toMap());
         return true;
       });
     } catch (error) {
