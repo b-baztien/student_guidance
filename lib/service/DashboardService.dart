@@ -71,159 +71,162 @@ class DashboardService {
 
   Future<List<String>> getDashboardUniversity(
       String schoolName, String year) async {
-    Query alumniSnapshot = Firestore.instance
+    QuerySnapshot alumniSnapshot = await Firestore.instance
         .collectionGroup('Alumni')
         .where('schoolName', isEqualTo: schoolName)
         .where('graduate_year', isEqualTo: year)
-        .where('status', isEqualTo: 'ศึกษาต่อ');
+        .where('status', isEqualTo: 'ศึกษาต่อ')
+        .getDocuments();
 
-    return await alumniSnapshot.getDocuments().then((snapshot) async {
-      return await Firestore.instance
-          .document(snapshot.documents[0].reference.path)
+    List<String> listUniName = new List();
+    Map sortedMap;
+    Map<String, int> mapUniName = Map();
+    for (var alumniDoc in alumniSnapshot.documents) {
+      QuerySnapshot entranceMajorSnapshot = await Firestore.instance
+          .document(alumniDoc.reference.path)
           .collection('EntranceMajor')
-          .getDocuments()
-          .then((emSnap) {
-        List<String> listUniName = emSnap.documents
-            .map((doc) => EntranceMajor.fromJson(doc.data).universityName)
+          .getDocuments();
+
+      listUniName = entranceMajorSnapshot.documents
+          .map((doc) => EntranceMajor.fromJson(doc.data).universityName)
+          .toList();
+      for (var uniName in listUniName) {
+        if (mapUniName.containsKey(uniName)) {
+          mapUniName[uniName] = mapUniName[uniName] + 1;
+        } else {
+          mapUniName[uniName] = 1;
+        }
+      }
+
+      List<String> sortedKeys = mapUniName.keys.toList(growable: false)
+        ..sort((k1, k2) => mapUniName[k2].compareTo(mapUniName[k1]));
+
+      sortedMap = Map.fromIterable(sortedKeys,
+          key: (k) => k, value: (k) => mapUniName[k]);
+
+      if (sortedKeys.length > 5) {
+        print(sortedKeys);
+        int _countOther = 0;
+        sortedKeys.skip(5).forEach((key) {
+          _countOther += sortedMap[key];
+          sortedMap.remove(key);
+        });
+        sortedMap['อื่นๆ'] = _countOther;
+      }
+    }
+
+    return mapUniName.isEmpty
+        ? null
+        : sortedMap
+            .map((key, value) => MapEntry<String, int>('$key $value คน', value))
+            .keys
             .toList();
-        Map<String, int> mapUniName = Map();
-        for (var uniName in listUniName) {
-          if (mapUniName.containsKey(uniName)) {
-            mapUniName[uniName] = mapUniName[uniName] + 1;
-          } else {
-            mapUniName[uniName] = 1;
-          }
-        }
-
-        List<String> sortedKeys = mapUniName.keys.toList(growable: false)
-          ..sort((k1, k2) => mapUniName[k2].compareTo(mapUniName[k1]));
-
-        Map sortedMap = Map.fromIterable(sortedKeys,
-            key: (k) => k, value: (k) => mapUniName[k]);
-
-        if (sortedKeys.length > 5) {
-          print(sortedKeys);
-          int _countOther = 0;
-          sortedKeys.skip(5).forEach((key) {
-            _countOther += sortedMap[key];
-            sortedMap.remove(key);
-          });
-          sortedMap['อื่นๆ'] = _countOther;
-        }
-
-        return mapUniName.isEmpty
-            ? List<String>()
-            : sortedMap
-                .map((key, value) =>
-                    MapEntry<String, int>('$key $value คน', value))
-                .keys
-                .toList();
-      });
-    }).catchError((error) => null);
   }
 
   Future<List<String>> getDashboardFaculty(
       String schoolName, String year) async {
-    Query alumniSnapshot = Firestore.instance
+    QuerySnapshot alumniSnapshot = await Firestore.instance
         .collectionGroup('Alumni')
         .where('schoolName', isEqualTo: schoolName)
         .where('graduate_year', isEqualTo: year)
-        .where('status', isEqualTo: 'ศึกษาต่อ');
+        .where('status', isEqualTo: 'ศึกษาต่อ')
+        .getDocuments();
 
-    return await alumniSnapshot.getDocuments().then((snapshot) async {
-      return await Firestore.instance
-          .document(snapshot.documents[0].reference.path)
+    List<String> listFacName = new List();
+    Map sortedMap;
+    Map<String, int> mapFacName = Map();
+    for (var alumniDoc in alumniSnapshot.documents) {
+      QuerySnapshot entranceMajorSnapshot = await Firestore.instance
+          .document(alumniDoc.reference.path)
           .collection('EntranceMajor')
-          .getDocuments()
-          .then((emSnap) {
-        List<String> listFacName = emSnap.documents
-            .map((doc) => EntranceMajor.fromJson(doc.data).facultyName)
+          .getDocuments();
+
+      listFacName = entranceMajorSnapshot.documents
+          .map((doc) => EntranceMajor.fromJson(doc.data).facultyName)
+          .toList();
+      for (var facName in listFacName) {
+        if (mapFacName.containsKey(facName)) {
+          mapFacName[facName] = mapFacName[facName] + 1;
+        } else {
+          mapFacName[facName] = 1;
+        }
+      }
+
+      List<String> sortedKeys = mapFacName.keys.toList(growable: false)
+        ..sort((k1, k2) => mapFacName[k2].compareTo(mapFacName[k1]));
+
+      sortedMap = Map.fromIterable(sortedKeys,
+          key: (k) => k, value: (k) => mapFacName[k]);
+
+      if (sortedKeys.length > 5) {
+        print(sortedKeys);
+        int _countOther = 0;
+        sortedKeys.skip(5).forEach((key) {
+          _countOther += sortedMap[key];
+          sortedMap.remove(key);
+        });
+        sortedMap['อื่นๆ'] = _countOther;
+      }
+    }
+
+    return mapFacName.isEmpty
+        ? null
+        : sortedMap
+            .map((key, value) => MapEntry<String, int>('$key $value คน', value))
+            .keys
             .toList();
-        Map<String, int> mapFacName = Map();
-        for (var facName in listFacName) {
-          if (mapFacName.containsKey(facName)) {
-            mapFacName[facName] = mapFacName[facName] + 1;
-          } else {
-            mapFacName[facName] = 1;
-          }
-        }
-
-        List<String> sortedKeys = mapFacName.keys.toList(growable: false)
-          ..sort((k1, k2) => mapFacName[k2].compareTo(mapFacName[k1]));
-
-        Map sortedMap = Map.fromIterable(sortedKeys,
-            key: (k) => k, value: (k) => mapFacName[k]);
-
-        if (sortedKeys.length > 5) {
-          print(sortedKeys);
-          int _countOther = 0;
-          sortedKeys.skip(5).forEach((key) {
-            _countOther += sortedMap[key];
-            sortedMap.remove(key);
-          });
-          sortedMap['อื่นๆ'] = _countOther;
-        }
-
-        return mapFacName.isEmpty
-            ? List<String>()
-            : sortedMap
-                .map((key, value) =>
-                    MapEntry<String, int>('$key $value คน', value))
-                .keys
-                .toList();
-      });
-    }).catchError((error) => null);
   }
 
   Future<List<String>> getDashboardMajor(String schoolName, String year) async {
-    Query alumniSnapshot = Firestore.instance
+    QuerySnapshot alumniSnapshot = await Firestore.instance
         .collectionGroup('Alumni')
         .where('schoolName', isEqualTo: schoolName)
         .where('graduate_year', isEqualTo: year)
-        .where('status', isEqualTo: 'ศึกษาต่อ');
+        .where('status', isEqualTo: 'ศึกษาต่อ')
+        .getDocuments();
 
-    return await alumniSnapshot.getDocuments().then((snapshot) async {
-      return await Firestore.instance
-          .document(snapshot.documents[0].reference.path)
+    List<String> listMajorName = new List();
+    Map sortedMap;
+    Map<String, int> mapMajorName = Map();
+    for (var alumniDoc in alumniSnapshot.documents) {
+      QuerySnapshot entranceMajorSnapshot = await Firestore.instance
+          .document(alumniDoc.reference.path)
           .collection('EntranceMajor')
-          .getDocuments()
-          .then((emSnap) {
-        List<String> listMajorName = emSnap.documents
-            .map((doc) => EntranceMajor.fromJson(doc.data).majorName)
+          .getDocuments();
+
+      listMajorName = entranceMajorSnapshot.documents
+          .map((doc) => EntranceMajor.fromJson(doc.data).majorName)
+          .toList();
+      for (var majorName in listMajorName) {
+        if (mapMajorName.containsKey(majorName)) {
+          mapMajorName[majorName] = mapMajorName[majorName] + 1;
+        } else {
+          mapMajorName[majorName] = 1;
+        }
+      }
+
+      List<String> sortedKeys = mapMajorName.keys.toList(growable: false)
+        ..sort((k1, k2) => mapMajorName[k2].compareTo(mapMajorName[k1]));
+
+      sortedMap = Map.fromIterable(sortedKeys,
+          key: (k) => k, value: (k) => mapMajorName[k]);
+
+      if (sortedKeys.length > 5) {
+        print(sortedKeys);
+        int _countOther = 0;
+        sortedKeys.skip(5).forEach((key) {
+          _countOther += sortedMap[key];
+          sortedMap.remove(key);
+        });
+        sortedMap['อื่นๆ'] = _countOther;
+      }
+    }
+
+    return mapMajorName.isEmpty
+        ? null
+        : sortedMap
+            .map((key, value) => MapEntry<String, int>('$key $value คน', value))
+            .keys
             .toList();
-        Map<String, int> mapMajorName = Map();
-        for (var majorName in listMajorName) {
-          if (mapMajorName.containsKey(majorName)) {
-            mapMajorName[majorName] = mapMajorName[majorName] + 1;
-          } else {
-            mapMajorName[majorName] = 1;
-          }
-        }
-
-        List<String> sortedKeys = mapMajorName.keys.toList(growable: false)
-          ..sort((k1, k2) => mapMajorName[k2].compareTo(mapMajorName[k1]));
-
-        Map sortedMap = Map.fromIterable(sortedKeys,
-            key: (k) => k, value: (k) => mapMajorName[k]);
-
-        if (sortedKeys.length > 5) {
-          print(sortedKeys);
-          int _countOther = 0;
-          sortedKeys.skip(5).forEach((key) {
-            _countOther += sortedMap[key];
-            sortedMap.remove(key);
-          });
-          sortedMap['อื่นๆ'] = _countOther;
-        }
-
-        return mapMajorName.isEmpty
-            ? List<String>()
-            : sortedMap
-                .map((key, value) =>
-                    MapEntry<String, int>('$key $value คน', value))
-                .keys
-                .toList();
-      });
-    }).catchError((error) => null);
   }
 }
